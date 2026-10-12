@@ -2,6 +2,7 @@
 // Do not edit!
 
 package com.google.protobuf.descriptor
+import _root_.scalapb.internal.compat.JavaConverters._
 
 /** A compiled specification for the defaults of a set of features.  These
   * messages are generated from FeatureSet extensions and can be used to seed
@@ -101,23 +102,23 @@ final case class FeatureSetDefaults(
 
 object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FeatureSetDefaults] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FeatureSetDefaults, com.google.protobuf.DescriptorProtos.FeatureSetDefaults] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FeatureSetDefaults] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FeatureSetDefaults, com.google.protobuf.DescriptorProtos.FeatureSetDefaults] = this
-  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FeatureSetDefaults): com.google.protobuf.DescriptorProtos.FeatureSetDefaults = com.google.protobuf.DescriptorProtos.FeatureSetDefaults.parseFrom(scalaPbSource.toByteArray)
-  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FeatureSetDefaults): _root_.com.google.protobuf.descriptor.FeatureSetDefaults = parseFrom(javaPbSource.toByteArray)
+  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FeatureSetDefaults): com.google.protobuf.DescriptorProtos.FeatureSetDefaults = {
+    val javaPbOut = com.google.protobuf.DescriptorProtos.FeatureSetDefaults.newBuilder
+    javaPbOut.addAllDefaults(_root_.scalapb.internal.compat.toIterable(scalaPbSource.defaults.iterator.map(_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault.toJavaProto(_))).asJava)
+    scalaPbSource.minimumEdition.map(_root_.com.google.protobuf.descriptor.Edition.toJavaValue(_)).foreach(javaPbOut.setMinimumEdition)
+    scalaPbSource.maximumEdition.map(_root_.com.google.protobuf.descriptor.Edition.toJavaValue(_)).foreach(javaPbOut.setMaximumEdition)
+    javaPbOut.build
+  }
+  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FeatureSetDefaults): _root_.com.google.protobuf.descriptor.FeatureSetDefaults = _root_.com.google.protobuf.descriptor.FeatureSetDefaults(
+    defaults = javaPbSource.getDefaultsList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault.fromJavaProto(_)).toSeq,
+    minimumEdition = if (javaPbSource.hasMinimumEdition) Some(_root_.com.google.protobuf.descriptor.Edition.fromJavaValue(javaPbSource.getMinimumEdition)) else _root_.scala.None,
+    maximumEdition = if (javaPbSource.hasMaximumEdition) Some(_root_.com.google.protobuf.descriptor.Edition.fromJavaValue(javaPbSource.getMaximumEdition)) else _root_.scala.None
+  )
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FeatureSetDefaults = {
     val __defaults: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault]
     var __minimumEdition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
     var __maximumEdition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A], fieldNumber: _root_.scala.Int): A = {
-      val value = companion.fromValue(_input__.readEnum())
-      if (value.isUnrecognized) {
-        if (_unknownFields__ == null) {
-          _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-        }
-        _unknownFields__.addVarint(fieldNumber, value.value.toLong)
-        null.asInstanceOf[A]
-      } else value
-    }
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
@@ -126,15 +127,9 @@ object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[_root_.com.g
         case 10 =>
           __defaults += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault](_input__)
         case 32 =>
-          val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.Edition, 4)
-          if (_enumValue__ != null) {
-            __minimumEdition = _root_.scala.Option(_enumValue__)
-          }
+          __minimumEdition = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
         case 40 =>
-          val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.Edition, 5)
-          if (_enumValue__ != null) {
-            __maximumEdition = _root_.scala.Option(_enumValue__)
-          }
+          __maximumEdition = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -280,33 +275,30 @@ object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[_root_.com.g
   
   object FeatureSetEditionDefault extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault, com.google.protobuf.DescriptorProtos.FeatureSetDefaults.FeatureSetEditionDefault] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault, com.google.protobuf.DescriptorProtos.FeatureSetDefaults.FeatureSetEditionDefault] = this
-    def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault): com.google.protobuf.DescriptorProtos.FeatureSetDefaults.FeatureSetEditionDefault = com.google.protobuf.DescriptorProtos.FeatureSetDefaults.FeatureSetEditionDefault.parseFrom(scalaPbSource.toByteArray)
-    def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FeatureSetDefaults.FeatureSetEditionDefault): _root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault = parseFrom(javaPbSource.toByteArray)
+    def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault): com.google.protobuf.DescriptorProtos.FeatureSetDefaults.FeatureSetEditionDefault = {
+      val javaPbOut = com.google.protobuf.DescriptorProtos.FeatureSetDefaults.FeatureSetEditionDefault.newBuilder
+      scalaPbSource.edition.map(_root_.com.google.protobuf.descriptor.Edition.toJavaValue(_)).foreach(javaPbOut.setEdition)
+      scalaPbSource.overridableFeatures.map(_root_.com.google.protobuf.descriptor.FeatureSet.toJavaProto(_)).foreach(javaPbOut.setOverridableFeatures)
+      scalaPbSource.fixedFeatures.map(_root_.com.google.protobuf.descriptor.FeatureSet.toJavaProto(_)).foreach(javaPbOut.setFixedFeatures)
+      javaPbOut.build
+    }
+    def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FeatureSetDefaults.FeatureSetEditionDefault): _root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault = _root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault(
+      edition = if (javaPbSource.hasEdition) Some(_root_.com.google.protobuf.descriptor.Edition.fromJavaValue(javaPbSource.getEdition)) else _root_.scala.None,
+      overridableFeatures = if (javaPbSource.hasOverridableFeatures) Some(_root_.com.google.protobuf.descriptor.FeatureSet.fromJavaProto(javaPbSource.getOverridableFeatures)) else _root_.scala.None,
+      fixedFeatures = if (javaPbSource.hasFixedFeatures) Some(_root_.com.google.protobuf.descriptor.FeatureSet.fromJavaProto(javaPbSource.getFixedFeatures)) else _root_.scala.None
+    )
     def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault = {
       var __edition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
       var __overridableFeatures: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
       var __fixedFeatures: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A], fieldNumber: _root_.scala.Int): A = {
-        val value = companion.fromValue(_input__.readEnum())
-        if (value.isUnrecognized) {
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-          }
-          _unknownFields__.addVarint(fieldNumber, value.value.toLong)
-          null.asInstanceOf[A]
-        } else value
-      }
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
           case 24 =>
-            val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.Edition, 3)
-            if (_enumValue__ != null) {
-              __edition = _root_.scala.Option(_enumValue__)
-            }
+            __edition = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
           case 34 =>
             __overridableFeatures = _root_.scala.Option(__overridableFeatures.fold(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FeatureSet](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case 42 =>

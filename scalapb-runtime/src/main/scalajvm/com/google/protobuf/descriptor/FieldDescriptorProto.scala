@@ -250,8 +250,34 @@ final case class FieldDescriptorProto(
 
 object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FieldDescriptorProto] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FieldDescriptorProto, com.google.protobuf.DescriptorProtos.FieldDescriptorProto] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FieldDescriptorProto] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FieldDescriptorProto, com.google.protobuf.DescriptorProtos.FieldDescriptorProto] = this
-  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FieldDescriptorProto): com.google.protobuf.DescriptorProtos.FieldDescriptorProto = com.google.protobuf.DescriptorProtos.FieldDescriptorProto.parseFrom(scalaPbSource.toByteArray)
-  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldDescriptorProto): _root_.com.google.protobuf.descriptor.FieldDescriptorProto = parseFrom(javaPbSource.toByteArray)
+  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FieldDescriptorProto): com.google.protobuf.DescriptorProtos.FieldDescriptorProto = {
+    val javaPbOut = com.google.protobuf.DescriptorProtos.FieldDescriptorProto.newBuilder
+    scalaPbSource.name.foreach(javaPbOut.setName)
+    scalaPbSource.number.foreach(javaPbOut.setNumber)
+    scalaPbSource.label.map(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.Label.toJavaValue(_)).foreach(javaPbOut.setLabel)
+    scalaPbSource.`type`.map(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.Type.toJavaValue(_)).foreach(javaPbOut.setType)
+    scalaPbSource.typeName.foreach(javaPbOut.setTypeName)
+    scalaPbSource.extendee.foreach(javaPbOut.setExtendee)
+    scalaPbSource.defaultValue.foreach(javaPbOut.setDefaultValue)
+    scalaPbSource.oneofIndex.foreach(javaPbOut.setOneofIndex)
+    scalaPbSource.jsonName.foreach(javaPbOut.setJsonName)
+    scalaPbSource.options.map(_root_.com.google.protobuf.descriptor.FieldOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
+    scalaPbSource.proto3Optional.foreach(javaPbOut.setProto3Optional)
+    javaPbOut.build
+  }
+  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldDescriptorProto): _root_.com.google.protobuf.descriptor.FieldDescriptorProto = _root_.com.google.protobuf.descriptor.FieldDescriptorProto(
+    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else _root_.scala.None,
+    number = if (javaPbSource.hasNumber) Some(javaPbSource.getNumber.intValue) else _root_.scala.None,
+    label = if (javaPbSource.hasLabel) Some(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.Label.fromJavaValue(javaPbSource.getLabel)) else _root_.scala.None,
+    `type` = if (javaPbSource.hasType) Some(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.Type.fromJavaValue(javaPbSource.getType)) else _root_.scala.None,
+    typeName = if (javaPbSource.hasTypeName) Some(javaPbSource.getTypeName) else _root_.scala.None,
+    extendee = if (javaPbSource.hasExtendee) Some(javaPbSource.getExtendee) else _root_.scala.None,
+    defaultValue = if (javaPbSource.hasDefaultValue) Some(javaPbSource.getDefaultValue) else _root_.scala.None,
+    oneofIndex = if (javaPbSource.hasOneofIndex) Some(javaPbSource.getOneofIndex.intValue) else _root_.scala.None,
+    jsonName = if (javaPbSource.hasJsonName) Some(javaPbSource.getJsonName) else _root_.scala.None,
+    options = if (javaPbSource.hasOptions) Some(_root_.com.google.protobuf.descriptor.FieldOptions.fromJavaProto(javaPbSource.getOptions)) else _root_.scala.None,
+    proto3Optional = if (javaPbSource.hasProto3Optional) Some(javaPbSource.getProto3Optional.booleanValue) else _root_.scala.None
+  )
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FieldDescriptorProto = {
     var __name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     var __number: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
@@ -265,16 +291,6 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com
     var __options: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FieldOptions] = _root_.scala.None
     var __proto3Optional: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A], fieldNumber: _root_.scala.Int): A = {
-      val value = companion.fromValue(_input__.readEnum())
-      if (value.isUnrecognized) {
-        if (_unknownFields__ == null) {
-          _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-        }
-        _unknownFields__.addVarint(fieldNumber, value.value.toLong)
-        null.asInstanceOf[A]
-      } else value
-    }
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
@@ -285,15 +301,9 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com
         case 24 =>
           __number = _root_.scala.Option(_input__.readInt32())
         case 32 =>
-          val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.Label, 4)
-          if (_enumValue__ != null) {
-            __label = _root_.scala.Option(_enumValue__)
-          }
+          __label = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.Label.fromValue(_input__.readEnum()))
         case 40 =>
-          val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.Type, 5)
-          if (_enumValue__ != null) {
-            __type = _root_.scala.Option(_enumValue__)
-          }
+          __type = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.Type.fromValue(_input__.readEnum()))
         case 50 =>
           __typeName = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>

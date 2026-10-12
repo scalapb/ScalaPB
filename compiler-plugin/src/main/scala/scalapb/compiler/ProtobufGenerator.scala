@@ -772,11 +772,11 @@ class ProtobufGenerator(
 
   // Java's legacy closed-enum API has no numeric setters. A wire conversion also preserves
   // unknown enum values (and whole map entries), and applies each runtime's enum semantics.
-  private def needsEnumWireConversion(message: Descriptor): Boolean = message.fields.exists {
-    field =>
+  private def needsEnumWireConversion(message: Descriptor): Boolean =
+    message.getFile.scalaOptions.getUseSchemaEnumSemantics && message.fields.exists { field =>
       val value = if (field.isMapField) field.mapType.valueField else field
       value.isEnum && (value.getEnumType.isClosed || value.legacyEnumFieldTreatedAsClosed())
-  }
+    }
 
   def generateToJavaProto(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     if (needsEnumWireConversion(message))

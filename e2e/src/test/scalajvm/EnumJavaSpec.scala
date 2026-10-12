@@ -10,7 +10,7 @@ class EnumJavaSpec extends AnyFlatSpec with Matchers with OptionValues {
 
   "Required Unrecognized enum" should "not work in Java" in {
     val scalaRequiredEnum = RequiredEnum(color = Color.Unrecognized(17))
-    assertThrows[InvalidProtocolBufferException] {
+    assertThrows[IllegalArgumentException] {
       RequiredEnum.toJavaProto(scalaRequiredEnum)
     }
     assertThrows[InvalidProtocolBufferException] {
@@ -41,11 +41,7 @@ class EnumJavaSpec extends AnyFlatSpec with Matchers with OptionValues {
   )
 
   val scalaRepeatedUnrecognizedEnumModified = EnumTest(
-    repeatedColor = Seq(Color.RED),
-    unknownFields = scalapb.UnknownFieldSet.empty.withField(
-      4,
-      scalapb.UnknownFieldSet.Field(varint = Seq(17L, 22L))
-    )
+    repeatedColor = Seq(Color.RED, Color.Unrecognized(17), Color.Unrecognized(22))
   )
 
   "Required Unrecognized enum" should "not be parsable by Java or convertible to Java" in {
@@ -55,35 +51,44 @@ class EnumJavaSpec extends AnyFlatSpec with Matchers with OptionValues {
     intercept[InvalidProtocolBufferException] {
       Enum.RequiredEnum.parseFrom(scalaRequiredUnrecognizedEnum.toByteArray)
     }
-    intercept[InvalidProtocolBufferException] {
+    intercept[IllegalArgumentException] {
       RequiredEnum.toJavaProto(scalaRequiredUnrecognizedEnum)
     }
   }
 
-  val scalaOptionalNormalized = EnumTest(
-    unknownFields = scalapb.UnknownFieldSet.empty.withField(
-      1,
-      scalapb.UnknownFieldSet.Field(varint = Seq(17L))
-    )
-  )
-
-  "Proto2 with optional unrecognized enum" should "preserve unknown values through Java" in {
-    EnumTest.toJavaProto(scalaOptionalUnrecognizedEnum) must be(javaOptionalUnrecognizedEnum)
-    EnumTest.fromJavaProto(javaOptionalUnrecognizedEnum) must be(scalaOptionalNormalized)
-    EnumTest.toJavaProto(scalaOptionalNormalized) must be(javaOptionalUnrecognizedEnum)
-    EnumTest.parseFrom(scalaOptionalUnrecognizedEnum.toByteArray) must be(scalaOptionalNormalized)
-    scalaOptionalNormalized.toByteArray must be(javaOptionalUnrecognizedEnum.toByteArray)
+  "Proto2 with optional unrecognized enum" should "not be convertible to Java" in {
+    intercept[IllegalArgumentException] {
+      EnumTest.toJavaProto(scalaOptionalUnrecognizedEnum) must be(javaOptionalUnrecognizedEnum)
+    }
+    // ScalaPB will not see the unknown field:
+    EnumTest.fromJavaProto(javaOptionalUnrecognizedEnum) must be(EnumTest())
   }
 
-  "Proto2 with repeated unrecognized enum values" should "retain unknown fields through Java" in {
-    EnumTest.toJavaProto(scalaRepeatedUnrecognizedEnum) must be(javaRepeatedUnrecognizedEnum)
-    EnumTest.fromJavaProto(javaRepeatedUnrecognizedEnum) must be(
-      scalaRepeatedUnrecognizedEnumModified
+  "Proto2 with optional unrecognized enum" should "have same binary representation that is usable" in {
+    scalaOptionalUnrecognizedEnum.toByteArray must be(javaOptionalUnrecognizedEnum.toByteArray)
+    EnumTest.parseFrom(scalaOptionalUnrecognizedEnum.toByteArray) must be(
+      scalaOptionalUnrecognizedEnum
     )
-    EnumTest.toJavaProto(scalaRepeatedUnrecognizedEnumModified) must be(
+    Enum.EnumTest.parseFrom(scalaOptionalUnrecognizedEnum.toByteArray) must be(
+      javaOptionalUnrecognizedEnum
+    )
+  }
+
+  "Proto2 with repeated enum field of unrecognized values" should "not be convertable to Java" in {
+    intercept[IllegalArgumentException] {
+      EnumTest.toJavaProto(scalaRepeatedUnrecognizedEnum) must be(javaRepeatedUnrecognizedEnum)
+    }
+    // ScalaPB will ignore the unknown fields, and will only see the recognized enum value.
+    EnumTest.fromJavaProto(javaRepeatedUnrecognizedEnum) must be(
+      EnumTest(repeatedColor = Seq(Color.RED))
+    )
+  }
+
+  "Proto2 with repeated enum field of unrecognized values" should "cause reorder of enum fields" in {
+    Enum.EnumTest.parseFrom(scalaRepeatedUnrecognizedEnum.toByteArray) must be(
       javaRepeatedUnrecognizedEnum
     )
-    EnumTest.parseFrom(scalaRepeatedUnrecognizedEnum.toByteArray) must be(
+    EnumTest.parseFrom(javaRepeatedUnrecognizedEnum.toByteArray) must be(
       scalaRepeatedUnrecognizedEnumModified
     )
   }

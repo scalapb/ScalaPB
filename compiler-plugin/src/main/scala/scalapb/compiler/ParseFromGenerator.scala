@@ -111,7 +111,7 @@ private[compiler] class ParseFromGenerator(
   private def usesBaseTypeInBuilder(field: FieldDescriptor) = field.isSingular
 
   private def isClosedEnum(field: FieldDescriptor): Boolean =
-    field.isEnum && field.getEnumType.isClosed
+    message.getFile.scalaOptions.getUseSchemaEnumSemantics && field.isEnum && field.getEnumType.isClosed
 
   private def unknownValue(field: FieldDescriptor, method: String, value: String): String =
     if (message.preservesUnknownFields)

@@ -21,6 +21,29 @@ class ClosedEnumsSpec extends AnyFlatSpec with Matchers {
     out.writeEnum(2, value)
   }
 
+  "Legacy enum parsing" should "retain unknown values by default in every field shape" in {
+    import legacy.enums.legacy_enums.{LegacyEnums, LegacyRequiredEnum}
+    val unknown = ClosedEnums.Value.Unrecognized(42)
+    val bytes   = enums(1, 42) ++ enums(2, 1, 42) ++ packed(3, 1, 42) ++
+      enums(5, 7) ++ enums(4, 42) ++ wire(_.writeByteArray(6, entry(7, 42)))
+    val parsed = LegacyEnums.parseFrom(bytes)
+    parsed.singular mustBe Some(unknown)
+    parsed.unpacked mustBe Seq(ClosedEnums.Value.ONE, unknown)
+    parsed.packed mustBe Seq(ClosedEnums.Value.ONE, unknown)
+    parsed.choice mustBe LegacyEnums.Choice.Selected(unknown)
+    parsed.entries mustBe Map(7 -> unknown)
+    parsed.unknownFields mustBe scalapb.UnknownFieldSet.empty
+    LegacyEnums.parseFrom(parsed.toByteArray) mustBe parsed
+    LegacyRequiredEnum.parseFrom(enums(1, 42)).value mustBe unknown
+  }
+
+  it should "retain unknown Edition closed enum values without opting in" in {
+    import legacy.editions.legacy_edition_enums.LegacyEditionEnums
+    val parsed = LegacyEditionEnums.parseFrom(enums(1, 42))
+    parsed.value mustBe Some(EditionEnums.Closed.Unrecognized(42))
+    parsed.unknownFields mustBe scalapb.UnknownFieldSet.empty
+  }
+
   "Closed enums" should "leave unknown singular values unset and retain their signed numbers" in {
     val m = ClosedEnums.parseFrom(enums(1, 42, -2))
     m.singular must be(None)

@@ -1,4 +1,6 @@
 edition = "2023";
+import "scalapb/scalapb.proto";
+option (scalapb.options).use_schema_enum_semantics = true;
 package closed.editions;
 option features.enum_type = CLOSED;
 

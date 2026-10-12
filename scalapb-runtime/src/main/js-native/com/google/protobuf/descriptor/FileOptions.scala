@@ -456,16 +456,6 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.p
     var __features: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
     val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.UninterpretedOption] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.UninterpretedOption]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A], fieldNumber: _root_.scala.Int): A = {
-      val value = companion.fromValue(_input__.readEnum())
-      if (value.isUnrecognized) {
-        if (_unknownFields__ == null) {
-          _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-        }
-        _unknownFields__.addVarint(fieldNumber, value.value.toLong)
-        null.asInstanceOf[A]
-      } else value
-    }
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
@@ -482,10 +472,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.p
         case 216 =>
           __javaStringCheckUtf8 = _root_.scala.Option(_input__.readBool())
         case 72 =>
-          val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.FileOptions.OptimizeMode, 9)
-          if (_enumValue__ != null) {
-            __optimizeFor = _root_.scala.Option(_enumValue__)
-          }
+          __optimizeFor = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(_input__.readEnum()))
         case 90 =>
           __goPackage = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 128 =>

@@ -6,6 +6,14 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 
 class ClosedEnumsJavaSpec extends AnyFlatSpec with Matchers {
+  "Opted-in required enum Java conversions" should "reject an unknown-only value" in {
+    import closed.enums.closed_enums.RequiredClosedEnum
+    val message = RequiredClosedEnum(value = ClosedEnums.Value.Unrecognized(42))
+    assertThrows[com.google.protobuf.InvalidProtocolBufferException] {
+      RequiredClosedEnum.toJavaProto(message)
+    }
+  }
+
   "Closed enum Java conversions" should "retain unknown numbers and complete map entries" in {
     val unknown = UnknownFieldSet
       .newBuilder()

@@ -342,8 +342,8 @@ object Weather extends GeneratedEnumCompanion[Weather] {
     case object PARTLY_CLOUDY extends Weather { ... }
     case object RAIN extends Weather { ... }
 
-    // Represents unknown numeric values. Open enum parsers retain these in fields;
-    // closed enum parsers retain unknown numbers in the message's unknown fields.
+    // Unknown numeric values remain in fields by default, and always for open enums;
+    // opted-in closed enum parsers retain unknown numbers in unknown fields.
     case class Unrecognized(value: Int) extends Weather { ... }
 
     // And a list of all possible values:
@@ -373,14 +373,29 @@ f.getWeather match {
 
 ```
 
-Starting with ScalaPB 1.0.0, regenerated binary parsers distinguish **closed** and
-**open** enums according to the [protobuf enum specification](https://protobuf.dev/programming-guides/enum/).
-Proto2 enums are closed; proto3 enums are open. Edition enums use the resolved
-`features.enum_type` setting (open by default). The enum's definition determines
-its behavior, including when imported into a file with a different syntax.
-`Weather.scalaDescriptor.isClosed` exposes this distinction.
+By default, binary parsers retain unknown enum numbers as `Unrecognized` field
+values, including for proto2 and Edition closed enums. Java conversions also retain
+their legacy behavior.
 
-An unknown closed enum number goes into the containing message's `unknownFields`.
+Starting with ScalaPB 1.0.0, opt in per file (or through package-scoped options):
+
+```protobuf
+import "scalapb/scalapb.proto";
+option (scalapb.options).use_schema_enum_semantics = true;
+```
+
+With this option, regenerated binary parsers distinguish **closed** and **open**
+enums according to the [protobuf enum specification](https://protobuf.dev/programming-guides/enum/).
+Proto2 enums are closed; proto3 enums are open. Edition enums use the resolved
+`features.enum_type` setting (open by default). Within opted-in files, the enum's
+definition determines its behavior, including
+when imported from a file with a different syntax. The opt-in belongs to the
+message's file, not the imported enum's file. It defaults to false; an explicit
+false overrides an inherited package opt-in.
+`Weather.scalaDescriptor.isClosed` reports the schema's enum type regardless of
+the ScalaPB parsing opt-in.
+
+When opted in, an unknown closed enum number goes into the containing message's `unknownFields`.
 It does not set an optional field, replace an earlier recognized value, select or
 clear a oneof, or satisfy a required field. Repeated fields contain only recognized
 values, with unknown numbers serialized separately as unpacked varints. This can
@@ -390,16 +405,17 @@ entry with that key unchanged. With `preserve_unknown_fields = false`, rejected
 values and entries are discarded. Custom enum type mappers receive only recognized
 closed values during parsing.
 
-This changes the behavior of older generated proto2 parsers, which exposed unknown
-values as `Unrecognized`. Upgrade the runtime and regenerate sources together.
+Enabling the option changes legacy parsing behavior; leaving it unset preserves
+unknown `Unrecognized` field values. Upgrade the runtime and regenerate sources together.
 The `Unrecognized` constructor and `fromValue` remain available, including for
-closed enums: a manually constructed unknown closed value is normalized into
+closed enums: with the option enabled, a manually constructed unknown closed value
+is normalized into
 unknown fields when its containing message is serialized and parsed. Open enum
 parsing continues to retain `Unrecognized` values directly in fields. This change
 covers binary message parsing; text-format, JSON, and extension accessors have
 separate parsing paths.
 
-Messages with closed enum fields (including map values), or enum fields treated as
+Opted-in messages with closed enum fields (including map values), or enum fields treated as
 closed by Java's legacy API, use a binary round trip for generated Java conversions.
 This preserves unknown values and complete rejected entries, at the cost of
 serialization and parsing. Java treats proto3 enums imported into proto2 messages

@@ -127,16 +127,6 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[_root_.co
     var __features: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
     var __verification: _root_.scala.Option[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A], fieldNumber: _root_.scala.Int): A = {
-      val value = companion.fromValue(_input__.readEnum())
-      if (value.isUnrecognized) {
-        if (_unknownFields__ == null) {
-          _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-        }
-        _unknownFields__.addVarint(fieldNumber, value.value.toLong)
-        null.asInstanceOf[A]
-      } else value
-    }
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
@@ -149,10 +139,7 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[_root_.co
         case 402 =>
           __features = _root_.scala.Option(__features.fold(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FeatureSet](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 24 =>
-          val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState, 3)
-          if (_enumValue__ != null) {
-            __verification = _root_.scala.Option(_enumValue__)
-          }
+          __verification = _root_.scala.Option(_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.fromValue(_input__.readEnum()))
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

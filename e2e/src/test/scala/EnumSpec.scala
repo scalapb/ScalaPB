@@ -21,14 +21,7 @@ class EnumSpec extends AnyFlatSpec with Matchers with OptionValues {
     EnumTest.parseFrom(noColor.toByteArray) must be(noColor)
     EnumTest.parseFrom(innerEnum.toByteArray) must be(innerEnum)
     EnumTest.parseFrom(otherCase.toByteArray) must be(otherCase)
-    EnumTest.parseFrom(unrecognized.toByteArray) must be(
-      EnumTest(unknownFields =
-        scalapb.UnknownFieldSet.empty.withField(
-          1,
-          scalapb.UnknownFieldSet.Field(varint = Seq(37L))
-        )
-      )
-    )
+    EnumTest.parseFrom(unrecognized.toByteArray) must be(unrecognized)
   }
 
   "isEnumValue" should "return correct values" in {
@@ -114,9 +107,8 @@ class EnumSpec extends AnyFlatSpec with Matchers with OptionValues {
   "missing enum values in proto2" should "be preserved in parsing" in {
     val like = EnumTestLike(color = 18) // same field number as `color` in EnumTest3.
     val e3   = EnumTest.parseFrom(like.toByteArray)
-    e3.color must be(None)
-    e3.getColor must be(Color.RED)
-    e3.unknownFields.getField(1).get.varint must be(Seq(18L))
+    e3.getColor must be(Color.Unrecognized(18))
+    e3.getColor must not be (Color.Unrecognized(19))
     e3.toByteArray must be(like.toByteArray)
   }
 

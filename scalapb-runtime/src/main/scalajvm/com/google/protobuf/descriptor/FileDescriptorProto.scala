@@ -2,6 +2,7 @@
 // Do not edit!
 
 package com.google.protobuf.descriptor
+import _root_.scalapb.internal.compat.JavaConverters._
 
 /** Describes a complete .proto file.
   *
@@ -297,8 +298,40 @@ final case class FileDescriptorProto(
 
 object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FileDescriptorProto] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FileDescriptorProto, com.google.protobuf.DescriptorProtos.FileDescriptorProto] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FileDescriptorProto] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FileDescriptorProto, com.google.protobuf.DescriptorProtos.FileDescriptorProto] = this
-  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FileDescriptorProto): com.google.protobuf.DescriptorProtos.FileDescriptorProto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(scalaPbSource.toByteArray)
-  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileDescriptorProto): _root_.com.google.protobuf.descriptor.FileDescriptorProto = parseFrom(javaPbSource.toByteArray)
+  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FileDescriptorProto): com.google.protobuf.DescriptorProtos.FileDescriptorProto = {
+    val javaPbOut = com.google.protobuf.DescriptorProtos.FileDescriptorProto.newBuilder
+    scalaPbSource.name.foreach(javaPbOut.setName)
+    scalaPbSource.`package`.foreach(javaPbOut.setPackage)
+    javaPbOut.addAllDependency(scalaPbSource.dependency.asJava)
+    javaPbOut.addAllPublicDependency(_root_.scalapb.internal.compat.toIterable(scalaPbSource.publicDependency.iterator.map(_root_.scala.Int.box(_))).asJava)
+    javaPbOut.addAllWeakDependency(_root_.scalapb.internal.compat.toIterable(scalaPbSource.weakDependency.iterator.map(_root_.scala.Int.box(_))).asJava)
+    javaPbOut.addAllOptionDependency(scalaPbSource.optionDependency.asJava)
+    javaPbOut.addAllMessageType(_root_.scalapb.internal.compat.toIterable(scalaPbSource.messageType.iterator.map(_root_.com.google.protobuf.descriptor.DescriptorProto.toJavaProto(_))).asJava)
+    javaPbOut.addAllEnumType(_root_.scalapb.internal.compat.toIterable(scalaPbSource.enumType.iterator.map(_root_.com.google.protobuf.descriptor.EnumDescriptorProto.toJavaProto(_))).asJava)
+    javaPbOut.addAllService(_root_.scalapb.internal.compat.toIterable(scalaPbSource.service.iterator.map(_root_.com.google.protobuf.descriptor.ServiceDescriptorProto.toJavaProto(_))).asJava)
+    javaPbOut.addAllExtension(_root_.scalapb.internal.compat.toIterable(scalaPbSource.extension.iterator.map(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto(_))).asJava)
+    scalaPbSource.options.map(_root_.com.google.protobuf.descriptor.FileOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
+    scalaPbSource.sourceCodeInfo.map(_root_.com.google.protobuf.descriptor.SourceCodeInfo.toJavaProto(_)).foreach(javaPbOut.setSourceCodeInfo)
+    scalaPbSource.syntax.foreach(javaPbOut.setSyntax)
+    scalaPbSource.edition.map(_root_.com.google.protobuf.descriptor.Edition.toJavaValue(_)).foreach(javaPbOut.setEdition)
+    javaPbOut.build
+  }
+  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileDescriptorProto): _root_.com.google.protobuf.descriptor.FileDescriptorProto = _root_.com.google.protobuf.descriptor.FileDescriptorProto(
+    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else _root_.scala.None,
+    `package` = if (javaPbSource.hasPackage) Some(javaPbSource.getPackage) else _root_.scala.None,
+    dependency = javaPbSource.getDependencyList.asScala.iterator.map(_root_.scala.Predef.identity).toSeq,
+    publicDependency = javaPbSource.getPublicDependencyList.asScala.iterator.map(_.intValue).toSeq,
+    weakDependency = javaPbSource.getWeakDependencyList.asScala.iterator.map(_.intValue).toSeq,
+    optionDependency = javaPbSource.getOptionDependencyList.asScala.iterator.map(_root_.scala.Predef.identity).toSeq,
+    messageType = javaPbSource.getMessageTypeList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.DescriptorProto.fromJavaProto(_)).toSeq,
+    enumType = javaPbSource.getEnumTypeList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.EnumDescriptorProto.fromJavaProto(_)).toSeq,
+    service = javaPbSource.getServiceList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.ServiceDescriptorProto.fromJavaProto(_)).toSeq,
+    extension = javaPbSource.getExtensionList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto(_)).toSeq,
+    options = if (javaPbSource.hasOptions) Some(_root_.com.google.protobuf.descriptor.FileOptions.fromJavaProto(javaPbSource.getOptions)) else _root_.scala.None,
+    sourceCodeInfo = if (javaPbSource.hasSourceCodeInfo) Some(_root_.com.google.protobuf.descriptor.SourceCodeInfo.fromJavaProto(javaPbSource.getSourceCodeInfo)) else _root_.scala.None,
+    syntax = if (javaPbSource.hasSyntax) Some(javaPbSource.getSyntax) else _root_.scala.None,
+    edition = if (javaPbSource.hasEdition) Some(_root_.com.google.protobuf.descriptor.Edition.fromJavaValue(javaPbSource.getEdition)) else _root_.scala.None
+  )
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FileDescriptorProto = {
     var __name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     var __package: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
@@ -315,16 +348,6 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
     var __syntax: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     var __edition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A], fieldNumber: _root_.scala.Int): A = {
-      val value = companion.fromValue(_input__.readEnum())
-      if (value.isUnrecognized) {
-        if (_unknownFields__ == null) {
-          _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-        }
-        _unknownFields__.addVarint(fieldNumber, value.value.toLong)
-        null.asInstanceOf[A]
-      } else value
-    }
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
@@ -373,10 +396,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
         case 98 =>
           __syntax = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 112 =>
-          val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.Edition, 14)
-          if (_enumValue__ != null) {
-            __edition = _root_.scala.Option(_enumValue__)
-          }
+          __edition = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

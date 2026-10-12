@@ -2,6 +2,7 @@
 // Do not edit!
 
 package com.google.protobuf.descriptor
+import _root_.scalapb.internal.compat.JavaConverters._
 
 /** Describes an enum type.
   *
@@ -149,8 +150,24 @@ final case class EnumDescriptorProto(
 
 object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.EnumDescriptorProto] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.EnumDescriptorProto, com.google.protobuf.DescriptorProtos.EnumDescriptorProto] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.EnumDescriptorProto] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.EnumDescriptorProto, com.google.protobuf.DescriptorProtos.EnumDescriptorProto] = this
-  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.EnumDescriptorProto): com.google.protobuf.DescriptorProtos.EnumDescriptorProto = com.google.protobuf.DescriptorProtos.EnumDescriptorProto.parseFrom(scalaPbSource.toByteArray)
-  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.EnumDescriptorProto): _root_.com.google.protobuf.descriptor.EnumDescriptorProto = parseFrom(javaPbSource.toByteArray)
+  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.EnumDescriptorProto): com.google.protobuf.DescriptorProtos.EnumDescriptorProto = {
+    val javaPbOut = com.google.protobuf.DescriptorProtos.EnumDescriptorProto.newBuilder
+    scalaPbSource.name.foreach(javaPbOut.setName)
+    javaPbOut.addAllValue(_root_.scalapb.internal.compat.toIterable(scalaPbSource.value.iterator.map(_root_.com.google.protobuf.descriptor.EnumValueDescriptorProto.toJavaProto(_))).asJava)
+    scalaPbSource.options.map(_root_.com.google.protobuf.descriptor.EnumOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
+    javaPbOut.addAllReservedRange(_root_.scalapb.internal.compat.toIterable(scalaPbSource.reservedRange.iterator.map(_root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.toJavaProto(_))).asJava)
+    javaPbOut.addAllReservedName(scalaPbSource.reservedName.asJava)
+    scalaPbSource.visibility.map(_root_.com.google.protobuf.descriptor.SymbolVisibility.toJavaValue(_)).foreach(javaPbOut.setVisibility)
+    javaPbOut.build
+  }
+  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.EnumDescriptorProto): _root_.com.google.protobuf.descriptor.EnumDescriptorProto = _root_.com.google.protobuf.descriptor.EnumDescriptorProto(
+    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else _root_.scala.None,
+    value = javaPbSource.getValueList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.EnumValueDescriptorProto.fromJavaProto(_)).toSeq,
+    options = if (javaPbSource.hasOptions) Some(_root_.com.google.protobuf.descriptor.EnumOptions.fromJavaProto(javaPbSource.getOptions)) else _root_.scala.None,
+    reservedRange = javaPbSource.getReservedRangeList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.fromJavaProto(_)).toSeq,
+    reservedName = javaPbSource.getReservedNameList.asScala.iterator.map(_root_.scala.Predef.identity).toSeq,
+    visibility = if (javaPbSource.hasVisibility) Some(_root_.com.google.protobuf.descriptor.SymbolVisibility.fromJavaValue(javaPbSource.getVisibility)) else _root_.scala.None
+  )
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.EnumDescriptorProto = {
     var __name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     val __value: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.EnumValueDescriptorProto] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.EnumValueDescriptorProto]
@@ -159,16 +176,6 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
     val __reservedName: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
     var __visibility: _root_.scala.Option[_root_.com.google.protobuf.descriptor.SymbolVisibility] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A], fieldNumber: _root_.scala.Int): A = {
-      val value = companion.fromValue(_input__.readEnum())
-      if (value.isUnrecognized) {
-        if (_unknownFields__ == null) {
-          _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-        }
-        _unknownFields__.addVarint(fieldNumber, value.value.toLong)
-        null.asInstanceOf[A]
-      } else value
-    }
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
@@ -185,10 +192,7 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
         case 42 =>
           __reservedName += _input__.readStringRequireUtf8()
         case 48 =>
-          val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.SymbolVisibility, 6)
-          if (_enumValue__ != null) {
-            __visibility = _root_.scala.Option(_enumValue__)
-          }
+          __visibility = _root_.scala.Option(_root_.com.google.protobuf.descriptor.SymbolVisibility.fromValue(_input__.readEnum()))
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

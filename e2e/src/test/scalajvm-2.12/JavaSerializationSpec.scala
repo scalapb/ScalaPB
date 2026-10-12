@@ -65,7 +65,7 @@ class JavaSerializationSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChe
     }
   }
 
-  it should "preserve known and unknown packed closed enum values" in {
+  it should "preserve legacy unknown packed enum values" in {
     val original = RepeatablesTest(enums =
       Seq(
         RepeatablesTest.Enum.ONE,
@@ -75,8 +75,8 @@ class JavaSerializationSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChe
       )
     )
     val parsed = RepeatablesTest.parseFrom(original.toByteArray)
-    parsed.enums mustBe Seq(RepeatablesTest.Enum.ONE, RepeatablesTest.Enum.ONE)
-    parsed.unknownFields.getField(7).get.varint mustBe Seq(0L, 42L)
+    parsed.enums mustBe original.enums
+    parsed.unknownFields mustBe scalapb.UnknownFieldSet.empty
     checkJavaSerialization(original)
   }
 

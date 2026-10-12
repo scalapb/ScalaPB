@@ -193,6 +193,12 @@ message ScalaPbOptions {
   // Map strings always validate. Applies to binary message fields, not extensions.
   optional bool use_schema_utf8_validation = 30 [default=false];
 
+  // Honor protobuf open/closed enum semantics in binary parsing and Java conversions.
+  // Defaults to false: unknown enum numbers remain Unrecognized field values.
+  // When enabled, unknown closed values (or entire map entries) go to unknown fields.
+  // Applies to messages in this file; can also be inherited from package options.
+  optional bool use_schema_enum_semantics = 31 [default=false];
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 999;

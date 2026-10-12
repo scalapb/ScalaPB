@@ -1,4 +1,5 @@
 syntax = "proto2";
+option (scalapb.options).use_schema_enum_semantics = true;
 package closed.enums;
 option java_outer_classname = "ClosedEnumsProto";
 import "scalapb/scalapb.proto";

@@ -95,16 +95,6 @@ object FieldTransformation extends scalapb.GeneratedMessageCompanion[_root_.scal
     var __matchType: _root_.scala.Option[_root_.scalapb.options.MatchType] = _root_.scala.None
     var __set: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FieldOptions] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A], fieldNumber: _root_.scala.Int): A = {
-      val value = companion.fromValue(_input__.readEnum())
-      if (value.isUnrecognized) {
-        if (_unknownFields__ == null) {
-          _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-        }
-        _unknownFields__.addVarint(fieldNumber, value.value.toLong)
-        null.asInstanceOf[A]
-      } else value
-    }
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
@@ -113,10 +103,7 @@ object FieldTransformation extends scalapb.GeneratedMessageCompanion[_root_.scal
         case 10 =>
           __when = _root_.scala.Option(__when.fold(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FieldDescriptorProto](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 16 =>
-          val _enumValue__ = _readEnum__(_root_.scalapb.options.MatchType, 2)
-          if (_enumValue__ != null) {
-            __matchType = _root_.scala.Option(_enumValue__)
-          }
+          __matchType = _root_.scala.Option(_root_.scalapb.options.MatchType.fromValue(_input__.readEnum()))
         case 26 =>
           __set = _root_.scala.Option(__set.fold(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FieldOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case tag =>

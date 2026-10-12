@@ -260,8 +260,22 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
   
   object Annotation extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation, com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation, com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation] = this
-    def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation): com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation = com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation.parseFrom(scalaPbSource.toByteArray)
-    def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = parseFrom(javaPbSource.toByteArray)
+    def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation): com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation = {
+      val javaPbOut = com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation.newBuilder
+      javaPbOut.addAllPath(_root_.scalapb.internal.compat.toIterable(scalaPbSource.path.iterator.map(_root_.scala.Int.box(_))).asJava)
+      scalaPbSource.sourceFile.foreach(javaPbOut.setSourceFile)
+      scalaPbSource.begin.foreach(javaPbOut.setBegin)
+      scalaPbSource.end.foreach(javaPbOut.setEnd)
+      scalaPbSource.semantic.map(_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic.toJavaValue(_)).foreach(javaPbOut.setSemantic)
+      javaPbOut.build
+    }
+    def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
+      path = javaPbSource.getPathList.asScala.iterator.map(_.intValue).toSeq,
+      sourceFile = if (javaPbSource.hasSourceFile) Some(javaPbSource.getSourceFile) else _root_.scala.None,
+      begin = if (javaPbSource.hasBegin) Some(javaPbSource.getBegin.intValue) else _root_.scala.None,
+      end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else _root_.scala.None,
+      semantic = if (javaPbSource.hasSemantic) Some(_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic.fromJavaValue(javaPbSource.getSemantic)) else _root_.scala.None
+    )
     def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
       val __path: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int]
       var __sourceFile: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
@@ -269,16 +283,6 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
       var __end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
       var __semantic: _root_.scala.Option[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic] = _root_.scala.None
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A], fieldNumber: _root_.scala.Int): A = {
-        val value = companion.fromValue(_input__.readEnum())
-        if (value.isUnrecognized) {
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-          }
-          _unknownFields__.addVarint(fieldNumber, value.value.toLong)
-          null.asInstanceOf[A]
-        } else value
-      }
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -301,10 +305,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
           case 32 =>
             __end = _root_.scala.Option(_input__.readInt32())
           case 40 =>
-            val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic, 5)
-            if (_enumValue__ != null) {
-              __semantic = _root_.scala.Option(_enumValue__)
-            }
+            __semantic = _root_.scala.Option(_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic.fromValue(_input__.readEnum()))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
