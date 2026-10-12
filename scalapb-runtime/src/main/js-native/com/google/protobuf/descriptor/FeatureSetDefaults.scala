@@ -114,9 +114,25 @@ object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[_root_.com.g
         case 10 =>
           __defaults += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault](_input__)
         case 32 =>
-          __minimumEdition = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(4, __enum.value.toLong)
+          } else {
+            __minimumEdition = _root_.scala.Option(__enum)
+          }
         case 40 =>
-          __maximumEdition = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(5, __enum.value.toLong)
+          } else {
+            __maximumEdition = _root_.scala.Option(__enum)
+          }
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -273,7 +289,15 @@ object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[_root_.com.g
         _tag__ match {
           case 0 => _done__ = true
           case 24 =>
-            __edition = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
+            val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+            if (__enum.isUnrecognized) {
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.addVarint(3, __enum.value.toLong)
+            } else {
+              __edition = _root_.scala.Option(__enum)
+            }
           case 34 =>
             __overridableFeatures = _root_.scala.Option(__overridableFeatures.fold(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FeatureSet](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case 42 =>

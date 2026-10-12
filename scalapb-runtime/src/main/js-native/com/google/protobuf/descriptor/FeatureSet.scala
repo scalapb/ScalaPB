@@ -179,21 +179,85 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
       _tag__ match {
         case 0 => _done__ = true
         case 8 =>
-          __fieldPresence = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(1, __enum.value.toLong)
+          } else {
+            __fieldPresence = _root_.scala.Option(__enum)
+          }
         case 16 =>
-          __enumType = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.EnumType.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FeatureSet.EnumType.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(2, __enum.value.toLong)
+          } else {
+            __enumType = _root_.scala.Option(__enum)
+          }
         case 24 =>
-          __repeatedFieldEncoding = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(3, __enum.value.toLong)
+          } else {
+            __repeatedFieldEncoding = _root_.scala.Option(__enum)
+          }
         case 32 =>
-          __utf8Validation = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(4, __enum.value.toLong)
+          } else {
+            __utf8Validation = _root_.scala.Option(__enum)
+          }
         case 40 =>
-          __messageEncoding = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(5, __enum.value.toLong)
+          } else {
+            __messageEncoding = _root_.scala.Option(__enum)
+          }
         case 48 =>
-          __jsonFormat = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(6, __enum.value.toLong)
+          } else {
+            __jsonFormat = _root_.scala.Option(__enum)
+          }
         case 56 =>
-          __enforceNamingStyle = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(7, __enum.value.toLong)
+          } else {
+            __enforceNamingStyle = _root_.scala.Option(__enum)
+          }
         case 64 =>
-          __defaultSymbolVisibility = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(8, __enum.value.toLong)
+          } else {
+            __defaultSymbolVisibility = _root_.scala.Option(__enum)
+          }
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

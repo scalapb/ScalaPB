@@ -260,22 +260,8 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
   
   object Annotation extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation, com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation, com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation] = this
-    def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation): com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation = {
-      val javaPbOut = com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation.newBuilder
-      javaPbOut.addAllPath(_root_.scalapb.internal.compat.toIterable(scalaPbSource.path.iterator.map(_root_.scala.Int.box(_))).asJava)
-      scalaPbSource.sourceFile.foreach(javaPbOut.setSourceFile)
-      scalaPbSource.begin.foreach(javaPbOut.setBegin)
-      scalaPbSource.end.foreach(javaPbOut.setEnd)
-      scalaPbSource.semantic.map(_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic.toJavaValue(_)).foreach(javaPbOut.setSemantic)
-      javaPbOut.build
-    }
-    def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
-      path = javaPbSource.getPathList.asScala.iterator.map(_.intValue).toSeq,
-      sourceFile = if (javaPbSource.hasSourceFile) Some(javaPbSource.getSourceFile) else _root_.scala.None,
-      begin = if (javaPbSource.hasBegin) Some(javaPbSource.getBegin.intValue) else _root_.scala.None,
-      end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else _root_.scala.None,
-      semantic = if (javaPbSource.hasSemantic) Some(_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic.fromJavaValue(javaPbSource.getSemantic)) else _root_.scala.None
-    )
+    def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation): com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation = com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation.parseFrom(scalaPbSource.toByteArray)
+    def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = parseFrom(javaPbSource.toByteArray)
     def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
       val __path: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int]
       var __sourceFile: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
@@ -305,7 +291,15 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
           case 32 =>
             __end = _root_.scala.Option(_input__.readInt32())
           case 40 =>
-            __semantic = _root_.scala.Option(_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic.fromValue(_input__.readEnum()))
+            val __enum = _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic.fromValue(_input__.readEnum())
+            if (__enum.isUnrecognized) {
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.addVarint(5, __enum.value.toLong)
+            } else {
+              __semantic = _root_.scala.Option(__enum)
+            }
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

@@ -110,6 +110,25 @@ private[compiler] class ParseFromGenerator(
 
   private def usesBaseTypeInBuilder(field: FieldDescriptor) = field.isSingular
 
+  private def isClosedEnum(field: FieldDescriptor): Boolean =
+    field.isEnum && field.getEnumType.isClosed
+
+  private def unknownValue(field: FieldDescriptor, method: String, value: String): String =
+    if (message.preservesUnknownFields)
+      s"""if (_unknownFields__ == null)${message.V.Then} {
+         |  _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+         |}
+         |_unknownFields__.$method(${field.getNumber}, $value)""".stripMargin
+    else "()"
+
+  private def readClosedEnum(field: FieldDescriptor, update: String): String =
+    s"""val __enum = ${field.getEnumType.scalaType.fullName}.fromValue(_input__.readEnum())
+       |if (__enum.isUnrecognized)${message.V.Then} {
+       |  ${unknownValue(field, "addVarint", "__enum.value.toLong").replace("\n", "\n  ")}
+       |} else {
+       |  ${update.replace("\n", "\n  ")}
+       |}""".stripMargin
+
   val requiredFieldMap: Map[FieldDescriptor, Int] =
     message.fields.filter(fd => fd.isRequired || fd.noBoxRequired).zipWithIndex.toMap
 
@@ -178,8 +197,9 @@ private[compiler] class ParseFromGenerator(
                 else "_input__.readString()"
               } else s"_input__.read${Types.capitalizedType(field.getType)}()"
 
-              val newVal =
-                if (!usesBaseTypeInBuilder(field)) toCustomType(field)(newValBase) else newValBase
+              val baseValue = if (isClosedEnum(field)) "__enum" else newValBase
+              val newVal    =
+                if (!usesBaseTypeInBuilder(field)) toCustomType(field)(baseValue) else baseValue
 
               val updateOp =
                 if (field.supportsPresence) s"__${field.scalaName} = _root_.scala.Option($newVal)"
@@ -188,17 +208,28 @@ private[compiler] class ParseFromGenerator(
                 } else if (field.isRepeated) s"__${field.scalaName} += $newVal"
                 else s"__${field.scalaName} = $newVal"
 
+              val update = if (field.isRequired || field.noBoxRequired) {
+                val fieldNumber = requiredFieldMap(field)
+                s"$updateOp\n__requiredFields${fieldNumber / 64} &= 0x${"%x".format(~(1L << fieldNumber))}L"
+              } else updateOp
+              val body =
+                if (isClosedEnum(field)) readClosedEnum(field, update)
+                else if (
+                  field.isMapField && field.mapType.valueField.getJavaType == FieldDescriptor.JavaType.ENUM && field.mapType.valueField.getEnumType.isClosed
+                ) {
+                  val entryType   = field.getMessageType.scalaType.fullName
+                  val enumType    = field.mapType.valueField.getEnumType.scalaType.fullName
+                  val mappedEntry = toCustomType(field)(s"$entryType.parseFrom(__bytes)")
+                  s"""val __bytes = _input__.readBytes()
+                     |if (_root_.scalapb.ClosedEnumMapEntry.isUnknown(__bytes, $enumType))${message.V.Then} {
+                     |  ${unknownValue(field, "addLengthDelimited", "__bytes").replace("\n", "\n  ")}
+                     |} else {
+                     |  __${field.scalaName} += $mappedEntry
+                     |}""".stripMargin
+                } else update
               printer
-                .add(
-                  s"""    case ${(field.getNumber << 3) + Types.wireType(field.getType)} =>
-                     |      $updateOp""".stripMargin
-                )
-                .when(field.isRequired || field.noBoxRequired) { p =>
-                  val fieldNumber = requiredFieldMap(field)
-                  p.add(
-                    s"      __requiredFields${fieldNumber / 64} &= 0x${"%x".format(~(1L << fieldNumber))}L"
-                  )
-                }
+                .add(s"    case ${(field.getNumber << 3) + Types.wireType(field.getType)} =>")
+                .add(body.split("\n").iterator.map("      " + _).toSeq: _*)
             }
 
             if (field.isPackable) {
@@ -209,11 +240,15 @@ private[compiler] class ParseFromGenerator(
                 else tmp
               }
               val readExpr = toCustomType(field)(read)
+              val update   =
+                if (isClosedEnum(field))
+                  readClosedEnum(field, s"__${field.scalaName} += ${toCustomType(field)("__enum")}")
+                else s"__${field.scalaName} += $readExpr"
               p.add(s"""    case ${(field.getNumber << 3) + Types.WIRETYPE_LENGTH_DELIMITED} => {
                        |      val length = _input__.readRawVarint32()
                        |      val oldLimit = _input__.pushLimit(length)
                        |      while (_input__.getBytesUntilLimit > 0)${message.V.Do} {
-                       |        __${field.scalaName} += $readExpr
+                       |        ${update.replace("\n", "\n        ")}
                        |      }
                        |      _input__.popLimit(oldLimit)
                        |    }""".stripMargin)

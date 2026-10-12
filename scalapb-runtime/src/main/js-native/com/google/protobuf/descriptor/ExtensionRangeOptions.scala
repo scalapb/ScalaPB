@@ -139,7 +139,15 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[_root_.co
         case 402 =>
           __features = _root_.scala.Option(__features.fold(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FeatureSet](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 24 =>
-          __verification = _root_.scala.Option(_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(3, __enum.value.toLong)
+          } else {
+            __verification = _root_.scala.Option(__enum)
+          }
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

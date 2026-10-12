@@ -2,7 +2,6 @@
 // Do not edit!
 
 package com.google.protobuf.descriptor
-import _root_.scalapb.internal.compat.JavaConverters._
 
 /** @param deprecated
   *   Is this method deprecated?
@@ -119,20 +118,8 @@ final case class MethodOptions(
 
 object MethodOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.MethodOptions] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.MethodOptions, com.google.protobuf.DescriptorProtos.MethodOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.MethodOptions] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.MethodOptions, com.google.protobuf.DescriptorProtos.MethodOptions] = this
-  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.MethodOptions): com.google.protobuf.DescriptorProtos.MethodOptions = {
-    val javaPbOut = com.google.protobuf.DescriptorProtos.MethodOptions.newBuilder
-    scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
-    scalaPbSource.idempotencyLevel.map(_root_.com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.toJavaValue(_)).foreach(javaPbOut.setIdempotencyLevel)
-    scalaPbSource.features.map(_root_.com.google.protobuf.descriptor.FeatureSet.toJavaProto(_)).foreach(javaPbOut.setFeatures)
-    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(_root_.com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_))).asJava)
-    javaPbOut.build
-  }
-  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.MethodOptions): _root_.com.google.protobuf.descriptor.MethodOptions = _root_.com.google.protobuf.descriptor.MethodOptions(
-    deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else _root_.scala.None,
-    idempotencyLevel = if (javaPbSource.hasIdempotencyLevel) Some(_root_.com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromJavaValue(javaPbSource.getIdempotencyLevel)) else _root_.scala.None,
-    features = if (javaPbSource.hasFeatures) Some(_root_.com.google.protobuf.descriptor.FeatureSet.fromJavaProto(javaPbSource.getFeatures)) else _root_.scala.None,
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq
-  )
+  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.MethodOptions): com.google.protobuf.DescriptorProtos.MethodOptions = com.google.protobuf.DescriptorProtos.MethodOptions.parseFrom(scalaPbSource.toByteArray)
+  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.MethodOptions): _root_.com.google.protobuf.descriptor.MethodOptions = parseFrom(javaPbSource.toByteArray)
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.MethodOptions = {
     var __deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __idempotencyLevel: _root_.scala.Option[_root_.com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel] = _root_.scala.None
@@ -147,7 +134,15 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google
         case 264 =>
           __deprecated = _root_.scala.Option(_input__.readBool())
         case 272 =>
-          __idempotencyLevel = _root_.scala.Option(_root_.com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(34, __enum.value.toLong)
+          } else {
+            __idempotencyLevel = _root_.scala.Option(__enum)
+          }
         case 282 =>
           __features = _root_.scala.Option(__features.fold(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FeatureSet](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 7994 =>

@@ -347,11 +347,27 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
       _tag__ match {
         case 0 => _done__ = true
         case 8 =>
-          __ctype = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FieldOptions.CType.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FieldOptions.CType.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(1, __enum.value.toLong)
+          } else {
+            __ctype = _root_.scala.Option(__enum)
+          }
         case 16 =>
           __packed = _root_.scala.Option(_input__.readBool())
         case 48 =>
-          __jstype = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FieldOptions.JSType.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FieldOptions.JSType.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(6, __enum.value.toLong)
+          } else {
+            __jstype = _root_.scala.Option(__enum)
+          }
         case 40 =>
           __lazy = _root_.scala.Option(_input__.readBool())
         case 120 =>
@@ -363,14 +379,38 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
         case 128 =>
           __debugRedact = _root_.scala.Option(_input__.readBool())
         case 136 =>
-          __retention = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FieldOptions.OptionRetention.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FieldOptions.OptionRetention.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(17, __enum.value.toLong)
+          } else {
+            __retention = _root_.scala.Option(__enum)
+          }
         case 152 =>
-          __targets += _root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromValue(_input__.readEnum())
+          val __enum = _root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(19, __enum.value.toLong)
+          } else {
+            __targets += __enum
+          }
         case 154 => {
           val length = _input__.readRawVarint32()
           val oldLimit = _input__.pushLimit(length)
           while (_input__.getBytesUntilLimit > 0) {
-            __targets += _root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromValue(_input__.readEnum())
+            val __enum = _root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromValue(_input__.readEnum())
+            if (__enum.isUnrecognized) {
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.addVarint(19, __enum.value.toLong)
+            } else {
+              __targets += __enum
+            }
           }
           _input__.popLimit(oldLimit)
         }
@@ -823,7 +863,15 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
         _tag__ match {
           case 0 => _done__ = true
           case 24 =>
-            __edition = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
+            val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+            if (__enum.isUnrecognized) {
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.addVarint(3, __enum.value.toLong)
+            } else {
+              __edition = _root_.scala.Option(__enum)
+            }
           case 18 =>
             __value = _root_.scala.Option(_input__.readStringRequireUtf8())
           case tag =>
@@ -1005,13 +1053,37 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
         _tag__ match {
           case 0 => _done__ = true
           case 8 =>
-            __editionIntroduced = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
+            val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+            if (__enum.isUnrecognized) {
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.addVarint(1, __enum.value.toLong)
+            } else {
+              __editionIntroduced = _root_.scala.Option(__enum)
+            }
           case 16 =>
-            __editionDeprecated = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
+            val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+            if (__enum.isUnrecognized) {
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.addVarint(2, __enum.value.toLong)
+            } else {
+              __editionDeprecated = _root_.scala.Option(__enum)
+            }
           case 26 =>
             __deprecationWarning = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 32 =>
-            __editionRemoved = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
+            val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+            if (__enum.isUnrecognized) {
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.addVarint(4, __enum.value.toLong)
+            } else {
+              __editionRemoved = _root_.scala.Option(__enum)
+            }
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

@@ -361,7 +361,15 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
         case 98 =>
           __syntax = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 112 =>
-          __edition = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(14, __enum.value.toLong)
+          } else {
+            __edition = _root_.scala.Option(__enum)
+          }
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

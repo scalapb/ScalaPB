@@ -2,7 +2,6 @@
 // Do not edit!
 
 package com.google.protobuf.descriptor
-import _root_.scalapb.internal.compat.JavaConverters._
 
 /** @param javaPackage
   *   Sets the Java package where classes generated from this .proto will be
@@ -434,54 +433,8 @@ final case class FileOptions(
 
 object FileOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FileOptions] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FileOptions, com.google.protobuf.DescriptorProtos.FileOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FileOptions] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FileOptions, com.google.protobuf.DescriptorProtos.FileOptions] = this
-  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FileOptions): com.google.protobuf.DescriptorProtos.FileOptions = {
-    val javaPbOut = com.google.protobuf.DescriptorProtos.FileOptions.newBuilder
-    scalaPbSource.javaPackage.foreach(javaPbOut.setJavaPackage)
-    scalaPbSource.javaOuterClassname.foreach(javaPbOut.setJavaOuterClassname)
-    scalaPbSource.javaMultipleFiles.foreach(javaPbOut.setJavaMultipleFiles)
-    scalaPbSource.javaGenerateEqualsAndHash.foreach(javaPbOut.setJavaGenerateEqualsAndHash)
-    scalaPbSource.javaStringCheckUtf8.foreach(javaPbOut.setJavaStringCheckUtf8)
-    scalaPbSource.optimizeFor.map(_root_.com.google.protobuf.descriptor.FileOptions.OptimizeMode.toJavaValue(_)).foreach(javaPbOut.setOptimizeFor)
-    scalaPbSource.goPackage.foreach(javaPbOut.setGoPackage)
-    scalaPbSource.ccGenericServices.foreach(javaPbOut.setCcGenericServices)
-    scalaPbSource.javaGenericServices.foreach(javaPbOut.setJavaGenericServices)
-    scalaPbSource.pyGenericServices.foreach(javaPbOut.setPyGenericServices)
-    scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
-    scalaPbSource.ccEnableArenas.foreach(javaPbOut.setCcEnableArenas)
-    scalaPbSource.objcClassPrefix.foreach(javaPbOut.setObjcClassPrefix)
-    scalaPbSource.csharpNamespace.foreach(javaPbOut.setCsharpNamespace)
-    scalaPbSource.swiftPrefix.foreach(javaPbOut.setSwiftPrefix)
-    scalaPbSource.phpClassPrefix.foreach(javaPbOut.setPhpClassPrefix)
-    scalaPbSource.phpNamespace.foreach(javaPbOut.setPhpNamespace)
-    scalaPbSource.phpMetadataNamespace.foreach(javaPbOut.setPhpMetadataNamespace)
-    scalaPbSource.rubyPackage.foreach(javaPbOut.setRubyPackage)
-    scalaPbSource.features.map(_root_.com.google.protobuf.descriptor.FeatureSet.toJavaProto(_)).foreach(javaPbOut.setFeatures)
-    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(_root_.com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_))).asJava)
-    javaPbOut.build
-  }
-  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileOptions): _root_.com.google.protobuf.descriptor.FileOptions = _root_.com.google.protobuf.descriptor.FileOptions(
-    javaPackage = if (javaPbSource.hasJavaPackage) Some(javaPbSource.getJavaPackage) else _root_.scala.None,
-    javaOuterClassname = if (javaPbSource.hasJavaOuterClassname) Some(javaPbSource.getJavaOuterClassname) else _root_.scala.None,
-    javaMultipleFiles = if (javaPbSource.hasJavaMultipleFiles) Some(javaPbSource.getJavaMultipleFiles.booleanValue) else _root_.scala.None,
-    javaGenerateEqualsAndHash = if (javaPbSource.hasJavaGenerateEqualsAndHash) Some(javaPbSource.getJavaGenerateEqualsAndHash.booleanValue) else _root_.scala.None,
-    javaStringCheckUtf8 = if (javaPbSource.hasJavaStringCheckUtf8) Some(javaPbSource.getJavaStringCheckUtf8.booleanValue) else _root_.scala.None,
-    optimizeFor = if (javaPbSource.hasOptimizeFor) Some(_root_.com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromJavaValue(javaPbSource.getOptimizeFor)) else _root_.scala.None,
-    goPackage = if (javaPbSource.hasGoPackage) Some(javaPbSource.getGoPackage) else _root_.scala.None,
-    ccGenericServices = if (javaPbSource.hasCcGenericServices) Some(javaPbSource.getCcGenericServices.booleanValue) else _root_.scala.None,
-    javaGenericServices = if (javaPbSource.hasJavaGenericServices) Some(javaPbSource.getJavaGenericServices.booleanValue) else _root_.scala.None,
-    pyGenericServices = if (javaPbSource.hasPyGenericServices) Some(javaPbSource.getPyGenericServices.booleanValue) else _root_.scala.None,
-    deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else _root_.scala.None,
-    ccEnableArenas = if (javaPbSource.hasCcEnableArenas) Some(javaPbSource.getCcEnableArenas.booleanValue) else _root_.scala.None,
-    objcClassPrefix = if (javaPbSource.hasObjcClassPrefix) Some(javaPbSource.getObjcClassPrefix) else _root_.scala.None,
-    csharpNamespace = if (javaPbSource.hasCsharpNamespace) Some(javaPbSource.getCsharpNamespace) else _root_.scala.None,
-    swiftPrefix = if (javaPbSource.hasSwiftPrefix) Some(javaPbSource.getSwiftPrefix) else _root_.scala.None,
-    phpClassPrefix = if (javaPbSource.hasPhpClassPrefix) Some(javaPbSource.getPhpClassPrefix) else _root_.scala.None,
-    phpNamespace = if (javaPbSource.hasPhpNamespace) Some(javaPbSource.getPhpNamespace) else _root_.scala.None,
-    phpMetadataNamespace = if (javaPbSource.hasPhpMetadataNamespace) Some(javaPbSource.getPhpMetadataNamespace) else _root_.scala.None,
-    rubyPackage = if (javaPbSource.hasRubyPackage) Some(javaPbSource.getRubyPackage) else _root_.scala.None,
-    features = if (javaPbSource.hasFeatures) Some(_root_.com.google.protobuf.descriptor.FeatureSet.fromJavaProto(javaPbSource.getFeatures)) else _root_.scala.None,
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq
-  )
+  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FileOptions): com.google.protobuf.DescriptorProtos.FileOptions = com.google.protobuf.DescriptorProtos.FileOptions.parseFrom(scalaPbSource.toByteArray)
+  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileOptions): _root_.com.google.protobuf.descriptor.FileOptions = parseFrom(javaPbSource.toByteArray)
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FileOptions = {
     var __javaPackage: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     var __javaOuterClassname: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
@@ -521,7 +474,15 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.p
         case 216 =>
           __javaStringCheckUtf8 = _root_.scala.Option(_input__.readBool())
         case 72 =>
-          __optimizeFor = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(9, __enum.value.toLong)
+          } else {
+            __optimizeFor = _root_.scala.Option(__enum)
+          }
         case 90 =>
           __goPackage = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 128 =>

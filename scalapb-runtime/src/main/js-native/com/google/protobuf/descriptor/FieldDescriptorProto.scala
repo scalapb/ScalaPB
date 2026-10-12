@@ -273,9 +273,25 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com
         case 24 =>
           __number = _root_.scala.Option(_input__.readInt32())
         case 32 =>
-          __label = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.Label.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FieldDescriptorProto.Label.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(4, __enum.value.toLong)
+          } else {
+            __label = _root_.scala.Option(__enum)
+          }
         case 40 =>
-          __type = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.Type.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FieldDescriptorProto.Type.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(5, __enum.value.toLong)
+          } else {
+            __type = _root_.scala.Option(__enum)
+          }
         case 50 =>
           __typeName = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>

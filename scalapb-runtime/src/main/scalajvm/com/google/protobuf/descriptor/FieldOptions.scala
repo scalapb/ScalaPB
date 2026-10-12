@@ -2,7 +2,6 @@
 // Do not edit!
 
 package com.google.protobuf.descriptor
-import _root_.scalapb.internal.compat.JavaConverters._
 
 /** @param ctype
   *   NOTE: ctype is deprecated. Use `features.(pb.cpp).string_type` instead.
@@ -326,40 +325,8 @@ final case class FieldOptions(
 
 object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FieldOptions] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FieldOptions, com.google.protobuf.DescriptorProtos.FieldOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FieldOptions] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FieldOptions, com.google.protobuf.DescriptorProtos.FieldOptions] = this
-  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FieldOptions): com.google.protobuf.DescriptorProtos.FieldOptions = {
-    val javaPbOut = com.google.protobuf.DescriptorProtos.FieldOptions.newBuilder
-    scalaPbSource.ctype.map(_root_.com.google.protobuf.descriptor.FieldOptions.CType.toJavaValue(_)).foreach(javaPbOut.setCtype)
-    scalaPbSource.packed.foreach(javaPbOut.setPacked)
-    scalaPbSource.jstype.map(_root_.com.google.protobuf.descriptor.FieldOptions.JSType.toJavaValue(_)).foreach(javaPbOut.setJstype)
-    scalaPbSource.`lazy`.foreach(javaPbOut.setLazy)
-    scalaPbSource.unverifiedLazy.foreach(javaPbOut.setUnverifiedLazy)
-    scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
-    scalaPbSource.weak.foreach(javaPbOut.setWeak)
-    scalaPbSource.debugRedact.foreach(javaPbOut.setDebugRedact)
-    scalaPbSource.retention.map(_root_.com.google.protobuf.descriptor.FieldOptions.OptionRetention.toJavaValue(_)).foreach(javaPbOut.setRetention)
-    javaPbOut.addAllTargets(_root_.scalapb.internal.compat.toIterable(scalaPbSource.targets.iterator.map(_root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.toJavaValue(_))).asJava)
-    javaPbOut.addAllEditionDefaults(_root_.scalapb.internal.compat.toIterable(scalaPbSource.editionDefaults.iterator.map(_root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault.toJavaProto(_))).asJava)
-    scalaPbSource.features.map(_root_.com.google.protobuf.descriptor.FeatureSet.toJavaProto(_)).foreach(javaPbOut.setFeatures)
-    scalaPbSource.featureSupport.map(_root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport.toJavaProto(_)).foreach(javaPbOut.setFeatureSupport)
-    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(_root_.com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_))).asJava)
-    javaPbOut.build
-  }
-  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldOptions): _root_.com.google.protobuf.descriptor.FieldOptions = _root_.com.google.protobuf.descriptor.FieldOptions(
-    ctype = if (javaPbSource.hasCtype) Some(_root_.com.google.protobuf.descriptor.FieldOptions.CType.fromJavaValue(javaPbSource.getCtype)) else _root_.scala.None,
-    packed = if (javaPbSource.hasPacked) Some(javaPbSource.getPacked.booleanValue) else _root_.scala.None,
-    jstype = if (javaPbSource.hasJstype) Some(_root_.com.google.protobuf.descriptor.FieldOptions.JSType.fromJavaValue(javaPbSource.getJstype)) else _root_.scala.None,
-    `lazy` = if (javaPbSource.hasLazy) Some(javaPbSource.getLazy.booleanValue) else _root_.scala.None,
-    unverifiedLazy = if (javaPbSource.hasUnverifiedLazy) Some(javaPbSource.getUnverifiedLazy.booleanValue) else _root_.scala.None,
-    deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else _root_.scala.None,
-    weak = if (javaPbSource.hasWeak) Some(javaPbSource.getWeak.booleanValue) else _root_.scala.None,
-    debugRedact = if (javaPbSource.hasDebugRedact) Some(javaPbSource.getDebugRedact.booleanValue) else _root_.scala.None,
-    retention = if (javaPbSource.hasRetention) Some(_root_.com.google.protobuf.descriptor.FieldOptions.OptionRetention.fromJavaValue(javaPbSource.getRetention)) else _root_.scala.None,
-    targets = javaPbSource.getTargetsList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromJavaValue(_)).toSeq,
-    editionDefaults = javaPbSource.getEditionDefaultsList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault.fromJavaProto(_)).toSeq,
-    features = if (javaPbSource.hasFeatures) Some(_root_.com.google.protobuf.descriptor.FeatureSet.fromJavaProto(javaPbSource.getFeatures)) else _root_.scala.None,
-    featureSupport = if (javaPbSource.hasFeatureSupport) Some(_root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport.fromJavaProto(javaPbSource.getFeatureSupport)) else _root_.scala.None,
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq
-  )
+  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FieldOptions): com.google.protobuf.DescriptorProtos.FieldOptions = com.google.protobuf.DescriptorProtos.FieldOptions.parseFrom(scalaPbSource.toByteArray)
+  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldOptions): _root_.com.google.protobuf.descriptor.FieldOptions = parseFrom(javaPbSource.toByteArray)
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FieldOptions = {
     var __ctype: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FieldOptions.CType] = _root_.scala.None
     var __packed: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
@@ -382,11 +349,27 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
       _tag__ match {
         case 0 => _done__ = true
         case 8 =>
-          __ctype = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FieldOptions.CType.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FieldOptions.CType.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(1, __enum.value.toLong)
+          } else {
+            __ctype = _root_.scala.Option(__enum)
+          }
         case 16 =>
           __packed = _root_.scala.Option(_input__.readBool())
         case 48 =>
-          __jstype = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FieldOptions.JSType.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FieldOptions.JSType.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(6, __enum.value.toLong)
+          } else {
+            __jstype = _root_.scala.Option(__enum)
+          }
         case 40 =>
           __lazy = _root_.scala.Option(_input__.readBool())
         case 120 =>
@@ -398,14 +381,38 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
         case 128 =>
           __debugRedact = _root_.scala.Option(_input__.readBool())
         case 136 =>
-          __retention = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FieldOptions.OptionRetention.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.FieldOptions.OptionRetention.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(17, __enum.value.toLong)
+          } else {
+            __retention = _root_.scala.Option(__enum)
+          }
         case 152 =>
-          __targets += _root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromValue(_input__.readEnum())
+          val __enum = _root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(19, __enum.value.toLong)
+          } else {
+            __targets += __enum
+          }
         case 154 => {
           val length = _input__.readRawVarint32()
           val oldLimit = _input__.pushLimit(length)
           while (_input__.getBytesUntilLimit > 0) {
-            __targets += _root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromValue(_input__.readEnum())
+            val __enum = _root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromValue(_input__.readEnum())
+            if (__enum.isUnrecognized) {
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.addVarint(19, __enum.value.toLong)
+            } else {
+              __targets += __enum
+            }
           }
           _input__.popLimit(oldLimit)
         }
@@ -868,16 +875,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
   
   object EditionDefault extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault, com.google.protobuf.DescriptorProtos.FieldOptions.EditionDefault] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault, com.google.protobuf.DescriptorProtos.FieldOptions.EditionDefault] = this
-    def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault): com.google.protobuf.DescriptorProtos.FieldOptions.EditionDefault = {
-      val javaPbOut = com.google.protobuf.DescriptorProtos.FieldOptions.EditionDefault.newBuilder
-      scalaPbSource.edition.map(_root_.com.google.protobuf.descriptor.Edition.toJavaValue(_)).foreach(javaPbOut.setEdition)
-      scalaPbSource.value.foreach(javaPbOut.setValue)
-      javaPbOut.build
-    }
-    def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldOptions.EditionDefault): _root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault = _root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault(
-      edition = if (javaPbSource.hasEdition) Some(_root_.com.google.protobuf.descriptor.Edition.fromJavaValue(javaPbSource.getEdition)) else _root_.scala.None,
-      value = if (javaPbSource.hasValue) Some(javaPbSource.getValue) else _root_.scala.None
-    )
+    def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault): com.google.protobuf.DescriptorProtos.FieldOptions.EditionDefault = com.google.protobuf.DescriptorProtos.FieldOptions.EditionDefault.parseFrom(scalaPbSource.toByteArray)
+    def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldOptions.EditionDefault): _root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault = parseFrom(javaPbSource.toByteArray)
     def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault = {
       var __edition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
       var __value: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
@@ -888,7 +887,15 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
         _tag__ match {
           case 0 => _done__ = true
           case 24 =>
-            __edition = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
+            val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+            if (__enum.isUnrecognized) {
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.addVarint(3, __enum.value.toLong)
+            } else {
+              __edition = _root_.scala.Option(__enum)
+            }
           case 18 =>
             __value = _root_.scala.Option(_input__.readStringRequireUtf8())
           case tag =>
@@ -1058,20 +1065,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
   
   object FeatureSupport extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport, com.google.protobuf.DescriptorProtos.FieldOptions.FeatureSupport] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport, com.google.protobuf.DescriptorProtos.FieldOptions.FeatureSupport] = this
-    def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport): com.google.protobuf.DescriptorProtos.FieldOptions.FeatureSupport = {
-      val javaPbOut = com.google.protobuf.DescriptorProtos.FieldOptions.FeatureSupport.newBuilder
-      scalaPbSource.editionIntroduced.map(_root_.com.google.protobuf.descriptor.Edition.toJavaValue(_)).foreach(javaPbOut.setEditionIntroduced)
-      scalaPbSource.editionDeprecated.map(_root_.com.google.protobuf.descriptor.Edition.toJavaValue(_)).foreach(javaPbOut.setEditionDeprecated)
-      scalaPbSource.deprecationWarning.foreach(javaPbOut.setDeprecationWarning)
-      scalaPbSource.editionRemoved.map(_root_.com.google.protobuf.descriptor.Edition.toJavaValue(_)).foreach(javaPbOut.setEditionRemoved)
-      javaPbOut.build
-    }
-    def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldOptions.FeatureSupport): _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport = _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport(
-      editionIntroduced = if (javaPbSource.hasEditionIntroduced) Some(_root_.com.google.protobuf.descriptor.Edition.fromJavaValue(javaPbSource.getEditionIntroduced)) else _root_.scala.None,
-      editionDeprecated = if (javaPbSource.hasEditionDeprecated) Some(_root_.com.google.protobuf.descriptor.Edition.fromJavaValue(javaPbSource.getEditionDeprecated)) else _root_.scala.None,
-      deprecationWarning = if (javaPbSource.hasDeprecationWarning) Some(javaPbSource.getDeprecationWarning) else _root_.scala.None,
-      editionRemoved = if (javaPbSource.hasEditionRemoved) Some(_root_.com.google.protobuf.descriptor.Edition.fromJavaValue(javaPbSource.getEditionRemoved)) else _root_.scala.None
-    )
+    def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport): com.google.protobuf.DescriptorProtos.FieldOptions.FeatureSupport = com.google.protobuf.DescriptorProtos.FieldOptions.FeatureSupport.parseFrom(scalaPbSource.toByteArray)
+    def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldOptions.FeatureSupport): _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport = parseFrom(javaPbSource.toByteArray)
     def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport = {
       var __editionIntroduced: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
       var __editionDeprecated: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
@@ -1084,13 +1079,37 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
         _tag__ match {
           case 0 => _done__ = true
           case 8 =>
-            __editionIntroduced = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
+            val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+            if (__enum.isUnrecognized) {
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.addVarint(1, __enum.value.toLong)
+            } else {
+              __editionIntroduced = _root_.scala.Option(__enum)
+            }
           case 16 =>
-            __editionDeprecated = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
+            val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+            if (__enum.isUnrecognized) {
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.addVarint(2, __enum.value.toLong)
+            } else {
+              __editionDeprecated = _root_.scala.Option(__enum)
+            }
           case 26 =>
             __deprecationWarning = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 32 =>
-            __editionRemoved = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
+            val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+            if (__enum.isUnrecognized) {
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.addVarint(4, __enum.value.toLong)
+            } else {
+              __editionRemoved = _root_.scala.Option(__enum)
+            }
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

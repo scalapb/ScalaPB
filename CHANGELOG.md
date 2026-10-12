@@ -1,5 +1,17 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- BREAKING CHANGE: Regenerated binary parsers honor closed enums (proto2 and
+  Editions `features.enum_type = CLOSED`). Unknown numbers move to unknown fields
+  instead of `Unrecognized` field values; repeated values may reorder on serialization,
+  unknown oneof values leave the existing case unchanged, and maps retain rejected
+  entries in full. Required closed enums reject messages containing only unknown
+  values. Disabling unknown-field preservation discards these values. Open enums,
+  including proto3 enums imported into proto2 files, continue to retain unknown numbers.
+  Java conversions for closed/legacy-closed enum messages now use binary conversion
+  to preserve unknown values and map entries, with additional serialization cost.
+  Regenerate sources and upgrade the runtime together; manually constructed
+  `Unrecognized` closed values normalize on binary parsing. Scala enum descriptors
+  expose `isClosed`.
 - Resolve core Edition 2023 descriptor features with inherited overrides; expose presence, packing, enum openness, UTF-8 policy and message encoding, and recognize `LEGACY_REQUIRED` fields.
 - Use protobuf Java naming helpers for Java conversions and descriptor references,
   including Edition 2024 file/type naming and correct Scala escaping of keyword

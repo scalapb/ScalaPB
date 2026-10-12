@@ -269,7 +269,15 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
         case 82 =>
           __reservedName += _input__.readStringRequireUtf8()
         case 88 =>
-          __visibility = _root_.scala.Option(_root_.com.google.protobuf.descriptor.SymbolVisibility.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.SymbolVisibility.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(11, __enum.value.toLong)
+          } else {
+            __visibility = _root_.scala.Option(__enum)
+          }
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

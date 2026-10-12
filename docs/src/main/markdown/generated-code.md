@@ -342,9 +342,8 @@ object Weather extends GeneratedEnumCompanion[Weather] {
     case object PARTLY_CLOUDY extends Weather { ... }
     case object RAIN extends Weather { ... }
 
-    // In ScalaPB >= 0.5.x, this captures unknown value that are received
-    // from the wire format.  Earlier versions throw a MatchError when
-    // this happens.
+    // Represents unknown numeric values. Open enum parsers retain these in fields;
+    // closed enum parsers retain unknown numbers in the message's unknown fields.
     case class Unrecognized(value: Int) extends Weather { ... }
 
     // And a list of all possible values:
@@ -373,6 +372,41 @@ f.getWeather match {
 }
 
 ```
+
+Starting with ScalaPB 1.0.0, regenerated binary parsers distinguish **closed** and
+**open** enums according to the [protobuf enum specification](https://protobuf.dev/programming-guides/enum/).
+Proto2 enums are closed; proto3 enums are open. Edition enums use the resolved
+`features.enum_type` setting (open by default). The enum's definition determines
+its behavior, including when imported into a file with a different syntax.
+`Weather.scalaDescriptor.isClosed` exposes this distinction.
+
+An unknown closed enum number goes into the containing message's `unknownFields`.
+It does not set an optional field, replace an earlier recognized value, select or
+clear a oneof, or satisfy a required field. Repeated fields contain only recognized
+values, with unknown numbers serialized separately as unpacked varints. This can
+change their order relative to recognized values. For maps, an unknown final enum
+value moves the complete serialized entry to unknown fields, leaving any previous
+entry with that key unchanged. With `preserve_unknown_fields = false`, rejected
+values and entries are discarded. Custom enum type mappers receive only recognized
+closed values during parsing.
+
+This changes the behavior of older generated proto2 parsers, which exposed unknown
+values as `Unrecognized`. Upgrade the runtime and regenerate sources together.
+The `Unrecognized` constructor and `fromValue` remain available, including for
+closed enums: a manually constructed unknown closed value is normalized into
+unknown fields when its containing message is serialized and parsed. Open enum
+parsing continues to retain `Unrecognized` values directly in fields. This change
+covers binary message parsing; text-format, JSON, and extension accessors have
+separate parsing paths.
+
+Messages with closed enum fields (including map values), or enum fields treated as
+closed by Java's legacy API, use a binary round trip for generated Java conversions.
+This preserves unknown values and complete rejected entries, at the cost of
+serialization and parsing. Java treats proto3 enums imported into proto2 messages
+as closed; Scala follows the specification and keeps them open. Conversion to Java
+moves those unknown values to Java's unknown fields, and conversion back recovers
+them in Scala fields. A required enum that Java treats as closed cannot be
+converted to Java when its only value is unknown.
 
 ## ASCII Representation
 

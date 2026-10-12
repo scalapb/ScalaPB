@@ -2,7 +2,6 @@
 // Do not edit!
 
 package com.google.protobuf.descriptor
-import _root_.scalapb.internal.compat.JavaConverters._
 
 /** Describes a message type.
   *
@@ -231,34 +230,8 @@ final case class DescriptorProto(
 
 object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.DescriptorProto] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.DescriptorProto, com.google.protobuf.DescriptorProtos.DescriptorProto] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.DescriptorProto] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.DescriptorProto, com.google.protobuf.DescriptorProtos.DescriptorProto] = this
-  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.DescriptorProto): com.google.protobuf.DescriptorProtos.DescriptorProto = {
-    val javaPbOut = com.google.protobuf.DescriptorProtos.DescriptorProto.newBuilder
-    scalaPbSource.name.foreach(javaPbOut.setName)
-    javaPbOut.addAllField(_root_.scalapb.internal.compat.toIterable(scalaPbSource.field.iterator.map(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto(_))).asJava)
-    javaPbOut.addAllExtension(_root_.scalapb.internal.compat.toIterable(scalaPbSource.extension.iterator.map(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto(_))).asJava)
-    javaPbOut.addAllNestedType(_root_.scalapb.internal.compat.toIterable(scalaPbSource.nestedType.iterator.map(_root_.com.google.protobuf.descriptor.DescriptorProto.toJavaProto(_))).asJava)
-    javaPbOut.addAllEnumType(_root_.scalapb.internal.compat.toIterable(scalaPbSource.enumType.iterator.map(_root_.com.google.protobuf.descriptor.EnumDescriptorProto.toJavaProto(_))).asJava)
-    javaPbOut.addAllExtensionRange(_root_.scalapb.internal.compat.toIterable(scalaPbSource.extensionRange.iterator.map(_root_.com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.toJavaProto(_))).asJava)
-    javaPbOut.addAllOneofDecl(_root_.scalapb.internal.compat.toIterable(scalaPbSource.oneofDecl.iterator.map(_root_.com.google.protobuf.descriptor.OneofDescriptorProto.toJavaProto(_))).asJava)
-    scalaPbSource.options.map(_root_.com.google.protobuf.descriptor.MessageOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
-    javaPbOut.addAllReservedRange(_root_.scalapb.internal.compat.toIterable(scalaPbSource.reservedRange.iterator.map(_root_.com.google.protobuf.descriptor.DescriptorProto.ReservedRange.toJavaProto(_))).asJava)
-    javaPbOut.addAllReservedName(scalaPbSource.reservedName.asJava)
-    scalaPbSource.visibility.map(_root_.com.google.protobuf.descriptor.SymbolVisibility.toJavaValue(_)).foreach(javaPbOut.setVisibility)
-    javaPbOut.build
-  }
-  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.DescriptorProto): _root_.com.google.protobuf.descriptor.DescriptorProto = _root_.com.google.protobuf.descriptor.DescriptorProto(
-    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else _root_.scala.None,
-    field = javaPbSource.getFieldList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto(_)).toSeq,
-    extension = javaPbSource.getExtensionList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto(_)).toSeq,
-    nestedType = javaPbSource.getNestedTypeList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.DescriptorProto.fromJavaProto(_)).toSeq,
-    enumType = javaPbSource.getEnumTypeList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.EnumDescriptorProto.fromJavaProto(_)).toSeq,
-    extensionRange = javaPbSource.getExtensionRangeList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.fromJavaProto(_)).toSeq,
-    oneofDecl = javaPbSource.getOneofDeclList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.OneofDescriptorProto.fromJavaProto(_)).toSeq,
-    options = if (javaPbSource.hasOptions) Some(_root_.com.google.protobuf.descriptor.MessageOptions.fromJavaProto(javaPbSource.getOptions)) else _root_.scala.None,
-    reservedRange = javaPbSource.getReservedRangeList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.DescriptorProto.ReservedRange.fromJavaProto(_)).toSeq,
-    reservedName = javaPbSource.getReservedNameList.asScala.iterator.map(_root_.scala.Predef.identity).toSeq,
-    visibility = if (javaPbSource.hasVisibility) Some(_root_.com.google.protobuf.descriptor.SymbolVisibility.fromJavaValue(javaPbSource.getVisibility)) else _root_.scala.None
-  )
+  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.DescriptorProto): com.google.protobuf.DescriptorProtos.DescriptorProto = com.google.protobuf.DescriptorProtos.DescriptorProto.parseFrom(scalaPbSource.toByteArray)
+  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.DescriptorProto): _root_.com.google.protobuf.descriptor.DescriptorProto = parseFrom(javaPbSource.toByteArray)
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.DescriptorProto = {
     var __name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     val __field: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.FieldDescriptorProto] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.FieldDescriptorProto]
@@ -298,7 +271,15 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
         case 82 =>
           __reservedName += _input__.readStringRequireUtf8()
         case 88 =>
-          __visibility = _root_.scala.Option(_root_.com.google.protobuf.descriptor.SymbolVisibility.fromValue(_input__.readEnum()))
+          val __enum = _root_.com.google.protobuf.descriptor.SymbolVisibility.fromValue(_input__.readEnum())
+          if (__enum.isUnrecognized) {
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.addVarint(11, __enum.value.toLong)
+          } else {
+            __visibility = _root_.scala.Option(__enum)
+          }
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
