@@ -100,8 +100,8 @@ object Dependencies {
   // lag the security fixes, so select compatible patched families here.
   val docsSecurityDependencies = Seq(
     "io.undertow"                    % "undertow-core"           % "2.4.4.Final",
-    "com.fasterxml.jackson.module"  %% "jackson-module-scala"    % "2.18.11",
-    "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.18.11",
+    "com.fasterxml.jackson.module"  %% "jackson-module-scala"    % "2.22.3",
+    "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.22.3",
     "com.google.guava"               % "guava"                   % versions.guava,
     "io.airlift"                     % "aircompressor"           % "2.0.3",
     "io.netty"                       % "netty-all"               % "4.1.139.Final",
