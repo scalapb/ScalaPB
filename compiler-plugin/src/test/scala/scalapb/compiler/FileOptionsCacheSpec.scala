@@ -57,13 +57,16 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
   }
 
   "enum semantics options" should "default to legacy and support package opt-in and file opt-out" in {
-    val parent = file("options.proto", "enums", OptionsScope.PACKAGE,
-      useSchemaEnumSemantics = Some(true))
+    val parent =
+      file("options.proto", "enums", OptionsScope.PACKAGE, useSchemaEnumSemantics = Some(true))
     val inherited = file("inherited.proto", "enums.child", OptionsScope.FILE)
-    val disabled = file("disabled.proto", "enums.child", OptionsScope.FILE,
-      useSchemaEnumSemantics = Some(false))
-    val legacy = file("legacy.proto", "other", OptionsScope.FILE)
-    val options = FileOptionsCache.buildCache(Seq(parent, inherited, disabled, legacy), SecondaryOutputProvider.empty)
+    val disabled  =
+      file("disabled.proto", "enums.child", OptionsScope.FILE, useSchemaEnumSemantics = Some(false))
+    val legacy  = file("legacy.proto", "other", OptionsScope.FILE)
+    val options = FileOptionsCache.buildCache(
+      Seq(parent, inherited, disabled, legacy),
+      SecondaryOutputProvider.empty
+    )
     options(inherited).getUseSchemaEnumSemantics mustBe true
     options(disabled).getUseSchemaEnumSemantics mustBe false
     options(legacy).getUseSchemaEnumSemantics mustBe false
