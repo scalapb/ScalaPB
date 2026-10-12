@@ -101,7 +101,8 @@ final case class Person(
 
 object Person extends scalapb.GeneratedMessageCompanion[_root_.scalapb.docs.person.Person] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.docs.person.Person] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.docs.person.Person = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.docs.person.Person = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.scalapb.docs.person.Person = {
     var __name: _root_.scala.Predef.String = ""
     var __age: _root_.scala.Int = 0
     val __addresses: _root_.scala.collection.immutable.VectorBuilder[_root_.scalapb.docs.person.Person.Address] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scalapb.docs.person.Person.Address]
@@ -110,7 +111,12 @@ object Person extends scalapb.GeneratedMessageCompanion[_root_.scalapb.docs.pers
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __name = _input__.readStringRequireUtf8()
         case 16 =>
@@ -299,7 +305,8 @@ object Person extends scalapb.GeneratedMessageCompanion[_root_.scalapb.docs.pers
   
   object Address extends scalapb.GeneratedMessageCompanion[_root_.scalapb.docs.person.Person.Address] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.docs.person.Person.Address] = this
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.docs.person.Person.Address = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.docs.person.Person.Address = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.scalapb.docs.person.Person.Address = {
       var __addressType: _root_.scalapb.docs.person.Person.AddressType = _root_.scalapb.docs.person.Person.AddressType.HOME
       var __street: _root_.scala.Predef.String = ""
       var __city: _root_.scala.Predef.String = ""
@@ -308,7 +315,12 @@ object Person extends scalapb.GeneratedMessageCompanion[_root_.scalapb.docs.pers
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 8 =>
             __addressType = _root_.scalapb.docs.person.Person.AddressType.fromValue(_input__.readEnum())
           case 18 =>

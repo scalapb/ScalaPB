@@ -1,0 +1,5 @@
+syntax = "proto2";
+package com.thesamet.proto.e2e;
+import "scalapb/scalapb.proto";
+option (scalapb.options).preserve_unknown_fields = false;
+message GroupDiscard { optional int32 tail = 9; }

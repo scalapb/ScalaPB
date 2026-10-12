@@ -142,7 +142,8 @@ final case class EnumOptions(
 
 object EnumOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.EnumOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.EnumOptions] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.EnumOptions = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.EnumOptions = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.EnumOptions = {
     var __allowAlias: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __deprecatedLegacyJsonFieldConflicts: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
@@ -153,7 +154,12 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.p
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 16 =>
           __allowAlias = _root_.scala.Option(_input__.readBool())
         case 24 =>

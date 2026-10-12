@@ -78,14 +78,20 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.GeneratedCodeInfo): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo = _root_.com.google.protobuf.descriptor.GeneratedCodeInfo(
     annotation = javaPbSource.getAnnotationList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.fromJavaProto(_)).toSeq
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo = {
     val __annotation: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __annotation += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation](_input__)
         case tag =>
@@ -276,7 +282,8 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
       end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else _root_.scala.None,
       semantic = if (javaPbSource.hasSemantic) Some(_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic.fromJavaValue(javaPbSource.getSemantic)) else _root_.scala.None
     )
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
       val __path: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int]
       var __sourceFile: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
       var __begin: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
@@ -287,7 +294,12 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 8 =>
             __path += _input__.readInt32()
           case 10 => {

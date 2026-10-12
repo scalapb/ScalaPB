@@ -1,0 +1,31 @@
+syntax = "proto2";
+package com.thesamet.proto.e2e;
+
+message GroupContainer {
+  optional group OptionalGroup = 1 {
+    optional int32 value = 2;
+    optional group NestedGroup = 3 {
+      optional string text = 4;
+    }
+  }
+  repeated group RepeatedGroup = 5 {
+    optional int32 value = 6;
+  }
+  required group RequiredGroup = 7 {
+    optional int32 value = 8;
+  }
+  optional int32 tail = 9;
+  extensions 100 to max;
+}
+
+extend GroupContainer {
+  optional group ExtensionGroup = 100 {
+    optional int32 first = 101;
+    optional int32 second = 102;
+  }
+  repeated group RepeatedExtensionGroup = 103 {
+    optional int32 value = 104;
+  }
+}
+
+message GroupUnknown {}

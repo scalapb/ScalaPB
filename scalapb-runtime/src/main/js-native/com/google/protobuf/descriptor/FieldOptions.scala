@@ -325,7 +325,8 @@ final case class FieldOptions(
 
 object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FieldOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FieldOptions] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FieldOptions = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FieldOptions = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.FieldOptions = {
     var __ctype: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FieldOptions.CType] = _root_.scala.None
     var __packed: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __jstype: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FieldOptions.JSType] = _root_.scala.None
@@ -345,7 +346,12 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 8 =>
           __ctype = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FieldOptions.CType.fromValue(_input__.readEnum()))
         case 16 =>
@@ -813,7 +819,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
   
   object EditionDefault extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault] = this
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault = {
       var __edition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
       var __value: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -821,7 +828,12 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 24 =>
             __edition = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
           case 18 =>
@@ -993,7 +1005,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
   
   object FeatureSupport extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport] = this
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport = {
       var __editionIntroduced: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
       var __editionDeprecated: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
       var __deprecationWarning: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
@@ -1003,7 +1016,12 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 8 =>
             __editionIntroduced = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
           case 16 =>

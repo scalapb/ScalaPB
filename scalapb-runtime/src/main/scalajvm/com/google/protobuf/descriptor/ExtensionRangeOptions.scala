@@ -136,7 +136,8 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[_root_.co
     features = if (javaPbSource.hasFeatures) Some(_root_.com.google.protobuf.descriptor.FeatureSet.fromJavaProto(javaPbSource.getFeatures)) else _root_.scala.None,
     verification = if (javaPbSource.hasVerification) Some(_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.fromJavaValue(javaPbSource.getVerification)) else _root_.scala.None
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.ExtensionRangeOptions = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.ExtensionRangeOptions = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.ExtensionRangeOptions = {
     val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.UninterpretedOption] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.UninterpretedOption]
     val __declaration: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]
     var __features: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
@@ -146,7 +147,12 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[_root_.co
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 7994 =>
           __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.UninterpretedOption](_input__)
         case 18 =>
@@ -398,7 +404,8 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[_root_.co
       reserved = if (javaPbSource.hasReserved) Some(javaPbSource.getReserved.booleanValue) else _root_.scala.None,
       repeated = if (javaPbSource.hasRepeated) Some(javaPbSource.getRepeated.booleanValue) else _root_.scala.None
     )
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration = {
       var __number: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
       var __fullName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
       var __type: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
@@ -409,7 +416,12 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[_root_.co
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 8 =>
             __number = _root_.scala.Option(_input__.readInt32())
           case 18 =>

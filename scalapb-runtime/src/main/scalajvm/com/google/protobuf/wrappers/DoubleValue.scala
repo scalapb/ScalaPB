@@ -82,14 +82,20 @@ object DoubleValue extends scalapb.GeneratedMessageCompanion[_root_.com.google.p
   def fromJavaProto(javaPbSource: com.google.protobuf.DoubleValue): _root_.com.google.protobuf.wrappers.DoubleValue = _root_.com.google.protobuf.wrappers.DoubleValue(
     value = javaPbSource.getValue.doubleValue
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.wrappers.DoubleValue = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.wrappers.DoubleValue = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.wrappers.DoubleValue = {
     var __value: _root_.scala.Double = 0.0
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 9 =>
           __value = _input__.readDouble()
         case tag =>

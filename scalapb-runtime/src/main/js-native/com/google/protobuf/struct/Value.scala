@@ -130,14 +130,20 @@ final case class Value(
 
 object Value extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.struct.Value] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.struct.Value] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.struct.Value = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.struct.Value = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.struct.Value = {
     var __kind: _root_.com.google.protobuf.struct.Value.Kind = _root_.com.google.protobuf.struct.Value.Kind.Empty
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 8 =>
           __kind = _root_.com.google.protobuf.struct.Value.Kind.NullValue(_root_.com.google.protobuf.struct.NullValue.fromValue(_input__.readEnum()))
         case 17 =>

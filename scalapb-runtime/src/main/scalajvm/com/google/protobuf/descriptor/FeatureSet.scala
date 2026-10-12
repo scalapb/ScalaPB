@@ -185,7 +185,8 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
     enforceNamingStyle = if (javaPbSource.hasEnforceNamingStyle) Some(_root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.fromJavaValue(javaPbSource.getEnforceNamingStyle)) else _root_.scala.None,
     defaultSymbolVisibility = if (javaPbSource.hasDefaultSymbolVisibility) Some(_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.fromJavaValue(javaPbSource.getDefaultSymbolVisibility)) else _root_.scala.None
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FeatureSet = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FeatureSet = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.FeatureSet = {
     var __fieldPresence: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence] = _root_.scala.None
     var __enumType: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.EnumType] = _root_.scala.None
     var __repeatedFieldEncoding: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding] = _root_.scala.None
@@ -199,7 +200,12 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 8 =>
           __fieldPresence = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence.fromValue(_input__.readEnum()))
         case 16 =>
@@ -692,13 +698,19 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
     }
     def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FeatureSet.VisibilityFeature): _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature = _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature(
     )
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature = {
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

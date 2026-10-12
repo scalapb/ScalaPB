@@ -118,7 +118,8 @@ final case class MethodOptions(
 
 object MethodOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.MethodOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.MethodOptions] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.MethodOptions = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.MethodOptions = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.MethodOptions = {
     var __deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __idempotencyLevel: _root_.scala.Option[_root_.com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel] = _root_.scala.None
     var __features: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
@@ -128,7 +129,12 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 264 =>
           __deprecated = _root_.scala.Option(_input__.readBool())
         case 272 =>

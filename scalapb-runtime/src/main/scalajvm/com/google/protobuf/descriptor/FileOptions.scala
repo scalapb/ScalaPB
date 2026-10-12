@@ -482,7 +482,8 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.p
     features = if (javaPbSource.hasFeatures) Some(_root_.com.google.protobuf.descriptor.FeatureSet.fromJavaProto(javaPbSource.getFeatures)) else _root_.scala.None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FileOptions = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FileOptions = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.FileOptions = {
     var __javaPackage: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     var __javaOuterClassname: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     var __javaMultipleFiles: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
@@ -509,7 +510,12 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.p
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __javaPackage = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 66 =>

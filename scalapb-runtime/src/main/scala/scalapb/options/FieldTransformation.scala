@@ -90,7 +90,8 @@ final case class FieldTransformation(
 
 object FieldTransformation extends scalapb.GeneratedMessageCompanion[_root_.scalapb.options.FieldTransformation] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.options.FieldTransformation] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.FieldTransformation = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.FieldTransformation = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.scalapb.options.FieldTransformation = {
     var __when: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.None
     var __matchType: _root_.scala.Option[_root_.scalapb.options.MatchType] = _root_.scala.None
     var __set: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FieldOptions] = _root_.scala.None
@@ -99,7 +100,12 @@ object FieldTransformation extends scalapb.GeneratedMessageCompanion[_root_.scal
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __when = _root_.scala.Option(__when.fold(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FieldDescriptorProto](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 16 =>

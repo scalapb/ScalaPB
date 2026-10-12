@@ -149,7 +149,8 @@ final case class EnumDescriptorProto(
 
 object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.EnumDescriptorProto] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.EnumDescriptorProto] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.EnumDescriptorProto = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.EnumDescriptorProto = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.EnumDescriptorProto = {
     var __name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     val __value: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.EnumValueDescriptorProto] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.EnumValueDescriptorProto]
     var __options: _root_.scala.Option[_root_.com.google.protobuf.descriptor.EnumOptions] = _root_.scala.None
@@ -161,7 +162,12 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __name = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>
@@ -313,7 +319,8 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
   
   object EnumReservedRange extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] = this
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = {
       var __start: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
       var __end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -321,7 +328,12 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 8 =>
             __start = _root_.scala.Option(_input__.readInt32())
           case 16 =>

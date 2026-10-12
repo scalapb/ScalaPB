@@ -120,7 +120,8 @@ object Version extends scalapb.GeneratedMessageCompanion[_root_.com.google.proto
     patch = if (javaPbSource.hasPatch) Some(javaPbSource.getPatch.intValue) else _root_.scala.None,
     suffix = if (javaPbSource.hasSuffix) Some(javaPbSource.getSuffix) else _root_.scala.None
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.compiler.plugin.Version = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.compiler.plugin.Version = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.compiler.plugin.Version = {
     var __major: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
     var __minor: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
     var __patch: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
@@ -130,7 +131,12 @@ object Version extends scalapb.GeneratedMessageCompanion[_root_.com.google.proto
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 8 =>
           __major = _root_.scala.Option(_input__.readInt32())
         case 16 =>

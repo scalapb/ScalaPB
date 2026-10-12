@@ -77,14 +77,20 @@ object ListValue extends scalapb.GeneratedMessageCompanion[_root_.com.google.pro
   def fromJavaProto(javaPbSource: com.google.protobuf.ListValue): _root_.com.google.protobuf.struct.ListValue = _root_.com.google.protobuf.struct.ListValue(
     values = javaPbSource.getValuesList.asScala.iterator.map(_root_.com.google.protobuf.struct.Value.fromJavaProto(_)).toSeq
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.struct.ListValue = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.struct.ListValue = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.struct.ListValue = {
     val __values: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.struct.Value] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.struct.Value]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __values += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.struct.Value](_input__)
         case tag =>

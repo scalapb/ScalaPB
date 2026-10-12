@@ -165,7 +165,8 @@ object Duration extends scalapb.GeneratedMessageCompanion[_root_.com.google.prot
     seconds = javaPbSource.getSeconds.longValue,
     nanos = javaPbSource.getNanos.intValue
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.duration.Duration = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.duration.Duration = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.duration.Duration = {
     var __seconds: _root_.scala.Long = 0L
     var __nanos: _root_.scala.Int = 0
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -173,7 +174,12 @@ object Duration extends scalapb.GeneratedMessageCompanion[_root_.com.google.prot
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 8 =>
           __seconds = _input__.readInt64()
         case 16 =>

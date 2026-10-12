@@ -60,14 +60,20 @@ final case class MyContainer(
 
 object MyContainer extends scalapb.GeneratedMessageCompanion[_root_.com.thesamet.docs.json.MyContainer] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.thesamet.docs.json.MyContainer] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.thesamet.docs.json.MyContainer = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.thesamet.docs.json.MyContainer = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.thesamet.docs.json.MyContainer = {
     var __myAny: _root_.scala.Option[_root_.com.google.protobuf.any.Any] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __myAny = _root_.scala.Option(__myAny.fold(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.any.Any](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case tag =>

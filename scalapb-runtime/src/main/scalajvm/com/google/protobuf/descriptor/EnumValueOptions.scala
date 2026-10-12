@@ -157,7 +157,8 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[_root_.com.goo
     featureSupport = if (javaPbSource.hasFeatureSupport) Some(_root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport.fromJavaProto(javaPbSource.getFeatureSupport)) else _root_.scala.None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.EnumValueOptions = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.EnumValueOptions = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.EnumValueOptions = {
     var __deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __features: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
     var __debugRedact: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
@@ -168,7 +169,12 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[_root_.com.goo
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 8 =>
           __deprecated = _root_.scala.Option(_input__.readBool())
         case 18 =>

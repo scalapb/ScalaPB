@@ -8,7 +8,6 @@ import com.google.protobuf.DescriptorProtos.{
   SourceCodeInfo
 }
 import com.google.protobuf.Descriptors._
-import com.google.protobuf.WireFormat.FieldType
 import scalapb.options.Scalapb
 import scalapb.options.Scalapb.ScalaPbOptions.EnumValueNaming
 import scalapb.options.Scalapb._
@@ -224,11 +223,16 @@ class DescriptorImplicits private[compiler] (
       } else candidate
     }
 
-    def upperJavaName: String = fd.getName match {
-      case "serialized_size" => "SerializedSize_"
-      case "class"           => "Class_"
-      case x                 => getNameWithFallback(x, Case.PascalCase, Appendage.Postfix)
-    }
+    def upperJavaName: String =
+      (if (
+         fd.toProto.getType == com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type.TYPE_GROUP
+       )
+         fd.getMessageType.getName
+       else fd.getName) match {
+        case "serialized_size" => "SerializedSize_"
+        case "class"           => "Class_"
+        case x                 => getNameWithFallback(x, Case.PascalCase, Appendage.Postfix)
+      }
 
     def fieldNumberConstantName: String = fd.getName.toUpperCase() + "_FIELD_NUMBER"
 
@@ -397,7 +401,9 @@ class DescriptorImplicits private[compiler] (
 
     def isEnum = fd.getType == FieldDescriptor.Type.ENUM
 
-    def isMessage = fd.getType == FieldDescriptor.Type.MESSAGE
+    def isGroup = fd.getType == FieldDescriptor.Type.GROUP
+
+    def isMessage = fd.getJavaType == FieldDescriptor.JavaType.MESSAGE
 
     def isBytes = fd.getType == FieldDescriptor.Type.BYTES
 
@@ -454,7 +460,7 @@ class DescriptorImplicits private[compiler] (
     }
 
     def fields: IndexedSeq[FieldDescriptor] =
-      (0 until oneof.getFieldCount).map(oneof.getField).filter(_.getLiteType != FieldType.GROUP)
+      (0 until oneof.getFieldCount).map(oneof.getField)
 
     def empty = scalaType / "Empty"
 
@@ -466,7 +472,7 @@ class DescriptorImplicits private[compiler] (
   private val OneofMessageSuffix = "Message"
 
   implicit class ExtendedMessageDescriptor(val message: Descriptor) {
-    def fields = message.getFields.asScala.filter(_.getLiteType != FieldType.GROUP).toSeq
+    def fields = message.getFields.asScala.toSeq
 
     def fieldsWithoutOneofs = fields.filterNot(_.isInOneof)
 

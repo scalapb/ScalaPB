@@ -177,7 +177,8 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[_root_.com.
     stringValue = if (javaPbSource.hasStringValue) Some(javaPbSource.getStringValue) else _root_.scala.None,
     aggregateValue = if (javaPbSource.hasAggregateValue) Some(javaPbSource.getAggregateValue) else _root_.scala.None
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.UninterpretedOption = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.UninterpretedOption = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.UninterpretedOption = {
     val __name: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart]
     var __identifierValue: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     var __positiveIntValue: _root_.scala.Option[_root_.scala.Long] = _root_.scala.None
@@ -190,7 +191,12 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[_root_.com.
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 18 =>
           __name += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart](_input__)
         case 26 =>
@@ -345,7 +351,8 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[_root_.com.
       namePart = javaPbSource.getNamePart,
       isExtension = javaPbSource.getIsExtension.booleanValue
     )
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart = {
       var __requiredFields0: _root_.scala.Long = 0x3L
       var __namePart: _root_.scala.Predef.String = ""
       var __isExtension: _root_.scala.Boolean = false
@@ -354,7 +361,12 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[_root_.com.
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 10 =>
             __namePart = _input__.readStringRequireUtf8()
             __requiredFields0 &= 0xfffffffffffffffeL

@@ -124,7 +124,8 @@ final case class SimpleMessage(
 
 object SimpleMessage extends scalapb.GeneratedMessageCompanion[_root_.scalapb.perf.protos.SimpleMessage] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.perf.protos.SimpleMessage] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.perf.protos.SimpleMessage = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.perf.protos.SimpleMessage = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.scalapb.perf.protos.SimpleMessage = {
     var __i: _root_.scala.Int = 0
     var __j: _root_.scala.Int = 0
     var __k: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY
@@ -134,7 +135,12 @@ object SimpleMessage extends scalapb.GeneratedMessageCompanion[_root_.scalapb.pe
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 8 =>
           __i = _input__.readInt32()
         case 16 =>

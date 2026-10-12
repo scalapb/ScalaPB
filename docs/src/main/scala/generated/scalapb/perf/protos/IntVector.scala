@@ -69,14 +69,20 @@ final case class IntVector(
 
 object IntVector extends scalapb.GeneratedMessageCompanion[_root_.scalapb.perf.protos.IntVector] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.perf.protos.IntVector] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.perf.protos.IntVector = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.perf.protos.IntVector = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.scalapb.perf.protos.IntVector = {
     val __ints: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 8 =>
           __ints += _input__.readInt32()
         case 10 => {

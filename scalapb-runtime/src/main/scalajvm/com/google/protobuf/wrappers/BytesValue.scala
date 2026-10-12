@@ -82,14 +82,20 @@ object BytesValue extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
   def fromJavaProto(javaPbSource: com.google.protobuf.BytesValue): _root_.com.google.protobuf.wrappers.BytesValue = _root_.com.google.protobuf.wrappers.BytesValue(
     value = javaPbSource.getValue
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.wrappers.BytesValue = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.wrappers.BytesValue = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.wrappers.BytesValue = {
     var __value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __value = _input__.readBytes()
         case tag =>

@@ -5,6 +5,49 @@ import java.io.InputStream
 import com.google.protobuf.{CodedOutputStream, CodedInputStream, InvalidProtocolBufferException}
 
 object LiteParser {
+  // Compatibility path for companions generated before group-aware parsing was added.
+  // Preserve field order: reconstructing through UnknownFieldSet could change oneof semantics.
+  private[scalapb] def readGroupBody(input: CodedInputStream, expectedEndTag: Int): Array[Byte] = {
+    val bytes                       = new java.io.ByteArrayOutputStream
+    val output                      = CodedOutputStream.newInstance(bytes)
+    def copyBody(endTag: Int): Unit = {
+      var tag = input.readTag()
+      while (tag != 0 && WireType.getTagWireType(tag) != WireType.WIRETYPE_END_GROUP) {
+        val number = WireType.getTagFieldNumber(tag)
+        WireType.getTagWireType(tag) match {
+          case WireType.WIRETYPE_VARINT  => output.writeUInt64(number, input.readUInt64())
+          case WireType.WIRETYPE_FIXED64 => output.writeFixed64(number, input.readFixed64())
+          case WireType.WIRETYPE_LENGTH_DELIMITED => output.writeBytes(number, input.readBytes())
+          case WireType.WIRETYPE_FIXED32     => output.writeFixed32(number, input.readFixed32())
+          case WireType.WIRETYPE_START_GROUP =>
+            output.writeTag(number, WireType.WIRETYPE_START_GROUP)
+            copyBody((number << 3) | WireType.WIRETYPE_END_GROUP)
+            output.writeTag(number, WireType.WIRETYPE_END_GROUP)
+          case wireType =>
+            throw new com.google.protobuf.InvalidProtocolBufferException(
+              s"Protocol message tag had invalid wire type: $wireType"
+            )
+        }
+        tag = input.readTag()
+      }
+      input.checkLastTagWas(endTag)
+    }
+    copyBody(expectedEndTag)
+    output.flush()
+    bytes.toByteArray
+  }
+
+  def readGroup[A <: GeneratedMessage](input: CodedInputStream, fieldNumber: Int)(implicit
+      cmp: GeneratedMessageCompanion[A]
+  ): A = cmp.parseFrom(input, (fieldNumber << 3) | WireType.WIRETYPE_END_GROUP)
+
+  def readGroup[A <: GeneratedMessage](input: CodedInputStream, fieldNumber: Int, message: A)(
+      implicit cmp: GeneratedMessageCompanion[A]
+  ): A = {
+    val parsed = readGroup[A](input, fieldNumber)
+    cmp.merge(message, parsed.toByteString.newCodedInput())
+  }
+
   def readMessage[A <: GeneratedMessage](input: CodedInputStream, message: A)(implicit
       cmp: GeneratedMessageCompanion[A]
   ): A = {

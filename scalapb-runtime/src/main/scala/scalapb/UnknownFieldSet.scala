@@ -33,11 +33,33 @@ final case class UnknownFieldSet(
     size
   }
 
+  def toByteString: ByteString = {
+    val bytes  = new Array[Byte](serializedSize)
+    val output = CodedOutputStream.newInstance(bytes)
+    writeTo(output)
+    output.checkNoSpaceLeft()
+    ByteString.copyFrom(bytes)
+  }
+
   def asMap: Map[Int, UnknownFieldSet.Field] = fields
 }
 
 object UnknownFieldSet {
   val empty = UnknownFieldSet()
+
+  private[scalapb] def readGroup(input: CodedInputStream, expectedEndTag: Int): UnknownFieldSet = {
+    val builder = new Builder
+    var tag     = input.readTag()
+    while (tag != 0 && WireType.getTagWireType(tag) != WireType.WIRETYPE_END_GROUP) {
+      builder.parseField(tag, input)
+      tag = input.readTag()
+    }
+    input.checkLastTagWas(expectedEndTag)
+    builder.result()
+  }
+
+  private def fromByteString(bytes: ByteString): UnknownFieldSet =
+    readGroup(bytes.newCodedInput(), 0)
 
   implicit class UnknownFieldSetLens[UpperPB](
       lens: _root_.scalapb.lenses.Lens[UpperPB, UnknownFieldSet]
@@ -52,23 +74,70 @@ object UnknownFieldSet {
       varint: Seq[Long] = Vector.empty,
       fixed64: Seq[Long] = Vector.empty,
       fixed32: Seq[Int] = Vector.empty,
-      lengthDelimited: Seq[ByteString] = Vector.empty
+      lengthDelimited: Seq[ByteString] = Vector.empty,
+      group: Seq[UnknownFieldSet] = Vector.empty
   ) {
+    // Retain the four-argument constructor for existing binaries.
+    def this(
+        varint: Seq[Long],
+        fixed64: Seq[Long],
+        fixed32: Seq[Int],
+        lengthDelimited: Seq[ByteString]
+    ) =
+      this(varint, fixed64, fixed32, lengthDelimited, Vector.empty)
+
+    def copy(
+        varint: Seq[Long] = this.varint,
+        fixed64: Seq[Long] = this.fixed64,
+        fixed32: Seq[Int] = this.fixed32,
+        lengthDelimited: Seq[ByteString] = this.lengthDelimited,
+        group: Seq[UnknownFieldSet] = this.group
+    ): Field = new Field(varint, fixed64, fixed32, lengthDelimited, group)
+
+    def copy(
+        varint: Seq[Long],
+        fixed64: Seq[Long],
+        fixed32: Seq[Int],
+        lengthDelimited: Seq[ByteString]
+    ): Field =
+      new Field(varint, fixed64, fixed32, lengthDelimited, group)
+
     def writeTo(fieldNumber: Int, output: CodedOutputStream): Unit = {
       varint.foreach(output.writeUInt64(fieldNumber, _))
       fixed32.foreach(output.writeFixed32(fieldNumber, _))
       fixed64.foreach(output.writeFixed64(fieldNumber, _))
       lengthDelimited.foreach(output.writeBytes(fieldNumber, _))
+      group.foreach { value =>
+        output.writeTag(fieldNumber, WireType.WIRETYPE_START_GROUP)
+        value.writeTo(output)
+        output.writeTag(fieldNumber, WireType.WIRETYPE_END_GROUP)
+      }
     }
     def serializedSize(fieldNumber: Int): Int = {
       varint.map(CodedOutputStream.computeUInt64Size(fieldNumber, _)).sum +
         fixed32.map(CodedOutputStream.computeFixed32Size(fieldNumber, _)).sum +
         fixed64.map(CodedOutputStream.computeFixed64Size(fieldNumber, _)).sum +
-        lengthDelimited.map(CodedOutputStream.computeBytesSize(fieldNumber, _)).sum
+        lengthDelimited.map(CodedOutputStream.computeBytesSize(fieldNumber, _)).sum +
+        group.map(_.serializedSize + 2 * CodedOutputStream.computeTagSize(fieldNumber)).sum
     }
   }
 
   object Field {
+    def apply(
+        varint: Seq[Long],
+        fixed64: Seq[Long],
+        fixed32: Seq[Int],
+        lengthDelimited: Seq[ByteString]
+    ): Field =
+      new Field(varint, fixed64, fixed32, lengthDelimited)
+
+    val groupLens = Lens[Field, Seq[UnknownFieldSet]](_.group)((c, v) => c.copy(group = v))
+
+    // Message extension lenses merge occurrences by concatenating their encoded bodies.
+    val groupBytesLens = Lens[Field, Seq[ByteString]](_.group.map(_.toByteString))((c, v) =>
+      c.copy(group = v.map(fromByteString))
+    )
+
     val varintLens          = Lens[Field, Seq[Long]](_.varint)((c, v) => c.copy(varint = v))
     val fixed64Lens         = Lens[Field, Seq[Long]](_.fixed64)((c, v) => c.copy(fixed64 = v))
     val fixed32Lens         = Lens[Field, Seq[Int]](_.fixed32)((c, v) => c.copy(fixed32 = v))
@@ -80,13 +149,15 @@ object UnknownFieldSet {
       private val fixed64         = Vector.newBuilder[Long]
       private val fixed32         = Vector.newBuilder[Int]
       private val lengthDelimited = Vector.newBuilder[ByteString]
+      private val group           = Vector.newBuilder[UnknownFieldSet]
 
       def result() =
         Field(
           varint = varint.result(),
           fixed64 = fixed64.result(),
           fixed32 = fixed32.result(),
-          lengthDelimited = lengthDelimited.result()
+          lengthDelimited = lengthDelimited.result(),
+          group = group.result()
         )
 
       def parseField(tag: Int, input: CodedInputStream) = {
@@ -101,6 +172,11 @@ object UnknownFieldSet {
             lengthDelimited += input.readBytes()
           case WireType.WIRETYPE_FIXED32 =>
             fixed32 += input.readFixed32()
+          case WireType.WIRETYPE_START_GROUP =>
+            group += readGroup(
+              input,
+              (WireType.getTagFieldNumber(tag) << 3) | WireType.WIRETYPE_END_GROUP
+            )
           case _ =>
             throw new InvalidProtocolBufferException(
               s"Protocol message tag had invalid wire type: ${wireType}"
@@ -116,6 +192,7 @@ object UnknownFieldSet {
         b.fixed32 ++= f.fixed32
         b.fixed64 ++= f.fixed64
         b.lengthDelimited ++= f.lengthDelimited
+        b.group ++= f.group
         b
       }
     }

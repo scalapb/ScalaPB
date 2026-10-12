@@ -158,7 +158,8 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.co
     clientStreaming = if (javaPbSource.hasClientStreaming) Some(javaPbSource.getClientStreaming.booleanValue) else _root_.scala.None,
     serverStreaming = if (javaPbSource.hasServerStreaming) Some(javaPbSource.getServerStreaming.booleanValue) else _root_.scala.None
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.MethodDescriptorProto = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.MethodDescriptorProto = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.MethodDescriptorProto = {
     var __name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     var __inputType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     var __outputType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
@@ -170,7 +171,12 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.co
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __name = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>

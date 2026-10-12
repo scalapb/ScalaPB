@@ -61,14 +61,20 @@ final case class PreprocessorOutput(
 
 object PreprocessorOutput extends scalapb.GeneratedMessageCompanion[_root_.scalapb.options.PreprocessorOutput] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.options.PreprocessorOutput] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.PreprocessorOutput = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.PreprocessorOutput = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.scalapb.options.PreprocessorOutput = {
     val __optionsByFile: _root_.scala.collection.mutable.Builder[(_root_.scala.Predef.String, _root_.scalapb.options.ScalaPbOptions), _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, _root_.scalapb.options.ScalaPbOptions]] = _root_.scala.collection.immutable.Map.newBuilder[_root_.scala.Predef.String, _root_.scalapb.options.ScalaPbOptions]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __optionsByFile += _root_.scalapb.options.PreprocessorOutput._typemapper_optionsByFile.toCustom(_root_.scalapb.LiteParser.readMessage[_root_.scalapb.options.PreprocessorOutput.OptionsByFileEntry](_input__))
         case tag =>
@@ -179,7 +185,8 @@ object PreprocessorOutput extends scalapb.GeneratedMessageCompanion[_root_.scala
   
   object OptionsByFileEntry extends scalapb.GeneratedMessageCompanion[_root_.scalapb.options.PreprocessorOutput.OptionsByFileEntry] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.options.PreprocessorOutput.OptionsByFileEntry] = this
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.PreprocessorOutput.OptionsByFileEntry = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.PreprocessorOutput.OptionsByFileEntry = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.scalapb.options.PreprocessorOutput.OptionsByFileEntry = {
       var __key: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
       var __value: _root_.scala.Option[_root_.scalapb.options.ScalaPbOptions] = _root_.scala.None
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -187,7 +194,12 @@ object PreprocessorOutput extends scalapb.GeneratedMessageCompanion[_root_.scala
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 10 =>
             __key = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>

@@ -101,7 +101,8 @@ final case class FeatureSetDefaults(
 
 object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FeatureSetDefaults] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FeatureSetDefaults] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FeatureSetDefaults = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FeatureSetDefaults = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.FeatureSetDefaults = {
     val __defaults: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault]
     var __minimumEdition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
     var __maximumEdition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
@@ -110,7 +111,12 @@ object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[_root_.com.g
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __defaults += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault](_input__)
         case 32 =>
@@ -262,7 +268,8 @@ object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[_root_.com.g
   
   object FeatureSetEditionDefault extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault] = this
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault = {
       var __edition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
       var __overridableFeatures: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
       var __fixedFeatures: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
@@ -271,7 +278,12 @@ object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[_root_.com.g
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 24 =>
             __edition = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
           case 34 =>

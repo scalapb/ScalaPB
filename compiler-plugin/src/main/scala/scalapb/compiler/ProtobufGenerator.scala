@@ -465,7 +465,11 @@ class ProtobufGenerator(
   def generateWriteSingleValue(field: FieldDescriptor, valueExpr: String)(
       fp: FunctionalPrinter
   ): FunctionalPrinter = {
-    if (field.isMessage) {
+    if (field.isGroup) {
+      fp.add(s"""_output__.writeTag(${field.getNumber}, 3)
+                |$valueExpr.writeTo(_output__)
+                |_output__.writeTag(${field.getNumber}, 4)""".stripMargin)
+    } else if (field.isMessage) {
       fp.add(s"""_output__.writeTag(${field.getNumber}, 2)
                 |_output__.writeUInt32NoTag($valueExpr.serializedSize)
                 |$valueExpr.writeTo(_output__)""".stripMargin)
@@ -476,7 +480,9 @@ class ProtobufGenerator(
   }
 
   def sizeExpressionForSingleField(field: FieldDescriptor, expr: String): String =
-    if (field.isMessage) {
+    if (field.isGroup) {
+      s"${2 * CodedOutputStream.computeTagSize(field.getNumber)} + $expr.serializedSize"
+    } else if (field.isMessage) {
       val size = s"$expr.serializedSize"
       CodedOutputStream
         .computeTagSize(field.getNumber)
@@ -654,7 +660,7 @@ class ProtobufGenerator(
   private def isNonEmpty(expr: String, field: FieldDescriptor): String = {
     if (field.getType == Type.BYTES | field.getType == Type.STRING) s"!${expr}.isEmpty"
     else if (field.getType == Type.ENUM) s"${expr} != 0"
-    else if (field.getType == Type.MESSAGE) s"${expr}.serializedSize != 0"
+    else if (field.isMessage) s"${expr}.serializedSize != 0"
     else s"${expr} != ${defaultValueForGet(field, uncustomized = true)}"
   }
 
@@ -1217,10 +1223,9 @@ class ProtobufGenerator(
             MethodApplication("toStringUtf8()"),
             FunctionApplication("_root_.com.google.protobuf.ByteString.copyFromUtf8")
           )
-        case Type.GROUP   => throw new RuntimeException("Not supported")
-        case Type.MESSAGE =>
+        case Type.GROUP | Type.MESSAGE =>
           (
-            "lengthDelimitedLens",
+            if (fd.isGroup) "groupBytesLens" else "lengthDelimitedLens",
             FunctionApplication(
               s"_root_.scalapb.GeneratedExtension.readMessageFromByteString(${fd.baseSingleScalaTypeName})"
             ),

@@ -85,14 +85,20 @@ object Struct extends scalapb.GeneratedMessageCompanion[_root_.com.google.protob
   def fromJavaProto(javaPbSource: com.google.protobuf.Struct): _root_.com.google.protobuf.struct.Struct = _root_.com.google.protobuf.struct.Struct(
     fields = javaPbSource.getFieldsMap.asScala.iterator.map(__pv => (__pv._1, _root_.com.google.protobuf.struct.Value.fromJavaProto(__pv._2))).toMap
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.struct.Struct = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.struct.Struct = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.struct.Struct = {
     val __fields: _root_.scala.collection.mutable.Builder[(_root_.scala.Predef.String, _root_.com.google.protobuf.struct.Value), _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, _root_.com.google.protobuf.struct.Value]] = _root_.scala.collection.immutable.Map.newBuilder[_root_.scala.Predef.String, _root_.com.google.protobuf.struct.Value]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __fields += _root_.com.google.protobuf.struct.Struct._typemapper_fields.toCustom(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.struct.Struct.FieldsEntry](_input__))
         case tag =>
@@ -209,7 +215,8 @@ object Struct extends scalapb.GeneratedMessageCompanion[_root_.com.google.protob
   
   object FieldsEntry extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.struct.Struct.FieldsEntry] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.struct.Struct.FieldsEntry] = this
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.struct.Struct.FieldsEntry = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.struct.Struct.FieldsEntry = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.struct.Struct.FieldsEntry = {
       var __key: _root_.scala.Predef.String = ""
       var __value: _root_.scala.Option[_root_.com.google.protobuf.struct.Value] = _root_.scala.None
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -217,7 +224,12 @@ object Struct extends scalapb.GeneratedMessageCompanion[_root_.com.google.protob
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 10 =>
             __key = _input__.readStringRequireUtf8()
           case 18 =>

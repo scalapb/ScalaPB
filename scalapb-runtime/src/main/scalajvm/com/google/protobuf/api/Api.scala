@@ -266,7 +266,8 @@ object Api extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.
     syntax = _root_.com.google.protobuf.`type`.Syntax.fromValue(javaPbSource.getSyntaxValue.intValue),
     edition = javaPbSource.getEdition
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.api.Api = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.api.Api = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.api.Api = {
     var __name: _root_.scala.Predef.String = ""
     val __methods: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.api.Method] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.api.Method]
     val __options: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.`type`.OptionProto] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.`type`.OptionProto]
@@ -280,7 +281,12 @@ object Api extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __name = _input__.readStringRequireUtf8()
         case 18 =>

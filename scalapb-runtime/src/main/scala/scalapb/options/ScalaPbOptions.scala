@@ -564,7 +564,8 @@ final case class ScalaPbOptions(
 
 object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.options.ScalaPbOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.options.ScalaPbOptions] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.ScalaPbOptions = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.ScalaPbOptions = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.scalapb.options.ScalaPbOptions = {
     var __packageName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     var __flatPackage: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     val __import: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
@@ -600,7 +601,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __packageName = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 16 =>
@@ -967,7 +973,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
   
   object AuxMessageOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.options.ScalaPbOptions.AuxMessageOptions] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.options.ScalaPbOptions.AuxMessageOptions] = this
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.ScalaPbOptions.AuxMessageOptions = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.ScalaPbOptions.AuxMessageOptions = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.scalapb.options.ScalaPbOptions.AuxMessageOptions = {
       var __target: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
       var __options: _root_.scala.Option[_root_.scalapb.options.MessageOptions] = _root_.scala.None
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -975,7 +982,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 10 =>
             __target = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>
@@ -1117,7 +1129,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
   
   object AuxFieldOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.options.ScalaPbOptions.AuxFieldOptions] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.options.ScalaPbOptions.AuxFieldOptions] = this
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.ScalaPbOptions.AuxFieldOptions = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.ScalaPbOptions.AuxFieldOptions = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.scalapb.options.ScalaPbOptions.AuxFieldOptions = {
       var __target: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
       var __options: _root_.scala.Option[_root_.scalapb.options.FieldOptions] = _root_.scala.None
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -1125,7 +1138,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 10 =>
             __target = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>
@@ -1267,7 +1285,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
   
   object AuxEnumOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.options.ScalaPbOptions.AuxEnumOptions] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.options.ScalaPbOptions.AuxEnumOptions] = this
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.ScalaPbOptions.AuxEnumOptions = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.ScalaPbOptions.AuxEnumOptions = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.scalapb.options.ScalaPbOptions.AuxEnumOptions = {
       var __target: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
       var __options: _root_.scala.Option[_root_.scalapb.options.EnumOptions] = _root_.scala.None
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -1275,7 +1294,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 10 =>
             __target = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>
@@ -1417,7 +1441,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
   
   object AuxEnumValueOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.options.ScalaPbOptions.AuxEnumValueOptions] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.options.ScalaPbOptions.AuxEnumValueOptions] = this
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.ScalaPbOptions.AuxEnumValueOptions = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.ScalaPbOptions.AuxEnumValueOptions = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.scalapb.options.ScalaPbOptions.AuxEnumValueOptions = {
       var __target: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
       var __options: _root_.scala.Option[_root_.scalapb.options.EnumValueOptions] = _root_.scala.None
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -1425,7 +1450,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 10 =>
             __target = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>

@@ -172,6 +172,13 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] extends Serializable {
   /** Parses a message from a CodedInputStream. */
   def parseFrom(input: CodedInputStream): A
 
+  /** Parses up to an expected end-group tag (zero for an ordinary message). Older generated
+    * companions use the compatibility fallback for group bodies.
+    */
+  def parseFrom(input: CodedInputStream, expectedEndTag: Int): A =
+    if (expectedEndTag == 0) parseFrom(input)
+    else parseFrom(LiteParser.readGroupBody(input, expectedEndTag))
+
   def parseFrom(input: InputStream): A = parseFrom(CodedInputStream.newInstance(input))
 
   def parseDelimitedFrom(input: CodedInputStream): Option[A] =

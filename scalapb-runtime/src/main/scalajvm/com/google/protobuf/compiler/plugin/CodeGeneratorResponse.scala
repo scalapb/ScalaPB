@@ -159,7 +159,8 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[_root_.co
     maximumEdition = if (javaPbSource.hasMaximumEdition) Some(javaPbSource.getMaximumEdition.intValue) else _root_.scala.None,
     file = javaPbSource.getFileList.asScala.iterator.map(_root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.fromJavaProto(_)).toSeq
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse = {
     var __error: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     var __supportedFeatures: _root_.scala.Option[_root_.scala.Long] = _root_.scala.None
     var __minimumEdition: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
@@ -170,7 +171,12 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[_root_.co
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __error = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 16 =>
@@ -456,7 +462,8 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[_root_.co
       content = if (javaPbSource.hasContent) Some(javaPbSource.getContent) else _root_.scala.None,
       generatedCodeInfo = if (javaPbSource.hasGeneratedCodeInfo) Some(_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.fromJavaProto(javaPbSource.getGeneratedCodeInfo)) else _root_.scala.None
     )
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File = {
       var __name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
       var __insertionPoint: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
       var __content: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
@@ -466,7 +473,12 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[_root_.co
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 10 =>
             __name = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>

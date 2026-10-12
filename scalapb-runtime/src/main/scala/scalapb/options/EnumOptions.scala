@@ -147,7 +147,8 @@ final case class EnumOptions(
 
 object EnumOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.options.EnumOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.options.EnumOptions] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.EnumOptions = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.EnumOptions = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.scalapb.options.EnumOptions = {
     val __extends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
     val __companionExtends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
     var __type: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
@@ -159,7 +160,12 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.opti
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __extends += _input__.readStringRequireUtf8()
         case 18 =>

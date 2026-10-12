@@ -3,6 +3,16 @@
 - Reject negative, truncated and incompletely consumed length-delimited message frames, restore
   coded input limits on parse failures, and add optional `maxFrameSize` parsing overloads.
   Existing overloads retain their maximum frame size of `Int.MaxValue`.
+- Support proto2 groups and Editions `message_encoding = DELIMITED` in generated
+  binary parsers, writers, sizes, descriptors, and extensions. Unknown groups are
+  preserved recursively and malformed or mismatched end tags are rejected.
+  Regenerate sources for group fields and strict end-tag validation. The runtime
+  provides a compatibility fallback for older companions used as group types.
+  `UnknownFieldSet.Field` gains a defaulted `group` member; four-argument
+  constructors, `apply`, and `copy` remain available, but its case-class product
+  and extractor arity changes from four to five (update four-element patterns
+  and recompile dependent code).
+  Group text-format semantics and binary recursion accounting remain separate work.
 - BREAKING CHANGE: `scala3Sources = true` (or `scala3_sources`) now emits named
   givens, given-based lens conversions, and modern control-flow syntax for Scala 3
   `-source:future` (#2212). This output no longer supports Scala 2 with `-Xsource:3`;

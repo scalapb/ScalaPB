@@ -259,7 +259,8 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
     reservedName = javaPbSource.getReservedNameList.asScala.iterator.map(_root_.scala.Predef.identity).toSeq,
     visibility = if (javaPbSource.hasVisibility) Some(_root_.com.google.protobuf.descriptor.SymbolVisibility.fromJavaValue(javaPbSource.getVisibility)) else _root_.scala.None
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.DescriptorProto = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.DescriptorProto = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.DescriptorProto = {
     var __name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     val __field: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.FieldDescriptorProto] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.FieldDescriptorProto]
     val __extension: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.FieldDescriptorProto] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.FieldDescriptorProto]
@@ -276,7 +277,12 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __name = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>
@@ -480,7 +486,8 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
       end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else _root_.scala.None,
       options = if (javaPbSource.hasOptions) Some(_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.fromJavaProto(javaPbSource.getOptions)) else _root_.scala.None
     )
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = {
       var __start: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
       var __end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
       var __options: _root_.scala.Option[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions] = _root_.scala.None
@@ -489,7 +496,12 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 8 =>
             __start = _root_.scala.Option(_input__.readInt32())
           case 16 =>
@@ -647,7 +659,8 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
       start = if (javaPbSource.hasStart) Some(javaPbSource.getStart.intValue) else _root_.scala.None,
       end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else _root_.scala.None
     )
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.DescriptorProto.ReservedRange = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.DescriptorProto.ReservedRange = parseFrom(_input__, 0)
+    override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.DescriptorProto.ReservedRange = {
       var __start: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
       var __end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -655,7 +668,12 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
-          case 0 => _done__ = true
+          case 0 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
+          case tag if (tag & 7) == 4 =>
+            _input__.checkLastTagWas(_expectedEndTag__)
+            _done__ = true
           case 8 =>
             __start = _root_.scala.Option(_input__.readInt32())
           case 16 =>

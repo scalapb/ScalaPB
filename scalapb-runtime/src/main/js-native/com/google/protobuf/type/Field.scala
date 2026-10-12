@@ -271,7 +271,8 @@ final case class Field(
 
 object Field extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.`type`.Field] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.`type`.Field] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.`type`.Field = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.`type`.Field = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.`type`.Field = {
     var __kind: _root_.com.google.protobuf.`type`.Field.Kind = _root_.com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN
     var __cardinality: _root_.com.google.protobuf.`type`.Field.Cardinality = _root_.com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN
     var __number: _root_.scala.Int = 0
@@ -287,7 +288,12 @@ object Field extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobu
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 8 =>
           __kind = _root_.com.google.protobuf.`type`.Field.Kind.fromValue(_input__.readEnum())
         case 16 =>

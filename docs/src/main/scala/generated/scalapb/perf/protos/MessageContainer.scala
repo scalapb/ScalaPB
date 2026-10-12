@@ -80,7 +80,8 @@ final case class MessageContainer(
 
 object MessageContainer extends scalapb.GeneratedMessageCompanion[_root_.scalapb.perf.protos.MessageContainer] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.perf.protos.MessageContainer] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.perf.protos.MessageContainer = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.perf.protos.MessageContainer = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.scalapb.perf.protos.MessageContainer = {
     var __opt: _root_.scala.Option[_root_.scalapb.perf.protos.SimpleMessage] = _root_.scala.None
     val __rep: _root_.scala.collection.immutable.VectorBuilder[_root_.scalapb.perf.protos.SimpleMessage] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scalapb.perf.protos.SimpleMessage]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -88,7 +89,12 @@ object MessageContainer extends scalapb.GeneratedMessageCompanion[_root_.scalapb
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __opt = _root_.scala.Option(__opt.fold(_root_.scalapb.LiteParser.readMessage[_root_.scalapb.perf.protos.SimpleMessage](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 18 =>

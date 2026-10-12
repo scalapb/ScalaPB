@@ -333,14 +333,12 @@ object FieldDescriptor {
       }
     } else
       field.getType match {
-        case FieldDescriptorProto.Type.TYPE_BOOL    => ScalaType.Boolean
-        case FieldDescriptorProto.Type.TYPE_BYTES   => ScalaType.ByteString
-        case FieldDescriptorProto.Type.TYPE_DOUBLE  => ScalaType.Double
-        case FieldDescriptorProto.Type.TYPE_FIXED32 => ScalaType.Int
-        case FieldDescriptorProto.Type.TYPE_FIXED64 => ScalaType.Long
-        case FieldDescriptorProto.Type.TYPE_FLOAT   => ScalaType.Float
-        case FieldDescriptorProto.Type.TYPE_GROUP   =>
-          throw new DescriptorValidationException(m, s"Groups are not supported.")
+        case FieldDescriptorProto.Type.TYPE_BOOL     => ScalaType.Boolean
+        case FieldDescriptorProto.Type.TYPE_BYTES    => ScalaType.ByteString
+        case FieldDescriptorProto.Type.TYPE_DOUBLE   => ScalaType.Double
+        case FieldDescriptorProto.Type.TYPE_FIXED32  => ScalaType.Int
+        case FieldDescriptorProto.Type.TYPE_FIXED64  => ScalaType.Long
+        case FieldDescriptorProto.Type.TYPE_FLOAT    => ScalaType.Float
         case FieldDescriptorProto.Type.TYPE_INT32    => ScalaType.Int
         case FieldDescriptorProto.Type.TYPE_INT64    => ScalaType.Long
         case FieldDescriptorProto.Type.TYPE_SFIXED32 => ScalaType.Int
@@ -350,7 +348,8 @@ object FieldDescriptor {
         case FieldDescriptorProto.Type.TYPE_STRING   => ScalaType.String
         case FieldDescriptorProto.Type.TYPE_UINT32   => ScalaType.Int
         case FieldDescriptorProto.Type.TYPE_UINT64   => ScalaType.Long
-        case FieldDescriptorProto.Type.TYPE_ENUM | FieldDescriptorProto.Type.TYPE_MESSAGE =>
+        case FieldDescriptorProto.Type.TYPE_ENUM | FieldDescriptorProto.Type.TYPE_MESSAGE |
+            FieldDescriptorProto.Type.TYPE_GROUP =>
           throw new DescriptorValidationException(
             m,
             s"Missing type_name for field ${field.getName}"

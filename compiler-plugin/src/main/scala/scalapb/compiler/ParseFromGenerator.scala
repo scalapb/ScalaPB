@@ -118,7 +118,8 @@ private[compiler] class ParseFromGenerator(
   def generateParseFrom(printer: FunctionalPrinter): FunctionalPrinter = {
     printer
       .add(
-        s"def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): $myFullScalaName = {"
+        s"def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): $myFullScalaName = parseFrom(_input__, 0)",
+        s"override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): $myFullScalaName = {"
       )
       .indented(
         _.when(requiredFieldMap.nonEmpty) { fp =>
@@ -142,19 +143,26 @@ private[compiler] class ParseFromGenerator(
                   |while (!_done__)${message.V.Do} {
                   |  val _tag__ = _input__.readTag()
                   |  _tag__ match {
-                  |    case 0 => _done__ = true""".stripMargin)
+                  |    case 0 =>
+                  |      _input__.checkLastTagWas(_expectedEndTag__)
+                  |      _done__ = true
+                  |    case tag if (tag & 7) == 4 =>
+                  |      _input__.checkLastTagWas(_expectedEndTag__)
+                  |      _done__ = true""".stripMargin)
           .print(message.fields) { (printer, field) =>
             val p = {
               val newValBase = if (field.isMessage) {
                 // In 0.10.x we can't simply call any of the new methods that relies on Builder,
                 // since the references message may have been generated using an older version of
                 // ScalaPB.
-                val baseName = field.baseSingleScalaTypeName
-                val read     =
+                val baseName   = field.baseSingleScalaTypeName
+                val readMethod = if (field.isGroup) "readGroup" else "readMessage"
+                val inputArgs  = if (field.isGroup) s"_input__, ${field.getNumber}" else "_input__"
+                val read       =
                   if (field.isRepeated)
-                    s"_root_.scalapb.LiteParser.readMessage[$baseName](_input__)"
+                    s"_root_.scalapb.LiteParser.$readMethod[$baseName]($inputArgs)"
                   else if (usesBaseTypeInBuilder(field)) {
-                    s"_root_.scala.Some(__${field.scalaName}.fold(_root_.scalapb.LiteParser.readMessage[$baseName](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))"
+                    s"_root_.scala.Some(__${field.scalaName}.fold(_root_.scalapb.LiteParser.$readMethod[$baseName]($inputArgs))(_root_.scalapb.LiteParser.$readMethod($inputArgs, _)))"
                   } else {
                     val expr =
                       if (field.isInOneof)
@@ -162,8 +170,9 @@ private[compiler] class ParseFromGenerator(
                       else s"__${field.scalaName}"
                     val mappedType = toBaseFieldType(field).apply(expr, field.enclosingType)
                     if (field.isInOneof || field.supportsPresence)
-                      s"$mappedType.fold(_root_.scalapb.LiteParser.readMessage[$baseName](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _))"
-                    else s"_root_.scalapb.LiteParser.readMessage[$baseName](_input__, $mappedType)"
+                      s"$mappedType.fold(_root_.scalapb.LiteParser.$readMethod[$baseName]($inputArgs))(_root_.scalapb.LiteParser.$readMethod($inputArgs, _))"
+                    else
+                      s"_root_.scalapb.LiteParser.$readMethod[$baseName]($inputArgs, $mappedType)"
                   }
                 read
               } else if (field.isEnum)

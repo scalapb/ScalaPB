@@ -237,7 +237,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[_root_.com.googl
     features = if (javaPbSource.hasFeatures) Some(_root_.com.google.protobuf.descriptor.FeatureSet.fromJavaProto(javaPbSource.getFeatures)) else _root_.scala.None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(_root_.com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.MessageOptions = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.MessageOptions = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.descriptor.MessageOptions = {
     var __messageSetWireFormat: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __noStandardDescriptorAccessor: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
@@ -250,7 +251,12 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[_root_.com.googl
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 8 =>
           __messageSetWireFormat = _root_.scala.Option(_input__.readBool())
         case 16 =>

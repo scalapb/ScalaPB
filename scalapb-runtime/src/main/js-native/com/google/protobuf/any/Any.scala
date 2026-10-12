@@ -202,7 +202,8 @@ final case class Any(
 
 object Any extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.any.Any] with scalapb.AnyCompanionMethods {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.any.Any] with scalapb.AnyCompanionMethods = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.any.Any = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.any.Any = parseFrom(_input__, 0)
+  override def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream, `_expectedEndTag__`: _root_.scala.Int): _root_.com.google.protobuf.any.Any = {
     var __typeUrl: _root_.scala.Predef.String = ""
     var __value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -210,7 +211,12 @@ object Any extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
-        case 0 => _done__ = true
+        case 0 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
+        case tag if (tag & 7) == 4 =>
+          _input__.checkLastTagWas(_expectedEndTag__)
+          _done__ = true
         case 10 =>
           __typeUrl = _input__.readStringRequireUtf8()
         case 18 =>
