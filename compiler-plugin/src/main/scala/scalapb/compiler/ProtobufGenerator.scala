@@ -684,7 +684,11 @@ class ProtobufGenerator(
           )
         } else if (field.isMapField && message.getFile.deterministicSerialization) {
           val keyField = field.mapType.keyField
-          val key = toBaseType(keyField)(if (keyField.supportsPresence) "__m.getKey" else "__m.key")
+          // Access the case-class field directly: getKey is private when getters are disabled.
+          val keyValue =
+            if (keyField.supportsPresence) s"__m.key.getOrElse(${defaultValueForGet(keyField)})"
+            else "__m.key"
+          val key     = toBaseType(keyField)(keyValue)
           val sortKey = keyField.getType match {
             case Type.UINT32 | Type.FIXED32 => s"($key ^ _root_.scala.Int.MinValue)"
             case Type.UINT64 | Type.FIXED64 => s"($key ^ _root_.scala.Long.MinValue)"
