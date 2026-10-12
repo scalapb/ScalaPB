@@ -4,6 +4,9 @@
   writers that sort maps and unknown field numbers. Enable it for all relevant
   nested message types too; imported types retain their own generation policy.
   Defaults are unchanged. This is not canonical cross-language or cross-schema serialization.
+- Reject negative, truncated and incompletely consumed length-delimited message frames, restore
+  coded input limits on parse failures, and add optional `maxFrameSize` parsing overloads.
+  Existing overloads retain their maximum frame size of `Int.MaxValue`.
 - BREAKING CHANGE: `scala3Sources = true` (or `scala3_sources`) now emits named
   givens, given-based lens conversions, and modern control-flow syntax for Scala 3
   `-source:future` (#2212). This output no longer supports Scala 2 with `-Xsource:3`;

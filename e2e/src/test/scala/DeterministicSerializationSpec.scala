@@ -7,7 +7,7 @@ import scalapb.UnknownFieldSet
 import scalapb.deterministic.deterministic_default.DefaultMessage
 import scalapb.deterministic.deterministic.DeterministicMessage
 
-import java.io.ByteArrayOutputStream
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 import scala.collection.immutable.{ListMap, SortedMap}
 
 class DeterministicSerializationSpec extends AnyFlatSpec with Matchers {
@@ -115,6 +115,16 @@ class DeterministicSerializationSpec extends AnyFlatSpec with Matchers {
     val input = com.google.protobuf.CodedInputStream.newInstance(delimited.toByteArray)
     input.readUInt32() must be(expected.size)
     input.readRawBytes(expected.size).toVector must be(expected)
+    DeterministicMessage.parseDelimitedFrom(
+      new ByteArrayInputStream(delimited.toByteArray),
+      maxFrameSize = expected.size
+    ) must be(Some(a))
+    intercept[com.google.protobuf.InvalidProtocolBufferException] {
+      DeterministicMessage.parseDelimitedFrom(
+        new ByteArrayInputStream(delimited.toByteArray),
+        maxFrameSize = expected.size - 1
+      )
+    }
     val parsed = DeterministicMessage.parseFrom(expected.toArray)
     parsed.repeatedValues must be(Seq(3, 1, 2))
     parsed.unknownFields.getField(100).get.varint must be(Seq(9L, 1L))
