@@ -3,7 +3,27 @@ package scalapb.textformat
 import scalapb.TextFormatException
 import scala.annotation.tailrec
 
-class Parser(text: String) {
+class Parser(text: String, recursionLimit: Int) {
+  def this(text: String) = this(text, 100)
+
+  require(recursionLimit >= 0, "recursionLimit must be non-negative")
+  private var depth = 0
+
+  private def nestedMessage(closer: String): TMessage = {
+    if (depth >= recursionLimit) throw parseException("Message nesting limit exceeded")
+    depth += 1
+    try TMessage(it.lastPosition, parseKeyValueList(Some(closer), Nil))
+    finally depth -= 1
+  }
+
+  // Integral tokens can also represent floating-point fields. Keep ample room for
+  // those values, but never construct an unbounded BigInt from untrusted input.
+  private def boundedInteger(digits: String, radix: Int, sign: Int): BigInt = {
+    if (digits.isEmpty) throw parseException("Expected integer digits")
+    if (digits.length > 1024) throw parseException("Integer literal exceeds 1024 digits")
+    BigInt(digits, radix) * sign
+  }
+
   val it = new Tokenizer(text)
 
   @tailrec
@@ -65,9 +85,9 @@ class Parser(text: String) {
 
   def tryMessage(init: String): Option[TMessage] = init match {
     case "{" =>
-      Some(TMessage(it.lastPosition, parseKeyValueList(Some("}"), Nil)))
+      Some(nestedMessage("}"))
     case "<" =>
-      Some(TMessage(it.lastPosition, parseKeyValueList(Some(">"), Nil)))
+      Some(nestedMessage(">"))
     case _ => None
   }
 
@@ -83,7 +103,7 @@ class Parser(text: String) {
       )
         throw parseException(s"Invalid hex literal: $token")
       else
-        Some(BigInt(s, 16) * sign)
+        Some(boundedInteger(s, 16, sign))
     }
   }
 
@@ -95,7 +115,7 @@ class Parser(text: String) {
       if (!s.forall(ch => ch >= '0' && ch <= '7'))
         throw parseException(s"Invalid octal literal: $token")
       else {
-        Some(BigInt(s, 8) * sign)
+        Some(boundedInteger(s, 8, sign))
       }
     }
   }
@@ -105,7 +125,7 @@ class Parser(text: String) {
     if (!s.forall(ch => ch >= '0' && ch <= '9'))
       None
     else {
-      Some(BigInt(s, 10) * sign)
+      Some(boundedInteger(s, 10, sign))
     }
   }
 

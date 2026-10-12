@@ -7,6 +7,11 @@
 - Reject negative, truncated and incompletely consumed length-delimited message frames, restore
   coded input limits on parse failures, and add optional `maxFrameSize` parsing overloads.
   Existing overloads retain their maximum frame size of `Int.MaxValue`.
+- Limit text parsing to 100 nested messages by default, with an explicit
+  `TextFormat.fromAscii` recursion-limit overload. Reject integer literals longer
+  than 1024 digits before constructing a `BigInt`, and report missing integer
+  digits as text-format errors. Reject enum numbers outside the signed 32-bit
+  range instead of truncating them to a recognized value.
 - BREAKING CHANGE: `scala3Sources = true` (or `scala3_sources`) now emits named
   givens, given-based lens conversions, and modern control-flow syntax for Scala 3
   `-source:future` (#2212). This output no longer supports Scala 2 with `-Xsource:3`;
