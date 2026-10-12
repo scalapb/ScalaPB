@@ -29,6 +29,7 @@
   copy; stable-path uses must migrate to a local `val` or `toByteArray()`).
 - Refresh website dependencies to address GitHub security alerts.
 - Update Coursier's transitive dependencies and the documentation/test dependency families to address GitHub security advisories; use the maintained LZ4 artifact for Spark documentation examples.
+- Upgrade the CLI commons-lang3 dependency to 3.21.0.
 - BREAKING CHANGE: Unify generated lens superclasses across Scala 2 and Scala 3 as
   `scalapb.lenses.ObjectLens`, which is now abstract (#1581). Regenerate all ScalaPB
   sources and recompile dependent code when upgrading to 1.0.0. Replace direct
