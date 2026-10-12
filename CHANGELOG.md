@@ -1,5 +1,9 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Use protobuf Java naming helpers for Java conversions and descriptor references,
+  including Edition 2024 file/type naming and correct Scala escaping of keyword
+  outer class names and empty package names. Edition input support remains a
+  separate prerequisite.
 - Reject negative, truncated and incompletely consumed length-delimited message frames, restore
   coded input limits on parse failures, and add optional `maxFrameSize` parsing overloads.
   Existing overloads retain their maximum frame size of `Int.MaxValue`.
