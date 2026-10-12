@@ -6,6 +6,7 @@ import scala.annotation.tailrec
 import com.google.protobuf_test_messages.proto2.test_messages_proto2
 import com.google.protobuf_test_messages.proto3.test_messages_proto3
 import scala.util.Try
+import scala.util.control.NonFatal
 import scalapb._
 import scalapb.json4s.JsonFormat
 
@@ -94,22 +95,25 @@ object ConformanceScala {
   def handleTestTyped[T <: GeneratedMessage: GeneratedMessageCompanion](
       request: ConformanceRequest
   ): ConformanceResponse = {
+    if (request.payload.isJspbPayload || request.requestedOutputFormat.isJspb)
+      return ConformanceResponse().withSkipped("JSPB is not supported")
+    if (request.requestedOutputFormat.isUnspecified || request.payload.isEmpty)
+      return ConformanceResponse().withRuntimeError("Missing payload or output format")
     readInputMessage(request) match {
       case Right(input) =>
-        request.requestedOutputFormat match {
-          case WireFormat.PROTOBUF =>
-            ConformanceResponse().withProtobufPayload(input.toByteString)
-          case WireFormat.JSON =>
-            try {
-              val res = ConformanceResponse().withJsonPayload(JsonPrinter.print(input))
-              res
-            } catch {
-              case err: Throwable =>
-                ConformanceResponse().withSerializeError(err.getMessage)
-            }
-          case WireFormat.TEXT_FORMAT =>
-            ConformanceResponse().withTextPayload(input.toProtoString)
-          case _ => ConformanceResponse()
+        try {
+          request.requestedOutputFormat match {
+            case WireFormat.PROTOBUF =>
+              ConformanceResponse().withProtobufPayload(input.toByteString)
+            case WireFormat.JSON =>
+              ConformanceResponse().withJsonPayload(JsonPrinter.print(input))
+            case WireFormat.TEXT_FORMAT =>
+              ConformanceResponse().withTextPayload(input.toProtoString)
+            case _ => ConformanceResponse().withSkipped("Unsupported output format")
+          }
+        } catch {
+          case NonFatal(err) =>
+            ConformanceResponse().withSerializeError(Option(err.getMessage).getOrElse(err.toString))
         }
       case Left(err) =>
         ConformanceResponse().withParseError(err.getMessage)
@@ -124,6 +128,12 @@ object ConformanceScala {
         handleTestTyped[test_messages_proto2.TestAllTypesProto2](request)
       case "conformance.FailureSet" =>
         ConformanceResponse().withProtobufPayload(FailureSet().toByteString)
+      case name
+          if name.startsWith("protobuf_test_messages.editions.") ||
+            name.startsWith("protobuf_test_messages.edition_unstable.") =>
+        ConformanceResponse().withSkipped("Editions code generation is not supported yet")
+      case name =>
+        ConformanceResponse().withRuntimeError(s"Unknown message type: $name")
     }
   }
 
