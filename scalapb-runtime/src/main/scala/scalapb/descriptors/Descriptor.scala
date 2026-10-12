@@ -1,6 +1,7 @@
 package scalapb.descriptors
 
 import com.google.protobuf.descriptor._
+import com.google.protobuf.descriptor.FeatureSet._
 
 import annotation.tailrec
 
@@ -222,7 +223,7 @@ class EnumDescriptor private[descriptors] (
       getOptions.getFeatures
     )
 
-  def isClosed: Boolean = resolvedFeatures.getEnumType == FeatureSet.EnumType.CLOSED
+  def isClosed: Boolean = resolvedFeatures.getEnumType == EnumType.CLOSED
 
   def name = asProto.getName
 
@@ -308,23 +309,24 @@ class FieldDescriptor private[descriptors] (
       )
     }
     val inherited = DescriptorFeatures.merge(parent, getOptions.getFeatures)
+    // Normalize legacy options once so the semantic accessors are syntax-independent.
     if (file.isEdition) inherited
     else
       inherited.copy(
         fieldPresence = Some(
-          if (asProto.getLabel.isLabelRequired) FeatureSet.FieldPresence.LEGACY_REQUIRED
-          else if (asProto.getProto3Optional) FeatureSet.FieldPresence.EXPLICIT
+          if (asProto.getLabel.isLabelRequired) FieldPresence.LEGACY_REQUIRED
+          else if (asProto.getProto3Optional) FieldPresence.EXPLICIT
           else inherited.getFieldPresence
         ),
         repeatedFieldEncoding = getOptions.packed
           .map { packed =>
-            if (packed) FeatureSet.RepeatedFieldEncoding.PACKED
-            else FeatureSet.RepeatedFieldEncoding.EXPANDED
+            if (packed) RepeatedFieldEncoding.PACKED
+            else RepeatedFieldEncoding.EXPANDED
           }
           .orElse(inherited.repeatedFieldEncoding),
         messageEncoding = Some(
-          if (asProto.getType.isTypeGroup) FeatureSet.MessageEncoding.DELIMITED
-          else FeatureSet.MessageEncoding.LENGTH_PREFIXED
+          if (asProto.getType.isTypeGroup) MessageEncoding.DELIMITED
+          else MessageEncoding.LENGTH_PREFIXED
         )
       )
   }
@@ -332,17 +334,12 @@ class FieldDescriptor private[descriptors] (
   def isOptional = !isRequired && !isRepeated
 
   def isRequired =
-    if (file.isEdition)
-      !isRepeated &&
-      resolvedFeatures.getFieldPresence == FeatureSet.FieldPresence.LEGACY_REQUIRED
-    else asProto.getLabel.isLabelRequired
+    !isRepeated && resolvedFeatures.getFieldPresence == FieldPresence.LEGACY_REQUIRED
 
   /** Whether a singular field distinguishes an unset value from its default. */
   def hasPresence: Boolean = !isRepeated && (
     asProto.oneofIndex.isDefined || scalaType.isInstanceOf[ScalaType.Message] ||
-      (if (file.isEdition)
-         resolvedFeatures.getFieldPresence != FeatureSet.FieldPresence.IMPLICIT
-       else !file.isProto3 || asProto.getProto3Optional)
+      resolvedFeatures.getFieldPresence != FieldPresence.IMPLICIT
   )
 
   def isPackable: Boolean = isRepeated && (scalaType match {
@@ -350,25 +347,21 @@ class FieldDescriptor private[descriptors] (
     case _                                                              => true
   })
 
-  def isPacked: Boolean = isPackable && (
-    if (file.isEdition)
-      resolvedFeatures.getRepeatedFieldEncoding == FeatureSet.RepeatedFieldEncoding.PACKED
-    else getOptions.packed.getOrElse(file.isProto3)
-  )
+  def isPacked: Boolean = isPackable &&
+    resolvedFeatures.getRepeatedFieldEncoding == RepeatedFieldEncoding.PACKED
 
   /** The schema's UTF-8 policy, independent of language-specific parser behavior. */
   def needsUtf8Check: Boolean = scalaType == ScalaType.String &&
-    resolvedFeatures.getUtf8Validation == FeatureSet.Utf8Validation.VERIFY
+    resolvedFeatures.getUtf8Validation == Utf8Validation.VERIFY
 
   /** Maps always use length-prefixed encoding, including their synthetic entry fields. */
-  def messageEncoding: FeatureSet.MessageEncoding =
-    if (asProto.getType.isTypeGroup) FeatureSet.MessageEncoding.DELIMITED
-    else if (
+  def messageEncoding: MessageEncoding =
+    if (
       scalaType.isInstanceOf[ScalaType.Message] && !isMapField &&
-      !containingMessage.getOptions.getMapEntry && file.isEdition
+      !containingMessage.getOptions.getMapEntry
     )
       resolvedFeatures.getMessageEncoding
-    else FeatureSet.MessageEncoding.LENGTH_PREFIXED
+    else MessageEncoding.LENGTH_PREFIXED
 
   def isRepeated = asProto.getLabel.isLabelRepeated
 
@@ -613,21 +606,19 @@ object FileDescriptor {
 /** Defaults for the core features interpreted by Scala descriptors. */
 private[descriptors] object DescriptorFeatures {
   def defaults(proto3: Boolean, edition: Boolean): FeatureSet = FeatureSet(
-    fieldPresence =
-      Some(if (proto3) FeatureSet.FieldPresence.IMPLICIT else FeatureSet.FieldPresence.EXPLICIT),
-    enumType =
-      Some(if (proto3 || edition) FeatureSet.EnumType.OPEN else FeatureSet.EnumType.CLOSED),
+    fieldPresence = Some(if (proto3) FieldPresence.IMPLICIT else FieldPresence.EXPLICIT),
+    enumType = Some(if (proto3 || edition) EnumType.OPEN else EnumType.CLOSED),
     repeatedFieldEncoding = Some(
-      if (proto3 || edition) FeatureSet.RepeatedFieldEncoding.PACKED
-      else FeatureSet.RepeatedFieldEncoding.EXPANDED
+      if (proto3 || edition) RepeatedFieldEncoding.PACKED
+      else RepeatedFieldEncoding.EXPANDED
     ),
     utf8Validation = Some(
-      if (proto3 || edition) FeatureSet.Utf8Validation.VERIFY else FeatureSet.Utf8Validation.NONE
+      if (proto3 || edition) Utf8Validation.VERIFY else Utf8Validation.NONE
     ),
-    messageEncoding = Some(FeatureSet.MessageEncoding.LENGTH_PREFIXED),
+    messageEncoding = Some(MessageEncoding.LENGTH_PREFIXED),
     jsonFormat = Some(
-      if (proto3 || edition) FeatureSet.JsonFormat.ALLOW
-      else FeatureSet.JsonFormat.LEGACY_BEST_EFFORT
+      if (proto3 || edition) JsonFormat.ALLOW
+      else JsonFormat.LEGACY_BEST_EFFORT
     )
   )
 
