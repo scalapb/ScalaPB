@@ -168,8 +168,15 @@ private[compiler] class ParseFromGenerator(
                 read
               } else if (field.isEnum)
                 s"${field.getEnumType.scalaType.fullName}.fromValue(_input__.readEnum())"
-              else if (field.getType == Type.STRING) s"_input__.readStringRequireUtf8()"
-              else s"_input__.read${Types.capitalizedType(field.getType)}()"
+              else if (field.getType == Type.STRING) {
+                // Use resolved features (including inherited Java overrides and map semantics).
+                // Keep the legacy strict policy unless the schema explicitly opts in.
+                if (
+                  !field.getFile.scalaOptions.getUseSchemaUtf8Validation || field.needsUtf8Check()
+                )
+                  "_input__.readStringRequireUtf8()"
+                else "_input__.readString()"
+              } else s"_input__.read${Types.capitalizedType(field.getType)}()"
 
               val newVal =
                 if (!usesBaseTypeInBuilder(field)) toCustomType(field)(newValBase) else newValBase

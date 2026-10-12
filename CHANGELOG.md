@@ -20,6 +20,13 @@
   contextual instances may need `.given` or explicit named imports. Generated
   `messageReads` instances are now initialized lazily and reused in Scala 3 output.
 - Declare the supported Edition 2023 range in code generator responses using protoc-bridge 0.10.0, fixing protoc rejection of the editions feature flag (#1837).
+- Add the file/package option `use_schema_utf8_validation` to opt binary message
+  string parsing into the resolved protobuf Java UTF-8 policy. Legacy strict
+  parsing remains the default. Nonvalidating fields replace malformed UTF-8 and
+  lose the original bytes; map strings remain strict. Includes Edition 2023
+  parser coverage and a protobuf-runtime-scala 0.9.0 upgrade for correct strict
+  UTF-8 validation on JS/Native (its deprecated `ByteString.bytes` now returns a
+  copy; stable-path uses must migrate to a local `val` or `toByteArray()`).
 - Refresh website dependencies to address GitHub security alerts.
 - Update Coursier's transitive dependencies and the documentation/test dependency families to address GitHub security advisories; use the maintained LZ4 artifact for Spark documentation examples.
 - BREAKING CHANGE: Unify generated lens superclasses across Scala 2 and Scala 3 as
