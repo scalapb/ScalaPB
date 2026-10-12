@@ -21,7 +21,14 @@ class EnumSpec extends AnyFlatSpec with Matchers with OptionValues {
     EnumTest.parseFrom(noColor.toByteArray) must be(noColor)
     EnumTest.parseFrom(innerEnum.toByteArray) must be(innerEnum)
     EnumTest.parseFrom(otherCase.toByteArray) must be(otherCase)
-    EnumTest.parseFrom(unrecognized.toByteArray) must be(unrecognized)
+    EnumTest.parseFrom(unrecognized.toByteArray) must be(
+      EnumTest(unknownFields =
+        scalapb.UnknownFieldSet.empty.withField(
+          1,
+          scalapb.UnknownFieldSet.Field(varint = Seq(37L))
+        )
+      )
+    )
   }
 
   "isEnumValue" should "return correct values" in {

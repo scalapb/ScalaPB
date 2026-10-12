@@ -474,14 +474,14 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.p
         case 216 =>
           __javaStringCheckUtf8 = _root_.scala.Option(_input__.readBool())
         case 72 =>
-          val __enum = _root_.com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(_input__.readEnum())
-          if (__enum.isUnrecognized) {
+          val _enumValue__ = _root_.com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(_input__.readEnum())
+          if (_enumValue__.isUnrecognized) {
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             }
-            _unknownFields__.addVarint(9, __enum.value.toLong)
+            _unknownFields__.addVarint(9, _enumValue__.value.toLong)
           } else {
-            __optimizeFor = _root_.scala.Option(__enum)
+            __optimizeFor = _root_.scala.Option(_enumValue__)
           }
         case 90 =>
           __goPackage = _root_.scala.Option(_input__.readStringRequireUtf8())

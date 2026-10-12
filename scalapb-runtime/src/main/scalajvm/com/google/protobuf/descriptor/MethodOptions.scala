@@ -134,14 +134,14 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google
         case 264 =>
           __deprecated = _root_.scala.Option(_input__.readBool())
         case 272 =>
-          val __enum = _root_.com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromValue(_input__.readEnum())
-          if (__enum.isUnrecognized) {
+          val _enumValue__ = _root_.com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromValue(_input__.readEnum())
+          if (_enumValue__.isUnrecognized) {
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             }
-            _unknownFields__.addVarint(34, __enum.value.toLong)
+            _unknownFields__.addVarint(34, _enumValue__.value.toLong)
           } else {
-            __idempotencyLevel = _root_.scala.Option(__enum)
+            __idempotencyLevel = _root_.scala.Option(_enumValue__)
           }
         case 282 =>
           __features = _root_.scala.Option(__features.fold(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FeatureSet](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))

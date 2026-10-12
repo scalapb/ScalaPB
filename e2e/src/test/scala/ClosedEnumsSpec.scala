@@ -67,6 +67,22 @@ class ClosedEnumsSpec extends AnyFlatSpec with Matchers {
     ClosedEnums.parseFrom(m.toByteArray) must be(m)
   }
 
+  it should "use the final map value and reject malformed entries" in {
+    val recognizedLast = entry(7, 42) ++ enums(2, 1)
+    val unknownLast    = entry(8, 1) ++ enums(2, 42)
+    val m              = ClosedEnums.parseFrom(wire { out =>
+      out.writeByteArray(6, recognizedLast)
+      out.writeByteArray(6, unknownLast)
+    })
+    m.entries must be(Map(7 -> ClosedEnums.Value.ONE))
+    m.unknownFields.getField(6).get.lengthDelimited must be(Seq(ByteString.copyFrom(unknownLast)))
+    for (bad <- Seq(Array[Byte](16, 42, 0), Array[Byte](16, 42, 12), Array[Byte](16, -128))) {
+      intercept[InvalidProtocolBufferException](
+        ClosedEnums.parseFrom(wire(_.writeByteArray(6, bad)))
+      )
+    }
+  }
+
   it should "not satisfy required fields with unknown values" in {
     intercept[InvalidProtocolBufferException](RequiredClosedEnum.parseFrom(enums(1, 42)))
     RequiredClosedEnum.parseFrom(enums(1, 1, 42)).value must be(ClosedEnums.Value.ONE)
@@ -124,4 +140,26 @@ class ClosedEnumsSpec extends AnyFlatSpec with Matchers {
     EditionEnums.Nested.OverrideClosed.scalaDescriptor.isClosed must be(true)
     ClosedEnums.Value.scalaDescriptor.isClosed must be(true)
   }
+
+  it should "keep unknown open values in repeated fields, oneofs, and maps" in {
+    val m = EditionEnums.parseFrom(
+      packed(7, 0, 42, -2) ++ enums(8, 42) ++
+        wire(_.writeByteArray(9, entry(7, 42)))
+    )
+    m.openPacked.map(_.value) must be(Seq(0, 42, -2))
+    m.openChoice.openSelected.get.value must be(42)
+    m.openEntries(7).value must be(42)
+    m.unknownFields must be(scalapb.UnknownFieldSet.empty)
+    EditionEnums.parseFrom(m.toByteArray) must be(m)
+  }
+
+  it should "validate UTF-8 map keys even when their enum value is rejected" in {
+    for (value <- Seq(0, 42)) {
+      val invalidKey = Array[Byte](10, 1, -1, 16, value.toByte)
+      intercept[InvalidProtocolBufferException](
+        EditionEnums.parseFrom(wire(_.writeByteArray(10, invalidKey)))
+      )
+    }
+  }
+
 }

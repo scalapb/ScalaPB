@@ -103,14 +103,14 @@ object FieldTransformation extends scalapb.GeneratedMessageCompanion[_root_.scal
         case 10 =>
           __when = _root_.scala.Option(__when.fold(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FieldDescriptorProto](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 16 =>
-          val __enum = _root_.scalapb.options.MatchType.fromValue(_input__.readEnum())
-          if (__enum.isUnrecognized) {
+          val _enumValue__ = _root_.scalapb.options.MatchType.fromValue(_input__.readEnum())
+          if (_enumValue__.isUnrecognized) {
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             }
-            _unknownFields__.addVarint(2, __enum.value.toLong)
+            _unknownFields__.addVarint(2, _enumValue__.value.toLong)
           } else {
-            __matchType = _root_.scala.Option(__enum)
+            __matchType = _root_.scala.Option(_enumValue__)
           }
         case 26 =>
           __set = _root_.scala.Option(__set.fold(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FieldOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))

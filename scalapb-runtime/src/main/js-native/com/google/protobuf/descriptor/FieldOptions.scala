@@ -347,26 +347,26 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
       _tag__ match {
         case 0 => _done__ = true
         case 8 =>
-          val __enum = _root_.com.google.protobuf.descriptor.FieldOptions.CType.fromValue(_input__.readEnum())
-          if (__enum.isUnrecognized) {
+          val _enumValue__ = _root_.com.google.protobuf.descriptor.FieldOptions.CType.fromValue(_input__.readEnum())
+          if (_enumValue__.isUnrecognized) {
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             }
-            _unknownFields__.addVarint(1, __enum.value.toLong)
+            _unknownFields__.addVarint(1, _enumValue__.value.toLong)
           } else {
-            __ctype = _root_.scala.Option(__enum)
+            __ctype = _root_.scala.Option(_enumValue__)
           }
         case 16 =>
           __packed = _root_.scala.Option(_input__.readBool())
         case 48 =>
-          val __enum = _root_.com.google.protobuf.descriptor.FieldOptions.JSType.fromValue(_input__.readEnum())
-          if (__enum.isUnrecognized) {
+          val _enumValue__ = _root_.com.google.protobuf.descriptor.FieldOptions.JSType.fromValue(_input__.readEnum())
+          if (_enumValue__.isUnrecognized) {
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             }
-            _unknownFields__.addVarint(6, __enum.value.toLong)
+            _unknownFields__.addVarint(6, _enumValue__.value.toLong)
           } else {
-            __jstype = _root_.scala.Option(__enum)
+            __jstype = _root_.scala.Option(_enumValue__)
           }
         case 40 =>
           __lazy = _root_.scala.Option(_input__.readBool())
@@ -379,37 +379,37 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
         case 128 =>
           __debugRedact = _root_.scala.Option(_input__.readBool())
         case 136 =>
-          val __enum = _root_.com.google.protobuf.descriptor.FieldOptions.OptionRetention.fromValue(_input__.readEnum())
-          if (__enum.isUnrecognized) {
+          val _enumValue__ = _root_.com.google.protobuf.descriptor.FieldOptions.OptionRetention.fromValue(_input__.readEnum())
+          if (_enumValue__.isUnrecognized) {
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             }
-            _unknownFields__.addVarint(17, __enum.value.toLong)
+            _unknownFields__.addVarint(17, _enumValue__.value.toLong)
           } else {
-            __retention = _root_.scala.Option(__enum)
+            __retention = _root_.scala.Option(_enumValue__)
           }
         case 152 =>
-          val __enum = _root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromValue(_input__.readEnum())
-          if (__enum.isUnrecognized) {
+          val _enumValue__ = _root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromValue(_input__.readEnum())
+          if (_enumValue__.isUnrecognized) {
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             }
-            _unknownFields__.addVarint(19, __enum.value.toLong)
+            _unknownFields__.addVarint(19, _enumValue__.value.toLong)
           } else {
-            __targets += __enum
+            __targets += _enumValue__
           }
         case 154 => {
           val length = _input__.readRawVarint32()
           val oldLimit = _input__.pushLimit(length)
           while (_input__.getBytesUntilLimit > 0) {
-            val __enum = _root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromValue(_input__.readEnum())
-            if (__enum.isUnrecognized) {
+            val _enumValue__ = _root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromValue(_input__.readEnum())
+            if (_enumValue__.isUnrecognized) {
               if (_unknownFields__ == null) {
                 _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
               }
-              _unknownFields__.addVarint(19, __enum.value.toLong)
+              _unknownFields__.addVarint(19, _enumValue__.value.toLong)
             } else {
-              __targets += __enum
+              __targets += _enumValue__
             }
           }
           _input__.popLimit(oldLimit)
@@ -863,14 +863,14 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
         _tag__ match {
           case 0 => _done__ = true
           case 24 =>
-            val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
-            if (__enum.isUnrecognized) {
+            val _enumValue__ = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+            if (_enumValue__.isUnrecognized) {
               if (_unknownFields__ == null) {
                 _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
               }
-              _unknownFields__.addVarint(3, __enum.value.toLong)
+              _unknownFields__.addVarint(3, _enumValue__.value.toLong)
             } else {
-              __edition = _root_.scala.Option(__enum)
+              __edition = _root_.scala.Option(_enumValue__)
             }
           case 18 =>
             __value = _root_.scala.Option(_input__.readStringRequireUtf8())
@@ -1053,36 +1053,36 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
         _tag__ match {
           case 0 => _done__ = true
           case 8 =>
-            val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
-            if (__enum.isUnrecognized) {
+            val _enumValue__ = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+            if (_enumValue__.isUnrecognized) {
               if (_unknownFields__ == null) {
                 _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
               }
-              _unknownFields__.addVarint(1, __enum.value.toLong)
+              _unknownFields__.addVarint(1, _enumValue__.value.toLong)
             } else {
-              __editionIntroduced = _root_.scala.Option(__enum)
+              __editionIntroduced = _root_.scala.Option(_enumValue__)
             }
           case 16 =>
-            val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
-            if (__enum.isUnrecognized) {
+            val _enumValue__ = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+            if (_enumValue__.isUnrecognized) {
               if (_unknownFields__ == null) {
                 _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
               }
-              _unknownFields__.addVarint(2, __enum.value.toLong)
+              _unknownFields__.addVarint(2, _enumValue__.value.toLong)
             } else {
-              __editionDeprecated = _root_.scala.Option(__enum)
+              __editionDeprecated = _root_.scala.Option(_enumValue__)
             }
           case 26 =>
             __deprecationWarning = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 32 =>
-            val __enum = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
-            if (__enum.isUnrecognized) {
+            val _enumValue__ = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
+            if (_enumValue__.isUnrecognized) {
               if (_unknownFields__ == null) {
                 _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
               }
-              _unknownFields__.addVarint(4, __enum.value.toLong)
+              _unknownFields__.addVarint(4, _enumValue__.value.toLong)
             } else {
-              __editionRemoved = _root_.scala.Option(__enum)
+              __editionRemoved = _root_.scala.Option(_enumValue__)
             }
           case tag =>
             if (_unknownFields__ == null) {

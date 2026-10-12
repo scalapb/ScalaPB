@@ -1694,8 +1694,10 @@ class ProtobufGenerator(
   }
 
   private def messageNeedsJavaConverters(message: Descriptor): Boolean = {
-    (message.javaConversions && !needsEnumWireConversion(message) && message.fields.exists(_.isRepeated)) ||
-      message.nestedTypes.exists(messageNeedsJavaConverters)
+    (message.javaConversions && !needsEnumWireConversion(message) && message.fields.exists(
+      _.isRepeated
+    )) ||
+    message.nestedTypes.exists(messageNeedsJavaConverters)
   }
 
   def generateSingleScalaFileForFileDescriptor(

@@ -291,14 +291,14 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
           case 32 =>
             __end = _root_.scala.Option(_input__.readInt32())
           case 40 =>
-            val __enum = _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic.fromValue(_input__.readEnum())
-            if (__enum.isUnrecognized) {
+            val _enumValue__ = _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic.fromValue(_input__.readEnum())
+            if (_enumValue__.isUnrecognized) {
               if (_unknownFields__ == null) {
                 _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
               }
-              _unknownFields__.addVarint(5, __enum.value.toLong)
+              _unknownFields__.addVarint(5, _enumValue__.value.toLong)
             } else {
-              __semantic = _root_.scala.Option(__enum)
+              __semantic = _root_.scala.Option(_enumValue__)
             }
           case tag =>
             if (_unknownFields__ == null) {

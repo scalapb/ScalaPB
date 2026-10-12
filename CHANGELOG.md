@@ -11,7 +11,10 @@
   to preserve unknown values and map entries, with additional serialization cost.
   Regenerate sources and upgrade the runtime together; manually constructed
   `Unrecognized` closed values normalize on binary parsing. Scala enum descriptors
-  expose `isClosed`.
+  expose `isClosed`. Upgrade the JS/Native protobuf runtime to 0.9.0 so rejected
+  enum map entries still enforce strict UTF-8 map keys. Its deprecated
+  `ByteString.bytes` accessor now returns a copy and is no longer a stable identifier;
+  migrate uses to `toByteArray` (or bind a local `val` when a stable path is required).
 - Resolve core Edition 2023 descriptor features with inherited overrides; expose presence, packing, enum openness, UTF-8 policy and message encoding, and recognize `LEGACY_REQUIRED` fields.
 - Use protobuf Java naming helpers for Java conversions and descriptor references,
   including Edition 2024 file/type naming and correct Scala escaping of keyword

@@ -406,7 +406,9 @@ serialization and parsing. Java treats proto3 enums imported into proto2 message
 as closed; Scala follows the specification and keeps them open. Conversion to Java
 moves those unknown values to Java's unknown fields, and conversion back recovers
 them in Scala fields. A required enum that Java treats as closed cannot be
-converted to Java when its only value is unknown.
+converted to Java when its only value is unknown. Direct enum `toJavaValue`
+conversion still requires a recognized value for closed Java enums; an individual
+Java enum value has no unknown-field storage.
 
 ## ASCII Representation
 

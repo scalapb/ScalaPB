@@ -642,14 +642,14 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         case 82 =>
           __objectName = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 88 =>
-          val __enum = _root_.scalapb.options.ScalaPbOptions.OptionsScope.fromValue(_input__.readEnum())
-          if (__enum.isUnrecognized) {
+          val _enumValue__ = _root_.scalapb.options.ScalaPbOptions.OptionsScope.fromValue(_input__.readEnum())
+          if (_enumValue__.isUnrecognized) {
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             }
-            _unknownFields__.addVarint(11, __enum.value.toLong)
+            _unknownFields__.addVarint(11, _enumValue__.value.toLong)
           } else {
-            __scope = _root_.scala.Option(__enum)
+            __scope = _root_.scala.Option(_enumValue__)
           }
         case 96 =>
           __lenses = _root_.scala.Option(_input__.readBool())
@@ -660,14 +660,14 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         case 120 =>
           __noDefaultValuesInConstructor = _root_.scala.Option(_input__.readBool())
         case 128 =>
-          val __enum = _root_.scalapb.options.ScalaPbOptions.EnumValueNaming.fromValue(_input__.readEnum())
-          if (__enum.isUnrecognized) {
+          val _enumValue__ = _root_.scalapb.options.ScalaPbOptions.EnumValueNaming.fromValue(_input__.readEnum())
+          if (_enumValue__.isUnrecognized) {
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             }
-            _unknownFields__.addVarint(16, __enum.value.toLong)
+            _unknownFields__.addVarint(16, _enumValue__.value.toLong)
           } else {
-            __enumValueNaming = _root_.scala.Option(__enum)
+            __enumValueNaming = _root_.scala.Option(_enumValue__)
           }
         case 136 =>
           __enumStripPrefix = _root_.scala.Option(_input__.readBool())

@@ -13,6 +13,10 @@ message EditionEnums {
   oneof choice { Closed selected = 3; int32 other = 4; }
   map<int32, Closed> entries = 5;
   Open open = 6;
+  repeated Open open_packed = 7;
+  oneof open_choice { Open open_selected = 8; }
+  map<int32, Open> open_entries = 9;
+  map<string, Closed> string_entries = 10;
   message Nested {
     enum InheritedClosed { ZERO = 0; }
     enum OverrideOpen { option features.enum_type = OPEN; OPEN_ZERO = 0; }
