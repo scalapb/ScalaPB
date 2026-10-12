@@ -1,0 +1,7 @@
+syntax = "proto2";
+package scalapb.deterministic;
+import "scalapb/scalapb.proto";
+option (scalapb.options).deterministic_serialization = true;
+message Proto2Message {
+  map<string, int32> custom_keys = 1 [(scalapb.field).key_type = "com.thesamet.pb.PersonId"];
+}

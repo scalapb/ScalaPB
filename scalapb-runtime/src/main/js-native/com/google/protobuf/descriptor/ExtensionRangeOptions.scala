@@ -56,13 +56,12 @@ final case class ExtensionRangeOptions(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       declaration.foreach { __v =>
         val __m = __v
         _output__.writeTag(2, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       verification.foreach { __v =>
         val __m = __v.value
@@ -72,15 +71,15 @@ final case class ExtensionRangeOptions(
         val __m = __v
         _output__.writeTag(50, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       uninterpretedOption.foreach { __v =>
         val __m = __v
         _output__.writeTag(999, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
-      unknownFields.writeTo(_output__, _serializationMode__)
+      unknownFields.writeTo(_output__)
     }
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Vector.empty)
     def addUninterpretedOption(__vs: _root_.com.google.protobuf.descriptor.UninterpretedOption *): ExtensionRangeOptions = addAllUninterpretedOption(__vs)
@@ -297,8 +296,7 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[_root_.co
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         number.foreach { __v =>
           val __m = __v
           _output__.writeInt32(1, __m)
@@ -319,7 +317,7 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[_root_.co
           val __m = __v
           _output__.writeBool(6, __m)
         };
-        unknownFields.writeTo(_output__, _serializationMode__)
+        unknownFields.writeTo(_output__)
       }
       def getNumber: _root_.scala.Int = number.getOrElse(0)
       def clearNumber: Declaration = copy(number = _root_.scala.None)

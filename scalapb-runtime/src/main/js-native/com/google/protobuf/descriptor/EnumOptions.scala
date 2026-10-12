@@ -71,8 +71,7 @@ final case class EnumOptions(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       allowAlias.foreach { __v =>
         val __m = __v
         _output__.writeBool(2, __m)
@@ -89,15 +88,15 @@ final case class EnumOptions(
         val __m = __v
         _output__.writeTag(7, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       uninterpretedOption.foreach { __v =>
         val __m = __v
         _output__.writeTag(999, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
-      unknownFields.writeTo(_output__, _serializationMode__)
+      unknownFields.writeTo(_output__)
     }
     def getAllowAlias: _root_.scala.Boolean = allowAlias.getOrElse(false)
     def clearAllowAlias: EnumOptions = copy(allowAlias = _root_.scala.None)

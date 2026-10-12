@@ -77,33 +77,17 @@ trait GeneratedMessage extends Any with Product with Serializable {
   /** Serializes the message into the given coded output stream */
   def writeTo(output: CodedOutputStream): Unit
 
-  /** Serializes using an explicit policy. Older generated classes support Default only. Regenerate
-    * all nested message types before using Deterministic.
-    */
-  def writeTo(output: CodedOutputStream, mode: SerializationMode): Unit = mode match {
-    case SerializationMode.Default       => writeTo(output)
-    case SerializationMode.Deterministic =>
-      throw new UnsupportedOperationException(
-        "Deterministic serialization requires regenerating this message with a newer ScalaPB compiler"
-      )
-  }
-
   /** Serializes the message into the given output stream */
-  final def writeTo(output: OutputStream): Unit = writeTo(output, SerializationMode.Default)
-
-  final def writeTo(output: OutputStream, mode: SerializationMode): Unit = {
+  final def writeTo(output: OutputStream): Unit = {
     val bufferSize =
       LiteParser.preferredCodedOutputStreamBufferSize(serializedSize)
     val codedOutput: CodedOutputStream =
       CodedOutputStream.newInstance(output, bufferSize)
-    writeTo(codedOutput, mode)
+    writeTo(codedOutput)
     codedOutput.flush()
   }
 
-  final def writeDelimitedTo(output: OutputStream): Unit =
-    writeDelimitedTo(output, SerializationMode.Default)
-
-  final def writeDelimitedTo(output: OutputStream, mode: SerializationMode): Unit = {
+  final def writeDelimitedTo(output: OutputStream): Unit = {
     val serialized: Int = serializedSize
     val bufferSize: Int = LiteParser.preferredCodedOutputStreamBufferSize(
       CodedOutputStream.computeUInt32SizeNoTag(serialized) + serialized
@@ -111,7 +95,7 @@ trait GeneratedMessage extends Any with Product with Serializable {
     val codedOutput: CodedOutputStream =
       CodedOutputStream.newInstance(output, bufferSize)
     codedOutput.writeUInt32NoTag(serialized)
-    writeTo(codedOutput, mode)
+    writeTo(codedOutput)
     codedOutput.flush()
   }
 
@@ -129,22 +113,18 @@ trait GeneratedMessage extends Any with Product with Serializable {
   def companion: GeneratedMessageCompanion[?]
 
   /** Serializes the message and returns a byte array containing its raw bytes */
-  final def toByteArray: Array[Byte] = toByteArray(SerializationMode.Default)
-
-  final def toByteArray(mode: SerializationMode): Array[Byte] = {
+  final def toByteArray: Array[Byte] = {
     val a            = new Array[Byte](serializedSize)
     val outputStream = CodedOutputStream.newInstance(a)
-    writeTo(outputStream, mode)
+    writeTo(outputStream)
     outputStream.checkNoSpaceLeft()
     a
   }
 
   /** Serializes the message and returns a ByteString containing its raw bytes */
-  final def toByteString: ByteString = toByteString(SerializationMode.Default)
-
-  final def toByteString(mode: SerializationMode): ByteString = {
+  final def toByteString: ByteString = {
     val output = ByteString.newOutput(serializedSize)
-    writeTo(output, mode)
+    writeTo(output)
     output.close()
     output.toByteString()
   }

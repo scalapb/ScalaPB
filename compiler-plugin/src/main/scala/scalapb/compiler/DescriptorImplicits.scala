@@ -922,6 +922,8 @@ class DescriptorImplicits private[compiler] (
 
     def emitScala3Sources: Boolean = scalaOptions.getScala3Sources || params.scala3Sources
 
+    def deterministicSerialization: Boolean = scalaOptions.getDeterministicSerialization
+
     def generatePublicConstructorParameters: Boolean = scalaOptions.getPublicConstructorParameters
 
     def V: ScalaCompatConstants = new ScalaCompatConstants(emitScala3Sources)

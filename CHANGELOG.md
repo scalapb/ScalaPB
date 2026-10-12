@@ -1,9 +1,9 @@
 # Change Log
 ## [1.0.0] (Not yet released)
-- Add opt-in `SerializationMode.Deterministic` for ScalaPB writes on JVM, JS and
-  Native, recursively ordering map entries and unknown field numbers. Existing
-  serialization defaults are unchanged; deterministic mode requires regenerated
-  message classes and is not a canonical cross-language or cross-schema format.
+- Add the file/package option `deterministic_serialization`, which generates ordinary
+  writers that sort maps and unknown field numbers. Enable it for all relevant
+  nested message types too; imported types retain their own generation policy.
+  Defaults are unchanged. This is not canonical cross-language or cross-schema serialization.
 - BREAKING CHANGE: `scala3Sources = true` (or `scala3_sources`) now emits named
   givens, given-based lens conversions, and modern control-flow syntax for Scala 3
   `-source:future` (#2212). This output no longer supports Scala 2 with `-Xsource:3`;

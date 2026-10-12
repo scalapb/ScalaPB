@@ -38,8 +38,7 @@ final case class OneofOptions(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       `extends`.foreach { __v =>
         val __m = __v
         _output__.writeString(1, __m)
@@ -48,7 +47,7 @@ final case class OneofOptions(
         val __m = __v
         _output__.writeString(2, __m)
       };
-      unknownFields.writeTo(_output__, _serializationMode__)
+      unknownFields.writeTo(_output__)
     }
     def clearExtends = copy(`extends` = _root_.scala.Vector.empty)
     def addExtends(__vs: _root_.scala.Predef.String *): OneofOptions = addAllExtends(__vs)

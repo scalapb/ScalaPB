@@ -124,8 +124,7 @@ final case class Mixin(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = name
         if (!__v.isEmpty) {
@@ -138,7 +137,7 @@ final case class Mixin(
           _output__.writeString(2, __v)
         }
       };
-      unknownFields.writeTo(_output__, _serializationMode__)
+      unknownFields.writeTo(_output__)
     }
     def withName(__v: _root_.scala.Predef.String): Mixin = copy(name = __v)
     def withRoot(__v: _root_.scala.Predef.String): Mixin = copy(root = __v)

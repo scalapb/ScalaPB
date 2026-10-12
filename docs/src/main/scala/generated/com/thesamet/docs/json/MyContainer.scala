@@ -28,15 +28,14 @@ final case class MyContainer(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       myAny.foreach { __v =>
         val __m = __v
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
-      unknownFields.writeTo(_output__, _serializationMode__)
+      unknownFields.writeTo(_output__)
     }
     def getMyAny: _root_.com.google.protobuf.any.Any = myAny.getOrElse(_root_.com.google.protobuf.any.Any.defaultInstance)
     def clearMyAny: MyContainer = copy(myAny = _root_.scala.None)

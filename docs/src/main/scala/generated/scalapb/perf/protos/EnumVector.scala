@@ -37,14 +37,13 @@ final case class EnumVector(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       if (colors.nonEmpty) {
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(colorsSerializedSize)
         colors.foreach(__v => _output__.writeEnumNoTag(__v.value))
       };
-      unknownFields.writeTo(_output__, _serializationMode__)
+      unknownFields.writeTo(_output__)
     }
     def clearColors = copy(colors = _root_.scala.Vector.empty)
     def addColors(__vs: _root_.scalapb.perf.protos.Color *): EnumVector = addAllColors(__vs)

@@ -90,8 +90,7 @@ final case class Type(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = name
         if (!__v.isEmpty) {
@@ -102,7 +101,7 @@ final case class Type(
         val __m = __v
         _output__.writeTag(2, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       oneofs.foreach { __v =>
         val __m = __v
@@ -112,13 +111,13 @@ final case class Type(
         val __m = __v
         _output__.writeTag(4, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       sourceContext.foreach { __v =>
         val __m = __v
         _output__.writeTag(5, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       {
         val __v = syntax.value
@@ -132,7 +131,7 @@ final case class Type(
           _output__.writeString(7, __v)
         }
       };
-      unknownFields.writeTo(_output__, _serializationMode__)
+      unknownFields.writeTo(_output__)
     }
     def withName(__v: _root_.scala.Predef.String): Type = copy(name = __v)
     def clearFields = copy(fields = _root_.scala.Vector.empty)

@@ -76,15 +76,14 @@ final case class SourceCodeInfo(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       location.foreach { __v =>
         val __m = __v
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
-      unknownFields.writeTo(_output__, _serializationMode__)
+      unknownFields.writeTo(_output__)
     }
     def clearLocation = copy(location = _root_.scala.Vector.empty)
     def addLocation(__vs: _root_.com.google.protobuf.descriptor.SourceCodeInfo.Location *): SourceCodeInfo = addAllLocation(__vs)
@@ -299,8 +298,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.googl
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         if (path.nonEmpty) {
           _output__.writeTag(1, 2)
           _output__.writeUInt32NoTag(pathSerializedSize)
@@ -323,7 +321,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.googl
           val __m = __v
           _output__.writeString(6, __m)
         };
-        unknownFields.writeTo(_output__, _serializationMode__)
+        unknownFields.writeTo(_output__)
       }
       def clearPath = copy(path = _root_.scala.Vector.empty)
       def addPath(__vs: _root_.scala.Int *): Location = addAllPath(__vs)

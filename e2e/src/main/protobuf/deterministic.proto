@@ -2,6 +2,9 @@ syntax = "proto3";
 package scalapb.deterministic;
 
 import "scalapb/scalapb.proto";
+import "deterministic_default.proto";
+
+option (scalapb.options).deterministic_serialization = true;
 
 message DeterministicMessage {
   map<string, string> strings = 1;
@@ -23,4 +26,5 @@ message DeterministicMessage {
   repeated int32 repeated_values = 13;
   map<fixed32, string> fixed_ints = 14;
   map<fixed64, string> fixed_longs = 15;
+  DefaultMessage imported_child = 16;
 }

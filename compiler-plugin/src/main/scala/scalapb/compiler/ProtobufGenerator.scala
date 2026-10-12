@@ -468,7 +468,7 @@ class ProtobufGenerator(
     if (field.isMessage) {
       fp.add(s"""_output__.writeTag(${field.getNumber}, 2)
                 |_output__.writeUInt32NoTag($valueExpr.serializedSize)
-                |$valueExpr.writeTo(_output__, _serializationMode__)""".stripMargin)
+                |$valueExpr.writeTo(_output__)""".stripMargin)
     } else {
       val capTypeName = Types.capitalizedType(field.getType)
       fp.add(s"_output__.write$capTypeName(${field.getNumber}, $valueExpr)")
@@ -660,9 +660,7 @@ class ProtobufGenerator(
 
   def generateWriteTo(message: Descriptor)(fp: FunctionalPrinter) =
     fp.add(
-      s"def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)"
-    ).add(
-      s"override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {"
+      s"def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {"
     ).indent
       .print(message.fields.sortBy(_.getNumber)) { case (printer, field) =>
         val fieldNameSymbol = fieldAccessorSymbol(field)
@@ -684,7 +682,7 @@ class ProtobufGenerator(
                |  ${field.collection.foreach}(__v => _output__.write${capTypeName}NoTag($writeExpr))
                |};""".stripMargin
           )
-        } else if (field.isMapField) {
+        } else if (field.isMapField && message.getFile.deterministicSerialization) {
           val keyField = field.mapType.keyField
           val key = toBaseType(keyField)(if (keyField.supportsPresence) "__m.getKey" else "__m.key")
           val sortKey = keyField.getType match {
@@ -693,9 +691,7 @@ class ProtobufGenerator(
             case _                          => key
           }
           printer
-            .add(
-              "if (_serializationMode__ == _root_.scalapb.SerializationMode.Deterministic)" + message.V.Then + " {"
-            )
+            .add("{")
             .indent
             .add(
               s"val __entries = _root_.scala.collection.mutable.ArrayBuffer.empty[${field.getMessageType.scalaType.fullName}]"
@@ -703,15 +699,6 @@ class ProtobufGenerator(
             .add(s"${field.collection.foreach} { __v => __entries += ${toBaseType(field)("__v")} }")
             .add(s"__entries.sortBy(__m => $sortKey).foreach { __m =>")
             .indent
-            .call(generateWriteSingleValue(field, "__m"))
-            .outdent
-            .add("}")
-            .outdent
-            .add("} else {")
-            .indent
-            .add(s"${field.collection.foreach} { __v =>")
-            .indent
-            .add(s"val __m = ${toBaseType(field)("__v")}")
             .call(generateWriteSingleValue(field, "__m"))
             .outdent
             .add("}")
@@ -751,9 +738,11 @@ class ProtobufGenerator(
             .add("};")
         }
       }
-      .when(message.preservesUnknownFields)(
-        _.add("unknownFields.writeTo(_output__, _serializationMode__)")
-      )
+      .when(message.preservesUnknownFields) { printer =>
+        val method =
+          if (message.getFile.deterministicSerialization) "writeToDeterministic" else "writeTo"
+        printer.add(s"unknownFields.$method(_output__)")
+      }
       .outdent
       .add("}")
 

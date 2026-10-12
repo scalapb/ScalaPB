@@ -55,8 +55,7 @@ final case class Value(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       kind.nullValue.foreach { __v =>
         val __m = __v.value
         _output__.writeEnum(1, __m)
@@ -77,15 +76,15 @@ final case class Value(
         val __m = __v
         _output__.writeTag(5, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       kind.listValue.foreach { __v =>
         val __m = __v
         _output__.writeTag(6, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
-      unknownFields.writeTo(_output__, _serializationMode__)
+      unknownFields.writeTo(_output__)
     }
     def getNullValue: _root_.com.google.protobuf.struct.NullValue = kind.nullValue.getOrElse(_root_.com.google.protobuf.struct.NullValue.NULL_VALUE)
     def withNullValue(__v: _root_.com.google.protobuf.struct.NullValue): Value = copy(kind = _root_.com.google.protobuf.struct.Value.Kind.NullValue(__v))

@@ -86,8 +86,7 @@ final case class DescriptorProto(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       name.foreach { __v =>
         val __m = __v
         _output__.writeString(1, __m)
@@ -96,49 +95,49 @@ final case class DescriptorProto(
         val __m = __v
         _output__.writeTag(2, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       nestedType.foreach { __v =>
         val __m = __v
         _output__.writeTag(3, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       enumType.foreach { __v =>
         val __m = __v
         _output__.writeTag(4, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       extensionRange.foreach { __v =>
         val __m = __v
         _output__.writeTag(5, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       extension.foreach { __v =>
         val __m = __v
         _output__.writeTag(6, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       options.foreach { __v =>
         val __m = __v
         _output__.writeTag(7, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       oneofDecl.foreach { __v =>
         val __m = __v
         _output__.writeTag(8, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       reservedRange.foreach { __v =>
         val __m = __v
         _output__.writeTag(9, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       reservedName.foreach { __v =>
         val __m = __v
@@ -148,7 +147,7 @@ final case class DescriptorProto(
         val __m = __v.value
         _output__.writeEnum(11, __m)
       };
-      unknownFields.writeTo(_output__, _serializationMode__)
+      unknownFields.writeTo(_output__)
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
     def clearName: DescriptorProto = copy(name = _root_.scala.None)
@@ -390,8 +389,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         start.foreach { __v =>
           val __m = __v
           _output__.writeInt32(1, __m)
@@ -404,9 +402,9 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
           val __m = __v
           _output__.writeTag(3, 2)
           _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__, _serializationMode__)
+          __m.writeTo(_output__)
         };
-        unknownFields.writeTo(_output__, _serializationMode__)
+        unknownFields.writeTo(_output__)
       }
       def getStart: _root_.scala.Int = start.getOrElse(0)
       def clearStart: ExtensionRange = copy(start = _root_.scala.None)
@@ -559,8 +557,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         start.foreach { __v =>
           val __m = __v
           _output__.writeInt32(1, __m)
@@ -569,7 +566,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
           val __m = __v
           _output__.writeInt32(2, __m)
         };
-        unknownFields.writeTo(_output__, _serializationMode__)
+        unknownFields.writeTo(_output__)
       }
       def getStart: _root_.scala.Int = start.getOrElse(0)
       def clearStart: ReservedRange = copy(start = _root_.scala.None)

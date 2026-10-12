@@ -81,19 +81,30 @@ to see what methods are available
 
 ### Deterministic serialization
 
-By default, ScalaPB serializes maps in their collection's iteration order. To
-make their encoding independent of insertion order, select an explicit policy:
+By default, ScalaPB serializes maps in their collection's iteration order. Enable
+sorting at code generation time with a file-level ScalaPB option:
 
-```scala
-val bytes = message.toByteArray(scalapb.SerializationMode.Deterministic)
+```protobuf
+import "scalapb/scalapb.proto";
+option (scalapb.options).deterministic_serialization = true;
 ```
 
-The same mode is accepted by `toByteString`, `writeTo` (for `OutputStream` or
-`CodedOutputStream`), and `writeDelimitedTo`. It propagates through all nested
-ScalaPB messages, including map values, repeated messages and oneofs. The policy
-uses shared Scala code on JVM, Scala.js and Scala Native; it does not depend on
-Java's `CodedOutputStream.useDeterministicSerialization()` setting. That setting
-alone does not sort ScalaPB collections.
+Then use ordinary serialization methods (`toByteArray`, `toByteString`, `writeTo`,
+and `writeDelimitedTo`), with no runtime parameter. You can also set the option
+through [package-scoped options](customizations.md#package-scoped-options).
+It defaults to `false`; a file can explicitly opt out of an inherited setting.
+
+The option applies to all messages generated from the file, including nested
+message definitions and map entries. Nested writes call each message type's normal
+writer. **Enable the option for every message type in the graph whose maps or
+unknown fields need ordering**, including types defined in imported proto files.
+An enabled parent does not override an imported type's policy. Precompiled
+third-party messages, including well-known types, keep their existing serialization
+behavior; merely importing them into an enabled file does not make them deterministic.
+
+The generated code uses shared Scala operations on JVM, Scala.js and Scala Native.
+It does not depend on Java's `CodedOutputStream.useDeterministicSerialization()`
+setting, which alone does not sort ScalaPB collections.
 
 In deterministic mode:
 
@@ -117,14 +128,10 @@ languages, schema changes or library versions, and does not promise identical
 bytes to Java's deterministic serializer. Do not use it as a cross-schema or
 cross-language canonical format for persistent fingerprints or signatures.
 
-Existing APIs keep their historical behavior, also available explicitly as
-`SerializationMode.Default`. Regenerate all message classes (including dependencies)
-with a compiler supporting this policy before opting in. Older generated classes
-remain usable in default mode; deterministic writes throw
-`UnsupportedOperationException` when they encounter an older class instead of
-silently producing unsorted bytes. A streaming write can have emitted a prefix
-before encountering such a class. New generated code requires the matching newer
-ScalaPB runtime. Sorting uses temporary storage proportional to each map's size.
+Files without the option keep their historical byte ordering and incur no sorting
+cost. Enabling it changes byte order but preserves protobuf wire compatibility.
+Regenerate the enabled files and use the matching newer ScalaPB runtime. Sorting
+uses O(n log n) comparisons and temporary storage proportional to each map's size.
 
 ### Building New Messages
 

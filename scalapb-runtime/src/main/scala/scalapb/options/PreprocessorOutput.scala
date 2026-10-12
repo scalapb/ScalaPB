@@ -28,25 +28,14 @@ final case class PreprocessorOutput(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
-      if (_serializationMode__ == _root_.scalapb.SerializationMode.Deterministic) {
-        val __entries = _root_.scala.collection.mutable.ArrayBuffer.empty[_root_.scalapb.options.PreprocessorOutput.OptionsByFileEntry]
-        optionsByFile.foreach { __v => __entries += _root_.scalapb.options.PreprocessorOutput._typemapper_optionsByFile.toBase(__v) }
-        __entries.sortBy(__m => __m.getKey).foreach { __m =>
-          _output__.writeTag(1, 2)
-          _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__, _serializationMode__)
-        }
-      } else {
-        optionsByFile.foreach { __v =>
-          val __m = _root_.scalapb.options.PreprocessorOutput._typemapper_optionsByFile.toBase(__v)
-          _output__.writeTag(1, 2)
-          _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__, _serializationMode__)
-        }
-      }
-      unknownFields.writeTo(_output__, _serializationMode__)
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+      optionsByFile.foreach { __v =>
+        val __m = _root_.scalapb.options.PreprocessorOutput._typemapper_optionsByFile.toBase(__v)
+        _output__.writeTag(1, 2)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
+      };
+      unknownFields.writeTo(_output__)
     }
     def clearOptionsByFile = copy(optionsByFile = _root_.scala.collection.immutable.Map.empty)
     def addOptionsByFile(__vs: (_root_.scala.Predef.String, _root_.scalapb.options.ScalaPbOptions) *): PreprocessorOutput = addAllOptionsByFile(__vs)
@@ -149,8 +138,7 @@ object PreprocessorOutput extends scalapb.GeneratedMessageCompanion[_root_.scala
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         key.foreach { __v =>
           val __m = __v
           _output__.writeString(1, __m)
@@ -159,9 +147,9 @@ object PreprocessorOutput extends scalapb.GeneratedMessageCompanion[_root_.scala
           val __m = __v
           _output__.writeTag(2, 2)
           _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__, _serializationMode__)
+          __m.writeTo(_output__)
         };
-        unknownFields.writeTo(_output__, _serializationMode__)
+        unknownFields.writeTo(_output__)
       }
       def getKey: _root_.scala.Predef.String = key.getOrElse("")
       def clearKey: OptionsByFileEntry = copy(key = _root_.scala.None)

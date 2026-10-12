@@ -114,8 +114,7 @@ final case class Method(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = name
         if (!__v.isEmpty) {
@@ -150,7 +149,7 @@ final case class Method(
         val __m = __v
         _output__.writeTag(6, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       {
         val __v = syntax.value
@@ -164,7 +163,7 @@ final case class Method(
           _output__.writeString(8, __v)
         }
       };
-      unknownFields.writeTo(_output__, _serializationMode__)
+      unknownFields.writeTo(_output__)
     }
     def withName(__v: _root_.scala.Predef.String): Method = copy(name = __v)
     def withRequestTypeUrl(__v: _root_.scala.Predef.String): Method = copy(requestTypeUrl = __v)

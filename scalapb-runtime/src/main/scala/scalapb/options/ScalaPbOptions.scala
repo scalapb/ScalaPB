@@ -81,6 +81,9 @@ package scalapb.options
   *   Generate sources that are compatible with Scala 3
   * @param publicConstructorParameters
   *   Makes constructor parameters public, including defaults and TypeMappers.
+  * @param deterministicSerialization
+  *   Sort map entries by protobuf key and unknown fields by field number when serializing.
+  *   Repeated values retain their order. This is not canonical across languages or schemas.
   * @param testOnlyNoJavaConversions
   *   For use in tests only. Inhibit Java conversions even when when generator parameters
   *   request for it.
@@ -116,6 +119,7 @@ final case class ScalaPbOptions(
     getters: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     scala3Sources: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     publicConstructorParameters: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    deterministicSerialization: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ScalaPbOptions] with _root_.scalapb.ExtendableMessage[ScalaPbOptions] {
@@ -239,6 +243,10 @@ final case class ScalaPbOptions(
         val __value = publicConstructorParameters.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(29, __value)
       };
+      if (deterministicSerialization.isDefined) {
+        val __value = deterministicSerialization.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(30, __value)
+      };
       if (testOnlyNoJavaConversions.isDefined) {
         val __value = testOnlyNoJavaConversions.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(999, __value)
@@ -255,8 +263,7 @@ final case class ScalaPbOptions(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       packageName.foreach { __v =>
         val __m = __v
         _output__.writeString(1, __m)
@@ -329,19 +336,19 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeTag(18, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       auxFieldOptions.foreach { __v =>
         val __m = __v
         _output__.writeTag(19, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       auxEnumOptions.foreach { __v =>
         val __m = __v
         _output__.writeTag(20, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       bytesType.foreach { __v =>
         val __m = __v
@@ -351,7 +358,7 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeTag(22, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       javaConversions.foreach { __v =>
         val __m = __v
@@ -365,7 +372,7 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeTag(25, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
       ignoreAllTransformations.foreach { __v =>
         val __m = __v
@@ -383,11 +390,15 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeBool(29, __m)
       };
+      deterministicSerialization.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(30, __m)
+      };
       testOnlyNoJavaConversions.foreach { __v =>
         val __m = __v
         _output__.writeBool(999, __m)
       };
-      unknownFields.writeTo(_output__, _serializationMode__)
+      unknownFields.writeTo(_output__)
     }
     def getPackageName: _root_.scala.Predef.String = packageName.getOrElse("")
     def clearPackageName: ScalaPbOptions = copy(packageName = _root_.scala.None)
@@ -484,6 +495,9 @@ final case class ScalaPbOptions(
     def getPublicConstructorParameters: _root_.scala.Boolean = publicConstructorParameters.getOrElse(false)
     def clearPublicConstructorParameters: ScalaPbOptions = copy(publicConstructorParameters = _root_.scala.None)
     def withPublicConstructorParameters(__v: _root_.scala.Boolean): ScalaPbOptions = copy(publicConstructorParameters = _root_.scala.Option(__v))
+    def getDeterministicSerialization: _root_.scala.Boolean = deterministicSerialization.getOrElse(false)
+    def clearDeterministicSerialization: ScalaPbOptions = copy(deterministicSerialization = _root_.scala.None)
+    def withDeterministicSerialization(__v: _root_.scala.Boolean): ScalaPbOptions = copy(deterministicSerialization = _root_.scala.Option(__v))
     def getTestOnlyNoJavaConversions: _root_.scala.Boolean = testOnlyNoJavaConversions.getOrElse(false)
     def clearTestOnlyNoJavaConversions: ScalaPbOptions = copy(testOnlyNoJavaConversions = _root_.scala.None)
     def withTestOnlyNoJavaConversions(__v: _root_.scala.Boolean): ScalaPbOptions = copy(testOnlyNoJavaConversions = _root_.scala.Option(__v))
@@ -520,6 +534,7 @@ final case class ScalaPbOptions(
         case 27 => getters.orNull
         case 28 => scala3Sources.orNull
         case 29 => publicConstructorParameters.orNull
+        case 30 => deterministicSerialization.orNull
         case 999 => testOnlyNoJavaConversions.orNull
       }
     }
@@ -555,6 +570,7 @@ final case class ScalaPbOptions(
         case 27 => getters.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 28 => scala3Sources.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 29 => publicConstructorParameters.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 30 => deterministicSerialization.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 999 => testOnlyNoJavaConversions.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
@@ -595,6 +611,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     var __getters: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __scala3Sources: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __publicConstructorParameters: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __deterministicSerialization: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -660,6 +677,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
           __scala3Sources = _root_.scala.Option(_input__.readBool())
         case 232 =>
           __publicConstructorParameters = _root_.scala.Option(_input__.readBool())
+        case 240 =>
+          __deterministicSerialization = _root_.scala.Option(_input__.readBool())
         case 7992 =>
           __testOnlyNoJavaConversions = _root_.scala.Option(_input__.readBool())
         case tag =>
@@ -699,6 +718,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         getters = __getters,
         scala3Sources = __scala3Sources,
         publicConstructorParameters = __publicConstructorParameters,
+        deterministicSerialization = __deterministicSerialization,
         testOnlyNoJavaConversions = __testOnlyNoJavaConversions,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
@@ -736,6 +756,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         getters = __fieldsMap.get(scalaDescriptor.findFieldByNumber(27).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         scala3Sources = __fieldsMap.get(scalaDescriptor.findFieldByNumber(28).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         publicConstructorParameters = __fieldsMap.get(scalaDescriptor.findFieldByNumber(29).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        deterministicSerialization = __fieldsMap.get(scalaDescriptor.findFieldByNumber(30).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         testOnlyNoJavaConversions = __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -796,6 +817,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     getters = _root_.scala.None,
     scala3Sources = _root_.scala.None,
     publicConstructorParameters = _root_.scala.None,
+    deterministicSerialization = _root_.scala.None,
     testOnlyNoJavaConversions = _root_.scala.None
   )
   /** Whether to apply the options only to this file, or for the entire package (and its subpackages)
@@ -927,8 +949,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         target.foreach { __v =>
           val __m = __v
           _output__.writeString(1, __m)
@@ -937,9 +958,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
           val __m = __v
           _output__.writeTag(2, 2)
           _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__, _serializationMode__)
+          __m.writeTo(_output__)
         };
-        unknownFields.writeTo(_output__, _serializationMode__)
+        unknownFields.writeTo(_output__)
       }
       def getTarget: _root_.scala.Predef.String = target.getOrElse("")
       def clearTarget: AuxMessageOptions = copy(target = _root_.scala.None)
@@ -1078,8 +1099,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         target.foreach { __v =>
           val __m = __v
           _output__.writeString(1, __m)
@@ -1088,9 +1108,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
           val __m = __v
           _output__.writeTag(2, 2)
           _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__, _serializationMode__)
+          __m.writeTo(_output__)
         };
-        unknownFields.writeTo(_output__, _serializationMode__)
+        unknownFields.writeTo(_output__)
       }
       def getTarget: _root_.scala.Predef.String = target.getOrElse("")
       def clearTarget: AuxFieldOptions = copy(target = _root_.scala.None)
@@ -1229,8 +1249,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         target.foreach { __v =>
           val __m = __v
           _output__.writeString(1, __m)
@@ -1239,9 +1258,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
           val __m = __v
           _output__.writeTag(2, 2)
           _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__, _serializationMode__)
+          __m.writeTo(_output__)
         };
-        unknownFields.writeTo(_output__, _serializationMode__)
+        unknownFields.writeTo(_output__)
       }
       def getTarget: _root_.scala.Predef.String = target.getOrElse("")
       def clearTarget: AuxEnumOptions = copy(target = _root_.scala.None)
@@ -1380,8 +1399,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         target.foreach { __v =>
           val __m = __v
           _output__.writeString(1, __m)
@@ -1390,9 +1408,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
           val __m = __v
           _output__.writeTag(2, 2)
           _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__, _serializationMode__)
+          __m.writeTo(_output__)
         };
-        unknownFields.writeTo(_output__, _serializationMode__)
+        unknownFields.writeTo(_output__)
       }
       def getTarget: _root_.scala.Predef.String = target.getOrElse("")
       def clearTarget: AuxEnumValueOptions = copy(target = _root_.scala.None)
@@ -1541,6 +1559,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     def optionalScala3Sources: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.scala3Sources)((c_, f_) => c_.copy(scala3Sources = f_))
     def publicConstructorParameters: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPublicConstructorParameters)((c_, f_) => c_.copy(publicConstructorParameters = _root_.scala.Option(f_)))
     def optionalPublicConstructorParameters: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.publicConstructorParameters)((c_, f_) => c_.copy(publicConstructorParameters = f_))
+    def deterministicSerialization: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeterministicSerialization)((c_, f_) => c_.copy(deterministicSerialization = _root_.scala.Option(f_)))
+    def optionalDeterministicSerialization: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deterministicSerialization)((c_, f_) => c_.copy(deterministicSerialization = f_))
     def testOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getTestOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = _root_.scala.Option(f_)))
     def optionalTestOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.testOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = f_))
   }
@@ -1573,6 +1593,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
   final val GETTERS_FIELD_NUMBER = 27
   final val SCALA3_SOURCES_FIELD_NUMBER = 28
   final val PUBLIC_CONSTRUCTOR_PARAMETERS_FIELD_NUMBER = 29
+  final val DETERMINISTIC_SERIALIZATION_FIELD_NUMBER = 30
   final val TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 999
   def of(
     packageName: _root_.scala.Option[_root_.scala.Predef.String],
@@ -1604,6 +1625,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     getters: _root_.scala.Option[_root_.scala.Boolean],
     scala3Sources: _root_.scala.Option[_root_.scala.Boolean],
     publicConstructorParameters: _root_.scala.Option[_root_.scala.Boolean],
+    deterministicSerialization: _root_.scala.Option[_root_.scala.Boolean],
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean]
   ): _root_.scalapb.options.ScalaPbOptions = _root_.scalapb.options.ScalaPbOptions(
     packageName,
@@ -1635,6 +1657,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     getters,
     scala3Sources,
     publicConstructorParameters,
+    deterministicSerialization,
     testOnlyNoJavaConversions
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.ScalaPbOptions])

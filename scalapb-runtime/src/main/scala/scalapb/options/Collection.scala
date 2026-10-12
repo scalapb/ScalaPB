@@ -51,8 +51,7 @@ final case class Collection(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       `type`.foreach { __v =>
         val __m = __v
         _output__.writeString(1, __m)
@@ -65,7 +64,7 @@ final case class Collection(
         val __m = __v
         _output__.writeString(3, __m)
       };
-      unknownFields.writeTo(_output__, _serializationMode__)
+      unknownFields.writeTo(_output__)
     }
     def getType: _root_.scala.Predef.String = `type`.getOrElse("")
     def clearType: Collection = copy(`type` = _root_.scala.None)

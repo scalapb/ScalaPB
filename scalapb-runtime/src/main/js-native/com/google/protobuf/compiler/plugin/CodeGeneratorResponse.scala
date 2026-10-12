@@ -73,8 +73,7 @@ final case class CodeGeneratorResponse(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       error.foreach { __v =>
         val __m = __v
         _output__.writeString(1, __m)
@@ -95,9 +94,9 @@ final case class CodeGeneratorResponse(
         val __m = __v
         _output__.writeTag(15, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__, _serializationMode__)
+        __m.writeTo(_output__)
       };
-      unknownFields.writeTo(_output__, _serializationMode__)
+      unknownFields.writeTo(_output__)
     }
     def getError: _root_.scala.Predef.String = error.getOrElse("")
     def clearError: CodeGeneratorResponse = copy(error = _root_.scala.None)
@@ -362,8 +361,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[_root_.co
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
-      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         name.foreach { __v =>
           val __m = __v
           _output__.writeString(1, __m)
@@ -380,9 +378,9 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[_root_.co
           val __m = __v
           _output__.writeTag(16, 2)
           _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__, _serializationMode__)
+          __m.writeTo(_output__)
         };
-        unknownFields.writeTo(_output__, _serializationMode__)
+        unknownFields.writeTo(_output__)
       }
       def getName: _root_.scala.Predef.String = name.getOrElse("")
       def clearName: File = copy(name = _root_.scala.None)
