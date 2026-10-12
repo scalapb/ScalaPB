@@ -187,6 +187,12 @@ message ScalaPbOptions {
   // Makes constructor parameters public, including defaults and TypeMappers.
   optional bool public_constructor_parameters = 29;
 
+  // Use the resolved protobuf Java UTF-8 validation policy when parsing strings.
+  // Defaults to false to preserve ScalaPB's legacy always-validating behavior.
+  // Nonvalidating strings replace malformed UTF-8 and cannot preserve its bytes.
+  // Map strings always validate. Applies to binary message fields, not extensions.
+  optional bool use_schema_utf8_validation = 30 [default=false];
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 999;

@@ -44,9 +44,20 @@ lazy val root: Project =
 lazy val runtime = (projectMatrix in file("scalapb-runtime"))
   .defaultAxes()
   .dependsOn(lenses)
+  .enablePlugins(LocalCodeGenPlugin)
   .settings(commonSettings)
   .settings(
     name := "scalapb-runtime",
+    // Generate cross-platform parser fixtures with this checkout's compiler.
+    codeGenClasspath := (compilerPluginJVM2_13 / Compile / fullClasspath).value,
+    Test / PB.includePaths ++= Seq(
+      (LocalRootProject / baseDirectory).value / "protobuf",
+      (LocalRootProject / baseDirectory).value / "third_party"
+    ),
+    Test / PB.targets := Seq(
+      genModule("scalapb.ScalaPbCodeGenerator$") -> (Test / sourceManaged).value
+    ),
+    Test / PB.recompile := true,
     libraryDependencies ++= Seq(
       protobufJava          % "protobuf",
       munit.value           % "test",

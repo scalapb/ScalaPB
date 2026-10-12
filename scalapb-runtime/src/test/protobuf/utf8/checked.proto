@@ -1,0 +1,6 @@
+syntax = "proto2";
+package scalapb.utf8;
+import "scalapb/scalapb.proto";
+option (scalapb.options) = { flat_package: true use_schema_utf8_validation: true };
+option java_string_check_utf8 = true;
+message CheckedStrings { optional string value = 1; }

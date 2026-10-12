@@ -1,0 +1,10 @@
+syntax = "proto2";
+package scalapb.utf8;
+import "scalapb/scalapb.proto";
+option (scalapb.options) = { flat_package: true use_schema_utf8_validation: true };
+message RelaxedStrings {
+  optional string value = 1;
+  repeated string values = 2;
+  oneof choice { string selected = 3; }
+  map<string, string> entries = 4;
+}

@@ -833,3 +833,46 @@ message Expr {
   }
 }
 ```
+
+## Binary string UTF-8 validation
+
+ScalaPB validates UTF-8 when parsing ordinary binary `string` fields by default,
+including proto2 strings. To opt into the resolved protobuf Java schema policy:
+
+```protobuf
+import "scalapb/scalapb.proto";
+option (scalapb.options).use_schema_utf8_validation = true;
+```
+
+This option can also be inherited from package-scoped ScalaPB options. Set it to
+`false` in a file to retain strict validation for that file. Regenerate your Scala
+sources after changing the option; already-generated parsers are unaffected.
+
+With the option enabled, proto2 strings validate when `java_string_check_utf8`
+is true, and proto3 strings validate by default. The generator uses the public
+Java descriptor `needsUtf8Check()` API, which resolves inherited Editions
+`features.utf8_validation` and Java-specific UTF-8 overrides for Edition 2023.
+Edition 2024 feature resolution is tested at the descriptor level but Edition
+2024 input is not yet advertised.
+String map keys **and values always validate**, including in nonvalidating files.
+The policy applies equally to singular, repeated, oneof, and custom-mapped strings.
+
+Nonvalidating fields decode to Scala `String`, replacing malformed UTF-8 with
+replacement characters. **The original malformed bytes are lost** before any
+custom type mapper runs. Reserializing is not a byte-preserving round trip, and
+replacement grouping can differ between JVM, JavaScript, and Native decoders.
+Use a `bytes` field (wire-compatible with `string`) when you need to retain the
+original bytes. Valid Unicode is unaffected by this option.
+
+This option controls generated binary message parsers. It does not change text
+format parsing, JSON support, serialization, or extension accessors (which decode
+strings from their stored unknown-field bytes). For the upstream Java policy and
+its string-only versus dual representation distinction, see
+[UTF-8 Validation in Java](https://protobuf.dev/reference/java/java-utf8-validation/).
+
+JavaScript and Native require `protobuf-runtime-scala` 0.9.0 or newer for strict
+malformed-input rejection (included by this release). The 0.9.0 upgrade also makes
+the deprecated `ByteString.bytes` return a copy rather than exposing its backing
+array; use `toByteArray()`. See the runtime's
+[0.9.0 release notes](https://github.com/scalapb/protobuf-scala-runtime/blob/v0.9.0/RELEASE_NOTES.md)
+for the stable-path source incompatibility and other validation fixes.
