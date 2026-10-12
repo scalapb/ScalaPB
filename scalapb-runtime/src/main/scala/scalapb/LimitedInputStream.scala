@@ -6,6 +6,8 @@ import java.io.{FilterInputStream, InputStream}
   */
 class LimitedInputStream(val is: InputStream, private var limit: Int)
     extends FilterInputStream(is) {
+  require(limit >= 0, "limit must be non-negative")
+
   override def available(): Int = super.available min limit
 
   override def read(): Int =
