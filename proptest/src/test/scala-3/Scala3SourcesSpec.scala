@@ -47,6 +47,7 @@ class Scala3SourcesSpec extends AnyFlatSpec with Matchers with ProtocInvocationH
         Files.write(
           dir.resolve("Usage.scala"),
           """package futuretest
+            |import scala.language.implicitConversions
             |object Usage {
             |  val message = summon[scalapb.GeneratedMessageCompanion[Msg]]
             |  val enumCompanion = summon[scalapb.GeneratedEnumCompanion[Kind]]
@@ -60,7 +61,9 @@ class Scala3SourcesSpec extends AnyFlatSpec with Matchers with ProtocInvocationH
             |  val nestedUpdate = Msg().update(_.child.update(_.value := 43))
             |  val customField = Msg().update(_.child.field(_.value)((c, v) => c.copy(value = v)) := 44)
             |  val namedLens = new Msg.MsgLens(scalapb.lenses.Lens.unit[Msg])
+            |  val convertedLens: Msg.MsgLens[Msg] = scalapb.lenses.Lens.unit[Msg]
             |  def verify(): Unit = {
+            |    assert(convertedLens.child.value.get(updated) == 42)
             |    assert(updated.getChild.value == 42)
             |    assert(nestedUpdate.getChild.value == 43)
             |    assert(customField.getChild.value == 44)

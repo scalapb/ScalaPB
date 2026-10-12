@@ -960,8 +960,7 @@ class ProtobufGenerator(
   }
 
   def generateMessageLens(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
-    val className   = message.scalaType.name
-    val fieldMethod = if (message.getFile.emitScala3Sources) "this.field" else "field"
+    val className = message.scalaType.name
 
     def lensType(s: String) = s"_root_.scalapb.lenses.Lens[UpperPB, $s]"
 
@@ -979,20 +978,20 @@ class ProtobufGenerator(
               .add(
                 s"""def $fieldName: ${lensType(
                     field.singleScalaTypeName
-                  )} = $fieldMethod(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = _root_.scala.Option(f_)))
+                  )} = field(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = _root_.scala.Option(f_)))
                    |def ${optionLensName}: ${lensType(
                     field.scalaTypeName
-                  )} = $fieldMethod(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""".stripMargin
+                  )} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""".stripMargin
               )
           } else
             printer.add(
-              s"def $fieldName: ${lensType(field.scalaTypeName)} = $fieldMethod(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))"
+              s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))"
             )
         } else {
           val oneofName = field.getContainingOneof.scalaName.nameSymbol
           printer
             .add(
-              s"def $fieldName: ${lensType(field.scalaTypeName)} = $fieldMethod(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName.fullName}(f_)))"
+              s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName.fullName}(f_)))"
             )
         }
       }
@@ -1000,31 +999,15 @@ class ProtobufGenerator(
         val oneofName = oneof.scalaName.nameSymbol
         printer
           .add(
-            s"def $oneofName: ${lensType(oneof.scalaType.fullName)} = $fieldMethod(_.$oneofName)((c_, f_) => c_.copy($oneofName = f_))"
+            s"def $oneofName: ${lensType(oneof.scalaType.fullName)} = field(_.$oneofName)((c_, f_) => c_.copy($oneofName = f_))"
           )
       }
       .outdent
       .add("}")
       .when(message.getFile.emitScala3Sources) {
-        _.add(s"extension [UpperPB](_l: ${lensType(message.scalaType.fullName)}) {")
-          .indented(
-            _.add(
-              s"def field[A](lens: _root_.scalapb.lenses.Lens[${message.scalaType.fullName}, A]): ${lensType("A")} = new ${className}Lens(_l).field(lens)",
-              s"def field[A](getter: ${message.scalaType.fullName} => A)(setter: (${message.scalaType.fullName}, A) => ${message.scalaType.fullName}): ${lensType("A")} = new ${className}Lens(_l).field(getter)(setter)",
-              s"def update(ms: (_root_.scalapb.lenses.Lens[${message.scalaType.fullName}, ${message.scalaType.fullName}] => _root_.scalapb.lenses.Mutation[${message.scalaType.fullName}])*): _root_.scalapb.lenses.Mutation[UpperPB] = new ${className}Lens(_l).update(ms*)"
-            ).print(message.fields) { case (p, field) =>
-              val name = field.scalaName.asSymbol
-              p.add(s"def $name = new ${className}Lens(_l).$name")
-                .when(!field.isInOneof && field.supportsPresence) {
-                  val optionalName = "optional" + field.upperScalaName
-                  _.add(s"def $optionalName = new ${className}Lens(_l).$optionalName")
-                }
-            }.print(message.getRealOneofs.asScala) { case (p, oneof) =>
-              val name = oneof.scalaName.nameSymbol
-              p.add(s"def $name = new ${className}Lens(_l).$name")
-            }
-          )
-          .add("}")
+        _.add(
+          s"protected def makeLens[UpperPB](_l: ${lensType(message.scalaType.fullName)}): ${className}Lens[UpperPB] = new ${className}Lens(_l)"
+        )
       }
   }
 
@@ -1319,8 +1302,14 @@ class ProtobufGenerator(
   def generateMessageCompanion(
       message: Descriptor
   )(printer: FunctionalPrinter): FunctionalPrinter = {
-    val className         = message.scalaType.nameSymbol
-    val companionType     = message.companionBaseClasses.mkString(" with ")
+    val className     = message.scalaType.nameSymbol
+    val lensCompanion =
+      if (message.generateLenses && message.getFile.emitScala3Sources)
+        Seq(
+          s"_root_.scalapb.lenses.LensCompanion[${message.scalaType.fullName}, ${message.scalaType.fullName}.${message.scalaType.name}Lens]"
+        )
+      else Seq.empty
+    val companionType     = (message.companionBaseClasses ++ lensCompanion).mkString(" with ")
     val companionTypeDecl = message.companionBaseClasses.mkString(message.V.WithOperator)
     printer
       .seq(message.companionAnnotationList)

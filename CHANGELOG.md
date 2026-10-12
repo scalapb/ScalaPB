@@ -1,7 +1,7 @@
 # Change Log
 ## [1.0.0] (Not yet released)
 - BREAKING CHANGE: `scala3Sources = true` (or `scala3_sources`) now emits named
-  givens, lens extension methods, and modern control-flow syntax for Scala 3
+  givens, given-based lens conversions, and modern control-flow syntax for Scala 3
   `-source:future` (#2212). This output no longer supports Scala 2 with `-Xsource:3`;
   when cross-building, enable the option only when `scalaBinaryVersion.value == "3"`. Wildcard imports of generated
   contextual instances may need `.given` or explicit named imports. Generated

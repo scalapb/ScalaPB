@@ -94,8 +94,9 @@ scalapb.gen(
 ## Scala 3 wildcard syntax
 
 **Changed in ScalaPB 1.x:** `scala3Sources = true` now generates Scala 3-only
-sources using named `given` definitions, lens extension methods, and modern
-control-flow syntax compatible with `-source:future`. In ScalaPB 0.11.x, this
+sources using named `given` definitions, given-based lens conversions, and modern
+control-flow syntax compatible with `-source:future`. Scala 3.3 remains supported.
+In ScalaPB 0.11.x, this
 option also supported Scala 2 with `-Xsource:3`; that compatibility no longer
 applies in 1.x. Scala 2 builds should leave `scala3Sources` set to `false`.
 

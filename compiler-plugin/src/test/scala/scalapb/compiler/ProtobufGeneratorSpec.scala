@@ -42,7 +42,9 @@ class ProtobufGeneratorSpec extends AnyFlatSpec with Matchers with ProtocInvocat
       message must include(s"$contextualDef messageReads:")
       message must include(s"$contextualDef enumCompanion:")
       if (scala3Sources) {
-        message must include("extension [UpperPB](_l:")
+        message must include("_root_.scalapb.lenses.LensCompanion[")
+        message must include("protected def makeLens[UpperPB]")
+        message must not include "extension [UpperPB]"
         message must not include "implicit class"
         generated.foreach { source =>
           source.getContent must not include "[_]"
