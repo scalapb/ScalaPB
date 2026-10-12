@@ -1,6 +1,6 @@
 val ScalapbVersion = sys.env.getOrElse("SCALAPB", "0.10.0-SNAPSHOT")
 
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.6")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.6.2")
 
 addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.8")
 
