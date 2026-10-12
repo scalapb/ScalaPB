@@ -1779,7 +1779,9 @@ object ProtobufGenerator {
             Set(
               CodeGeneratorResponse.Feature.FEATURE_PROTO3_OPTIONAL,
               CodeGeneratorResponse.Feature.FEATURE_SUPPORTS_EDITIONS
-            )
+            ),
+            minimumEdition = DescriptorProtos.Edition.EDITION_2023_VALUE,
+            maximumEdition = DescriptorProtos.Edition.EDITION_2023_VALUE
           )
         } catch {
           case e: GeneratorException =>

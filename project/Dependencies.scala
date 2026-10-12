@@ -7,7 +7,7 @@ object Dependencies {
     val protobuf             = "4.35.0"
     val collectionCompat     = "2.14.0"
     val coursier             = "2.1.24"
-    val protocGen            = "0.9.11"
+    val protocGen            = "0.10.0"
     val protobufRuntimeScala = "0.8.16"
     val commonsCodec         = "1.22.1"
 
@@ -43,7 +43,9 @@ object Dependencies {
   val coursier  = "io.get-coursier"       %% "coursier"   % versions.coursier
   val protocGen = ("com.thesamet.scalapb" %% "protoc-gen" % versions.protocGen).excludeAll(exclRule)
   val protocCacheCoursier =
-    ("com.thesamet.scalapb" %% "protoc-cache-coursier" % versions.protocGen).excludeAll(exclRule)
+    // Coursier must retain its scala-xml dependency: newer Coursier releases use
+    // an XML ABI that the older ScalaTest-provided version does not implement.
+    "com.thesamet.scalapb" %% "protoc-cache-coursier" % versions.protocGen
   val protobufJavaUtil = "com.google.protobuf" % "protobuf-java-util" % versions.protobuf
 
   // grpc
