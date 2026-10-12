@@ -25,6 +25,13 @@ final case class UnknownFieldSet(
     }
   }
 
+  /** Writes fields in field-number order, preserving value order within each wire type. */
+  def writeToDeterministic(output: CodedOutputStream): Unit = {
+    fields.toVector.sortBy(_._1).foreach { case (fieldNumber, field) =>
+      field.writeTo(fieldNumber, output)
+    }
+  }
+
   def serializedSize: Int = {
     var size: Int = 0
     fields.foreach { case (fieldNumber, field) =>

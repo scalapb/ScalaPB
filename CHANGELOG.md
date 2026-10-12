@@ -1,5 +1,9 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Add the file/package option `deterministic_serialization`, which generates ordinary
+  writers that sort maps and unknown field numbers. Enable it for all relevant
+  nested message types too; imported types retain their own generation policy.
+  Defaults are unchanged. This is not canonical cross-language or cross-schema serialization.
 - Reject negative, truncated and incompletely consumed length-delimited message frames, restore
   coded input limits on parse failures, and add optional `maxFrameSize` parsing overloads.
   Existing overloads retain their maximum frame size of `Int.MaxValue`.

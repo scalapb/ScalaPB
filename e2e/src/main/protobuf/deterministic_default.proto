@@ -1,0 +1,28 @@
+syntax = "proto3";
+package scalapb.deterministic;
+
+import "scalapb/scalapb.proto";
+
+
+
+message DefaultMessage {
+  map<string, string> strings = 1;
+  map<int32, string> signed_ints = 2;
+  map<uint32, string> unsigned_ints = 3;
+  map<int64, string> signed_longs = 4;
+  map<uint64, string> unsigned_longs = 5;
+  map<bool, string> bools = 6;
+  map<string, DefaultMessage> children = 7;
+  DefaultMessage child = 8;
+  repeated DefaultMessage repeated_children = 9;
+  oneof choice {
+    DefaultMessage chosen_child = 10;
+  }
+  map<string, int32> custom_keys = 11 [(scalapb.field).key_type = "com.thesamet.pb.PersonId"];
+  map<int32, string> adapted = 12 [(scalapb.field).collection = {
+    type: "cats.data.NonEmptyMap", adapter: "com.thesamet.pb.NonEmptyMapAdapter", non_empty: true
+  }];
+  repeated int32 repeated_values = 13;
+  map<fixed32, string> fixed_ints = 14;
+  map<fixed64, string> fixed_longs = 15;
+}

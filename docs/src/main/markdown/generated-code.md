@@ -79,6 +79,60 @@ object contains method for parsing. [See the source code for
 `GeneratedMessageCompanion`](https://github.com/scalapb/ScalaPB/blob/master/scalapb-runtime/src/main/scala/scalapb/GeneratedMessageCompanion.scala)
 to see what methods are available
 
+### Deterministic serialization
+
+By default, ScalaPB serializes maps in their collection's iteration order. Enable
+sorting at code generation time with a file-level ScalaPB option:
+
+```protobuf
+import "scalapb/scalapb.proto";
+option (scalapb.options).deterministic_serialization = true;
+```
+
+Then use ordinary serialization methods (`toByteArray`, `toByteString`, `writeTo`,
+and `writeDelimitedTo`), with no runtime parameter. You can also set the option
+through [package-scoped options](customizations.md#package-scoped-options).
+It defaults to `false`; a file can explicitly opt out of an inherited setting.
+
+The option applies to all messages generated from the file, including nested
+message definitions and map entries. Nested writes call each message type's normal
+writer. **Enable the option for every message type in the graph whose maps or
+unknown fields need ordering**, including types defined in imported proto files.
+An enabled parent does not override an imported type's policy. Precompiled
+third-party messages, including well-known types, keep their existing serialization
+behavior; merely importing them into an enabled file does not make them deterministic.
+
+The generated code uses shared Scala operations on JVM, Scala.js and Scala Native.
+It does not depend on Java's `CodedOutputStream.useDeterministicSerialization()`
+setting, which alone does not sort ScalaPB collections.
+
+In deterministic mode:
+
+- Known fields are written in field-number order, as in the default mode.
+- Map entries are sorted by their protobuf keys: numeric ascending order (unsigned
+  for `uint32`, `uint64`, `fixed32` and `fixed64`), `false` before `true`, and
+  UTF-16 lexicographic order for strings. Custom keys are converted to their
+  protobuf base type before comparison. Collection adapters are traversed using
+  their `foreach` operation before sorting.
+- Unknown fields follow known fields, sorted by field number. The order of values
+  within each unknown field and wire type is preserved. Length-delimited unknown
+  data is opaque and is not recursively interpreted.
+- Repeated fields retain collection iteration order, since their order is part of
+  the message's meaning. Custom repeated collections must supply stable ordering;
+  this mode does not normalize unordered sets. Type mappers must be deterministic
+  and custom map keys must map to distinct protobuf keys.
+
+Use the same schema, generated code and runtime version when relying on equal
+messages producing equal bytes. This is **not canonical serialization** across
+languages, schema changes or library versions, and does not promise identical
+bytes to Java's deterministic serializer. Do not use it as a cross-schema or
+cross-language canonical format for persistent fingerprints or signatures.
+
+Files without the option keep their historical byte ordering and incur no sorting
+cost. Enabling it changes byte order but preserves protobuf wire compatibility.
+Regenerate the enabled files and use the matching newer ScalaPB runtime. Sorting
+uses O(n log n) comparisons and temporary storage proportional to each map's size.
+
 ### Building New Messages
 
 Create a new instance of a message by calling the constructor (as you normally

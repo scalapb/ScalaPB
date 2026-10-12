@@ -139,6 +139,12 @@ enums to a single Scala file.
   This is helpful for automated schema derivation with e.g. `magnolia` when trying to also derive default fields by 
   using the compiler flag `-Yretain-trees`. Without this flag, the companion object's `_typemapper_*` fields are private.
 
+- `deterministic_serialization` (default `false`) sorts map entries by protobuf key
+  and unknown fields by field number during ordinary serialization. Enable it for
+  nested message types too; imported types keep their own generation policy.
+  See [deterministic serialization](generated-code.md#deterministic-serialization)
+  for ordering rules and limitations.
+
 ## Package-scoped options
 
 Note: this option is available in ScalaPB 0.8.2 and later.

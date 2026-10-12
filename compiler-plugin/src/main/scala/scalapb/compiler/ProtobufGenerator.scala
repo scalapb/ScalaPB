@@ -682,6 +682,32 @@ class ProtobufGenerator(
                |  ${field.collection.foreach}(__v => _output__.write${capTypeName}NoTag($writeExpr))
                |};""".stripMargin
           )
+        } else if (field.isMapField && message.getFile.deterministicSerialization) {
+          val keyField = field.mapType.keyField
+          // Access the case-class field directly: getKey is private when getters are disabled.
+          val keyValue =
+            if (keyField.supportsPresence) s"__m.key.getOrElse(${defaultValueForGet(keyField)})"
+            else "__m.key"
+          val key     = toBaseType(keyField)(keyValue)
+          val sortKey = keyField.getType match {
+            case Type.UINT32 | Type.FIXED32 => s"($key ^ _root_.scala.Int.MinValue)"
+            case Type.UINT64 | Type.FIXED64 => s"($key ^ _root_.scala.Long.MinValue)"
+            case _                          => key
+          }
+          printer
+            .add("{")
+            .indent
+            .add(
+              s"val __entries = _root_.scala.collection.mutable.ArrayBuffer.empty[${field.getMessageType.scalaType.fullName}]"
+            )
+            .add(s"${field.collection.foreach} { __v => __entries += ${toBaseType(field)("__v")} }")
+            .add(s"__entries.sortBy(__m => $sortKey).foreach { __m =>")
+            .indent
+            .call(generateWriteSingleValue(field, "__m"))
+            .outdent
+            .add("}")
+            .outdent
+            .add("}")
         } else if (field.isRequired || field.noBoxRequired) {
           printer
             .add("")
@@ -716,7 +742,11 @@ class ProtobufGenerator(
             .add("};")
         }
       }
-      .when(message.preservesUnknownFields)(_.add("unknownFields.writeTo(_output__)"))
+      .when(message.preservesUnknownFields) { printer =>
+        val method =
+          if (message.getFile.deterministicSerialization) "writeToDeterministic" else "writeTo"
+        printer.add(s"unknownFields.$method(_output__)")
+      }
       .outdent
       .add("}")
 

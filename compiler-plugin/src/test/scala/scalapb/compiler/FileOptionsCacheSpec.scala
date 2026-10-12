@@ -31,7 +31,8 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
       scalaPackage: Option[String] = None,
       imports: Seq[String] = Nil,
       singleFile: Option[Boolean] = None,
-      preprocessors: Seq[String] = Nil
+      preprocessors: Seq[String] = Nil,
+      deterministic: Option[Boolean] = None
   ): FileDescriptor = {
     val optionsBuilder = ScalaPbOptions.newBuilder()
 
@@ -41,6 +42,7 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
 
     scalaPackage.foreach(optionsBuilder.setPackageName)
     singleFile.foreach(optionsBuilder.setSingleFile)
+    deterministic.foreach(optionsBuilder.setDeterministicSerialization)
     optionsBuilder.addAllImport(imports.asJava)
     optionsBuilder.addAllPreprocessors(preprocessors.asJava)
 
@@ -52,6 +54,20 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
       .build()
 
     FileDescriptor.buildFrom(proto, Array())
+  }
+
+  "deterministic serialization" should "inherit package options and allow a file to opt out" in {
+    val defaults  = file("options.proto", "det", OptionsScope.PACKAGE, deterministic = Some(true))
+    val inherited = file("child.proto", "det.child", OptionsScope.FILE)
+    val disabled  = file("disabled.proto", "det", OptionsScope.FILE, deterministic = Some(false))
+    val unrelated = file("other.proto", "other", OptionsScope.FILE)
+    val cache     = FileOptionsCache.buildCache(
+      Seq(defaults, inherited, disabled, unrelated),
+      SecondaryOutputProvider.empty
+    )
+    cache(inherited).getDeterministicSerialization must be(true)
+    cache(disabled).getDeterministicSerialization must be(false)
+    cache(unrelated).getDeterministicSerialization must be(false)
   }
 
   "buildCache" should "merge options correctly" in {

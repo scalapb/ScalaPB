@@ -187,6 +187,10 @@ message ScalaPbOptions {
   // Makes constructor parameters public, including defaults and TypeMappers.
   optional bool public_constructor_parameters = 29;
 
+  // Sort map entries by protobuf key and unknown fields by field number when serializing.
+  // Repeated values retain their order. This is not canonical across languages or schemas.
+  optional bool deterministic_serialization = 30 [default=false];
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 999;
