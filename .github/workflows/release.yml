@@ -92,7 +92,7 @@ jobs:
       - uses: sbt/setup-sbt@v1
       - run: |
           sbt scalapbcJVM2_12/Universal/packageBin
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: scalapbc
           path: target/out/jvm/scala-*/scalapbc/universal/scalapbc-*.zip
@@ -134,7 +134,7 @@ jobs:
           sbt protocGenScalaNativeImage/nativeImage
           zip -j $ASSET.zip target/protoc-gen-scala
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: ${{env.ASSET}}
           path: ${{env.ASSET}}.zip
