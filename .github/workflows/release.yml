@@ -20,7 +20,7 @@ jobs:
             ~/.ivy2/cache
             ~/.cache/coursier
           key: ${{ runner.os }}-sbt-docs-${{ hashFiles('**/*.sbt') }}
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v6
         with:
           java-version: 17
           distribution: temurin
@@ -55,7 +55,7 @@ jobs:
             ~/.ivy2/cache
             ~/.cache/coursier
           key: ${{ runner.os }}-sbt-docs-${{ hashFiles('**/*.sbt') }}
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v6
         with:
           java-version: 17
           distribution: temurin
@@ -85,7 +85,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v6
         with:
           java-version: 17
           distribution: temurin
