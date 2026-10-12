@@ -8,6 +8,7 @@
 - Build on Java 11 while retaining Java 8 bytecode and Scala 3.3 compatibility.
 - Upgrade sbt-scalafmt to 2.5.6 and example/benchmark builds to sbt 1.13.0.
 - Update Scala.js to 1.22.0 and pin MUnit 1.3.6 and munit-scalacheck 1.3.1 independently.
+- Upgrade protobuf-runtime-scala to 0.9.0 for corrected strict UTF-8 validation.
 
 ## [0.11.17]
 - Update to Scala 2.13.14
