@@ -6,6 +6,7 @@
   when cross-building, enable the option only when `scalaBinaryVersion.value == "3"`. Wildcard imports of generated
   contextual instances may need `.given` or explicit named imports. Generated
   `messageReads` instances are now initialized lazily and reused in Scala 3 output.
+- Declare the supported Edition 2023 range in code generator responses using protoc-bridge 0.10.0, fixing protoc rejection of the editions feature flag (#1837).
 - Refresh website dependencies to address GitHub security alerts.
 - Update Coursier's transitive dependencies and the documentation/test dependency families to address GitHub security advisories; use the maintained LZ4 artifact for Spark documentation examples.
 - BREAKING CHANGE: Unify generated lens superclasses across Scala 2 and Scala 3 as
@@ -23,8 +24,7 @@
 - Omit unused JavaConverters imports from generated gRPC services (#358).
 - Update Scala.js to 1.22.0 and pin MUnit 1.3.6 and munit-scalacheck 1.3.1 independently.
 - Correct Maven setup documentation to match the protoc-jar-maven-plugin example (#892).
-- Bump protobuf and protoc to 4.28.2. Currently files must specify proto2 and
-  proto3 syntax. Editions are not supported yet.
+- Bump protobuf and protoc to 4.28.2. Support proto2, proto3, and Edition 2023 files.
 - References to descriptors are fully qualified (#1724)
 - Oneofs are now generated as sealed abstract class instead of sealed traits (#1694)
 - BREAKING CHANGE: As a result of protobuf 4.x change, extensions in proto3 now have presence, 

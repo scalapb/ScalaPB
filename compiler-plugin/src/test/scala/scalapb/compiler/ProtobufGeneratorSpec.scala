@@ -1,9 +1,29 @@
 package scalapb.compiler
 
+import com.google.protobuf.DescriptorProtos.Edition
+import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
+import scalapb.ScalaPbCodeGenerator
+
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 
 class ProtobufGeneratorSpec extends AnyFlatSpec with Matchers with ProtocInvocationHelper {
+  "Code generator response" should "serialize the supported edition range" in {
+    val response = CodeGeneratorResponse.parseFrom(
+      ScalaPbCodeGenerator.run(CodeGeneratorRequest.getDefaultInstance.toByteArray)
+    )
+
+    response.hasError must be(false)
+    response.getSupportedFeatures must be(
+      (CodeGeneratorResponse.Feature.FEATURE_PROTO3_OPTIONAL_VALUE |
+        CodeGeneratorResponse.Feature.FEATURE_SUPPORTS_EDITIONS_VALUE).toLong
+    )
+    response.hasMinimumEdition must be(true)
+    response.getMinimumEdition must be(Edition.EDITION_2023_VALUE)
+    response.hasMaximumEdition must be(true)
+    response.getMaximumEdition must be(Edition.EDITION_2023_VALUE)
+  }
+
   "Scala 3 source generation" should "use question-mark wildcards in message and file companions" in {
     val files = generateFileSet(
       Seq(
