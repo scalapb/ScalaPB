@@ -20,7 +20,7 @@ addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.8")
 
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.12.1")
 
-addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.8")
+addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.2.0")
 
 addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.11.0")
 
