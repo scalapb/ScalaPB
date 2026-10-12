@@ -76,7 +76,7 @@ object Dependencies {
   // supported cross-published version for Scala 2.12 and 2.13.
   val coursierSecurityDependencies = Seq(
     "io.airlift"          % "aircompressor" % "2.0.3",
-    "org.apache.commons"  % "commons-lang3" % "3.18.0",
+    "org.apache.commons"  % "commons-lang3" % "3.21.0",
     "org.codehaus.plexus" % "plexus-utils"  % "4.0.3",
     "org.jsoup"           % "jsoup"         % "1.23.2"
   )
@@ -106,7 +106,7 @@ object Dependencies {
     "io.airlift"                     % "aircompressor"           % "2.0.3",
     "io.netty"                       % "netty-all"               % "4.1.139.Final",
     "org.apache.commons"             % "commons-compress"        % "1.28.0",
-    "org.apache.commons"             % "commons-lang3"           % "3.18.0",
+    "org.apache.commons"             % "commons-lang3"           % "3.21.0",
     "org.apache.logging.log4j"       % "log4j-1.2-api"           % "2.25.5",
     "org.apache.logging.log4j"       % "log4j-slf4j2-impl"       % "2.25.5",
     "org.apache.zookeeper"           % "zookeeper"               % "3.9.6",
