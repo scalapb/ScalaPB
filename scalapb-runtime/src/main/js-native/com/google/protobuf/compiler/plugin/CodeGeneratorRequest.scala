@@ -83,7 +83,8 @@ final case class CodeGeneratorRequest(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       fileToGenerate.foreach { __v =>
         val __m = __v
         _output__.writeString(1, __m)
@@ -96,21 +97,21 @@ final case class CodeGeneratorRequest(
         val __m = __v
         _output__.writeTag(3, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       protoFile.foreach { __v =>
         val __m = __v
         _output__.writeTag(15, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       sourceFileDescriptors.foreach { __v =>
         val __m = __v
         _output__.writeTag(17, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def clearFileToGenerate = copy(fileToGenerate = _root_.scala.Vector.empty)
     def addFileToGenerate(__vs: _root_.scala.Predef.String *): CodeGeneratorRequest = addAllFileToGenerate(__vs)

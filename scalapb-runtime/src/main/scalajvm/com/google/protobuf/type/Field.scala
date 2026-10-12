@@ -131,7 +131,8 @@ final case class Field(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       {
         val __v = kind.value
         if (__v != 0) {
@@ -178,7 +179,7 @@ final case class Field(
         val __m = __v
         _output__.writeTag(9, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       {
         val __v = jsonName
@@ -192,7 +193,7 @@ final case class Field(
           _output__.writeString(11, __v)
         }
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def withKind(__v: _root_.com.google.protobuf.`type`.Field.Kind): Field = copy(kind = __v)
     def withCardinality(__v: _root_.com.google.protobuf.`type`.Field.Cardinality): Field = copy(cardinality = __v)

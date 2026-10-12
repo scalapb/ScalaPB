@@ -139,7 +139,8 @@ final case class Timestamp(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       {
         val __v = seconds
         if (__v != 0L) {
@@ -152,7 +153,7 @@ final case class Timestamp(
           _output__.writeInt32(2, __v)
         }
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def withSeconds(__v: _root_.scala.Long): Timestamp = copy(seconds = __v)
     def withNanos(__v: _root_.scala.Int): Timestamp = copy(nanos = __v)

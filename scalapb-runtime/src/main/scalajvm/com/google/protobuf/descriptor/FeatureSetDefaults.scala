@@ -51,12 +51,13 @@ final case class FeatureSetDefaults(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       defaults.foreach { __v =>
         val __m = __v
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       minimumEdition.foreach { __v =>
         val __m = __v.value
@@ -66,7 +67,7 @@ final case class FeatureSetDefaults(
         val __m = __v.value
         _output__.writeEnum(5, __m)
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def clearDefaults = copy(defaults = _root_.scala.Vector.empty)
     def addDefaults(__vs: _root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault *): FeatureSetDefaults = addAllDefaults(__vs)
@@ -223,7 +224,8 @@ object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[_root_.com.g
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
         edition.foreach { __v =>
           val __m = __v.value
           _output__.writeEnum(3, __m)
@@ -232,15 +234,15 @@ object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[_root_.com.g
           val __m = __v
           _output__.writeTag(4, 2)
           _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__)
+          __m.writeTo(_output__, _serializationMode__)
         };
         fixedFeatures.foreach { __v =>
           val __m = __v
           _output__.writeTag(5, 2)
           _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__)
+          __m.writeTo(_output__, _serializationMode__)
         };
-        unknownFields.writeTo(_output__)
+        unknownFields.writeTo(_output__, _serializationMode__)
       }
       def getEdition: _root_.com.google.protobuf.descriptor.Edition = edition.getOrElse(_root_.com.google.protobuf.descriptor.Edition.EDITION_UNKNOWN)
       def clearEdition: FeatureSetEditionDefault = copy(edition = _root_.scala.None)

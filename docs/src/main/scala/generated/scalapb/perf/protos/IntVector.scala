@@ -37,13 +37,14 @@ final case class IntVector(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       if (ints.nonEmpty) {
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(intsSerializedSize)
         ints.foreach(__v => _output__.writeInt32NoTag(__v))
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def clearInts = copy(ints = _root_.scala.Vector.empty)
     def addInts(__vs: _root_.scala.Int *): IntVector = addAllInts(__vs)

@@ -49,7 +49,8 @@ final case class Version(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       major.foreach { __v =>
         val __m = __v
         _output__.writeInt32(1, __m)
@@ -66,7 +67,7 @@ final case class Version(
         val __m = __v
         _output__.writeString(4, __m)
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def getMajor: _root_.scala.Int = major.getOrElse(0)
     def clearMajor: Version = copy(major = _root_.scala.None)

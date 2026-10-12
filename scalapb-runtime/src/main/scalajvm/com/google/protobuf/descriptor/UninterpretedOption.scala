@@ -70,12 +70,13 @@ final case class UninterpretedOption(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       name.foreach { __v =>
         val __m = __v
         _output__.writeTag(2, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       identifierValue.foreach { __v =>
         val __m = __v
@@ -101,7 +102,7 @@ final case class UninterpretedOption(
         val __m = __v
         _output__.writeString(8, __m)
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def clearName = copy(name = _root_.scala.Vector.empty)
     def addName(__vs: _root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart *): UninterpretedOption = addAllName(__vs)
@@ -298,7 +299,8 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[_root_.com.
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
         
         {
           val __v = namePart
@@ -309,7 +311,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[_root_.com.
           val __v = isExtension
           _output__.writeBool(2, __v)
         };
-        unknownFields.writeTo(_output__)
+        unknownFields.writeTo(_output__, _serializationMode__)
       }
       def withNamePart(__v: _root_.scala.Predef.String): NamePart = copy(namePart = __v)
       def withIsExtension(__v: _root_.scala.Boolean): NamePart = copy(isExtension = __v)

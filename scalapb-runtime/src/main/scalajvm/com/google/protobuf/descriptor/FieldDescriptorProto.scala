@@ -128,7 +128,8 @@ final case class FieldDescriptorProto(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       name.foreach { __v =>
         val __m = __v
         _output__.writeString(1, __m)
@@ -161,7 +162,7 @@ final case class FieldDescriptorProto(
         val __m = __v
         _output__.writeTag(8, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       oneofIndex.foreach { __v =>
         val __m = __v
@@ -175,7 +176,7 @@ final case class FieldDescriptorProto(
         val __m = __v
         _output__.writeBool(17, __m)
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
     def clearName: FieldDescriptorProto = copy(name = _root_.scala.None)

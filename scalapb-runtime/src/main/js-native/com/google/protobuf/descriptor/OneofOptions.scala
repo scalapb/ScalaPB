@@ -41,20 +41,21 @@ final case class OneofOptions(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       features.foreach { __v =>
         val __m = __v
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       uninterpretedOption.foreach { __v =>
         val __m = __v
         _output__.writeTag(999, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def getFeatures: _root_.com.google.protobuf.descriptor.FeatureSet = features.getOrElse(_root_.com.google.protobuf.descriptor.FeatureSet.defaultInstance)
     def clearFeatures: OneofOptions = copy(features = _root_.scala.None)

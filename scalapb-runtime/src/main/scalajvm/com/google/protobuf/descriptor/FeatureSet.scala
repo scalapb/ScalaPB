@@ -70,7 +70,8 @@ final case class FeatureSet(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       fieldPresence.foreach { __v =>
         val __m = __v.value
         _output__.writeEnum(1, __m)
@@ -103,7 +104,7 @@ final case class FeatureSet(
         val __m = __v.value
         _output__.writeEnum(8, __m)
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def getFieldPresence: _root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence = fieldPresence.getOrElse(_root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence.FIELD_PRESENCE_UNKNOWN)
     def clearFieldPresence: FeatureSet = copy(fieldPresence = _root_.scala.None)
@@ -672,8 +673,9 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
-        unknownFields.writeTo(_output__)
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+        unknownFields.writeTo(_output__, _serializationMode__)
       }
       def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
       def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)

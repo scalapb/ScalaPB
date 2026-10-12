@@ -36,14 +36,15 @@ final case class GeneratedCodeInfo(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       annotation.foreach { __v =>
         val __m = __v
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def clearAnnotation = copy(annotation = _root_.scala.Vector.empty)
     def addAnnotation(__vs: _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation *): GeneratedCodeInfo = addAllAnnotation(__vs)
@@ -183,7 +184,8 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
         if (path.nonEmpty) {
           _output__.writeTag(1, 2)
           _output__.writeUInt32NoTag(pathSerializedSize)
@@ -205,7 +207,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
           val __m = __v.value
           _output__.writeEnum(5, __m)
         };
-        unknownFields.writeTo(_output__)
+        unknownFields.writeTo(_output__, _serializationMode__)
       }
       def clearPath = copy(path = _root_.scala.Vector.empty)
       def addPath(__vs: _root_.scala.Int *): Annotation = addAllPath(__vs)

@@ -255,7 +255,8 @@ final case class ScalaPbOptions(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       packageName.foreach { __v =>
         val __m = __v
         _output__.writeString(1, __m)
@@ -328,19 +329,19 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeTag(18, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       auxFieldOptions.foreach { __v =>
         val __m = __v
         _output__.writeTag(19, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       auxEnumOptions.foreach { __v =>
         val __m = __v
         _output__.writeTag(20, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       bytesType.foreach { __v =>
         val __m = __v
@@ -350,7 +351,7 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeTag(22, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       javaConversions.foreach { __v =>
         val __m = __v
@@ -364,7 +365,7 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeTag(25, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       ignoreAllTransformations.foreach { __v =>
         val __m = __v
@@ -386,7 +387,7 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeBool(999, __m)
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def getPackageName: _root_.scala.Predef.String = packageName.getOrElse("")
     def clearPackageName: ScalaPbOptions = copy(packageName = _root_.scala.None)
@@ -926,7 +927,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
         target.foreach { __v =>
           val __m = __v
           _output__.writeString(1, __m)
@@ -935,9 +937,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
           val __m = __v
           _output__.writeTag(2, 2)
           _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__)
+          __m.writeTo(_output__, _serializationMode__)
         };
-        unknownFields.writeTo(_output__)
+        unknownFields.writeTo(_output__, _serializationMode__)
       }
       def getTarget: _root_.scala.Predef.String = target.getOrElse("")
       def clearTarget: AuxMessageOptions = copy(target = _root_.scala.None)
@@ -1076,7 +1078,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
         target.foreach { __v =>
           val __m = __v
           _output__.writeString(1, __m)
@@ -1085,9 +1088,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
           val __m = __v
           _output__.writeTag(2, 2)
           _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__)
+          __m.writeTo(_output__, _serializationMode__)
         };
-        unknownFields.writeTo(_output__)
+        unknownFields.writeTo(_output__, _serializationMode__)
       }
       def getTarget: _root_.scala.Predef.String = target.getOrElse("")
       def clearTarget: AuxFieldOptions = copy(target = _root_.scala.None)
@@ -1226,7 +1229,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
         target.foreach { __v =>
           val __m = __v
           _output__.writeString(1, __m)
@@ -1235,9 +1239,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
           val __m = __v
           _output__.writeTag(2, 2)
           _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__)
+          __m.writeTo(_output__, _serializationMode__)
         };
-        unknownFields.writeTo(_output__)
+        unknownFields.writeTo(_output__, _serializationMode__)
       }
       def getTarget: _root_.scala.Predef.String = target.getOrElse("")
       def clearTarget: AuxEnumOptions = copy(target = _root_.scala.None)
@@ -1376,7 +1380,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
         target.foreach { __v =>
           val __m = __v
           _output__.writeString(1, __m)
@@ -1385,9 +1390,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
           val __m = __v
           _output__.writeTag(2, 2)
           _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__)
+          __m.writeTo(_output__, _serializationMode__)
         };
-        unknownFields.writeTo(_output__)
+        unknownFields.writeTo(_output__, _serializationMode__)
       }
       def getTarget: _root_.scala.Predef.String = target.getOrElse("")
       def clearTarget: AuxEnumValueOptions = copy(target = _root_.scala.None)

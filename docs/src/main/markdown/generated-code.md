@@ -79,6 +79,53 @@ object contains method for parsing. [See the source code for
 `GeneratedMessageCompanion`](https://github.com/scalapb/ScalaPB/blob/master/scalapb-runtime/src/main/scala/scalapb/GeneratedMessageCompanion.scala)
 to see what methods are available
 
+### Deterministic serialization
+
+By default, ScalaPB serializes maps in their collection's iteration order. To
+make their encoding independent of insertion order, select an explicit policy:
+
+```scala
+val bytes = message.toByteArray(scalapb.SerializationMode.Deterministic)
+```
+
+The same mode is accepted by `toByteString`, `writeTo` (for `OutputStream` or
+`CodedOutputStream`), and `writeDelimitedTo`. It propagates through all nested
+ScalaPB messages, including map values, repeated messages and oneofs. The policy
+uses shared Scala code on JVM, Scala.js and Scala Native; it does not depend on
+Java's `CodedOutputStream.useDeterministicSerialization()` setting. That setting
+alone does not sort ScalaPB collections.
+
+In deterministic mode:
+
+- Known fields are written in field-number order, as in the default mode.
+- Map entries are sorted by their protobuf keys: numeric ascending order (unsigned
+  for `uint32`, `uint64`, `fixed32` and `fixed64`), `false` before `true`, and
+  UTF-16 lexicographic order for strings. Custom keys are converted to their
+  protobuf base type before comparison. Collection adapters are traversed using
+  their `foreach` operation before sorting.
+- Unknown fields follow known fields, sorted by field number. The order of values
+  within each unknown field and wire type is preserved. Length-delimited unknown
+  data is opaque and is not recursively interpreted.
+- Repeated fields retain collection iteration order, since their order is part of
+  the message's meaning. Custom repeated collections must supply stable ordering;
+  this mode does not normalize unordered sets. Type mappers must be deterministic
+  and custom map keys must map to distinct protobuf keys.
+
+Use the same schema, generated code and runtime version when relying on equal
+messages producing equal bytes. This is **not canonical serialization** across
+languages, schema changes or library versions, and does not promise identical
+bytes to Java's deterministic serializer. Do not use it as a cross-schema or
+cross-language canonical format for persistent fingerprints or signatures.
+
+Existing APIs keep their historical behavior, also available explicitly as
+`SerializationMode.Default`. Regenerate all message classes (including dependencies)
+with a compiler supporting this policy before opting in. Older generated classes
+remain usable in default mode; deterministic writes throw
+`UnsupportedOperationException` when they encounter an older class instead of
+silently producing unsorted bytes. A streaming write can have emitted a prefix
+before encountering such a class. New generated code requires the matching newer
+ScalaPB runtime. Sorting uses temporary storage proportional to each map's size.
+
 ### Building New Messages
 
 Create a new instance of a message by calling the constructor (as you normally

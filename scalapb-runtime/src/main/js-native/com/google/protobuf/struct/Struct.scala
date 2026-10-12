@@ -40,14 +40,25 @@ final case class Struct(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
-      fields.foreach { __v =>
-        val __m = _root_.com.google.protobuf.struct.Struct._typemapper_fields.toBase(__v)
-        _output__.writeTag(1, 2)
-        _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
-      };
-      unknownFields.writeTo(_output__)
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
+      if (_serializationMode__ == _root_.scalapb.SerializationMode.Deterministic) {
+        val __entries = _root_.scala.collection.mutable.ArrayBuffer.empty[_root_.com.google.protobuf.struct.Struct.FieldsEntry]
+        fields.foreach { __v => __entries += _root_.com.google.protobuf.struct.Struct._typemapper_fields.toBase(__v) }
+        __entries.sortBy(__m => __m.key).foreach { __m =>
+          _output__.writeTag(1, 2)
+          _output__.writeUInt32NoTag(__m.serializedSize)
+          __m.writeTo(_output__, _serializationMode__)
+        }
+      } else {
+        fields.foreach { __v =>
+          val __m = _root_.com.google.protobuf.struct.Struct._typemapper_fields.toBase(__v)
+          _output__.writeTag(1, 2)
+          _output__.writeUInt32NoTag(__m.serializedSize)
+          __m.writeTo(_output__, _serializationMode__)
+        }
+      }
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def clearFields = copy(fields = _root_.scala.collection.immutable.Map.empty)
     def addFields(__vs: (_root_.scala.Predef.String, _root_.com.google.protobuf.struct.Value) *): Struct = addAllFields(__vs)
@@ -153,7 +164,8 @@ object Struct extends scalapb.GeneratedMessageCompanion[_root_.com.google.protob
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
         {
           val __v = key
           if (!__v.isEmpty) {
@@ -164,9 +176,9 @@ object Struct extends scalapb.GeneratedMessageCompanion[_root_.com.google.protob
           val __m = __v
           _output__.writeTag(2, 2)
           _output__.writeUInt32NoTag(__m.serializedSize)
-          __m.writeTo(_output__)
+          __m.writeTo(_output__, _serializationMode__)
         };
-        unknownFields.writeTo(_output__)
+        unknownFields.writeTo(_output__, _serializationMode__)
       }
       def withKey(__v: _root_.scala.Predef.String): FieldsEntry = copy(key = __v)
       def getValue: _root_.com.google.protobuf.struct.Value = value.getOrElse(_root_.com.google.protobuf.struct.Value.defaultInstance)

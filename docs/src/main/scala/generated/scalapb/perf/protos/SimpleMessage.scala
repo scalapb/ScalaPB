@@ -55,7 +55,8 @@ final case class SimpleMessage(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       {
         val __v = i
         if (__v != 0) {
@@ -80,7 +81,7 @@ final case class SimpleMessage(
           _output__.writeEnum(4, __v)
         }
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def withI(__v: _root_.scala.Int): SimpleMessage = copy(i = __v)
     def withJ(__v: _root_.scala.Int): SimpleMessage = copy(j = __v)

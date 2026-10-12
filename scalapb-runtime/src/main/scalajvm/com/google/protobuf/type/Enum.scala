@@ -83,7 +83,8 @@ final case class Enum(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       {
         val __v = name
         if (!__v.isEmpty) {
@@ -94,19 +95,19 @@ final case class Enum(
         val __m = __v
         _output__.writeTag(2, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       options.foreach { __v =>
         val __m = __v
         _output__.writeTag(3, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       sourceContext.foreach { __v =>
         val __m = __v
         _output__.writeTag(4, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       {
         val __v = syntax.value
@@ -120,7 +121,7 @@ final case class Enum(
           _output__.writeString(6, __v)
         }
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def withName(__v: _root_.scala.Predef.String): Enum = copy(name = __v)
     def clearEnumvalue = copy(enumvalue = _root_.scala.Vector.empty)

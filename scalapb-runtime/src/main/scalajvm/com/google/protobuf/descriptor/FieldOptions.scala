@@ -168,7 +168,8 @@ final case class FieldOptions(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       ctype.foreach { __v =>
         val __m = __v.value
         _output__.writeEnum(1, __m)
@@ -213,27 +214,27 @@ final case class FieldOptions(
         val __m = __v
         _output__.writeTag(20, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       features.foreach { __v =>
         val __m = __v
         _output__.writeTag(21, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       featureSupport.foreach { __v =>
         val __m = __v
         _output__.writeTag(22, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       uninterpretedOption.foreach { __v =>
         val __m = __v
         _output__.writeTag(999, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def getCtype: _root_.com.google.protobuf.descriptor.FieldOptions.CType = ctype.getOrElse(_root_.com.google.protobuf.descriptor.FieldOptions.CType.STRING)
     def clearCtype: FieldOptions = copy(ctype = _root_.scala.None)
@@ -829,7 +830,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
         value.foreach { __v =>
           val __m = __v
           _output__.writeString(2, __m)
@@ -838,7 +840,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
           val __m = __v.value
           _output__.writeEnum(3, __m)
         };
-        unknownFields.writeTo(_output__)
+        unknownFields.writeTo(_output__, _serializationMode__)
       }
       def getEdition: _root_.com.google.protobuf.descriptor.Edition = edition.getOrElse(_root_.com.google.protobuf.descriptor.Edition.EDITION_UNKNOWN)
       def clearEdition: EditionDefault = copy(edition = _root_.scala.None)
@@ -1001,7 +1003,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
         editionIntroduced.foreach { __v =>
           val __m = __v.value
           _output__.writeEnum(1, __m)
@@ -1018,7 +1021,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
           val __m = __v.value
           _output__.writeEnum(4, __m)
         };
-        unknownFields.writeTo(_output__)
+        unknownFields.writeTo(_output__, _serializationMode__)
       }
       def getEditionIntroduced: _root_.com.google.protobuf.descriptor.Edition = editionIntroduced.getOrElse(_root_.com.google.protobuf.descriptor.Edition.EDITION_UNKNOWN)
       def clearEditionIntroduced: FeatureSupport = copy(editionIntroduced = _root_.scala.None)

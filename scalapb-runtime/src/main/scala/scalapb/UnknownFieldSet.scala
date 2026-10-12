@@ -19,8 +19,14 @@ final case class UnknownFieldSet(
   def withField(fieldNumber: Int, value: UnknownFieldSet.Field) =
     new UnknownFieldSet(fields = fields + (fieldNumber -> value))
 
-  def writeTo(output: CodedOutputStream): Unit = {
-    fields.foreach { case (fieldNumber, field) =>
+  def writeTo(output: CodedOutputStream): Unit = writeTo(output, SerializationMode.Default)
+
+  def writeTo(output: CodedOutputStream, mode: SerializationMode): Unit = {
+    val entries = mode match {
+      case SerializationMode.Default       => fields.iterator
+      case SerializationMode.Deterministic => fields.toVector.sortBy(_._1).iterator
+    }
+    entries.foreach { case (fieldNumber, field) =>
       field.writeTo(fieldNumber, output)
     }
   }

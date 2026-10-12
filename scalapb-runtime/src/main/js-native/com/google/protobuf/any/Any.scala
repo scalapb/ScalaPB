@@ -157,7 +157,8 @@ final case class Any(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       {
         val __v = typeUrl
         if (!__v.isEmpty) {
@@ -170,7 +171,7 @@ final case class Any(
           _output__.writeBytes(2, __v)
         }
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def withTypeUrl(__v: _root_.scala.Predef.String): Any = copy(typeUrl = __v)
     def withValue(__v: _root_.com.google.protobuf.ByteString): Any = copy(value = __v)

@@ -101,7 +101,8 @@ final case class FieldOptions(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       `type`.foreach { __v =>
         val __m = __v
         _output__.writeString(1, __m)
@@ -134,7 +135,7 @@ final case class FieldOptions(
         val __m = __v
         _output__.writeTag(8, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       noDefaultValueInConstructor.foreach { __v =>
         val __m = __v
@@ -148,7 +149,7 @@ final case class FieldOptions(
         val __m = __v
         _output__.writeBool(31, __m)
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def getType: _root_.scala.Predef.String = `type`.getOrElse("")
     def clearType: FieldOptions = copy(`type` = _root_.scala.None)

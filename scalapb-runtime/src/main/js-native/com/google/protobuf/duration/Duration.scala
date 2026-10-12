@@ -110,7 +110,8 @@ final case class Duration(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       {
         val __v = seconds
         if (__v != 0L) {
@@ -123,7 +124,7 @@ final case class Duration(
           _output__.writeInt32(2, __v)
         }
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def withSeconds(__v: _root_.scala.Long): Duration = copy(seconds = __v)
     def withNanos(__v: _root_.scala.Int): Duration = copy(nanos = __v)

@@ -65,7 +65,8 @@ final case class EnumDescriptorProto(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       name.foreach { __v =>
         val __m = __v
         _output__.writeString(1, __m)
@@ -74,19 +75,19 @@ final case class EnumDescriptorProto(
         val __m = __v
         _output__.writeTag(2, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       options.foreach { __v =>
         val __m = __v
         _output__.writeTag(3, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       reservedRange.foreach { __v =>
         val __m = __v
         _output__.writeTag(4, 2)
         _output__.writeUInt32NoTag(__m.serializedSize)
-        __m.writeTo(_output__)
+        __m.writeTo(_output__, _serializationMode__)
       };
       reservedName.foreach { __v =>
         val __m = __v
@@ -96,7 +97,7 @@ final case class EnumDescriptorProto(
         val __m = __v.value
         _output__.writeEnum(6, __m)
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
     def clearName: EnumDescriptorProto = copy(name = _root_.scala.None)
@@ -274,7 +275,8 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
         __size - 1
         
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+      override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
         start.foreach { __v =>
           val __m = __v
           _output__.writeInt32(1, __m)
@@ -283,7 +285,7 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
           val __m = __v
           _output__.writeInt32(2, __m)
         };
-        unknownFields.writeTo(_output__)
+        unknownFields.writeTo(_output__, _serializationMode__)
       }
       def getStart: _root_.scala.Int = start.getOrElse(0)
       def clearStart: EnumReservedRange = copy(start = _root_.scala.None)

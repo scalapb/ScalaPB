@@ -39,7 +39,8 @@ final case class StringMessage(
       __size - 1
       
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = writeTo(_output__, _root_.scalapb.SerializationMode.Default)
+    override def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream, `_serializationMode__`: _root_.scalapb.SerializationMode): _root_.scala.Unit = {
       {
         val __v = str1
         if (!__v.isEmpty) {
@@ -52,7 +53,7 @@ final case class StringMessage(
           _output__.writeString(2, __v)
         }
       };
-      unknownFields.writeTo(_output__)
+      unknownFields.writeTo(_output__, _serializationMode__)
     }
     def withStr1(__v: _root_.scala.Predef.String): StringMessage = copy(str1 = __v)
     def withStr2(__v: _root_.scala.Predef.String): StringMessage = copy(str2 = __v)
