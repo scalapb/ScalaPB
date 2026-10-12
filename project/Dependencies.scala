@@ -8,9 +8,9 @@ object Dependencies {
     val protobuf             = "3.25.9"
     val collectionCompat     = "2.14.0"
     val coursier             = "2.1.24"
-    val protocGen            = "0.9.11"
+    val protocGen            = "0.9.12"
     val protobufRuntimeScala = "0.8.16"
-    val commonsCodec         = "1.22.1"
+    val commonsCodec         = "1.23.0"
 
     // For testing
     val annotationApi           = "1.3.2"
@@ -77,14 +77,14 @@ object Dependencies {
   val coursierSecurityDependencies = Seq(
     "io.airlift"          % "aircompressor" % "2.0.3",
     "org.apache.commons"  % "commons-lang3" % "3.21.0",
-    "org.codehaus.plexus" % "plexus-utils"  % "4.0.3",
+    "org.codehaus.plexus" % "plexus-utils"  % "4.1.0",
     "org.jsoup"           % "jsoup"         % "1.23.2"
   )
 
   // Build/test tools also bring these libraries transitively. Overrides do not
   // introduce JVM dependencies into the JS or Native projects.
   val buildSecurityOverrides = coursierSecurityDependencies ++ Seq(
-    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.18.11",
+    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.22",
     "com.fasterxml.jackson.core" % "jackson-core"        % "2.18.11",
     "com.fasterxml.jackson.core" % "jackson-databind"    % "2.18.11"
   ) ++ Seq(
@@ -94,7 +94,7 @@ object Dependencies {
     "jline-terminal-jni",
     "jline-native"
   )
-    .map("org.jline" % _ % "3.30.17")
+    .map("org.jline" % _ % "4.4.8")
 
   // Spark is only used to execute documentation examples. Its transitive versions
   // lag the security fixes, so select compatible patched families here.
