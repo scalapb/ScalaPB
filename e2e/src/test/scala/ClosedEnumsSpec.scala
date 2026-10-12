@@ -106,6 +106,27 @@ class ClosedEnumsSpec extends AnyFlatSpec with Matchers {
     }
   }
 
+  it should "preserve rejected values across bounded consecutive frames" in {
+    val message = ClosedEnums.parseFrom(enums(1, 42) ++ wire(_.writeByteArray(6, entry(7, 42))))
+    val next    = ClosedEnums(singular = Some(ClosedEnums.Value.ONE))
+    val output  = new java.io.ByteArrayOutputStream()
+    message.writeDelimitedTo(output)
+    next.writeDelimitedTo(output)
+    val input = new java.io.ByteArrayInputStream(output.toByteArray)
+    ClosedEnums.parseDelimitedFrom(input, message.serializedSize) must be(Some(message))
+    ClosedEnums.parseDelimitedFrom(input, next.serializedSize) must be(Some(next))
+    ClosedEnums.parseDelimitedFrom(input, 0) must be(None)
+
+    val truncated = new java.io.ByteArrayOutputStream()
+    message.writeDelimitedTo(truncated)
+    intercept[InvalidProtocolBufferException](
+      ClosedEnums.parseDelimitedFrom(
+        new java.io.ByteArrayInputStream(truncated.toByteArray.dropRight(1)),
+        message.serializedSize
+      )
+    )
+  }
+
   it should "not satisfy required fields with unknown values" in {
     intercept[InvalidProtocolBufferException](RequiredClosedEnum.parseFrom(enums(1, 42)))
     RequiredClosedEnum.parseFrom(enums(1, 1, 42)).value must be(ClosedEnums.Value.ONE)
