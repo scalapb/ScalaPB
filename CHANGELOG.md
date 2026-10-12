@@ -1,5 +1,11 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- BREAKING CHANGE: `scala3Sources = true` (or `scala3_sources`) now emits named
+  givens, given-based lens conversions, and modern control-flow syntax for Scala 3
+  `-source:future` (#2212). This output no longer supports Scala 2 with `-Xsource:3`;
+  when cross-building, enable the option only when `scalaBinaryVersion.value == "3"`. Wildcard imports of generated
+  contextual instances may need `.given` or explicit named imports. Generated
+  `messageReads` instances are now initialized lazily and reused in Scala 3 output.
 - Refresh website dependencies to address GitHub security alerts.
 - Update Coursier's transitive dependencies and the documentation/test dependency families to address GitHub security advisories; use the maintained LZ4 artifact for Spark documentation examples.
 - BREAKING CHANGE: Unify generated lens superclasses across Scala 2 and Scala 3 as

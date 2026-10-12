@@ -133,7 +133,7 @@ enums to a single Scala file.
   found if it is defined under `YourType` companion object, or on a package
   object that matches the generated code (or any of its parent packages).
 
-- By default, ScalaPB generates Scala sources that are compatible with both Scala 2 and Scala 3. To generate sources that can be compiled error-free with `-source feature` on Scala 3 or with `-Xsource:3` on Scala 2.13, set `scala3_sources` to `true` or pass the `scala3_sources` generator parameter.
+- By default, ScalaPB generates Scala sources that are compatible with both Scala 2 and Scala 3. To generate Scala 3-only sources using `given` definitions, compatible with `-source:future`, set `scala3_sources` to `true` or pass the `scala3_sources` generator parameter. Starting with ScalaPB 1.x, this output cannot be compiled with Scala 2, including with `-Xsource:3`; ScalaPB 0.11.x supported that combination. When cross-building, enable this option only for the Scala 3 build. See the [Scala 3 settings and migration guidance](sbt-settings.md#scala-3-wildcard-syntax).
 
 - Use `public_constructor_parameters` to make constructor parameters public, including defaults and TypeMappers. 
   This is helpful for automated schema derivation with e.g. `magnolia` when trying to also derive default fields by 

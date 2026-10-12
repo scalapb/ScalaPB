@@ -89,9 +89,20 @@ scalapb.gen(
 |`asciiFormatToString` | `ascii_format_to_string` | Setting this to true, overrides `toString` to return a standard ASCII representation of the message by calling `toProtoString`. |
 |`lenses` | `no_lenses` | By default, ScalaPB generates lenses for each message for easy updating. If you are not using this feature and would like to reduce code size or compilation time, you can set this to `false` and lenses will not be generated. |
 | `retainSourceCodeInfo` | `retain_source_code_info` | Retain source code information (locations, comments) provided by protoc in the descriptors. Use the `location` accessor to get that information from a descriptor.|
-| `scala3Sources` | `scala3_sources` | If set, generates Scala 3 syntax, including `?` wildcards. Use with Scala 3's `-source future` or underscore kind-projector mode, or `-Xsource:3` with Scala 2.13. |
+| `scala3Sources` | `scala3_sources` | If set, generates Scala 3-only syntax, including named `given` definitions and `?` wildcards, supporting `-source:future`. Not compatible with Scala 2, even with `-Xsource:3`. Enable only for Scala 3 when cross-building. |
 
 ## Scala 3 wildcard syntax
+
+**Changed in ScalaPB 1.x:** `scala3Sources = true` now generates Scala 3-only
+sources using named `given` definitions, given-based lens conversions, and modern
+control-flow syntax compatible with `-source:future`. Scala 3.3 remains supported.
+In ScalaPB 0.11.x, this
+option also supported Scala 2 with `-Xsource:3`; that compatibility no longer
+applies in 1.x. Scala 2 builds should leave `scala3Sources` set to `false`.
+
+After upgrading, regenerate your sources. If you import generated contextual
+instances through a wildcard import, you may need a `.given` import or an
+explicit named import instead.
 
 Select the generated syntax based on the project's Scala version:
 

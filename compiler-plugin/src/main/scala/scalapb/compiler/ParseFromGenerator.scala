@@ -102,7 +102,7 @@ private[compiler] class ParseFromGenerator(
               "_root_.scalapb.UnknownFieldSet.Builder",
               "null",
               "new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)",
-              "if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()",
+              s"if (_unknownFields__ == null)${message.V.Then} _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()",
               false
             )
           )
@@ -139,7 +139,7 @@ private[compiler] class ParseFromGenerator(
             )
           )
           .add(s"""var _done__ = false
-                  |while (!_done__) {
+                  |while (!_done__)${message.V.Do} {
                   |  val _tag__ = _input__.readTag()
                   |  _tag__ match {
                   |    case 0 => _done__ = true""".stripMargin)
@@ -205,7 +205,7 @@ private[compiler] class ParseFromGenerator(
               p.add(s"""    case ${(field.getNumber << 3) + Types.WIRETYPE_LENGTH_DELIMITED} => {
                        |      val length = _input__.readRawVarint32()
                        |      val oldLimit = _input__.pushLimit(length)
-                       |      while (_input__.getBytesUntilLimit > 0) {
+                       |      while (_input__.getBytesUntilLimit > 0)${message.V.Do} {
                        |        __${field.scalaName} += $readExpr
                        |      }
                        |      _input__.popLimit(oldLimit)
@@ -215,11 +215,11 @@ private[compiler] class ParseFromGenerator(
           .when(!message.preservesUnknownFields)(_.add("    case tag => _input__.skipField(tag)"))
           .when(message.preservesUnknownFields)(
             _.add(
-              """    case tag =>
-                |      if (_unknownFields__ == null) {
-                |        _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-                |      }
-                |      val _ = _unknownFields__.parseField(tag, _input__)""".stripMargin
+              s"""    case tag =>
+                 |      if (_unknownFields__ == null)${message.V.Then} {
+                 |        _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+                 |      }
+                 |      val _ = _unknownFields__.parseField(tag, _input__)""".stripMargin
             )
           )
           .add("  }")
@@ -229,7 +229,7 @@ private[compiler] class ParseFromGenerator(
               .map(i => s"__requiredFields$i != 0L")
               .mkString(" || ")
             p.add(
-              s"""if (${r}) { throw new _root_.com.google.protobuf.InvalidProtocolBufferException("Message missing required fields.") } """
+              s"""if (${r})${message.V.Then} { throw new _root_.com.google.protobuf.InvalidProtocolBufferException("Message missing required fields.") } """
             )
           }
           .add(s"$myFullScalaName(")
