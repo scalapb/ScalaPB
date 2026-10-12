@@ -1,0 +1,8 @@
+edition = "2023";
+
+package com.thesamet.proto.e2e;
+
+message Edition2023Message {
+  string value = 1;
+  repeated int32 numbers = 2;
+}
