@@ -1,3 +1,6 @@
+# protobuf v36.2 text-format limitations. Exact names; no duplicates or wildcards.
+
+# Unknown-field text printing/drop behavior
 Recommended.Proto3.ProtobufInput.GroupUnknownFields_Drop.TextFormatOutput
 Recommended.Proto3.ProtobufInput.GroupUnknownFields_Print.TextFormatOutput
 Recommended.Proto3.ProtobufInput.MessageUnknownFields_Drop.TextFormatOutput
@@ -6,6 +9,8 @@ Recommended.Proto3.ProtobufInput.RepeatedUnknownFields_Drop.TextFormatOutput
 Recommended.Proto3.ProtobufInput.RepeatedUnknownFields_Print.TextFormatOutput
 Recommended.Proto3.ProtobufInput.ScalarUnknownFields_Drop.TextFormatOutput
 Recommended.Proto3.ProtobufInput.ScalarUnknownFields_Print.TextFormatOutput
+
+# Unicode escapes in text literals
 Recommended.Proto3.TextFormatInput.StringLiteralLongUnicodeEscapesBytes.ProtobufOutput
 Recommended.Proto3.TextFormatInput.StringLiteralLongUnicodeEscapesBytes.TextFormatOutput
 Recommended.Proto3.TextFormatInput.StringLiteralLongUnicodeEscapesString.ProtobufOutput
@@ -14,18 +19,144 @@ Recommended.Proto3.TextFormatInput.StringLiteralShortUnicodeEscapeBytes.Protobuf
 Recommended.Proto3.TextFormatInput.StringLiteralShortUnicodeEscapeBytes.TextFormatOutput
 Recommended.Proto3.TextFormatInput.StringLiteralShortUnicodeEscapeString.ProtobufOutput
 Recommended.Proto3.TextFormatInput.StringLiteralShortUnicodeEscapeString.TextFormatOutput
-Required.Proto2.TextFormatInput.GroupFieldEmpty.ProtobufOutput
+
+# Group text parsing
 Required.Proto2.TextFormatInput.GroupFieldEmpty.ProtobufOutput
 Required.Proto2.TextFormatInput.GroupFieldEmpty.TextFormatOutput
-Required.Proto2.TextFormatInput.GroupFieldEmpty.TextFormatOutput
-Required.Proto2.TextFormatInput.GroupFieldNoColon.ProtobufOutput
 Required.Proto2.TextFormatInput.GroupFieldNoColon.ProtobufOutput
 Required.Proto2.TextFormatInput.GroupFieldNoColon.TextFormatOutput
-Required.Proto2.TextFormatInput.GroupFieldNoColon.TextFormatOutput
-Required.Proto2.TextFormatInput.GroupFieldWithColon.ProtobufOutput
 Required.Proto2.TextFormatInput.GroupFieldWithColon.ProtobufOutput
 Required.Proto2.TextFormatInput.GroupFieldWithColon.TextFormatOutput
-Required.Proto2.TextFormatInput.GroupFieldWithColon.TextFormatOutput
-Required.Proto3.TextFormatInput.AnyField.ProtobufOutput
+
+# Any text parsing
 Required.Proto3.TextFormatInput.AnyField.ProtobufOutput
 Required.Proto3.TextFormatInput.AnyField.TextFormatOutput
+
+# Group names and the omitted group extension (groups prerequisite)
+Required.Proto2.TextFormatInput.GroupFieldExtension.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto2.TextFormatInput.GroupFieldExtension.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto2.TextFormatInput.GroupFieldLowercased.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto2.TextFormatInput.GroupFieldLowercased.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto2.TextFormatInput.GroupFieldLowercasedMultiWord.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto2.TextFormatInput.GroupFieldLowercasedMultiWord.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto2.TextFormatInput.GroupFieldMultiWord.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto2.TextFormatInput.GroupFieldMultiWord.TextFormatOutput # Failed to parse input or produce output.
+
+# Expanded Any text syntax / type URLs
+Required.Proto3.TextFormatInput.AnyFieldWithCommentsInTypeUrl.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.AnyFieldWithCommentsInTypeUrl.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.AnyFieldWithCustomTypeUrlPrefix.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.AnyFieldWithCustomTypeUrlPrefix.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.AnyFieldWithSpecialCharactersInTypeUrlPrefix.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.AnyFieldWithSpecialCharactersInTypeUrlPrefix.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.AnyFieldWithValidUrlPercentEscapeInTypeUrlPrefix.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.AnyFieldWithValidUrlPercentEscapeInTypeUrlPrefix.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.AnyFieldWithWhitespaceInTypeUrl.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.AnyFieldWithWhitespaceInTypeUrl.TextFormatOutput # Failed to parse input or produce output.
+
+# Enum reflection and unknown enum numbers (enum/text prerequisites)
+Required.Proto2.TextFormatInput.ClosedEnumFieldByNumber.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ClosedEnumFieldWithUnknownNumber.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ClosedEnumFieldWithUnknownNumber.TextFormatOutput # Failed to parse input or produce output.
+
+# Comma/semicolon separators between fields (Parser.parseKeyValueList)
+Required.Proto3.TextFormatInput.FieldSeparatorCommaNested.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaNested.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_bool.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_bool.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_bytes.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_bytes.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_double.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_double.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_fixed32.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_fixed32.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_int32.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_int32.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_string.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_string.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_bool.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_bool.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_bytes.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_bytes.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_double.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_double.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_fixed32.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_fixed32.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_int32.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_int32.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_string.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_string.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiNested.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiNested.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_bool.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_bool.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_bytes.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_bytes.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_double.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_double.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_fixed32.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_fixed32.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_int32.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_int32.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_string.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_string.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_bool.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_bool.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_bytes.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_bytes.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_double.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_double.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_fixed32.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_fixed32.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_int32.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_int32.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_string.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_string.TextFormatOutput # Failed to parse input or produce output.
+
+# Missing commas in repeated lists accepted (Parser.rep)
+Required.Proto3.TextFormatInput.ListSeparatorMissingFails_bool # Should have failed to parse, but didn't.
+Required.Proto3.TextFormatInput.ListSeparatorMissingFails_double # Should have failed to parse, but didn't.
+Required.Proto3.TextFormatInput.ListSeparatorMissingFails_fixed32 # Should have failed to parse, but didn't.
+Required.Proto3.TextFormatInput.ListSeparatorMissingFails_int32 # Should have failed to parse, but didn't.
+
+# Negative floating-point zero is lost in parsing/serialization
+Required.Proto3.TextFormatInput.FloatFieldNegativeZero.ProtobufOutput # Output was not equivalent to reference message: deleted: optional_float: -0
+Required.Proto3.TextFormatInput.FloatFieldNegativeZero.TextFormatOutput # Output was not equivalent to reference message: deleted: optional_float: -0
+Required.Proto3.TextFormatInput.NegDoubleFieldLargeNegativeExponentParsesAsNegZero.ProtobufOutput # Output was not equivalent to reference message: deleted: optional_double: -0
+Required.Proto3.TextFormatInput.NegFloatFieldLargeNegativeExponentParsesAsNegZero.ProtobufOutput # Output was not equivalent to reference message: deleted: optional_float: -0
+
+# Float f/F suffixes are parsed as invalid octal; hex/octal float literals accepted
+Required.Proto3.TextFormatInput.FloatFieldNegativeZero_F.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FloatFieldNegativeZero_F.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FloatFieldNegativeZero_f.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FloatFieldNegativeZero_f.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FloatFieldNoHex # Should have failed to parse, but didn't.
+Required.Proto3.TextFormatInput.FloatFieldNoNegativeHex # Should have failed to parse, but didn't.
+Required.Proto3.TextFormatInput.FloatFieldNoNegativeOctal # Should have failed to parse, but didn't.
+Required.Proto3.TextFormatInput.FloatFieldNoOctal # Should have failed to parse, but didn't.
+Required.Proto3.TextFormatInput.FloatFieldZero_F.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FloatFieldZero_F.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FloatFieldZero_f.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.FloatFieldZero_f.TextFormatOutput # Failed to parse input or produce output.
+
+# Reserved field names should be ignored, but AstUtils rejects them as unknown
+Required.Proto3.TextFormatInput.ReservedFieldName.Boolean.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.Boolean.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.Enum.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.Enum.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.Float.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.Float.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.Integer.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.Integer.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.Message.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.Message.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.MessageAngleBrackets.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.MessageAngleBrackets.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.RepeatedFloat.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.RepeatedFloat.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.RepeatedInteger.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.RepeatedInteger.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.RepeatedString.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.RepeatedString.TextFormatOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.String.ProtobufOutput # Failed to parse input or produce output.
+Required.Proto3.TextFormatInput.ReservedFieldName.String.TextFormatOutput # Failed to parse input or produce output.

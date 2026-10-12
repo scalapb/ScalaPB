@@ -1,5 +1,7 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Refresh conformance testing to protobuf v36.2, report unsupported Editions explicitly,
+  and add Java differential and portable wire regression tests.
 - Reject negative, truncated and incompletely consumed length-delimited message frames, restore
   coded input limits on parse failures, and add optional `maxFrameSize` parsing overloads.
   Existing overloads retain their maximum frame size of `Int.MaxValue`.
