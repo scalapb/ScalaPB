@@ -345,6 +345,7 @@ val e2eCommonSettings = commonSettings ++ Seq(
     grpcProtobuf,
     grpcServices,
     grpcServices % "protobuf",
+    protobufJava % "protobuf", // Match descriptor.proto feature values to the compiler/runtime.
     annotationApi,
     cats,
     (scalaTest.value               % "test"),
