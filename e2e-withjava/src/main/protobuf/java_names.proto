@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package java_names;
+
+option java_package = "com.thesamet.proto.e2e.match";
+option java_outer_classname = "object";
+
+message Container {
+  message Nested {
+    string value = 1;
+  }
+  enum Kind {
+    ZERO = 0;
+    ONE = 1;
+  }
+  Nested nested = 1;
+  Kind kind = 2;
+}

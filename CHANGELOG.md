@@ -1,5 +1,9 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Use protobuf Java naming helpers for Java conversions and descriptor references,
+  including Edition 2024 file/type naming and correct Scala escaping of keyword
+  outer class names and empty package names. Edition input support remains a
+  separate prerequisite.
 - BREAKING CHANGE: `scala3Sources = true` (or `scala3_sources`) now emits named
   givens, given-based lens conversions, and modern control-flow syntax for Scala 3
   `-source:future` (#2212). This output no longer supports Scala 2 with `-Xsource:3`;
