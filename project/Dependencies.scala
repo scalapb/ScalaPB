@@ -84,7 +84,7 @@ object Dependencies {
   // Build/test tools also bring these libraries transitively. Overrides do not
   // introduce JVM dependencies into the JS or Native projects.
   val buildSecurityOverrides = coursierSecurityDependencies ++ Seq(
-    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.18.11",
+    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.22",
     "com.fasterxml.jackson.core" % "jackson-core"        % "2.18.11",
     "com.fasterxml.jackson.core" % "jackson-databind"    % "2.18.11"
   ) ++ Seq(
