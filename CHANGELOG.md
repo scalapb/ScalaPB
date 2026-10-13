@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 - Backport Coursier transitive dependency and documentation/test dependency security updates, including the maintained LZ4 artifact; run documentation checks on JDK 17.
+- Upgrade the CLI commons-lang3 dependency to 3.21.0.
 - Omit unused JavaConverters imports from generated gRPC services (#358).
 - Correct Maven setup documentation to match the protoc-jar-maven-plugin example (#892).
 - Upgrade gRPC to 1.84.2 and protobuf to 3.25.9, retaining the protobuf 3 API.
