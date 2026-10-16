@@ -1,0 +1,36 @@
+syntax = "proto2";
+option (scalapb.options).use_schema_enum_semantics = true;
+package closed.enums;
+option java_outer_classname = "ClosedEnumsProto";
+import "scalapb/scalapb.proto";
+import "enum3.proto";
+
+message ClosedEnums {
+  enum Value {
+    option allow_alias = true;
+    ZERO = 0;
+    ONE = 1;
+    ALIAS = 1;
+    NEGATIVE = -1;
+  }
+  optional Value singular = 1 [default = ONE];
+  repeated Value unpacked = 2 [packed = false];
+  repeated Value packed = 3 [packed = true];
+  oneof choice {
+    Value selected = 4;
+    int32 other = 5;
+  }
+  map<int32, Value> entries = 6;
+  optional com.thesamet.proto.e2e.Color3 imported = 7;
+  repeated com.thesamet.proto.e2e.Color3 imported_repeated = 8;
+}
+message RequiredClosedEnum {
+  required ClosedEnums.Value value = 1;
+}
+
+message MappedClosedEnums {
+  optional ClosedEnums.Value singular = 1 [(scalapb.field).type = "com.thesamet.pb.KnownClosedEnum"];
+  repeated ClosedEnums.Value repeated = 2 [(scalapb.field).type = "com.thesamet.pb.KnownClosedEnum"];
+  oneof choice { ClosedEnums.Value selected = 3 [(scalapb.field).type = "com.thesamet.pb.KnownClosedEnum"]; }
+  map<int32, ClosedEnums.Value> entries = 4 [(scalapb.field).value_type = "com.thesamet.pb.KnownClosedEnum"];
+}

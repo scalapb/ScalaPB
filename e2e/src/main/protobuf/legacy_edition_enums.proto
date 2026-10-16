@@ -1,0 +1,6 @@
+edition = "2023";
+package legacy.editions;
+import "edition_enums.proto";
+message LegacyEditionEnums {
+  closed.editions.EditionEnums.Closed value = 1;
+}

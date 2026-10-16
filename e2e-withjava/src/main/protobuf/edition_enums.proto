@@ -1,0 +1,32 @@
+edition = "2023";
+import "scalapb/scalapb.proto";
+option (scalapb.options).use_schema_enum_semantics = true;
+package closed.editions;
+option features.enum_type = CLOSED;
+
+message EditionEnums {
+  enum Closed { ZERO = 0; ONE = 1; }
+  enum Open {
+    option features.enum_type = OPEN;
+    OPEN_ZERO = 0;
+  }
+  Closed singular = 1;
+  repeated Closed packed = 2;
+  oneof choice { Closed selected = 3; int32 other = 4; }
+  map<int32, Closed> entries = 5;
+  Open open = 6;
+  repeated Open open_packed = 7;
+  oneof open_choice { Open open_selected = 8; }
+  map<int32, Open> open_entries = 9;
+  map<string, Closed> string_entries = 10;
+  message Nested {
+    enum InheritedClosed { ZERO = 0; }
+    enum OverrideOpen { option features.enum_type = OPEN; OPEN_ZERO = 0; }
+    enum OverrideClosed {
+      option features.enum_type = CLOSED;
+      ZERO_CLOSED = 0;
+    }
+    OverrideOpen open = 1;
+    OverrideClosed closed = 2;
+  }
+}

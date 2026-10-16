@@ -81,6 +81,13 @@ object UnknownFieldSet {
       private val fixed32         = Vector.newBuilder[Int]
       private val lengthDelimited = Vector.newBuilder[ByteString]
 
+      private[UnknownFieldSet] def addVarint(value: Long): Unit = { varint += value; () }
+
+      private[UnknownFieldSet] def addLengthDelimited(value: ByteString): Unit = {
+        lengthDelimited += value
+        ()
+      }
+
       def result() =
         Field(
           varint = varint.result(),
@@ -134,6 +141,16 @@ object UnknownFieldSet {
     def result() =
       if (fieldBuilders.isEmpty) UnknownFieldSet.empty
       else new UnknownFieldSet(fieldBuilders.view.mapValues(_.result()).toMap)
+
+    /** Retains an enum number rejected by a closed enum parser. */
+    def addVarint(fieldNumber: Int, value: Long): Unit = {
+      fieldBuilders.getOrElseUpdate(fieldNumber, new Field.Builder()).addVarint(value)
+    }
+
+    /** Retains a complete map entry rejected by a closed enum parser. */
+    def addLengthDelimited(fieldNumber: Int, value: ByteString): Unit = {
+      fieldBuilders.getOrElseUpdate(fieldNumber, new Field.Builder()).addLengthDelimited(value)
+    }
 
     def parseField(tag: Int, input: CodedInputStream) = {
       val fieldNumber = WireType.getTagFieldNumber(tag)
