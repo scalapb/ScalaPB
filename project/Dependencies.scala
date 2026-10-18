@@ -85,8 +85,8 @@ object Dependencies {
   // introduce JVM dependencies into the JS or Native projects.
   val buildSecurityOverrides = coursierSecurityDependencies ++ Seq(
     "com.fasterxml.jackson.core" % "jackson-annotations" % "2.22",
-    "com.fasterxml.jackson.core" % "jackson-core"        % "2.22.3",
-    "com.fasterxml.jackson.core" % "jackson-databind"    % "2.22.3"
+    "com.fasterxml.jackson.core" % "jackson-core"        % "2.22.4",
+    "com.fasterxml.jackson.core" % "jackson-databind"    % "2.22.4"
   ) ++ Seq(
     "jline-reader",
     "jline-terminal",
