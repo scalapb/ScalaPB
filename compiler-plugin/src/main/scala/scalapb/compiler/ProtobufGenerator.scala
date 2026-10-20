@@ -770,7 +770,20 @@ class ProtobufGenerator(
     printer.addWithDelimiter(",")(constructorFields(message).map(_.fullString))
   }
 
+  // Java's legacy closed-enum API has no numeric setters. A wire conversion also preserves
+  // unknown enum values (and whole map entries), and applies each runtime's enum semantics.
+  private def needsEnumWireConversion(message: Descriptor): Boolean =
+    message.getFile.scalaOptions.getUseSchemaEnumSemantics && message.fields.exists { field =>
+      val value = if (field.isMapField) field.mapType.valueField else field
+      value.isEnum && (value.getEnumType.isClosed || value.legacyEnumFieldTreatedAsClosed())
+    }
+
   def generateToJavaProto(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    if (needsEnumWireConversion(message))
+      return printer.add(
+        s"def toJavaProto(scalaPbSource: ${message.scalaType.fullName}): ${message.javaTypeName} = ${message.javaTypeName}.parseFrom(scalaPbSource.toByteArray)"
+      )
+
     val myFullScalaName = message.scalaType.fullName
     printer
       .add(s"def toJavaProto(scalaPbSource: $myFullScalaName): ${message.javaTypeName} = {")
@@ -785,6 +798,11 @@ class ProtobufGenerator(
   }
 
   def generateFromJavaProto(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    if (needsEnumWireConversion(message))
+      return printer.add(
+        s"def fromJavaProto(javaPbSource: ${message.javaTypeName}): ${message.scalaType.fullName} = parseFrom(javaPbSource.toByteArray)"
+      )
+
     val myFullScalaName = message.scalaType.fullName
     printer
       .add(
@@ -1675,8 +1693,11 @@ class ProtobufGenerator(
       .add("}")
   }
 
-  private def messageContainsRepeatedFields(message: Descriptor): Boolean = {
-    message.fields.exists(_.isRepeated) || message.nestedTypes.exists(messageContainsRepeatedFields)
+  private def messageNeedsJavaConverters(message: Descriptor): Boolean = {
+    (message.javaConversions && !needsEnumWireConversion(message) && message.fields.exists(
+      _.isRepeated
+    )) ||
+    message.nestedTypes.exists(messageNeedsJavaConverters)
   }
 
   def generateSingleScalaFileForFileDescriptor(
@@ -1685,7 +1706,7 @@ class ProtobufGenerator(
     val code =
       scalaFileHeader(
         file,
-        file.javaConversions && file.getMessageTypes.asScala.exists(messageContainsRepeatedFields),
+        file.javaConversions && file.getMessageTypes.asScala.exists(messageNeedsJavaConverters),
         includePreamble = true
       ).print(file.getEnumTypes.asScala)(printEnum)
         .print(file.getMessageTypes.asScala)(printMessage)
@@ -1724,9 +1745,9 @@ class ProtobufGenerator(
       b.setContent(
         scalaFileHeader(
           file,
-          javaConverterImport = file.javaConversions && (messageContainsRepeatedFields(
+          javaConverterImport = file.javaConversions && (messageNeedsJavaConverters(
             message
-          ) || cases.exists(messageContainsRepeatedFields(_))),
+          ) || cases.exists(messageNeedsJavaConverters(_))),
           true
         ).call(printMessage(_, message))
           .print(cases)(printMessage)

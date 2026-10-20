@@ -31,7 +31,8 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
       scalaPackage: Option[String] = None,
       imports: Seq[String] = Nil,
       singleFile: Option[Boolean] = None,
-      preprocessors: Seq[String] = Nil
+      preprocessors: Seq[String] = Nil,
+      useSchemaEnumSemantics: Option[Boolean] = None
   ): FileDescriptor = {
     val optionsBuilder = ScalaPbOptions.newBuilder()
 
@@ -41,6 +42,7 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
 
     scalaPackage.foreach(optionsBuilder.setPackageName)
     singleFile.foreach(optionsBuilder.setSingleFile)
+    useSchemaEnumSemantics.foreach(optionsBuilder.setUseSchemaEnumSemantics)
     optionsBuilder.addAllImport(imports.asJava)
     optionsBuilder.addAllPreprocessors(preprocessors.asJava)
 
@@ -52,6 +54,22 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
       .build()
 
     FileDescriptor.buildFrom(proto, Array())
+  }
+
+  "enum semantics options" should "default to legacy and support package opt-in and file opt-out" in {
+    val parent =
+      file("options.proto", "enums", OptionsScope.PACKAGE, useSchemaEnumSemantics = Some(true))
+    val inherited = file("inherited.proto", "enums.child", OptionsScope.FILE)
+    val disabled  =
+      file("disabled.proto", "enums.child", OptionsScope.FILE, useSchemaEnumSemantics = Some(false))
+    val legacy  = file("legacy.proto", "other", OptionsScope.FILE)
+    val options = FileOptionsCache.buildCache(
+      Seq(parent, inherited, disabled, legacy),
+      SecondaryOutputProvider.empty
+    )
+    options(inherited).getUseSchemaEnumSemantics mustBe true
+    options(disabled).getUseSchemaEnumSemantics mustBe false
+    options(legacy).getUseSchemaEnumSemantics mustBe false
   }
 
   "buildCache" should "merge options correctly" in {

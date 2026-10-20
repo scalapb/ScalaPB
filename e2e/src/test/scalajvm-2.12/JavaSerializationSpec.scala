@@ -35,20 +35,21 @@ class JavaSerializationSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChe
     val baos = new ByteArrayOutputStream()
     val oos  = new ObjectOutputStream(baos)
 
-    val inputA = a.companion.parseFrom(a.toByteArray)
+    val inputA = a.companion.parseFrom(a.toByteArray).asInstanceOf[T]
 
     oos.writeObject(inputA)
     oos.close()
 
     val ois    = new ObjectInputStream(new ByteArrayInputStream(baos.toByteArray))
     val b      = ois.readObject().asInstanceOf[T]
-    val abytes = a.toByteArray
+    val abytes = inputA.toByteArray
     val bbytes = b.toByteArray
 
+    b mustBe inputA
     abytes mustBe bbytes
   }
 
-  "a message" should "invert toJson (single)" in {
+  "Java serialization" should "round-trip a message" in {
     val rep = RepeatablesTest(
       strings = Seq("s1", "s2"),
       ints = Seq(14, 19),
@@ -58,9 +59,25 @@ class JavaSerializationSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChe
     checkJavaSerialization(rep)
   }
 
-  "fromJson" should "invert toJson" in {
+  it should "round-trip generated parsed messages" in {
     forAll(repGen) { rep =>
       checkJavaSerialization(rep)
     }
   }
+
+  it should "preserve legacy unknown packed enum values" in {
+    val original = RepeatablesTest(enums =
+      Seq(
+        RepeatablesTest.Enum.ONE,
+        RepeatablesTest.Enum.Unrecognized(0),
+        RepeatablesTest.Enum.ONE,
+        RepeatablesTest.Enum.Unrecognized(42)
+      )
+    )
+    val parsed = RepeatablesTest.parseFrom(original.toByteArray)
+    parsed.enums mustBe original.enums
+    parsed.unknownFields mustBe scalapb.UnknownFieldSet.empty
+    checkJavaSerialization(original)
+  }
+
 }
