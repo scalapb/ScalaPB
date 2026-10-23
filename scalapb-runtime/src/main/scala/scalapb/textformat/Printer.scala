@@ -14,8 +14,14 @@ object Printer {
     }
   }
 
-  def printToString(t: GeneratedMessage, singleLineMode: Boolean, escapeNonAscii: Boolean) = {
-    val out = new TextGenerator(singleLine = singleLineMode, escapeNonAscii = escapeNonAscii)
+  def printToString(t: GeneratedMessage, singleLineMode: Boolean, escapeNonAscii: Boolean): String =
+    printToString(
+      t,
+      PrinterOptions.default.withSingleLineMode(singleLineMode).withEscapeNonAscii(escapeNonAscii)
+    )
+
+  private[scalapb] def printToString(t: GeneratedMessage, options: PrinterOptions): String = {
+    val out = new TextGenerator(options.singleLineMode, options.escapeNonAscii)
     print(t, out)
     out.result()
   }
