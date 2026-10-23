@@ -1,6 +1,7 @@
 package scalapb.textformat
 
-import scalapb.descriptors.{FieldDescriptor, PEmpty, PRepeated}
+import scalapb.descriptors.{FieldDescriptor, PEmpty, PRepeated, ScalaType}
+import scalapb.options.ScalapbProto
 import scalapb.{GeneratedMessage, GeneratedMessageCompanion, textformat}
 
 object Printer {
@@ -14,8 +15,10 @@ object Printer {
       p: scalapb.descriptors.PMessage,
       companion: Companion = Companion(null), // companion of `p` if omitting default values
   )(implicit out: TextGenerator): Unit = {
+    val defaults = companion.instance
     p.value.toSeq.sortBy(_._1.number).foreach { case (fd, value) =>
-      printField(fd, value, companion)
+      if ((defaults eq null) || defaults.getField(fd) != value || companion.encoded(fd))
+        printField(fd, value, companion)
     }
   }
 
@@ -126,9 +129,19 @@ object Printer {
   }
 
   private implicit class Companion(private val self: GeneratedMessageCompanion[?]) extends AnyVal {
+    def instance: GeneratedMessage =
+      if (null eq self) null
+      else self.defaultInstance.asInstanceOf[GeneratedMessage]
+
     def forField(fd: FieldDescriptor): GeneratedMessageCompanion[?] =
       if (null eq self) null
       else self.messageCompanionForFieldNumber(fd.number)
+
+    // The binary encoding writes these fields even at their default value
+    def encoded(fd: FieldDescriptor): Boolean =
+      fd.isRequired || fd.getOptions.extension(ScalapbProto.field).exists(_.getRequired) ||
+        fd.scalaType.isInstanceOf[ScalaType.Message] && forField(fd).instance.serializedSize != 0
+
   }
 
 }

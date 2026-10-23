@@ -12,11 +12,7 @@ class PrinterSuite extends FunSuite {
   test("proto3 scalars at default") {
     assertEquals(
       print(Scalars()),
-      """|int: 0
-         |str: ""
-         |bytes: ""
-         |color: RED
-         |""".stripMargin
+      ""
     )
   }
 
@@ -34,11 +30,7 @@ class PrinterSuite extends FunSuite {
   test("proto3 optional and oneof set to default") {
     assertEquals(
       print(Scalars(opt = Some(0), choice = Scalars.Choice.Chosen(0))),
-      """|int: 0
-         |str: ""
-         |bytes: ""
-         |color: RED
-         |opt: 0
+      """|opt: 0
          |chosen: 0
          |""".stripMargin
     )
@@ -57,15 +49,7 @@ class PrinterSuite extends FunSuite {
   test("message fields at default") {
     assertEquals(
       print(Messages.defaultInstance),
-      """|unboxed {
-         |  n: 0
-         |}
-         |required {
-         |  n: 0
-         |}
-         |shape {
-         |}
-         |optional_shape {
+      """|required {
          |}
          |""".stripMargin
     )
@@ -75,19 +59,11 @@ class PrinterSuite extends FunSuite {
     assertEquals(
       print(Messages.defaultInstance.withBoxed(Inner()).withOptionalShape(Some(Square()))),
       """|boxed {
-         |  n: 0
-         |}
-         |unboxed {
-         |  n: 0
          |}
          |required {
-         |  n: 0
-         |}
-         |shape {
          |}
          |optional_shape {
          |  square {
-         |    side: 0
          |  }
          |}
          |""".stripMargin
@@ -125,14 +101,8 @@ class PrinterSuite extends FunSuite {
       print(Collections(Seq(0), Map("" -> 0), Seq(Scalars()))),
       """|ints: 0
          |counts {
-         |  key: ""
-         |  value: 0
          |}
          |list {
-         |  int: 0
-         |  str: ""
-         |  bytes: ""
-         |  color: RED
          |}
          |""".stripMargin
     )
@@ -142,10 +112,7 @@ class PrinterSuite extends FunSuite {
     assertEquals(
       print(Nested(Some(Scalars(str = "a")))),
       """|scalars {
-         |  int: 0
          |  str: "a"
-         |  bytes: ""
-         |  color: RED
          |}
          |""".stripMargin
     )
@@ -155,15 +122,7 @@ class PrinterSuite extends FunSuite {
     assertEquals(
       print(NoBox.defaultInstance),
       """|messages {
-         |  unboxed {
-         |    n: 0
-         |  }
          |  required {
-         |    n: 0
-         |  }
-         |  shape {
-         |  }
-         |  optional_shape {
          |  }
          |}
          |""".stripMargin
