@@ -1,16 +1,21 @@
 package scalapb.textformat
 
 import scalapb.descriptors.{FieldDescriptor, PEmpty, PRepeated}
-import scalapb.{GeneratedMessage, textformat}
+import scalapb.{GeneratedMessage, GeneratedMessageCompanion, textformat}
 
 object Printer {
   def print(t: GeneratedMessage, out: TextGenerator): Unit = {
     print(t.toPMessage, out)
   }
 
-  def print(p: scalapb.descriptors.PMessage, out: TextGenerator): Unit = {
+  def print(p: scalapb.descriptors.PMessage, out: TextGenerator): Unit = print(p)(out)
+
+  private def print(
+      p: scalapb.descriptors.PMessage,
+      companion: Companion = Companion(null), // companion of `p` if omitting default values
+  )(implicit out: TextGenerator): Unit = {
     p.value.toSeq.sortBy(_._1.number).foreach { case (fd, value) =>
-      printField(fd, value, out)
+      printField(fd, value, companion)
     }
   }
 
@@ -21,34 +26,48 @@ object Printer {
     )
 
   private[scalapb] def printToString(t: GeneratedMessage, options: PrinterOptions): String = {
-    val out = new TextGenerator(options.singleLineMode, options.escapeNonAscii)
-    print(t, out)
+    implicit val out: TextGenerator =
+      new TextGenerator(options.singleLineMode, options.escapeNonAscii)
+    print(t.toPMessage, if (options.omitDefaults) t.companion else null)
     out.result()
   }
 
   def printField(fd: FieldDescriptor, value: scalapb.descriptors.PValue, out: TextGenerator): Unit =
+    printField(fd, value)(out)
+
+  private def printField(
+      fd: FieldDescriptor,
+      value: scalapb.descriptors.PValue,
+      companion: Companion = Companion(null),
+  )(implicit out: TextGenerator): Unit =
     value match {
       case PRepeated(values) =>
-        values.foreach(v => printSingleField(fd, v, out))
+        values.foreach(printSingleField(fd, _, companion))
       case PEmpty =>
       case _      =>
-        printSingleField(fd, value, out); ()
+        printSingleField(fd, value, companion); ()
     }
 
   def printSingleField(
       fd: FieldDescriptor,
       value: scalapb.descriptors.PValue,
       out: TextGenerator
-  ): TextGenerator = {
+  ): TextGenerator = printSingleField(fd, value)(out)
+
+  private def printSingleField(
+      fd: FieldDescriptor,
+      value: scalapb.descriptors.PValue,
+      companion: Companion = Companion(null),
+  )(implicit out: TextGenerator): TextGenerator = {
     out.add(fd.name)
     value match {
       case scalapb.descriptors.PMessage(_) =>
         out.addNewLine(" {").indent()
-        printFieldValue(fd, value, out)
+        printFieldValue(fd, value, companion)
         out.outdent().addNewLine("}")
       case _ =>
         out.add(": ")
-        printFieldValue(fd, value, out)
+        printFieldValue(fd, value, companion)
         out.addNewLine("")
     }
   }
@@ -57,7 +76,13 @@ object Printer {
       fd: FieldDescriptor,
       value: scalapb.descriptors.PValue,
       out: TextGenerator
-  ): Unit = {
+  ): Unit = printFieldValue(fd, value)(out)
+
+  private def printFieldValue(
+      fd: FieldDescriptor,
+      value: scalapb.descriptors.PValue,
+      companion: Companion = Companion(null),
+  )(implicit out: TextGenerator): Unit = {
     value match {
       case scalapb.descriptors.PInt(v) =>
         if (fd.protoType.isTypeUint32 || fd.protoType.isTypeFixed32)
@@ -81,7 +106,7 @@ object Printer {
         else
           out.add(v.number.toString)
       case e: scalapb.descriptors.PMessage =>
-        print(e, out)
+        print(e, companion.forField(fd))
       case scalapb.descriptors.PString(v) =>
         out
           .add("\"")
@@ -99,4 +124,11 @@ object Printer {
     }
     ()
   }
+
+  private implicit class Companion(private val self: GeneratedMessageCompanion[?]) extends AnyVal {
+    def forField(fd: FieldDescriptor): GeneratedMessageCompanion[?] =
+      if (null eq self) null
+      else self.messageCompanionForFieldNumber(fd.number)
+  }
+
 }
