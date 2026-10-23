@@ -1,0 +1,54 @@
+syntax = "proto3";
+package scalapb.printer;
+import "scalapb/scalapb.proto";
+option (scalapb.options) = { flat_package: true };
+
+enum Color {
+  RED = 0;
+  GREEN = 1;
+}
+
+message Scalars {
+  int32 int = 1;
+  string str = 2;
+  bytes bytes = 3;
+  Color color = 4;
+  optional int32 opt = 5;
+  oneof choice { int32 chosen = 6; }
+}
+
+message Inner { int32 n = 1; }
+
+message Messages {
+  Inner boxed = 1;
+  Inner unboxed = 2 [(scalapb.field).no_box = true];
+  Inner required = 3 [(scalapb.field).required = true];
+  Shape shape = 4;
+  OptionalShape optional_shape = 5;
+}
+
+message Shape {
+  oneof sealed_value {
+    Circle circle = 1;
+  }
+}
+
+message Circle { int32 radius = 1; }
+
+message OptionalShape {
+  oneof sealed_value_optional {
+    Square square = 1;
+  }
+}
+
+message Square { int32 side = 1; }
+
+message Collections {
+  repeated int32 ints = 1;
+  map<string, int32> counts = 2;
+  repeated Scalars list = 3;
+}
+
+message Nested { Scalars scalars = 1; }
+
+message NoBox { Messages messages = 1 [(scalapb.field).no_box = true]; }

@@ -1,6 +1,7 @@
 package scalapb
 
 import scalapb.textformat.Printer
+import scalapb.textformat.PrinterOptions
 import scalapb.textformat.ProtoAsciiParsing
 
 case class TextFormatError(msg: String)
@@ -8,15 +9,14 @@ case class TextFormatError(msg: String)
 class TextFormatException(msg: String) extends RuntimeException(msg)
 
 object TextFormat extends ProtoAsciiParsing {
-  def printToString(m: GeneratedMessage) = {
-    Printer.printToString(m, singleLineMode = false, escapeNonAscii = true)
-  }
+  def printToString(m: GeneratedMessage, options: PrinterOptions): String =
+    Printer.printToString(m, options)
 
-  def printToUnicodeString(m: GeneratedMessage) = {
-    Printer.printToString(m, singleLineMode = false, escapeNonAscii = false)
-  }
+  def printToString(m: GeneratedMessage): String = printToString(m, PrinterOptions.default)
 
-  def printToSingleLineUnicodeString(m: GeneratedMessage) = {
-    Printer.printToString(m, singleLineMode = true, escapeNonAscii = false)
-  }
+  def printToUnicodeString(m: GeneratedMessage): String =
+    printToString(m, PrinterOptions.unicode)
+
+  def printToSingleLineUnicodeString(m: GeneratedMessage): String =
+    printToString(m, PrinterOptions.unicodeSingleLine)
 }

@@ -1,5 +1,6 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Add `TextFormat.printToString(message, PrinterOptions.default.withOmitDefaults(true))` to omit from the text format the fields that the binary encoding omits at their default value. Existing entry points print as before.
 - Resolve core Edition 2023 descriptor features with inherited overrides; expose presence, packing, enum openness, UTF-8 policy and message encoding, and recognize `LEGACY_REQUIRED` fields.
 - Use protobuf Java naming helpers for Java conversions and descriptor references,
   including Edition 2024 file/type naming and correct Scala escaping of keyword
