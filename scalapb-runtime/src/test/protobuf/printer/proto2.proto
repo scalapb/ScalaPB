@@ -1,0 +1,10 @@
+syntax = "proto2";
+package scalapb.printer;
+import "scalapb/scalapb.proto";
+option (scalapb.options) = { flat_package: true };
+
+message Proto2 {
+  optional int32 int = 1;
+  optional string str = 2 [default = "x"];
+  required int32 req = 3;
+}
