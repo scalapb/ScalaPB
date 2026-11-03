@@ -78,7 +78,7 @@ object Dependencies {
     "io.airlift"          % "aircompressor" % "2.0.3",
     "org.apache.commons"  % "commons-lang3" % "3.21.0",
     "org.codehaus.plexus" % "plexus-utils"  % "4.1.0",
-    "org.jsoup"           % "jsoup"         % "1.23.2"
+    "org.jsoup"           % "jsoup"         % "1.24.1"
   )
 
   // Build/test tools also bring these libraries transitively. Overrides do not
