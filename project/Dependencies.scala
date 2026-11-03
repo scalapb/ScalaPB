@@ -70,7 +70,7 @@ object Dependencies {
     "netty-resolver",
     "netty-transport",
     "netty-transport-native-unix-common"
-  ).map("io.netty" % _ % "4.2.19.Final")
+  ).map("io.netty" % _ % "4.2.20.Final")
 
   // Keep the CLI POM safe as well as the local build. Coursier 2.1.24 is the
   // supported cross-published version for Scala 2.12 and 2.13.
