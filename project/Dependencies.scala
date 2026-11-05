@@ -94,7 +94,7 @@ object Dependencies {
     "jline-terminal-jni",
     "jline-native"
   )
-    .map("org.jline" % _ % "4.4.8")
+    .map("org.jline" % _ % "4.5.0")
 
   // Spark is only used to execute documentation examples. Its transitive versions
   // lag the security fixes, so select compatible patched families here.
