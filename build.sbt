@@ -425,7 +425,12 @@ lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
       Compile / PB.includePaths += (LocalRootProject / baseDirectory).value / "protobuf",
       Compile / PB.targets := Seq(
         (genModule("scalapb.ScalaPbCodeGenerator$")) -> (Compile / sourceManaged).value
-      )
+      ),
+      // Java interop only: enables java_conversions in the proto file itself.
+      Compile / PB.generate / excludeFilter := (Compile / PB.generate / excludeFilter).value ||
+        "lazy_utf8_string_fields_java.proto",
+      Test / unmanagedSources / excludeFilter := (Test / unmanagedSources / excludeFilter).value ||
+        "LazyUtf8StringFieldsJavaSpec.scala"
     )
   )
 

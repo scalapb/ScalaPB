@@ -55,7 +55,7 @@ class LazyJsonSpec extends AnyFlatSpec with Matchers {
   it should "preserve map with lazy string values" in {
     val json   = JsonFormat.toJsonString(full)
     val parsed = JsonFormat.fromJsonString[LazyRecord](json)
-    parsed.labels.view.mapValues(_.value).toMap shouldBe Map("env" -> "prod", "team" -> "backend")
+    parsed.labels.map { case (k, v) => k -> v.value } shouldBe Map("env" -> "prod", "team" -> "backend")
   }
 
   it should "preserve map with int32 values" in {
