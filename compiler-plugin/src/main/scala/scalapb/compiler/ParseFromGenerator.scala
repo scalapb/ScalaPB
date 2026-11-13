@@ -169,9 +169,10 @@ private[compiler] class ParseFromGenerator(
               } else if (field.isEnum)
                 s"${field.getEnumType.scalaType.fullName}.fromValue(_input__.readEnum())"
               else if (field.getType == Type.STRING) {
+                if (field.shouldBeLazyUtf8String) s"_input__.readBytes()"
                 // Use resolved features (including inherited Java overrides and map semantics).
                 // Keep the legacy strict policy unless the schema explicitly opts in.
-                if (
+                else if (
                   !field.getFile.scalaOptions.getUseSchemaUtf8Validation || field.needsUtf8Check()
                 )
                   "_input__.readStringRequireUtf8()"

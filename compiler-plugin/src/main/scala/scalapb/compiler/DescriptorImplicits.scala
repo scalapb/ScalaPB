@@ -276,6 +276,11 @@ class DescriptorImplicits private[compiler] (
 
     def isMapField = isMessage && fd.isRepeated && fd.getMessageType.isMapEntry
 
+    def isMapKeyField: Boolean = fd.getContainingType.isMapEntry && fd.getNumber == 1
+
+    def shouldBeLazyUtf8String: Boolean =
+      fd.getContainingType.lazyUtf8StringFields && !fd.isMapKeyField
+
     def mapType: ExtendedMessageDescriptor#MapType = {
       assert(isMapField)
       fd.getMessageType.mapType
@@ -349,6 +354,7 @@ class DescriptorImplicits private[compiler] (
       }
 
       if (isMapField) Some(s"(${mapType.keyType}, ${mapType.valueType})")
+      else if (fd.isProtoString && fd.shouldBeLazyUtf8String) Some(LazyString)
       else if (isSealedOneofType) Some(fd.getMessageType.sealedOneofScalaType)
       else if (fieldOptions.hasType) Some(fieldOptions.getType)
       else if (isMessage && fd.getMessageType.messageOptions.hasType)
@@ -377,9 +383,11 @@ class DescriptorImplicits private[compiler] (
       case FieldDescriptor.JavaType.DOUBLE      => "_root_.scala.Double"
       case FieldDescriptor.JavaType.BOOLEAN     => "_root_.scala.Boolean"
       case FieldDescriptor.JavaType.BYTE_STRING => "_root_.com.google.protobuf.ByteString"
-      case FieldDescriptor.JavaType.STRING      => "_root_.scala.Predef.String"
-      case FieldDescriptor.JavaType.MESSAGE     => fd.getMessageType.scalaType.fullName
-      case FieldDescriptor.JavaType.ENUM        => fd.getEnumType.scalaType.fullName
+      case FieldDescriptor.JavaType.STRING if fd.shouldBeLazyUtf8String =>
+        "_root_.com.google.protobuf.ByteString"
+      case FieldDescriptor.JavaType.STRING  => "_root_.scala.Predef.String"
+      case FieldDescriptor.JavaType.MESSAGE => fd.getMessageType.scalaType.fullName
+      case FieldDescriptor.JavaType.ENUM    => fd.getEnumType.scalaType.fullName
     }
 
     def singleScalaTypeName = customSingleScalaTypeName.getOrElse(baseSingleScalaTypeName)
@@ -402,6 +410,8 @@ class DescriptorImplicits private[compiler] (
     def isEnum = fd.getType == FieldDescriptor.Type.ENUM
 
     def isMessage = fd.getType == FieldDescriptor.Type.MESSAGE
+
+    def isProtoString: Boolean = fd.getType == FieldDescriptor.Type.STRING
 
     def isBytes = fd.getType == FieldDescriptor.Type.BYTES
 
@@ -529,6 +539,10 @@ class DescriptorImplicits private[compiler] (
     def noDefaultValueInConstructor: Boolean = if (messageOptions.hasNoDefaultValuesInConstructor)
       messageOptions.getNoDefaultValuesInConstructor
     else message.getFile.noDefaultValuesInConstructor
+
+    def lazyUtf8StringFields: Boolean =
+      if (messageOptions.hasLazyUtf8StringFields) messageOptions.getLazyUtf8StringFields
+      else message.getFile.scalaOptions.getLazyUtf8StringFields
 
     private[this] def deprecatedAnnotation: Seq[String] = {
       if (message.getOptions.getDeprecated)
@@ -1088,6 +1102,8 @@ object DescriptorImplicits {
   val ScalaIterable = "_root_.scala.collection.immutable.Iterable"
   val ScalaIterator = "_root_.scala.collection.Iterator"
   val ScalaOption   = "_root_.scala.Option"
+
+  val LazyString = "_root_.scalapb.LazyField[_root_.scala.Predef.String]"
 
   def fromCodeGenRequest(
       params: GeneratorParams,

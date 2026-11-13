@@ -86,6 +86,12 @@ package scalapb.options
   *   Defaults to false to preserve ScalaPB's legacy always-validating behavior.
   *   Nonvalidating strings replace malformed UTF-8 and cannot preserve its bytes.
   *   Map strings always validate. Applies to binary message fields, not extensions.
+  * @param lazyUtf8StringFields
+  *   If true, string fields are generated as LazyField[String] to avoid
+  *   allocations when parsing. The use_schema_utf8_validation option and the
+  *   schema's UTF-8 validation settings are ignored for these fields: they are
+  *   always decoded with ByteString.toStringUtf8 without UTF-8 validation, so
+  *   malformed bytes are replaced with U+FFFD. Map keys are never lazy.
   * @param testOnlyNoJavaConversions
   *   For use in tests only. Inhibit Java conversions even when when generator parameters
   *   request for it.
@@ -122,6 +128,7 @@ final case class ScalaPbOptions(
     scala3Sources: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     publicConstructorParameters: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     useSchemaUtf8Validation: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    lazyUtf8StringFields: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ScalaPbOptions] with _root_.scalapb.ExtendableMessage[ScalaPbOptions] {
@@ -248,6 +255,10 @@ final case class ScalaPbOptions(
       if (useSchemaUtf8Validation.isDefined) {
         val __value = useSchemaUtf8Validation.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(30, __value)
+      };
+      if (lazyUtf8StringFields.isDefined) {
+        val __value = lazyUtf8StringFields.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(31, __value)
       };
       if (testOnlyNoJavaConversions.isDefined) {
         val __value = testOnlyNoJavaConversions.get
@@ -396,6 +407,10 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeBool(30, __m)
       };
+      lazyUtf8StringFields.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(31, __m)
+      };
       testOnlyNoJavaConversions.foreach { __v =>
         val __m = __v
         _output__.writeBool(999, __m)
@@ -500,6 +515,9 @@ final case class ScalaPbOptions(
     def getUseSchemaUtf8Validation: _root_.scala.Boolean = useSchemaUtf8Validation.getOrElse(false)
     def clearUseSchemaUtf8Validation: ScalaPbOptions = copy(useSchemaUtf8Validation = _root_.scala.None)
     def withUseSchemaUtf8Validation(__v: _root_.scala.Boolean): ScalaPbOptions = copy(useSchemaUtf8Validation = _root_.scala.Option(__v))
+    def getLazyUtf8StringFields: _root_.scala.Boolean = lazyUtf8StringFields.getOrElse(false)
+    def clearLazyUtf8StringFields: ScalaPbOptions = copy(lazyUtf8StringFields = _root_.scala.None)
+    def withLazyUtf8StringFields(__v: _root_.scala.Boolean): ScalaPbOptions = copy(lazyUtf8StringFields = _root_.scala.Option(__v))
     def getTestOnlyNoJavaConversions: _root_.scala.Boolean = testOnlyNoJavaConversions.getOrElse(false)
     def clearTestOnlyNoJavaConversions: ScalaPbOptions = copy(testOnlyNoJavaConversions = _root_.scala.None)
     def withTestOnlyNoJavaConversions(__v: _root_.scala.Boolean): ScalaPbOptions = copy(testOnlyNoJavaConversions = _root_.scala.Option(__v))
@@ -537,6 +555,7 @@ final case class ScalaPbOptions(
         case 28 => scala3Sources.orNull
         case 29 => publicConstructorParameters.orNull
         case 30 => useSchemaUtf8Validation.orNull
+        case 31 => lazyUtf8StringFields.orNull
         case 999 => testOnlyNoJavaConversions.orNull
       }
     }
@@ -573,6 +592,7 @@ final case class ScalaPbOptions(
         case 28 => scala3Sources.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 29 => publicConstructorParameters.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 30 => useSchemaUtf8Validation.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 31 => lazyUtf8StringFields.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 999 => testOnlyNoJavaConversions.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
@@ -614,6 +634,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     var __scala3Sources: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __publicConstructorParameters: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __useSchemaUtf8Validation: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __lazyUtf8StringFields: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -681,6 +702,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
           __publicConstructorParameters = _root_.scala.Option(_input__.readBool())
         case 240 =>
           __useSchemaUtf8Validation = _root_.scala.Option(_input__.readBool())
+        case 248 =>
+          __lazyUtf8StringFields = _root_.scala.Option(_input__.readBool())
         case 7992 =>
           __testOnlyNoJavaConversions = _root_.scala.Option(_input__.readBool())
         case tag =>
@@ -721,6 +744,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         scala3Sources = __scala3Sources,
         publicConstructorParameters = __publicConstructorParameters,
         useSchemaUtf8Validation = __useSchemaUtf8Validation,
+        lazyUtf8StringFields = __lazyUtf8StringFields,
         testOnlyNoJavaConversions = __testOnlyNoJavaConversions,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
@@ -759,6 +783,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         scala3Sources = __fieldsMap.get(scalaDescriptor.findFieldByNumber(28).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         publicConstructorParameters = __fieldsMap.get(scalaDescriptor.findFieldByNumber(29).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         useSchemaUtf8Validation = __fieldsMap.get(scalaDescriptor.findFieldByNumber(30).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        lazyUtf8StringFields = __fieldsMap.get(scalaDescriptor.findFieldByNumber(31).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         testOnlyNoJavaConversions = __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -820,6 +845,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     scala3Sources = _root_.scala.None,
     publicConstructorParameters = _root_.scala.None,
     useSchemaUtf8Validation = _root_.scala.None,
+    lazyUtf8StringFields = _root_.scala.None,
     testOnlyNoJavaConversions = _root_.scala.None
   )
   /** Whether to apply the options only to this file, or for the entire package (and its subpackages)
@@ -1563,6 +1589,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     def optionalPublicConstructorParameters: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.publicConstructorParameters)((c_, f_) => c_.copy(publicConstructorParameters = f_))
     def useSchemaUtf8Validation: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getUseSchemaUtf8Validation)((c_, f_) => c_.copy(useSchemaUtf8Validation = _root_.scala.Option(f_)))
     def optionalUseSchemaUtf8Validation: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.useSchemaUtf8Validation)((c_, f_) => c_.copy(useSchemaUtf8Validation = f_))
+    def lazyUtf8StringFields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getLazyUtf8StringFields)((c_, f_) => c_.copy(lazyUtf8StringFields = _root_.scala.Option(f_)))
+    def optionalLazyUtf8StringFields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.lazyUtf8StringFields)((c_, f_) => c_.copy(lazyUtf8StringFields = f_))
     def testOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getTestOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = _root_.scala.Option(f_)))
     def optionalTestOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.testOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = f_))
   }
@@ -1596,6 +1624,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
   final val SCALA3_SOURCES_FIELD_NUMBER = 28
   final val PUBLIC_CONSTRUCTOR_PARAMETERS_FIELD_NUMBER = 29
   final val USE_SCHEMA_UTF8_VALIDATION_FIELD_NUMBER = 30
+  final val LAZY_UTF8_STRING_FIELDS_FIELD_NUMBER = 31
   final val TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 999
   def of(
     packageName: _root_.scala.Option[_root_.scala.Predef.String],
@@ -1628,6 +1657,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     scala3Sources: _root_.scala.Option[_root_.scala.Boolean],
     publicConstructorParameters: _root_.scala.Option[_root_.scala.Boolean],
     useSchemaUtf8Validation: _root_.scala.Option[_root_.scala.Boolean],
+    lazyUtf8StringFields: _root_.scala.Option[_root_.scala.Boolean],
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean]
   ): _root_.scalapb.options.ScalaPbOptions = _root_.scalapb.options.ScalaPbOptions(
     packageName,
@@ -1660,6 +1690,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     scala3Sources,
     publicConstructorParameters,
     useSchemaUtf8Validation,
+    lazyUtf8StringFields,
     testOnlyNoJavaConversions
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.ScalaPbOptions])

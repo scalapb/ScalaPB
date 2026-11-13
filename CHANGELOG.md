@@ -1,5 +1,9 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Add `lazy_utf8_string_fields` file- and message-level option generating string fields as
+  `scalapb.LazyField[String]`, decoded on first access. Lazy fields ignore
+  `use_schema_utf8_validation` and the schema's UTF-8 settings: they are always decoded with
+  `ByteString.toStringUtf8` without UTF-8 validation (malformed bytes become U+FFFD). Map keys are never lazy.
 - Preserve ProtoJSON extension fields in conformance tests using scalapb-json4s 1.0.0-alpha.3.
 - Reject JSON strings containing unpaired or reversed Unicode surrogates using scalapb-json4s 1.0.0-alpha.3.
 - Reject quoted JSON boolean values in conformance tests using scalapb-json4s 1.0.0-alpha.3.

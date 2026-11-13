@@ -425,7 +425,12 @@ lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
       Compile / PB.includePaths += (LocalRootProject / baseDirectory).value / "protobuf",
       Compile / PB.targets := Seq(
         (genModule("scalapb.ScalaPbCodeGenerator$")) -> (Compile / sourceManaged).value
-      )
+      ),
+      // Java interop only: enables java_conversions in the proto file itself.
+      Compile / PB.generate / excludeFilter := (Compile / PB.generate / excludeFilter).value ||
+        "lazy_utf8_string_fields_java.proto",
+      Test / unmanagedSources / excludeFilter := (Test / unmanagedSources / excludeFilter).value ||
+        "LazyUtf8StringFieldsJavaSpec.scala"
     )
   )
 
@@ -479,6 +484,32 @@ lazy val e2e = (projectMatrix in file("e2e"))
     Compile / PB.protocOptions += "--experimental_allow_proto3_optional"
   )
 
+lazy val e2eJson = (projectMatrix in file("e2e-json"))
+  .defaultAxes()
+  .dependsOn(runtime)
+  .enablePlugins(LocalCodeGenPlugin)
+  .jvmPlatform(
+    Seq(Scala212, Scala213, Scala3),
+    settings = Seq(
+      Compile / PB.targets := Seq(
+        genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value
+      )
+    )
+  )
+  .settings(commonSettings)
+  .settings(
+    publish / skip         := true,
+    Compile / PB.recompile := true,
+    // In-process protoc generators share sbt 2's Scala 2.13 standard library.
+    codeGenClasspath := (compilerPluginJVM2_13 / Compile / fullClasspath).value,
+    libraryDependencies ++= Seq(
+      protobufJava % "protobuf", // Match descriptor.proto feature values to the compiler/runtime.
+      scalaTest.value % Test
+    ),
+    libraryDependencies += ("com.thesamet.scalapb" %% "scalapb-json4s" % versions.scalapbJson4s % Test)
+      .exclude("com.thesamet.scalapb", "scalapb-runtime_" + scalaBinaryVersion.value)
+  )
+
 lazy val conformance = (projectMatrix in file("conformance"))
   .defaultAxes()
   .dependsOn(runtime)
@@ -493,7 +524,7 @@ lazy val conformance = (projectMatrix in file("conformance"))
     ),
     codeGenClasspath := (compilerPluginJVM2_13 / Compile / fullClasspath).value,
     libraryDependencies ++= Seq(
-      ("com.thesamet.scalapb" %% "scalapb-json4s" % "1.0.0-alpha.3")
+      ("com.thesamet.scalapb" %% "scalapb-json4s" % versions.scalapbJson4s)
         .exclude(
           "com.thesamet.scalapb",
           "scalapb-runtime_2.13"
