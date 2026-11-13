@@ -11,16 +11,18 @@ import com.google.protobuf.ByteString
   *
   * `equals` on `LazyField[T]` is '''not commutative''':
   *   - `lazyField.equals(plainValue)` returns `true` when the decoded value equals `plainValue`.
-  *   - `plainValue.equals(lazyField)` returns `false` because the plain type has no knowledge of `LazyField`.
+  *   - `plainValue.equals(lazyField)` returns `false` because the plain type has no knowledge of
+  *     `LazyField`.
   *
   * Compiler protection:
   *   - Scala 3 — enable `-language:strictEquality`
-  *   - Scala 2 — there is no full compile-time protection, but `-Xfatal-warnings` would be helpful in some cases
+  *   - Scala 2 — there is no full compile-time protection, but `-Xfatal-warnings` would be helpful
+  *     in some cases
   *
-  * Any-typed collections problem:
-  * In typed collections (`Set[String]`, `Map[String, V]`) this asymmetry is hidden by implicit
-  * conversions that resolve `LazyField[T]` to `T` before insertion. With `Any`-typed collections
-  * the conversions are bypassed and insertion order silently changes the result:
+  * Any-typed collections problem: In typed collections (`Set[String]`, `Map[String, V]`) this
+  * asymmetry is hidden by implicit conversions that resolve `LazyField[T]` to `T` before insertion.
+  * With `Any`-typed collections the conversions are bypassed and insertion order silently changes
+  * the result:
   *
   * {{{
   * val s:  String             = "hello"

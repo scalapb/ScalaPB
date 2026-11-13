@@ -1,0 +1,22 @@
+edition = "2023";
+
+package com.thesamet.proto.e2e;
+
+message Edition2023Message {
+  string value = 1;
+  repeated int32 numbers = 2;
+}
+
+message Edition2023Features {
+  int32 implicit_value = 1 [features.field_presence = IMPLICIT];
+  int32 required_value = 2 [features.field_presence = LEGACY_REQUIRED];
+  repeated int32 expanded = 3 [features.repeated_field_encoding = EXPANDED];
+  string unchecked = 4 [features.utf8_validation = NONE];
+  enum Closed {
+    option features.enum_type = CLOSED;
+    ZERO = 0;
+    ONE = 1;
+  }
+  Closed closed = 5;
+  map<string, Edition2023Message> entries = 6;
+}

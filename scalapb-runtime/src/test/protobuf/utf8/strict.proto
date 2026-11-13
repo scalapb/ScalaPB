@@ -1,0 +1,5 @@
+syntax = "proto2";
+package scalapb.utf8;
+import "scalapb/scalapb.proto";
+option (scalapb.options).flat_package = true;
+message LegacyStrings { optional string value = 1; }

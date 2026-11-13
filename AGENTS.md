@@ -1,70 +1,76 @@
-# Agents
+# ScalaPB
 
-This file contains instructions for agents working on this project.
+ScalaPB is a protoc plugin that generates Scala case classes from `.proto` files.
+Key modules: `compiler-plugin` (code generator), `scalapb-runtime` (JVM/JS/Native),
+`scalapbc` (standalone CLI), `lenses`, `scalapb-runtime-grpc`, `proptest`, `conformance`,
+`e2e`/`e2e-grpc`/`e2e-withjava` (integration tests), `docs`/`website` (Docusaurus docs).
+Uses sbt-projectmatrix for cross-builds across Scala 2.12, 2.13, 3 and JVM/JS/Native.
 
-## Mindset
+## Branches
+- `master` — active development
+- `0.11.x` — maintenance; fixes that apply to both branches must be committed to each separately
 
-**sbt is slow—minutes per compile/test.** Wasted cycles waste hours.
+## Backports and releases
 
-- **Batch edits.** Do not: edit → compile → edit → compile. Do: edit everything → compile once.
-- **Design tests with code.** Cover every statement and branch; if coverage reveals gaps, fix all at once.
-- **Extreme ownership.** "Optional" means required; do the work completely.
+- Before implementing a maintenance-branch fix, fetch current upstream refs and inspect
+  the affected code and history on `origin/master`. Do not rely on a stale local checkout.
+- Prefer `git cherry-pick -x` of existing fixes over recreating them. Identify related
+  dependency, test, generated-code, and release-workflow fixes before starting the backport.
+- Verify whether an equivalent fix already exists on master before porting changes there.
+- Update the changelog for user-visible changes, including backports, and ensure the
+  release notes are complete before tagging a release.
+- Before tagging a maintenance release, check master for applicable release-workflow
+  fixes and validate the complete backport on the target branch.
 
-## Commands
+## Git
+- **Never push without explicit instruction.** Commit locally and wait to be asked.
+- Every commit that fixes a GitHub issue must include `Fixed #xyz` in its commit
+  message, replacing `xyz` with the issue number, so GitHub closes the issue.
+
+## sbt
+
+Matrix project axes appear as suffixes in task names, e.g. `compilerPluginJVM2_13/test`,
+`runtimeJS2_13/test`, `scalapbcJVM2_12/run`. Use these to scope commands to avoid
+rebuilding everything.
 
 ```bash
-# Discover project names and Scala versions
-sbt projects
-sbt e2eJVM2_12/test
-sbt e2eJVM2_13/test
-sbt e2eJVM3/test
+sbt test                          # all unit tests (slow)
+sbt compilerPluginJVM2_13/test    # test compiler plugin on Scala 2.13/JVM
+sbt fmt                           # format all sources (alias: scalafmtSbt + scalafmtAll)
+sbt scalafmtCheckAll              # check formatting without applying
+sbt "scalapbcJVM2_12/run ..."     # run scalapbc code generator directly
 ```
 
-## Workflow
+## CI scripts
+Each corresponds to a CI matrix job:
+```bash
+./test.sh                      # unit tests
+./e2e.sh                       # end-to-end: compiles e2e, e2e-grpc, e2e-withjava
+./scala3_compat_test.sh        # Scala 3 compatibility tests
+./examples_and_formatting.sh   # example projects + scalafmt check + generated code check
+./mima.sh                      # binary compatibility check against 0.11.0
+```
 
-Phases 1-3 repeat until verify passes. Phase 4 runs once at the end.
+## Generated code
+Several source directories are produced by `make_plugin_proto.sh` and must not be
+hand-edited or reformatted by scalafmt (they are excluded in `.scalafmt.conf`):
+- `docs/src/main/scala/generated/`
+- `scalapb-runtime/src/main/scalajvm/` (com/google/protobuf subtree)
+- `scalapb-runtime/src/main/scala/scalapb/options/`
 
-### 1. Edit
-Batch code and tests together. For large changes, split into batches—each batch includes its tests.
+After changing the code generator, regenerate and commit the diff:
+```bash
+./make_plugin_proto.sh
+```
+CI verifies the checked-in files match fresh generator output via
+`./test_generated_code_checked_in.sh`.
 
-### 2. Fast Loop
-One project, one Scala version: get `<project>/test` green. Default Scala 3; use Scala 2 if editing `scala-2/` sources. No coverage here.
-
-### 3. Verify
-Enter only when fast loop is green. Run in order:
-
-1. **Coverage** — Scala version you developed with
-2. **Cross-Scala** — the other Scala version, same project
-3. **Cross-platform** — other platform projects, if cross-built and you touched shared/ or platform sources
-
-If any step fails: return to phase 1, fix, get green in phase 2, rerun the failing step.
-
-### 4. Format
-
-Run once after verify passes.
-
-## Boundaries
-
-### Always
-- Follow workflow phases in order
-- Batch edits; keep sbt runs scoped to one project
-- Update AGENTS.md if you find errors or gaps
-- Document new data types in `docs/`; update existing docs when behavior changes
-- **README.md is auto-generated.** Never edit `README.md` directly. Edit `docs/index.md` instead, then run `sbt --client generateReadme` to regenerate `README.md`.
-
-### Ask First
-- Adding dependencies (even test-only)
-- Creating or removing subprojects
-- Any repo-wide test or coverage run
-- **New modules:** When adding a new module, update the `testJVM`, `testJS`, `docJVM`, and `docJS` command aliases in `build.sbt`.
-
-### Never
-- Use coverage as starting point for test design (think first, verify with coverage)
-- Iterate coverage in tiny steps (if gaps exist, fix ALL at once, then rerun once)
-- Cheat: delete code/tests, lower thresholds, or game metrics to appear compliant
-- Retest after formatting (unless formatting broke the build)
-- Use `sbt test` (repo-wide) when `sbt <project>/test` works
-- Call work "optional" or "good enough" to justify not doing it
+## Website
+Docs live in `docs/` (mdoc sources), built to `docs/target/mdoc/`, served by Docusaurus
+from `website/`. To test website changes:
+```bash
+cd website && yarn build
+```
 
 ## Benchmarks
 
@@ -77,5 +83,5 @@ amm run_benchmarks.sc --scalapb <scalapb_version> --scala <scala_version> --java
 For example:
 
 ```bash
-amm run_benchmarks.sc --scalapb 0.11.20 --scala 2.13.18 --java true --mode fast --benchmarks LargeStringMessage
+amm run_benchmarks.sc --scalapb 0.11.21 --scala 2.13.18 --java true --mode fast --benchmarks LargeStringMessage
 ```

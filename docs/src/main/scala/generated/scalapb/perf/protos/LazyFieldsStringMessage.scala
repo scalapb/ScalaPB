@@ -16,7 +16,7 @@ final case class LazyFieldsStringMessage(
     s9: _root_.scalapb.LazyField[_root_.scala.Predef.String] = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s9.toCustom(_root_.com.google.protobuf.ByteString.EMPTY),
     s10: _root_.scalapb.LazyField[_root_.scala.Predef.String] = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s10.toCustom(_root_.com.google.protobuf.ByteString.EMPTY),
     nested: _root_.scala.Option[_root_.scalapb.perf.protos.LazyFieldsStringMessage] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[LazyFieldsStringMessage] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -195,44 +195,44 @@ final case class LazyFieldsStringMessage(
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
-          val __t = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s1.toBase(s1)
-          if (__t != _root_.com.google.protobuf.ByteString.EMPTY) __t else null
+          val __t = s1.value
+          if (__t != "") __t else null
         }
         case 2 => {
-          val __t = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s2.toBase(s2)
-          if (__t != _root_.com.google.protobuf.ByteString.EMPTY) __t else null
+          val __t = s2.value
+          if (__t != "") __t else null
         }
         case 3 => {
-          val __t = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s3.toBase(s3)
-          if (__t != _root_.com.google.protobuf.ByteString.EMPTY) __t else null
+          val __t = s3.value
+          if (__t != "") __t else null
         }
         case 4 => {
-          val __t = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s4.toBase(s4)
-          if (__t != _root_.com.google.protobuf.ByteString.EMPTY) __t else null
+          val __t = s4.value
+          if (__t != "") __t else null
         }
         case 5 => {
-          val __t = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s5.toBase(s5)
-          if (__t != _root_.com.google.protobuf.ByteString.EMPTY) __t else null
+          val __t = s5.value
+          if (__t != "") __t else null
         }
         case 6 => {
-          val __t = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s6.toBase(s6)
-          if (__t != _root_.com.google.protobuf.ByteString.EMPTY) __t else null
+          val __t = s6.value
+          if (__t != "") __t else null
         }
         case 7 => {
-          val __t = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s7.toBase(s7)
-          if (__t != _root_.com.google.protobuf.ByteString.EMPTY) __t else null
+          val __t = s7.value
+          if (__t != "") __t else null
         }
         case 8 => {
-          val __t = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s8.toBase(s8)
-          if (__t != _root_.com.google.protobuf.ByteString.EMPTY) __t else null
+          val __t = s8.value
+          if (__t != "") __t else null
         }
         case 9 => {
-          val __t = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s9.toBase(s9)
-          if (__t != _root_.com.google.protobuf.ByteString.EMPTY) __t else null
+          val __t = s9.value
+          if (__t != "") __t else null
         }
         case 10 => {
-          val __t = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s10.toBase(s10)
-          if (__t != _root_.com.google.protobuf.ByteString.EMPTY) __t else null
+          val __t = s10.value
+          if (__t != "") __t else null
         }
         case 11 => nested.orNull
       }
@@ -240,16 +240,16 @@ final case class LazyFieldsStringMessage(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => _root_.scalapb.descriptors.PByteString(_root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s1.toBase(s1))
-        case 2 => _root_.scalapb.descriptors.PByteString(_root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s2.toBase(s2))
-        case 3 => _root_.scalapb.descriptors.PByteString(_root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s3.toBase(s3))
-        case 4 => _root_.scalapb.descriptors.PByteString(_root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s4.toBase(s4))
-        case 5 => _root_.scalapb.descriptors.PByteString(_root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s5.toBase(s5))
-        case 6 => _root_.scalapb.descriptors.PByteString(_root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s6.toBase(s6))
-        case 7 => _root_.scalapb.descriptors.PByteString(_root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s7.toBase(s7))
-        case 8 => _root_.scalapb.descriptors.PByteString(_root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s8.toBase(s8))
-        case 9 => _root_.scalapb.descriptors.PByteString(_root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s9.toBase(s9))
-        case 10 => _root_.scalapb.descriptors.PByteString(_root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s10.toBase(s10))
+        case 1 => _root_.scalapb.descriptors.PString(s1.value)
+        case 2 => _root_.scalapb.descriptors.PString(s2.value)
+        case 3 => _root_.scalapb.descriptors.PString(s3.value)
+        case 4 => _root_.scalapb.descriptors.PString(s4.value)
+        case 5 => _root_.scalapb.descriptors.PString(s5.value)
+        case 6 => _root_.scalapb.descriptors.PString(s6.value)
+        case 7 => _root_.scalapb.descriptors.PString(s7.value)
+        case 8 => _root_.scalapb.descriptors.PString(s8.value)
+        case 9 => _root_.scalapb.descriptors.PString(s9.value)
+        case 10 => _root_.scalapb.descriptors.PString(s10.value)
         case 11 => nested.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
@@ -326,16 +326,16 @@ object LazyFieldsStringMessage extends scalapb.GeneratedMessageCompanion[_root_.
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
       _root_.scalapb.perf.protos.LazyFieldsStringMessage(
-        s1 = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s1.toCustom(__fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.com.google.protobuf.ByteString]).getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)),
-        s2 = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s2.toCustom(__fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.com.google.protobuf.ByteString]).getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)),
-        s3 = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s3.toCustom(__fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.com.google.protobuf.ByteString]).getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)),
-        s4 = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s4.toCustom(__fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.com.google.protobuf.ByteString]).getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)),
-        s5 = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s5.toCustom(__fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.com.google.protobuf.ByteString]).getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)),
-        s6 = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s6.toCustom(__fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.com.google.protobuf.ByteString]).getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)),
-        s7 = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s7.toCustom(__fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.com.google.protobuf.ByteString]).getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)),
-        s8 = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s8.toCustom(__fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).map(_.as[_root_.com.google.protobuf.ByteString]).getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)),
-        s9 = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s9.toCustom(__fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).map(_.as[_root_.com.google.protobuf.ByteString]).getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)),
-        s10 = _root_.scalapb.perf.protos.LazyFieldsStringMessage._typemapper_s10.toCustom(__fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[_root_.com.google.protobuf.ByteString]).getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)),
+        s1 = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scalapb.LazyField[_root_.scala.Predef.String]]).getOrElse(_root_.scalapb.LazyField[_root_.scala.Predef.String](_root_.com.google.protobuf.ByteString.EMPTY)),
+        s2 = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scalapb.LazyField[_root_.scala.Predef.String]]).getOrElse(_root_.scalapb.LazyField[_root_.scala.Predef.String](_root_.com.google.protobuf.ByteString.EMPTY)),
+        s3 = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scalapb.LazyField[_root_.scala.Predef.String]]).getOrElse(_root_.scalapb.LazyField[_root_.scala.Predef.String](_root_.com.google.protobuf.ByteString.EMPTY)),
+        s4 = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scalapb.LazyField[_root_.scala.Predef.String]]).getOrElse(_root_.scalapb.LazyField[_root_.scala.Predef.String](_root_.com.google.protobuf.ByteString.EMPTY)),
+        s5 = __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scalapb.LazyField[_root_.scala.Predef.String]]).getOrElse(_root_.scalapb.LazyField[_root_.scala.Predef.String](_root_.com.google.protobuf.ByteString.EMPTY)),
+        s6 = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scalapb.LazyField[_root_.scala.Predef.String]]).getOrElse(_root_.scalapb.LazyField[_root_.scala.Predef.String](_root_.com.google.protobuf.ByteString.EMPTY)),
+        s7 = __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scalapb.LazyField[_root_.scala.Predef.String]]).getOrElse(_root_.scalapb.LazyField[_root_.scala.Predef.String](_root_.com.google.protobuf.ByteString.EMPTY)),
+        s8 = __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).map(_.as[_root_.scalapb.LazyField[_root_.scala.Predef.String]]).getOrElse(_root_.scalapb.LazyField[_root_.scala.Predef.String](_root_.com.google.protobuf.ByteString.EMPTY)),
+        s9 = __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).map(_.as[_root_.scalapb.LazyField[_root_.scala.Predef.String]]).getOrElse(_root_.scalapb.LazyField[_root_.scala.Predef.String](_root_.com.google.protobuf.ByteString.EMPTY)),
+        s10 = __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[_root_.scalapb.LazyField[_root_.scala.Predef.String]]).getOrElse(_root_.scalapb.LazyField[_root_.scala.Predef.String](_root_.com.google.protobuf.ByteString.EMPTY)),
         nested = __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.perf.protos.LazyFieldsStringMessage]])
       )
     case _ => throw new RuntimeException("Expected PMessage")

@@ -10,6 +10,53 @@ class ParserSpec extends FunSuite with ParserSuite {
 
   def P(x: Int, y: Int) = Position(x, y)
 
+  test("message nesting is bounded for every message syntax") {
+    for (
+      (open, close) <- Seq(("foo {", "}"), ("foo: <", ">"), ("foo [{", "}]"), ("foo: [{", "}]"))
+    ) {
+      new Parser(open * 100 + close * 100).parseMessage
+      val error = intercept[scalapb.TextFormatException] {
+        new Parser(open * 101 + close * 101).parseMessage
+      }
+      assert(error.getMessage.contains("Message nesting limit exceeded"))
+      assert(error.getMessage.contains("line 1, column"))
+      new Parser(open * 3 + close * 3, 3).parseMessage
+      intercept[scalapb.TextFormatException] {
+        new Parser(open * 4 + close * 4, 3).parseMessage
+      }
+    }
+    val companion = com.google.protobuf.descriptor.DescriptorProto
+    assert(scalapb.TextFormat.fromAscii(companion, "nested_type {" * 100 + "}" * 100).isRight)
+    assert(scalapb.TextFormat.fromAscii(companion, "nested_type {" * 101 + "}" * 101).isLeft)
+    new Parser("foo {} " * 200, 1).parseMessage
+    new Parser("foo: 1", 0).parseMessage
+    intercept[IllegalArgumentException](new Parser("", -1))
+  }
+
+  test("integer construction is bounded and malformed integers are parse errors") {
+    for (prefix <- Seq("", "-", "+", "0x", "-0x", "0")) {
+      val digits = if (prefix.endsWith("0")) "1" * 1023 else "1" * 1024
+      new Parser("foo: " + prefix + digits).parseMessage
+      intercept[scalapb.TextFormatException] {
+        new Parser("foo: " + prefix + digits + "1").parseMessage
+      }
+    }
+    for (token <- Seq("+", "-", "0x", "-0x")) {
+      intercept[scalapb.TextFormatException](new Parser("foo: " + token).parseMessage)
+    }
+    val result = scalapb.TextFormat.fromAscii(com.google.protobuf.struct.Struct, "fields {" * 101)
+    assert(result.left.toOption.get.msg.contains("Message nesting limit exceeded"))
+    assert(scalapb.TextFormat.fromAscii(com.google.protobuf.struct.Struct, "", 0).isRight)
+  }
+
+  test("enum numbers are checked before narrowing to Int") {
+    val companion = com.google.protobuf.descriptor.FieldDescriptorProto
+    assert(scalapb.TextFormat.fromAscii(companion, "type: 1").isRight)
+    for (number <- Seq("4294967297", "-4294967295", "2147483648")) {
+      assert(scalapb.TextFormat.fromAscii(companion, "type: " + number).isLeft)
+    }
+  }
+
   test("KeyValue") {
     check2(keyValue(_), "foo: 17", TField(P(0, 0), "foo", TIntLiteral(P(0, 5), 17)))
 

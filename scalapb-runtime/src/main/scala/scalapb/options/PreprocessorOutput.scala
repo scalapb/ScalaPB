@@ -6,7 +6,7 @@ package scalapb.options
 @SerialVersionUID(0L)
 final case class PreprocessorOutput(
     optionsByFile: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, _root_.scalapb.options.ScalaPbOptions] = _root_.scala.collection.immutable.Map.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[PreprocessorOutput] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -112,7 +112,7 @@ object PreprocessorOutput extends scalapb.GeneratedMessageCompanion[_root_.scala
   final case class OptionsByFileEntry(
       key: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       value: _root_.scala.Option[_root_.scalapb.options.ScalaPbOptions] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[OptionsByFileEntry] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

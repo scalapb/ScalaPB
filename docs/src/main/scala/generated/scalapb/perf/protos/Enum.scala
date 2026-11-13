@@ -6,7 +6,7 @@ package scalapb.perf.protos
 @SerialVersionUID(0L)
 final case class Enum(
     color: _root_.scalapb.perf.protos.Color = _root_.scalapb.perf.protos.Color.UNKNOWN,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Enum] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

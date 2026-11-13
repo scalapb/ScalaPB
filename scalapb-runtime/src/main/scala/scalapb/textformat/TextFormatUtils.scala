@@ -20,6 +20,8 @@ private[scalapb] object TextFormatUtils {
 
   case class Hex1(b: Int) extends AnyVal with ByteParsingState
 
+  case class UnicodeEscape(value: Long, remaining: Int) extends ByteParsingState
+
   case class Octal1(b: Int) extends AnyVal with ByteParsingState
 
   case class Octal2(b: Int) extends AnyVal with ByteParsingState
@@ -104,7 +106,21 @@ private[scalapb] object TextFormatUtils {
         case (EscapeMode, CH_DQ)                     => result += '\"'; Default
         case (EscapeMode, CH_QM)                     => result += '?'; Default
         case (EscapeMode, CH_X)                      => Hex0
-        case (EscapeMode, _)                        => Error("Invalid escape sequence: " + b.toChar)
+        case (EscapeMode, b) if b == 'u'             => UnicodeEscape(0L, 4)
+        case (EscapeMode, b) if b == 'U'             => UnicodeEscape(0L, 8)
+        case (EscapeMode, _) => Error("Invalid escape sequence: " + b.toChar)
+        case (UnicodeEscape(value, remaining), b) if isHexDigit(b.toChar) =>
+          val codePoint = value * 16 + digitValue(b)
+          if (remaining > 1) UnicodeEscape(codePoint, remaining - 1)
+          else if (codePoint > 0x10ffff || (codePoint >= 0xd800 && codePoint <= 0xdfff))
+            Error("Unicode escape is not a Unicode scalar value")
+          else {
+            ByteString
+              .copyFromUtf8(new String(Character.toChars(codePoint.toInt)))
+              .foreach(result += _)
+            Default
+          }
+        case (_: UnicodeEscape, _) => Error("Invalid hexadecimal digit in Unicode escape")
         case (Octal1(i), b) if b >= '0' && b <= '7' =>
           Octal2(i * 8 + digitValue(b))
         case (Octal1(i), b) =>
@@ -128,8 +144,9 @@ private[scalapb] object TextFormatUtils {
     }
 
     endState match {
-      case Error(e)   => Left(TextFormatError(e))
-      case Hex0       => Left(TextFormatError("'\\x' with no digits"))
+      case Error(e)         => Left(TextFormatError(e))
+      case _: UnicodeEscape => Left(TextFormatError("Incomplete Unicode escape"))
+      case Hex0             => Left(TextFormatError("'\\x' with no digits"))
       case EscapeMode => Left(TextFormatError("Invalid escape sequence '\\' at end of string."))
       case Hex1(i)    =>
         result += i.toByte

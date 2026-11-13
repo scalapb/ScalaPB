@@ -9,7 +9,7 @@ final case class SimpleMessage(
     j: _root_.scala.Int = 0,
     k: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY,
     color: _root_.scalapb.perf.protos.Color = _root_.scalapb.perf.protos.Color.UNKNOWN,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[SimpleMessage] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

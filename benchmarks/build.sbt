@@ -1,10 +1,10 @@
 val ProtobufJavaVersion = "4.32.0"
 
-val Scala213 = "2.13.1"
+val Scala213 = "2.13.18"
 
-val Scala212 = "2.12.10"
+val Scala212 = "2.12.21"
 
-val Scala3 = "3.3.7"
+val Scala3 = "3.3.9"
 
 lazy val root = project
   .in(file("."))

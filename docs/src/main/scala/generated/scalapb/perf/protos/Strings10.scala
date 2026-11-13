@@ -15,7 +15,7 @@ final case class Strings10(
     s8: _root_.scala.Predef.String = "",
     s9: _root_.scala.Predef.String = "",
     s10: _root_.scala.Predef.String = "",
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Strings10] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

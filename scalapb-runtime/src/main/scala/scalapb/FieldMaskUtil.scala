@@ -101,6 +101,13 @@ object FieldMaskUtil {
     val buf   = new java.lang.StringBuilder()
     var first = true
     fieldMask.paths.foreach { path =>
+      require(!path.exists(isUpper), "FieldMask protobuf paths must not contain uppercase letters")
+      path.indices.foreach { i =>
+        require(
+          path(i) != '_' || (i + 1 < path.length && isLower(path(i + 1))),
+          "FieldMask underscores must be followed by a lowercase letter"
+        )
+      }
       if (!path.isEmpty) {
         if (!first) {
           buf.append(',')
@@ -113,11 +120,19 @@ object FieldMaskUtil {
   }
 
   def fromJsonString(value: String): FieldMask = {
+    require(!value.contains('_'), "FieldMask JSON paths must not contain underscores")
     val result = value
       .split(",")
       .iterator
       .withFilter(_.nonEmpty)
-      .map { path => camelCaseToSnakeCase(path) }
+      .map { path =>
+        val result = new java.lang.StringBuilder
+        path.foreach { c =>
+          if (isUpper(c)) result.append('_').append(toLower(c))
+          else result.append(c)
+        }
+        result.toString
+      }
       .toList
     FieldMask(result)
   }

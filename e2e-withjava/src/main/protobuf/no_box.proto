@@ -43,3 +43,8 @@ message Person {
   string name = 1;
   Money money = 2[(scalapb.field).no_box = true];
 }
+
+// An unboxed default instance can still contain required fields on the wire.
+message RequiredCarHolder {
+  RequiredCar car = 1 [(scalapb.field).no_box = true];
+}

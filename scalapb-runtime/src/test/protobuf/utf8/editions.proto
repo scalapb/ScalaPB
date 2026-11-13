@@ -1,0 +1,10 @@
+edition = "2023";
+package scalapb.utf8;
+import "scalapb/scalapb.proto";
+option (scalapb.options) = { flat_package: true use_schema_utf8_validation: true };
+option features.utf8_validation = NONE;
+message EditionStrings {
+  string value = 1;
+  string checked = 2 [features.utf8_validation = VERIFY];
+  map<string, string> entries = 3;
+}

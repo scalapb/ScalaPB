@@ -8,6 +8,7 @@ import com.google.protobuf.DescriptorProtos.{
   SourceCodeInfo
 }
 import com.google.protobuf.Descriptors._
+import com.google.protobuf.GeneratorNames
 import com.google.protobuf.WireFormat.FieldType
 import scalapb.options.Scalapb
 import scalapb.options.Scalapb.ScalaPbOptions.EnumValueNaming
@@ -23,6 +24,9 @@ class DescriptorImplicits private[compiler] (
 ) {
   implicits =>
   import DescriptorImplicits._
+
+  private def escapeJavaName(name: String): String =
+    if (name.isEmpty) "" else name.split('.').map(_.asSymbol).mkString(".")
 
   @deprecated("Use DescriptorImplicits.fromCodeGenRequest. Preprocessors will not work.", "0.10.10")
   def this(params: GeneratorParams, files: Seq[FileDescriptor]) = {
@@ -274,7 +278,8 @@ class DescriptorImplicits private[compiler] (
 
     def isMapKeyField: Boolean = fd.getContainingType.isMapEntry && fd.getNumber == 1
 
-    def shouldBeLazyString: Boolean = fd.getContainingType.lazyStringFields && !fd.isMapKeyField
+    def shouldBeLazyUtf8String: Boolean =
+      fd.getContainingType.lazyUtf8StringFields && !fd.isMapKeyField
 
     def mapType: ExtendedMessageDescriptor#MapType = {
       assert(isMapField)
@@ -349,7 +354,7 @@ class DescriptorImplicits private[compiler] (
       }
 
       if (isMapField) Some(s"(${mapType.keyType}, ${mapType.valueType})")
-      else if (fd.isProtoString && fd.shouldBeLazyString) Some(LazyString)
+      else if (fd.isProtoString && fd.shouldBeLazyUtf8String) Some(LazyString)
       else if (isSealedOneofType) Some(fd.getMessageType.sealedOneofScalaType)
       else if (fieldOptions.hasType) Some(fieldOptions.getType)
       else if (isMessage && fd.getMessageType.messageOptions.hasType)
@@ -378,7 +383,7 @@ class DescriptorImplicits private[compiler] (
       case FieldDescriptor.JavaType.DOUBLE      => "_root_.scala.Double"
       case FieldDescriptor.JavaType.BOOLEAN     => "_root_.scala.Boolean"
       case FieldDescriptor.JavaType.BYTE_STRING => "_root_.com.google.protobuf.ByteString"
-      case FieldDescriptor.JavaType.STRING if fd.shouldBeLazyString =>
+      case FieldDescriptor.JavaType.STRING if fd.shouldBeLazyUtf8String =>
         "_root_.com.google.protobuf.ByteString"
       case FieldDescriptor.JavaType.STRING  => "_root_.scala.Predef.String"
       case FieldDescriptor.JavaType.MESSAGE => fd.getMessageType.scalaType.fullName
@@ -517,7 +522,7 @@ class DescriptorImplicits private[compiler] (
         (message.getEnumTypes.asScala.exists(_.getName == className)) ||
         (message.nestedTypes.exists(_.hasConflictingJavaClassName(className))))
 
-    def javaTypeName = message.getFile.fullJavaName(message.getFullName)
+    def javaTypeName = escapeJavaName(GeneratorNames.getQualifiedClassName(message))
 
     def messageOptions: MessageOptions = {
       val localOptions = message.getOptions.extension(Scalapb.message)
@@ -535,9 +540,9 @@ class DescriptorImplicits private[compiler] (
       messageOptions.getNoDefaultValuesInConstructor
     else message.getFile.noDefaultValuesInConstructor
 
-    def lazyStringFields: Boolean =
-      if (messageOptions.hasLazyStringFields) messageOptions.getLazyStringFields
-      else message.getFile.scalaOptions.getLazyStringFields
+    def lazyUtf8StringFields: Boolean =
+      if (messageOptions.hasLazyUtf8StringFields) messageOptions.getLazyUtf8StringFields
+      else message.getFile.scalaOptions.getLazyUtf8StringFields
 
     private[this] def deprecatedAnnotation: Seq[String] = {
       if (message.getOptions.getDeprecated)
@@ -791,7 +796,7 @@ class DescriptorImplicits private[compiler] (
 
     def isTopLevel = enumDescriptor.getContainingType == null
 
-    def javaTypeName = enumDescriptor.getFile.fullJavaName(enumDescriptor.getFullName)
+    def javaTypeName = escapeJavaName(GeneratorNames.getQualifiedClassName(enumDescriptor))
 
     def javaConversions = enumDescriptor.getFile.javaConversions
 
@@ -927,11 +932,7 @@ class DescriptorImplicits private[compiler] (
     def javaConversions =
       (scalaOptions.getJavaConversions || params.javaConversions) && !scalaOptions.getTestOnlyNoJavaConversions
 
-    def javaPackage: String = {
-      if (file.getOptions.hasJavaPackage)
-        file.getOptions.getJavaPackage
-      else file.getPackage
-    }
+    def javaPackage: String = GeneratorNames.getFileJavaPackage(file)
 
     def emitScala3Sources: Boolean = scalaOptions.getScala3Sources || params.scala3Sources
 
@@ -940,7 +941,7 @@ class DescriptorImplicits private[compiler] (
     def V: ScalaCompatConstants = new ScalaCompatConstants(emitScala3Sources)
 
     def javaPackageAsSymbol: String =
-      javaPackage.split('.').map(_.asSymbol).mkString(".")
+      escapeJavaName(javaPackage)
 
     private def hasConflictingJavaClassName(className: String): Boolean =
       (file.getEnumTypes.asScala.exists(_.getName == className) ||
@@ -954,14 +955,7 @@ class DescriptorImplicits private[compiler] (
         file.getEnumTypes.asScala.exists(_.getName.toLowerCase == str.toLowerCase) ||
         file.getServices.asScala.exists(_.getName.toLowerCase == str.toLowerCase)
 
-    def javaOuterClassName: String =
-      if (file.getOptions.hasJavaOuterClassname)
-        file.getOptions.getJavaOuterClassname
-      else {
-        val r = NameUtils.snakeCaseToCamelCase(baseName(file.getName), true)
-        if (!hasConflictingJavaClassName(r)) r
-        else r + "OuterClass"
-      }
+    def javaOuterClassName: String = GeneratorNames.getFileClassName(file)
 
     private def isFlatPackage = {
       // Disable flat-package for these two packages, even if a generator
@@ -996,26 +990,31 @@ class DescriptorImplicits private[compiler] (
 
     def javaFullOuterClassName = {
       val pkg = javaPackageAsSymbol
-      if (pkg.isEmpty) javaOuterClassName
-      else pkg + "." + javaOuterClassName
+      if (pkg.isEmpty) javaOuterClassName.asSymbol
+      else pkg + "." + javaOuterClassName.asSymbol
     }
 
-    private def stripPackageName(fullName: String): String =
-      if (file.getPackage.isEmpty) fullName
-      else {
-        assert(fullName.startsWith(file.getPackage + "."))
-        fullName.substring(file.getPackage.size + 1)
-      }
+    // Keep this entry point for callers with a proto name, but resolve the descriptor:
+    // Edition 2024 allows different nesting policies for types in the same file.
+    def fullJavaName(fullName: String): String = {
+      def messages(ds: Seq[Descriptor]): Seq[Descriptor] =
+        ds.flatMap(d => d +: messages(d.getNestedTypes.asScala.toSeq))
 
-    def fullJavaName(fullName: String) = {
-      val base =
-        if (!file.getOptions.getJavaMultipleFiles)
-          (javaFullOuterClassName + ".")
-        else {
-          val pkg = javaPackageAsSymbol
-          if (pkg.isEmpty) "" else (pkg + ".")
-        }
-      base + stripPackageName(fullName).split('.').map(_.asSymbol).mkString(".")
+      val allMessages = messages(file.getMessageTypes.asScala.toSeq)
+      allMessages
+        .find(_.getFullName == fullName)
+        .map(_.javaTypeName)
+        .orElse(
+          (file.getEnumTypes.asScala ++ allMessages.flatMap(_.getEnumTypes.asScala))
+            .find(_.getFullName == fullName)
+            .map(_.javaTypeName)
+        )
+        .orElse(
+          file.getServices.asScala
+            .find(_.getFullName == fullName)
+            .map(s => escapeJavaName(GeneratorNames.getQualifiedClassName(s)))
+        )
+        .getOrElse(throw new IllegalArgumentException(s"Unknown Java type: $fullName"))
     }
 
     def fileDescriptorObject = {
@@ -1196,6 +1195,14 @@ object DescriptorImplicits {
 
 // For constants that depends on the Scala 2 or 3 mode.
 private[scalapb] class ScalaCompatConstants(emitScala3Sources: Boolean) {
+  val Then: String = if (emitScala3Sources) " then" else ""
+
+  val Do: String = if (emitScala3Sources) " do" else ""
+
+  val GivenDef: String = if (emitScala3Sources) "given" else "implicit def"
+
+  val GivenVal: String = if (emitScala3Sources) "given" else "implicit val"
+
   val WildcardType: String =
     if (emitScala3Sources) "?" else "_"
 
@@ -1208,10 +1215,6 @@ private[scalapb] class ScalaCompatConstants(emitScala3Sources: Boolean) {
     if (emitScala3Sources) "private" else "private[this]"
 
   val WithOperator: String = if (emitScala3Sources) " & " else " with "
-
-  val MessageLens =
-    if (emitScala3Sources) "_root_.scalapb.lenses.MessageLens"
-    else "_root_.scalapb.lenses.ObjectLens"
 }
 
 object Helper {

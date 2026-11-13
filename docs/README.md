@@ -1,5 +1,7 @@
 ## Development environment for writing docs
 
+Use JDK 17 or newer to run the Spark examples and documentation server dependencies.
+
 In one terminal, start sbt and type:
 
     docs/mdoc --watch

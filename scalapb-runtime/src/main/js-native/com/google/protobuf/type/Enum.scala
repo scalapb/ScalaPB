@@ -31,7 +31,7 @@ final case class Enum(
     sourceContext: _root_.scala.Option[_root_.com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
     syntax: _root_.com.google.protobuf.`type`.Syntax = _root_.com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
     edition: _root_.scala.Predef.String = "",
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Enum] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

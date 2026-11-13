@@ -36,7 +36,7 @@ final case class CodeGeneratorResponse(
     minimumEdition: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
     maximumEdition: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
     file: _root_.scala.Seq[_root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[CodeGeneratorResponse] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -269,7 +269,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[_root_.co
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Feature(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(FEATURE_NONE, FEATURE_PROTO3_OPTIONAL, FEATURE_SUPPORTS_EDITIONS)
+    lazy val values: _root_.scala.collection.immutable.Seq[_root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse.Feature.Recognized] = _root_.scala.collection.immutable.Seq(FEATURE_NONE, FEATURE_PROTO3_OPTIONAL, FEATURE_SUPPORTS_EDITIONS)
     def fromValue(__value: _root_.scala.Int): Feature = __value match {
       case 0 => FEATURE_NONE
       case 1 => FEATURE_PROTO3_OPTIONAL
@@ -349,7 +349,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[_root_.co
       insertionPoint: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       content: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       generatedCodeInfo: _root_.scala.Option[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[File] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

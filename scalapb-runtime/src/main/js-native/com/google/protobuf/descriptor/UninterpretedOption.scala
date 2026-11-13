@@ -23,7 +23,7 @@ final case class UninterpretedOption(
     doubleValue: _root_.scala.Option[_root_.scala.Double] = _root_.scala.None,
     stringValue: _root_.scala.Option[_root_.com.google.protobuf.ByteString] = _root_.scala.None,
     aggregateValue: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[UninterpretedOption] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -249,7 +249,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[_root_.com.
   final case class NamePart(
       namePart: _root_.scala.Predef.String,
       isExtension: _root_.scala.Boolean,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[NamePart] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

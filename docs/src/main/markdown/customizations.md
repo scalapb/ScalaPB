@@ -133,7 +133,7 @@ enums to a single Scala file.
   found if it is defined under `YourType` companion object, or on a package
   object that matches the generated code (or any of its parent packages).
 
-- By default, ScalaPB generates Scala sources that are compatible with both Scala 2 and Scala 3. To generate sources that can be compiled error-free with `-source feature` on Scala 3 or with `-Xsource:3` on Scala 2.13, set `scala3_sources` to `true` or pass the `scala3_sources` generator parameter.
+- By default, ScalaPB generates Scala sources that are compatible with both Scala 2 and Scala 3. To generate Scala 3-only sources using `given` definitions, compatible with `-source:future`, set `scala3_sources` to `true` or pass the `scala3_sources` generator parameter. Starting with ScalaPB 1.x, this output cannot be compiled with Scala 2, including with `-Xsource:3`; ScalaPB 0.11.x supported that combination. When cross-building, enable this option only for the Scala 3 build. See the [Scala 3 settings and migration guidance](sbt-settings.md#scala-3-wildcard-syntax).
 
 - Use `public_constructor_parameters` to make constructor parameters public, including defaults and TypeMappers. 
   This is helpful for automated schema derivation with e.g. `magnolia` when trying to also derive default fields by 
@@ -569,13 +569,13 @@ Lazy string fields shows high perfomance improvement (up to 3x faster round-trip
 - message consists of a large number of `string` fields;
 - read access (calling a getter method) to only a small number of attributes (parse message → read a few of fields → serialize).
 
-You can toggle lazy string fields parsing on file and message level with `lazy_string_fields` option:
+You can toggle lazy string fields parsing on file and message level with `lazy_utf8_string_fields` option:
 
 ```protobuf
 import "scalapb/scalapb.proto";
 
 option (scalapb.options) = {
-  lazy_string_fields: true
+  lazy_utf8_string_fields: true
 };
 
 message LazyMessage {
@@ -585,11 +585,15 @@ message LazyMessage {
 
 message NotLazyMessage {
   option (scalapb.message) = {
-    lazy_string_fields: false
+    lazy_utf8_string_fields: false
   };
   string not_lazy_string = 1;
 }
 ```
+
+:::warning UTF-8 validation
+Lazy string fields ignore `use_schema_utf8_validation` and the UTF-8 validation settings of the proto schema (`java_string_check_utf8`, `features.utf8_validation`), including for map values. They are always decoded with `ByteString.toStringUtf8` without UTF-8 validation: malformed bytes are replaced with U+FFFD on first access instead of failing the parse. Map keys are never lazy and keep the regular validation policy. See [Binary string UTF-8 validation](#binary-string-utf-8-validation).
+:::
 
 This will generate a case class `LazyMessage` where `str` is of type `scalapb.LazyField[String]`. This class acts as a proxy and will only decode the underlying string on the first access. Thanks to implicit conversions, you can often use the `LazyField` as if it were the underlying type itself.
 
@@ -644,7 +648,7 @@ Set[Any](s, ls).size  // 1 — ls.equals(s)  is true,  so ls is deduplicated awa
 Set[String](s, ls).size // 1, typed collection works well
 ```
 
-Please be careful when using `lazy_string_fields` with Any-typed collections. Prefer typed collections — `Set[String]` works well.
+Please be careful when using `lazy_utf8_string_fields` with Any-typed collections. Prefer typed collections — `Set[String]` works well.
 
 ## Message-level custom type and boxing
 
@@ -918,3 +922,48 @@ message Expr {
   }
 }
 ```
+
+## Binary string UTF-8 validation
+
+ScalaPB validates UTF-8 when parsing ordinary binary `string` fields by default,
+including proto2 strings. To opt into the resolved protobuf Java schema policy:
+
+```protobuf
+import "scalapb/scalapb.proto";
+option (scalapb.options).use_schema_utf8_validation = true;
+```
+
+This option can also be inherited from package-scoped ScalaPB options. Set it to
+`false` in a file to retain strict validation for that file. Regenerate your Scala
+sources after changing the option; already-generated parsers are unaffected.
+
+With the option enabled, proto2 strings validate when `java_string_check_utf8`
+is true, and proto3 strings validate by default. The generator uses the public
+Java descriptor `needsUtf8Check()` API, which resolves inherited Editions
+`features.utf8_validation` and Java-specific UTF-8 overrides for Edition 2023.
+Edition 2024 feature resolution is tested at the descriptor level but Edition
+2024 input is not yet advertised.
+String map keys **and values always validate**, including in nonvalidating files.
+Fields generated with [`lazy_utf8_string_fields`](#lazy-string-fields) are the
+exception: they ignore this option and never validate.
+The policy applies equally to singular, repeated, oneof, and custom-mapped strings.
+
+Nonvalidating fields decode to Scala `String`, replacing malformed UTF-8 with
+replacement characters. **The original malformed bytes are lost** before any
+custom type mapper runs. Reserializing is not a byte-preserving round trip, and
+replacement grouping can differ between JVM, JavaScript, and Native decoders.
+Use a `bytes` field (wire-compatible with `string`) when you need to retain the
+original bytes. Valid Unicode is unaffected by this option.
+
+This option controls generated binary message parsers. It does not change text
+format parsing, JSON support, serialization, or extension accessors (which decode
+strings from their stored unknown-field bytes). For the upstream Java policy and
+its string-only versus dual representation distinction, see
+[UTF-8 Validation in Java](https://protobuf.dev/reference/java/java-utf8-validation/).
+
+JavaScript and Native require `protobuf-runtime-scala` 0.9.0 or newer for strict
+malformed-input rejection (included by this release). The 0.9.0 upgrade also makes
+the deprecated `ByteString.bytes` return a copy rather than exposing its backing
+array; use `toByteArray()`. See the runtime's
+[0.9.0 release notes](https://github.com/scalapb/protobuf-scala-runtime/blob/v0.9.0/RELEASE_NOTES.md)
+for the stable-path source incompatibility and other validation fixes.

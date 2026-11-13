@@ -46,7 +46,7 @@ final case class CodeGeneratorRequest(
     protoFile: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scala.Vector.empty,
     sourceFileDescriptors: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scala.Vector.empty,
     compilerVersion: _root_.scala.Option[_root_.com.google.protobuf.compiler.plugin.Version] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[CodeGeneratorRequest] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

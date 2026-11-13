@@ -33,7 +33,7 @@ final case class EnumOptions(
     @scala.deprecated(message="Marked as deprecated in proto file", "") deprecatedLegacyJsonFieldConflicts: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     features: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
     uninterpretedOption: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumOptions] with _root_.scalapb.ExtendableMessage[EnumOptions] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

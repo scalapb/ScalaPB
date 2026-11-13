@@ -100,3 +100,35 @@ appropriate message companion to pass as `cmp` via implicit search:
 ```scala
 readFromFile[Person]("/tmp/person.pb")
 ```
+
+## Editions and resolved descriptor features
+
+The generator advertises Edition 2023 as both its minimum and maximum supported
+edition. Edition 2024 and later are not advertised. This is a generation range,
+not a claim of complete Editions wire conformance: closed-enum parsing,
+`DELIMITED` message parsing and Java naming compatibility require their respective
+implementations and validation. String parsing remains strict by default; the
+schema's UTF-8 setting alone does not change parser behavior.
+
+Scala file, message, enum and field descriptors expose `resolvedFeatures`, which
+combines the core syntax/Edition 2023 defaults with lexical option overrides.
+Fields also account for legacy `required`, `packed`, groups and proto3 optional
+when resolving features. `asProto`, `getOptions` and `protoType` retain the source
+representation. Resolving features for an unsupported edition throws
+`DescriptorValidationException`, rather than guessing its defaults.
+
+Use `FieldDescriptor.hasPresence`, `isRequired`, `isPackable`, `isPacked`,
+`needsUtf8Check` and `messageEncoding`, and `EnumDescriptor.isClosed` to inspect
+schema semantics. `isOptional` is false for Edition 2023 `LEGACY_REQUIRED` fields.
+Repeated fields have no presence; message and oneof fields have presence even
+when the inherited scalar policy is `IMPLICIT`. Map entries and their message
+fields remain length-prefixed under a `DELIMITED` default.
+
+`needsUtf8Check` describes the **core schema policy**, not Java-specific feature
+extensions or Java's stricter map-string handling. Feature accessors do not
+change generated parsers. Language-specific feature extensions are preserved in
+`resolvedFeatures` but not interpreted. These APIs describe existing message
+fields; they do not add extension-field reflection support.
+
+See the upstream [feature settings reference](https://protobuf.dev/editions/features/)
+for the meaning and permitted scopes of each feature.

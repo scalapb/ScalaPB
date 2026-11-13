@@ -16,7 +16,7 @@ final case class LargeNestedStringMessage(
     s9: _root_.scala.Predef.String = "",
     s10: _root_.scala.Predef.String = "",
     nested: _root_.scala.Option[_root_.scalapb.perf.protos.LargeNestedStringMessage] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[LargeNestedStringMessage] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

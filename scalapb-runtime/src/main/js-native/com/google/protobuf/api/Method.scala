@@ -43,7 +43,7 @@ final case class Method(
     options: _root_.scala.Seq[_root_.com.google.protobuf.`type`.OptionProto] = _root_.scala.Vector.empty,
     @scala.deprecated(message="Marked as deprecated in proto file", "") syntax: _root_.com.google.protobuf.`type`.Syntax = _root_.com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
     @scala.deprecated(message="Marked as deprecated in proto file", "") edition: _root_.scala.Predef.String = "",
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Method] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

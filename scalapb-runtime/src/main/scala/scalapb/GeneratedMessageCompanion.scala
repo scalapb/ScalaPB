@@ -74,6 +74,9 @@ trait GeneratedOneofCompanion
 
 trait GeneratedMessage extends Any with Product with Serializable {
 
+  /** Unknown wire fields stored by this message, or empty when preservation is disabled. */
+  def unknownFields: UnknownFieldSet = UnknownFieldSet.empty
+
   /** Serializes the message into the given coded output stream */
   def writeTo(output: CodedOutputStream): Unit
 
@@ -179,6 +182,18 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] extends Serializable {
 
   def parseDelimitedFrom(input: InputStream): Option[A] =
     LiteParser.parseDelimitedFrom(input)(this)
+
+  /** Parses one length-delimited message with a non-negative maximum frame size in bytes. Returns
+    * None only at EOF before a frame starts. Invalid lengths, incomplete frames and frames
+    * exceeding maxFrameSize throw InvalidProtocolBufferException. The input position is not rolled
+    * back on failure. Existing overloads use Int.MaxValue as the maximum.
+    */
+  def parseDelimitedFrom(input: CodedInputStream, maxFrameSize: Int): Option[A] =
+    LiteParser.parseDelimitedFrom(input, maxFrameSize)(this)
+
+  /** Parses one length-delimited message with the same frame-size policy as the coded overload. */
+  def parseDelimitedFrom(input: InputStream, maxFrameSize: Int): Option[A] =
+    LiteParser.parseDelimitedFrom(input, maxFrameSize)(this)
 
   // Creates a stream that parses one message at a time from the delimited input stream.
   @nowarn("cat=deprecation")

@@ -25,6 +25,15 @@ To add sparksql-scalapb to your project, add *one* of the following lines that
 matches *both the version of ScalaPB and Spark* you use:
 
 ```scala
+// Spark 4.2 and ScalaPB 0.11 (Scala 2.13)
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql42-scalapb0_11" % "1.0.6"
+
+// Spark 4.1 and ScalaPB 0.11 (Scala 2.13)
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql41-scalapb0_11" % "1.0.6"
+
+// Spark 4.0 and ScalaPB 0.11 (Scala 2.13)
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql40-scalapb0_11" % "1.0.6"
+
 // Spark 3.5 and ScalaPB 0.11
 libraryDependencies += "com.thesamet.scalapb" %% "sparksql35-scalapb0_11" % "@sparksql_scalapb@"
 
@@ -61,6 +70,10 @@ libraryDependencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.10.4"
 // Spark 2.x and ScalaPB 0.9
 libraryDependencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.9.3"
 ```
+
+Spark 4 support is available starting with sparksql-scalapb 1.0.6, for Scala 2.13
+and ScalaPB 0.11. Choose the artifact matching your Spark minor version; these
+Spark 4 artifacts are not published for Scala 2.12 or ScalaPB 0.10.
 
 Known issue: Spark 3.2.1 is binary incompatible with Spark 3.2.0 in some of its internal
 APIs being used. If you use Spark 3.2.0, please stick to sparksql-scalapb 1.0.0-M1.

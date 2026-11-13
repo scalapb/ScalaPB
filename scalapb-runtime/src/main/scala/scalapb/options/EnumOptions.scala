@@ -25,7 +25,7 @@ final case class EnumOptions(
     baseAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     recognizedAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     unrecognizedAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumOptions] with _root_.scalapb.ExtendableMessage[EnumOptions] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

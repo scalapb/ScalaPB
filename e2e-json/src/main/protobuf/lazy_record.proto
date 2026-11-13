@@ -7,7 +7,7 @@ package e2e.json;
 option java_package = "e2e.json";
 
 option (scalapb.options) = {
-  lazy_string_fields: true
+  lazy_utf8_string_fields: true
 };
 
 enum Color {

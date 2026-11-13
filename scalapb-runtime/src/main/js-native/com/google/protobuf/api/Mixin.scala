@@ -92,7 +92,7 @@ package com.google.protobuf.api
 final case class Mixin(
     name: _root_.scala.Predef.String = "",
     root: _root_.scala.Predef.String = "",
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Mixin] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

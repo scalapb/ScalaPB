@@ -7,7 +7,7 @@ package scalapb.perf.protos
 final case class LargeStringMessageNested1(
     level2: _root_.scala.Option[_root_.scalapb.perf.protos.Strings10] = _root_.scala.None,
     nested2: _root_.scala.Option[_root_.scalapb.perf.protos.LargeStringMessageNested2] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[LargeStringMessageNested1] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

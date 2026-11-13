@@ -14,23 +14,21 @@ jobs:
         include:
         - scala: 2_12
           script: examples_and_formatting
-        - scala: 2_13
-          script: scala3_compat_test
         - scala: 3
           script: scala3_compat_test
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
-    - uses: actions/setup-java@v5
+    - uses: actions/setup-java@v6
       with:
-        java-version: 11
+        java-version: 17
         distribution: temurin
 
     - uses: sbt/setup-sbt@v1
 
     - name: Mount caches
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: |
           ~/.sbt
@@ -48,18 +46,22 @@ jobs:
   conformance:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
-    - uses: actions/cache@v5
+    - uses: actions/checkout@v7
+    - uses: actions/cache@v6
       id: conformance-cache
       with:
           key: conformance-${{ runner.os }}-${{hashFiles('conformance/build_test_runner.sh')}}
           path: /tmp/conformance-test-runner
+    - uses: actions/setup-java@v6
+      with:
+        java-version: 17
+        distribution: temurin
     - uses: sbt/setup-sbt@v1
 
     # Build conformance_test_runner on a cache miss
     - uses: bazelbuild/setup-bazelisk@v3
       if: steps.conformance-cache.outputs.cache-hit != 'true'
-    - uses: actions/cache@v5
+    - uses: actions/cache@v6
       if: steps.conformance-cache.outputs.cache-hit != 'true'
       with:
         path: |
@@ -68,7 +70,7 @@ jobs:
     - run: conformance/build_test_runner.sh
       if: steps.conformance-cache.outputs.cache-hit != 'true'
 
-    - uses: actions/cache@v5
+    - uses: actions/cache@v6
       with:
         path: |
           ~/.sbt
@@ -80,7 +82,7 @@ jobs:
         /tmp/conformance-test-runner/conformance_test_runner --enforce_recommended \
           --failure_list conformance/failure_list_scalapb.txt \
           --text_format_failure_list conformance/text_format_failure_list_scalapb.txt \
-          conformance/target/jvm-2.13/conformance
+          target/out/jvm/scala-*/conformance/conformance
       shell: bash
 
   # Single final job for mergify.

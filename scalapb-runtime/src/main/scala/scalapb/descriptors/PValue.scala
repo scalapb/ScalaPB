@@ -76,8 +76,8 @@ object Reads extends ReadsCompat {
 
   implicit val lazyStringReads: Reads[LazyField[String]] = Reads[LazyField[String]] {
     case PByteString(value) => LazyField(value)
-    case PString(value) => LazyField.from(value)
-    case _               => throw new ReadsException("Expected PByteString or PString")
+    case PString(value)     => LazyField.from(value)
+    case _                  => throw new ReadsException("Expected PByteString or PString")
   }
 
   implicit def optional[A](implicit reads: Reads[A]): Reads[Option[A]] = Reads[Option[A]] {
