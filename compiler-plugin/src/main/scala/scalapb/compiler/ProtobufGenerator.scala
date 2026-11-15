@@ -272,13 +272,31 @@ class ProtobufGenerator(
       else
         container + ".get" + upperJavaName
 
-    javaFieldToScala(javaHazzer, javaGetter, field)
+    if (field.isRepeated && field.isProtoString && field.shouldBeLazyUtf8String) {
+      // With lazy_utf8_string_fields, read repeated elements as raw ByteStrings:
+      // get<Name>Bytes(int) avoids a lossy String round-trip for invalid UTF-8.
+      val bytesSeq =
+        s"(0 until ${container}.get${field.upperJavaName}Count).map(i => ${container}.get${field.upperJavaName}Bytes(i))"
+      javaToScalaConversion(field)(
+        bytesSeq,
+        sourceType = EnclosingType.Collection(DescriptorImplicits.ScalaSeq, None),
+        targetType = field.enclosingType,
+        mustCopy = true
+      )
+    } else
+      javaFieldToScala(javaHazzer, javaGetter, field)
   }
 
   def javaMapFieldToScala(container: String, field: FieldDescriptor): String = {
     // TODO(thesamet): if both unit conversions are NoOp, we can omit the map call.
     def unitConversion(n: String, field: FieldDescriptor) =
-      javaToScalaConversion(field).apply(n, EnclosingType.None)
+      // With lazy_utf8_string_fields, Java map accessors have no ByteString variant,
+      // so String map values are wrapped before the lazy typemapper converts them.
+      if (field.isProtoString && field.shouldBeLazyUtf8String)
+        (FunctionApplication("_root_.com.google.protobuf.ByteString.copyFromUtf8") andThen
+          javaToScalaConversion(field)).apply(n, EnclosingType.None)
+      else
+        javaToScalaConversion(field).apply(n, EnclosingType.None)
 
     val upperJavaName =
       if (
@@ -326,8 +344,14 @@ class ProtobufGenerator(
       field: FieldDescriptor
   ): String = {
     def valueConvert(v: String, field: FieldDescriptor) =
-      (toBaseTypeExpr(field) andThen scalaToJava(field, boxPrimitives = true))
-        .apply(v, EnclosingType.None)
+      // With lazy_utf8_string_fields, putAll<Name> expects String values, so the
+      // lazy ByteString base type is decoded back to String.
+      if (field.isProtoString && field.shouldBeLazyUtf8String)
+        (toBaseTypeExpr(field) andThen MethodApplication("toStringUtf8"))
+          .apply(v, EnclosingType.None)
+      else
+        (toBaseTypeExpr(field) andThen scalaToJava(field, boxPrimitives = true))
+          .apply(v, EnclosingType.None)
 
     val putAll =
       s"putAll${field.upperScalaName}" + (if (
@@ -355,6 +379,15 @@ class ProtobufGenerator(
       field: FieldDescriptor
   ): String =
     if (field.isMapField) assignScalaMapToJava(scalaObject, javaObject, field)
+    else if (field.isRepeated && field.isProtoString && field.shouldBeLazyUtf8String) {
+      // With lazy_utf8_string_fields, repeated elements are added as raw ByteStrings.
+      // add<Name>Bytes validates UTF-8 and throws on invalid input — consistent with
+      // the singular set<Name>Bytes path: a Java proto cannot be built from invalid
+      // UTF-8 strings.
+      val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
+      val toBase      = toBaseType(field)("__x")
+      s"${scalaGetter}.iterator.foreach(__x => $javaObject.add${field.upperJavaName}Bytes($toBase))"
+    }
     else {
       val upperJavaName =
         if (field.isProtoString && field.shouldBeLazyUtf8String)
