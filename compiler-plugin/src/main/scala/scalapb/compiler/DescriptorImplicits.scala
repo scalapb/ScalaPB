@@ -278,8 +278,28 @@ class DescriptorImplicits private[compiler] (
 
     def isMapKeyField: Boolean = fd.getContainingType.isMapEntry && fd.getNumber == 1
 
-    def shouldBeLazyUtf8String: Boolean =
-      fd.getContainingType.lazyUtf8StringFields && !fd.isMapKeyField
+    def shouldBeLazyUtf8String: Boolean = {
+      // For map entries `getContainingType` is the synthetic map-entry message, so
+      // this does not see the owning message's options.
+      val containing = fd.getContainingType
+      val effective  =
+        if (containing.isMapEntry) containing.getContainingType
+        else containing
+      // Custom string types take priority over lazy_utf8_string_fields: such fields
+      // stay eager custom-typed fields. Map keys are never lazy (!isMapKeyField
+      // below), so key_type is irrelevant here.
+      val hasCustomStringType = fd.isProtoString && (
+        fieldOptions.hasType ||
+          (containing.isMapEntry && fd.getNumber == 2 && {
+            val referencingMap = containing.getContainingType.getFields.asScala
+              .filter(_.isMapField)
+              .find(containing eq _.getMessageType)
+              .get
+            referencingMap.fieldOptions.hasValueType
+          })
+      )
+      effective.lazyUtf8StringFields && !fd.isMapKeyField && !hasCustomStringType
+    }
 
     def mapType: ExtendedMessageDescriptor#MapType = {
       assert(isMapField)

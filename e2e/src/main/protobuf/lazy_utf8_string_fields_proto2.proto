@@ -11,5 +11,8 @@ option (scalapb.options) = {
 message LazyMessageProto2 {
   required string str = 1 [default = "default"];
   required int32 int = 2 [default = 1];
+
+  // Presence-bearing custom string type: takes priority over laziness.
+  optional string person_id = 3 [(scalapb.field).type = "com.thesamet.pb.PersonId"];
 }
 

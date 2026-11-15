@@ -1,12 +1,17 @@
 import java.util.concurrent.atomic.AtomicInteger
 import com.google.protobuf.ByteString
 import com.thesamet.proto.e2e.lazy_utf8_string_fields._
+import com.thesamet.proto.e2e.lazy_utf8_string_fields_custom_types._
+import com.thesamet.proto.e2e.lazy_utf8_string_fields_eager_file._
+import com.thesamet.proto.e2e.lazy_utf8_string_fields_lazy_file._
 import com.thesamet.proto.e2e.lazy_utf8_string_fields_proto2._
+import com.thesamet.pb.PersonId
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import scalapb.descriptors.PString
 import scalapb.{LazyDecoder, LazyField}
 
+import scala.collection.immutable.HashSet
 import scala.language.implicitConversions
 
 class LazyUtf8StringFieldsSpec extends AnyFlatSpec with Matchers {
@@ -206,5 +211,87 @@ class LazyUtf8StringFieldsSpec extends AnyFlatSpec with Matchers {
   "defaults" should "work in proto2" in {
     val lazyMessageProto2 = LazyMessageProto2.defaultInstance
     lazyMessageProto2.str shouldBe "default"
+  }
+
+  "MessageLevelLazyMaps" should "have lazy map string values when laziness is enabled on the message in an eager file" in {
+    val m = MessageLevelLazyMaps(
+      scalar = "s",
+      stringToInt = Map("one" -> 1),
+      intToString = Map(1 -> "one"),
+      strToStr = Map("one" -> "1")
+    )
+
+    // The message-level option already works for plain string fields.
+    m.scalar shouldBe a[LazyField[_]]
+    // Map keys are never lazy.
+    m.stringToInt.keys.head shouldBe a[String]
+    // Values follow the message-level option even though the file-level option is false.
+    m.intToString.values.head shouldBe a[LazyField[_]]
+    m.strToStr.values.head shouldBe a[LazyField[_]]
+
+    MessageLevelLazyMaps.parseFrom(m.toByteArray).intToString.values.head shouldBe a[LazyField[_]]
+  }
+
+  "MessageLevelEagerMaps" should "have eager map string values when laziness is disabled on the message in a lazy file" in {
+    val m = MessageLevelEagerMaps(
+      scalar = "s",
+      stringToInt = Map("one" -> 1),
+      intToString = Map(1 -> "one"),
+      strToStr = Map("one" -> "1")
+    )
+
+    m.scalar shouldBe a[String]
+    m.stringToInt.keys.head shouldBe a[String]
+    // Values follow the message-level option even though the file-level option is true.
+    m.intToString.values.head shouldBe a[String]
+    m.strToStr.values.head shouldBe a[String]
+
+    MessageLevelEagerMaps.parseFrom(m.toByteArray).intToString.values.head shouldBe a[String]
+  }
+
+  "FileEagerDefaultMaps" should "keep map string values eager without the message-level option" in {
+    val m = FileEagerDefaultMaps(intToString = Map(1 -> "one"))
+
+    m.intToString.values.head shouldBe a[String]
+  }
+
+  "LazyCustomTypes" should "preserve custom string types when laziness is enabled" in {
+    val m = LazyCustomTypes(
+      displayName = "display",
+      personId = PersonId("p-1"),
+      personIds = Map(1 -> PersonId("p-2")),
+      friendIds = Seq(PersonId("f-1"))
+    )
+
+    // The plain sibling field stays lazy inside the same message.
+    m.displayName shouldBe a[LazyField[_]]
+    // Custom-typed fields take priority over laziness.
+    m.personId shouldBe a[PersonId]
+    m.personId shouldBe PersonId("p-1")
+    m.personIds(1) shouldBe a[PersonId]
+    m.personIds(1) shouldBe PersonId("p-2")
+    m.friendIds.head shouldBe a[PersonId]
+    m.friendIds.head shouldBe PersonId("f-1")
+
+    val parsed = LazyCustomTypes.parseFrom(m.toByteArray)
+    parsed.personId shouldBe PersonId("p-1")
+    parsed.personIds(1) shouldBe PersonId("p-2")
+    parsed.friendIds.head shouldBe PersonId("f-1")
+  }
+
+  "MessageLevelLazyCustomMap" should "preserve custom map value types when laziness is enabled on the message" in {
+    val m = MessageLevelLazyCustomMap(personIds = Map(1 -> PersonId("p-1")))
+
+    m.personIds(1) shouldBe a[PersonId]
+    m.personIds(1) shouldBe PersonId("p-1")
+
+    MessageLevelLazyCustomMap.parseFrom(m.toByteArray).personIds(1) shouldBe PersonId("p-1")
+  }
+
+  "LazyMessageProto2" should "keep presence-bearing custom string types eager" in {
+    val m = LazyMessageProto2(str = "s", int = 1, personId = Some(PersonId("p-1")))
+
+    m.personId shouldBe Some(PersonId("p-1"))
+    LazyMessageProto2.parseFrom(m.toByteArray).personId shouldBe Some(PersonId("p-1"))
   }
 }

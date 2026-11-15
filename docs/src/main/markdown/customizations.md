@@ -623,6 +623,21 @@ f(created.str) // <--- LazyField[String] to String conversion
 
 `toString`, `equals`, `hashCode` methods on `LazyField[T]` use a deserialized value.
 
+A custom string type takes priority over laziness: fields annotated with a custom `type` or map `value_type` keep their `TypeMapper`-based API and stay eager, even when `lazy_utf8_string_fields` is enabled:
+
+```protobuf
+message MixedLaziness {
+  // Lazy: scalapb.LazyField[String], decoded on first access.
+  string display_name = 1;
+
+  // Not lazy: the custom type takes priority over laziness.
+  string person_id = 2 [(scalapb.field).type = "com.thesamet.pb.PersonId"];
+
+  // Not lazy: map values with a custom type take priority over laziness.
+  map<int32, string> person_ids = 3 [(scalapb.field).value_type = "com.thesamet.pb.PersonId"];
+}
+```
+
 :::warning Equality
 Equality for `LazyField[T]` is not commutative. To avoid accidentally incorrect comparisons, it is strongly recommended to use `LazyField[T]` only with the `-language:strictEquality` compiler option enabled for Scala 3 or `-Xfatal-warnings` for Scala 2.
 :::
