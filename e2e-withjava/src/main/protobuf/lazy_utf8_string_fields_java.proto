@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+import "scalapb/scalapb.proto";
+
+package com.thesamet.proto.e2e;
+
+option (scalapb.options) = {
+  lazy_utf8_string_fields: true
+  java_conversions: true
+};
+
+message LazyMessage {
+  string str = 1;
+  int32 int = 3;
+}
+
+message LazyMapMessage {
+  map<int32, string> int_to_string = 1;
+  map<string, string> str_to_str = 2;
+}
+
+message LazyRepeatedStrings {
+  repeated string items = 1;
+}

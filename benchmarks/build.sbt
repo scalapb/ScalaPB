@@ -1,15 +1,17 @@
-val ProtobufJavaVersion = "3.11.1"
+val ProtobufJavaVersion = "4.32.0"
 
 val Scala213 = "2.13.18"
 
 val Scala212 = "2.12.21"
+
+val Scala3 = "3.3.9"
 
 lazy val root = project
   .in(file("."))
   .enablePlugins(JmhPlugin)
   .settings(
     publish / skip             := true,
-    crossScalaVersions         := Seq(Scala213, Scala212),
+    crossScalaVersions         := Seq(Scala213, Scala212, Scala3),
     scalaVersion               := Scala213,
     Compile / PB.protocVersion := "-v" + ProtobufJavaVersion,
     Compile / PB.targets       := Seq(

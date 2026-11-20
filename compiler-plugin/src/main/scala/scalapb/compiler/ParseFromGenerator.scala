@@ -169,13 +169,16 @@ private[compiler] class ParseFromGenerator(
               } else if (field.isEnum)
                 s"${field.getEnumType.scalaType.fullName}.fromValue(_input__.readEnum())"
               else if (field.getType == Type.STRING) {
-                // Use resolved features (including inherited Java overrides and map semantics).
-                // Keep the legacy strict policy unless the schema explicitly opts in.
-                if (
-                  !field.getFile.scalaOptions.getUseSchemaUtf8Validation || field.needsUtf8Check()
-                )
-                  "_input__.readStringRequireUtf8()"
-                else "_input__.readString()"
+                val validate = !field.getFile.scalaOptions.getUseSchemaUtf8Validation || field.needsUtf8Check()
+                if (field.shouldBeLazyUtf8String) {
+                  // Validation is much cheaper than decoding because it allocates nothing,
+                  // which is why it applies even to lazy strings
+                  if (validate) "_root_.scalapb.LiteParser.readUtf8Bytes(_input__)"
+                  else "_input__.readBytes()"
+                } else {
+                  if (validate) "_input__.readStringRequireUtf8()"
+                  else "_input__.readString()"
+                }
               } else s"_input__.read${Types.capitalizedType(field.getType)}()"
 
               val newVal =

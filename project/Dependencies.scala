@@ -10,6 +10,7 @@ object Dependencies {
     val protocGen            = "0.10.0"
     val protobufRuntimeScala = "0.9.0"
     val commonsCodec         = "1.23.0"
+    val scalapbJson4s        = "1.0.0-alpha.3"
 
     // For testing
     val annotationApi           = "1.3.2"
