@@ -591,12 +591,6 @@ message NotLazyMessage {
 }
 ```
 
-:::warning UTF-8 validation
-Lazy string fields ignore `use_schema_utf8_validation` and the UTF-8 validation settings of the proto schema (`java_string_check_utf8`, `features.utf8_validation`), including for map values. They are always decoded with `ByteString.toStringUtf8` without UTF-8 validation: malformed bytes are replaced with U+FFFD on first access instead of failing the parse. Map keys are never lazy and keep the regular validation policy. See [Binary string UTF-8 validation](#binary-string-utf-8-validation).
-:::
-
-Java conversions work with lazy string fields: singular fields and repeated elements are read from Java byte-preservingly through the byte-string accessors, and written back through set/add<Name>Bytes, which validate UTF-8 and fail on malformed input — a Java proto cannot hold invalid UTF-8 strings. Map values round-trip through UTF-8 `String` encode/decode, replacing malformed bytes.
-
 This will generate a case class `LazyMessage` where `str` is of type `scalapb.LazyField[String]`. This class acts as a proxy and will only decode the underlying string on the first access. Thanks to implicit conversions, you can often use the `LazyField` as if it were the underlying type itself.
 
 ```scala
@@ -666,6 +660,14 @@ Set[String](s, ls).size // 1, typed collection works well
 ```
 
 Please be careful when using `lazy_utf8_string_fields` with Any-typed collections. Prefer typed collections — `Set[String]` works well.
+
+Java conversions work with lazy string fields: singular fields and repeated elements are read from Java byte-preservingly through the byte-string accessors, and written back through set/add<Name>Bytes, which validate UTF-8 and fail on malformed input — a Java proto cannot hold invalid UTF-8 strings. Map values round-trip through UTF-8 `String` encode/decode, replacing malformed bytes.
+
+:::note UTF-8 validation
+UTF-8 validation is the default behavior for proto3. Lazy fields strive to preserve it.
+
+Lazy string fields validate UTF-8 on parse following the same policy as regular string fields, including `use_schema_utf8_validation` option and the UTF-8 validation settings of the proto schema: by default, malformed UTF-8 fails the parse with `InvalidProtocolBufferException`. Fields that skip validation keep the original bytes and replace malformed UTF-8 with U+FFFD when decoded (on access or on serialization). See also [binary string UTF-8 validation](#binary-string-utf-8-validation).
+:::
 
 ## Message-level custom type and boxing
 
@@ -961,8 +963,8 @@ Java descriptor `needsUtf8Check()` API, which resolves inherited Editions
 Edition 2024 feature resolution is tested at the descriptor level but Edition
 2024 input is not yet advertised.
 String map keys **and values always validate**, including in nonvalidating files.
-Fields generated with [`lazy_utf8_string_fields`](#lazy-string-fields) are the
-exception: they ignore this option and never validate.
+Fields generated with [`lazy_utf8_string_fields`](#lazy-string-fields) follow
+the same policy; nonvalidating lazy fields keep the original bytes.
 The policy applies equally to singular, repeated, oneof, and custom-mapped strings.
 
 Nonvalidating fields decode to Scala `String`, replacing malformed UTF-8 with

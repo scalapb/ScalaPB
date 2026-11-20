@@ -1,9 +1,10 @@
 import java.util.concurrent.atomic.AtomicInteger
-import com.google.protobuf.ByteString
+import com.google.protobuf.{ByteString, InvalidProtocolBufferException}
 import com.thesamet.proto.e2e.lazy_utf8_string_fields._
 import com.thesamet.proto.e2e.lazy_utf8_string_fields_custom_types._
 import com.thesamet.proto.e2e.lazy_utf8_string_fields_eager_file._
 import com.thesamet.proto.e2e.lazy_utf8_string_fields_lazy_file._
+import com.thesamet.proto.e2e.lazy_utf8_string_fields_no_validation._
 import com.thesamet.proto.e2e.lazy_utf8_string_fields_proto2._
 import com.thesamet.pb.PersonId
 import org.scalatest.flatspec.AnyFlatSpec
@@ -293,5 +294,94 @@ class LazyUtf8StringFieldsSpec extends AnyFlatSpec with Matchers {
 
     m.personId shouldBe Some(PersonId("p-1"))
     LazyMessageProto2.parseFrom(m.toByteArray).personId shouldBe Some(PersonId("p-1"))
+  }
+
+  private def bytesOf(bs: Int*): Array[Byte] = bs.map(_.toByte).toArray
+
+  "Lazy string fields with the default UTF-8 policy" should "reject malformed UTF-8 on parse" in {
+    // field 1, length 1, 0xff
+    an[InvalidProtocolBufferException] should be thrownBy LazyWithRecursion.parseFrom(bytesOf(0x0a, 0x01, 0xff))
+    an[InvalidProtocolBufferException] should be thrownBy LazyMessage.parseFrom(bytesOf(0x0a, 0x01, 0xff))
+    an[InvalidProtocolBufferException] should be thrownBy LazyRepeated.parseFrom(bytesOf(0x0a, 0x01, 0xff))
+    // int_to_string entry {key: 1, value: 0xff}
+    an[InvalidProtocolBufferException] should be thrownBy LazyDictionary.parseFrom(
+      bytesOf(0x12, 0x05, 0x08, 0x01, 0x12, 0x01, 0xff)
+    )
+    // Opted-in schema policy, field without NONE override: still validates.
+    an[InvalidProtocolBufferException] should be thrownBy LazyNoUtf8Validation.parseFrom(bytesOf(0x12, 0x01, 0xff))
+  }
+
+  "Lazy string fields with utf8_validation = NONE" should "keep the original malformed bytes" in {
+    val input = bytesOf(0x0a, 0x01, 0xff)
+    val parsed = LazyNoUtf8Validation.parseFrom(input)
+
+    parsed.unchecked.get.toByteString shouldBe ByteString.copyFrom(input, 2, 1)
+    parsed.toByteArray shouldBe input
+    parsed.unchecked.get.value should include("\uFFFD")
+  }
+
+  "Lazy string fields" should "parse valid UTF-8 under any policy" in {
+    val text = "h\u00e9llo \u4e16\u754c \uD83D\uDE00"
+
+    val strict = LazyWithRecursion.parseFrom(LazyWithRecursion(data = text).toByteArray)
+    strict.data.value shouldBe text
+
+    val noValidation = LazyNoUtf8Validation.parseFrom(
+      LazyNoUtf8Validation(unchecked = Some(LazyField.from(text)), checked = Some(LazyField.from(text))).toByteArray
+    )
+    noValidation.unchecked.get.value shouldBe text
+    noValidation.checked.get.value shouldBe text
+  }
+
+
+  "Lazy string fields" should "keep equals consistent with hashCode for lossy values" in {
+    val a = LazyField.from("\uD800")
+    val b = LazyField[String](a.bytes)
+
+    (a == b) shouldBe false
+    (b == a) shouldBe false
+    HashSet(a, b).size shouldBe 2
+    HashSet(b, a).size shouldBe 2
+  }
+
+  "Lazy string fields" should "treat distinct malformed bytes decoding to the same value as equal" in {
+    val a = LazyField[String](ByteString.copyFrom(bytesOf(0xff)))
+    val b = LazyField[String](ByteString.copyFrom(bytesOf(0xfe)))
+
+    a.value shouldBe "\uFFFD"
+    b.value shouldBe "\uFFFD"
+    (a == b) shouldBe true
+    (b == a) shouldBe true
+    a.hashCode shouldBe b.hashCode
+    HashSet(a, b).size shouldBe 1
+    HashSet(b, a).size shouldBe 1
+  }
+
+  "Lazy string fields" should "satisfy the equals/hashCode contract for any pair" in {
+    def samples: Seq[LazyField[String]] = Seq(
+      LazyField.from("\uD800"),
+      LazyField[String](LazyField.from("\uD800").bytes),
+      LazyField[String](ByteString.copyFrom(bytesOf(0xff))),
+      LazyField[String](ByteString.copyFrom(bytesOf(0xfe))),
+      LazyField.from("\uFFFD"),
+      LazyField.from("string"),
+      LazyField[String](ByteString.copyFromUtf8("string")),
+      LazyField.from(""),
+      LazyField[String](ByteString.EMPTY)
+    )
+    for {
+      a <- samples
+      b <- samples
+    } {
+      (a == b) shouldBe (b == a)
+      if (a == b) {
+        a.hashCode shouldBe b.hashCode
+        HashSet(a, b).size shouldBe 1
+        HashSet(b, a).size shouldBe 1
+      } else {
+        HashSet(a, b).size shouldBe 2
+        HashSet(b, a).size shouldBe 2
+      }
+    }
   }
 }

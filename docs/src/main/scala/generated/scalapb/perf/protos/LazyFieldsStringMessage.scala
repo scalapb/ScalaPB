@@ -279,25 +279,25 @@ object LazyFieldsStringMessage extends scalapb.GeneratedMessageCompanion[_root_.
       _tag__ match {
         case 0 => _done__ = true
         case 10 =>
-          __s1 = _input__.readBytes()
+          __s1 = _root_.scalapb.LiteParser.readUtf8Bytes(_input__)
         case 18 =>
-          __s2 = _input__.readBytes()
+          __s2 = _root_.scalapb.LiteParser.readUtf8Bytes(_input__)
         case 26 =>
-          __s3 = _input__.readBytes()
+          __s3 = _root_.scalapb.LiteParser.readUtf8Bytes(_input__)
         case 34 =>
-          __s4 = _input__.readBytes()
+          __s4 = _root_.scalapb.LiteParser.readUtf8Bytes(_input__)
         case 42 =>
-          __s5 = _input__.readBytes()
+          __s5 = _root_.scalapb.LiteParser.readUtf8Bytes(_input__)
         case 50 =>
-          __s6 = _input__.readBytes()
+          __s6 = _root_.scalapb.LiteParser.readUtf8Bytes(_input__)
         case 58 =>
-          __s7 = _input__.readBytes()
+          __s7 = _root_.scalapb.LiteParser.readUtf8Bytes(_input__)
         case 66 =>
-          __s8 = _input__.readBytes()
+          __s8 = _root_.scalapb.LiteParser.readUtf8Bytes(_input__)
         case 74 =>
-          __s9 = _input__.readBytes()
+          __s9 = _root_.scalapb.LiteParser.readUtf8Bytes(_input__)
         case 82 =>
-          __s10 = _input__.readBytes()
+          __s10 = _root_.scalapb.LiteParser.readUtf8Bytes(_input__)
         case 90 =>
           __nested = _root_.scala.Option(__nested.fold(_root_.scalapb.LiteParser.readMessage[_root_.scalapb.perf.protos.LazyFieldsStringMessage](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case tag =>

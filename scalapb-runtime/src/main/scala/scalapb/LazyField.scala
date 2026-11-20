@@ -9,7 +9,7 @@ import com.google.protobuf.ByteString
   *
   * Non-commutative equals
   *
-  * `equals` on `LazyField[T]` is '''not commutative''':
+  * `equals` between a `LazyField[T]` and a plain value is '''not commutative''':
   *   - `lazyField.equals(plainValue)` returns `true` when the decoded value equals `plainValue`.
   *   - `plainValue.equals(lazyField)` returns `false` because the plain type has no knowledge of
   *     `LazyField`.
@@ -48,7 +48,15 @@ final class LazyField[T] private (val bytes: ByteString, decoder: LazyDecoder[T]
   // Equality for LazyField[T] is not commutative!
   // It is extremely important to use LazyField[T] only with the `-language:strictEquality` enabled for Scala 3 or `-Xfatal-warnings` for Scala 2.
   override def equals(other: Any): Boolean = other match {
-    case that: LazyField[?] => this.bytes == that.bytes
+    // Perform decoding for the purpose of comparing by value.
+    // This leads to a loss of laziness in comparisons, but it
+    // provides consistency in edge cases with non‑UTF‑8 strings.
+    // Example:
+    // val a = LazyField.from("\uD800")
+    // val b = LazyField[String](a.bytes)
+    // a != b                   <--- true
+    // a.hashCode != b.hashCode <--- true
+    case that: LazyField[?] => this.value == that.value
     case _                  => this.value == other
   }
   override def hashCode(): Int = value.hashCode()
