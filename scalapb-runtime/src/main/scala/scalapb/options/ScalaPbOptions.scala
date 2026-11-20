@@ -88,10 +88,7 @@ package scalapb.options
   *   Map strings always validate. Applies to binary message fields, not extensions.
   * @param lazyUtf8StringFields
   *   If true, string fields are generated as LazyField[String] to avoid
-  *   allocations when parsing. The use_schema_utf8_validation option and the
-  *   schema's UTF-8 validation settings are ignored for these fields: they are
-  *   always decoded with ByteString.toStringUtf8 without UTF-8 validation, so
-  *   malformed bytes are replaced with U+FFFD. Map keys are never lazy.
+  *   allocations when parsing.
   * @param testOnlyNoJavaConversions
   *   For use in tests only. Inhibit Java conversions even when when generator parameters
   *   request for it.

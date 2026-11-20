@@ -387,8 +387,7 @@ class ProtobufGenerator(
       val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
       val toBase      = toBaseType(field)("__x")
       s"${scalaGetter}.iterator.foreach(__x => $javaObject.add${field.upperJavaName}Bytes($toBase))"
-    }
-    else {
+    } else {
       val upperJavaName =
         if (field.isProtoString && field.shouldBeLazyUtf8String)
           field.upperJavaName + "Bytes"

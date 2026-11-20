@@ -169,7 +169,8 @@ private[compiler] class ParseFromGenerator(
               } else if (field.isEnum)
                 s"${field.getEnumType.scalaType.fullName}.fromValue(_input__.readEnum())"
               else if (field.getType == Type.STRING) {
-                val validate = !field.getFile.scalaOptions.getUseSchemaUtf8Validation || field.needsUtf8Check()
+                val validate =
+                  !field.getFile.scalaOptions.getUseSchemaUtf8Validation || field.needsUtf8Check()
                 if (field.shouldBeLazyUtf8String) {
                   // Validation is much cheaper than decoding because it allocates nothing,
                   // which is why it applies even to lazy strings

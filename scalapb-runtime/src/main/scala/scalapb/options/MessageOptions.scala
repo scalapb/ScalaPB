@@ -36,8 +36,6 @@ package scalapb.options
   * @param lazyUtf8StringFields
   *   If true, string fields are generated as LazyField[String] to avoid
   *   allocations when parsing. If set, this overrides the file-level setting.
-  *   use_schema_utf8_validation and the schema's UTF-8 validation settings are
-  *   ignored for these fields; see the file-level lazy_utf8_string_fields.
   */
 @SerialVersionUID(0L)
 final case class MessageOptions(
