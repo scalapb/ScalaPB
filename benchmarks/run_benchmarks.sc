@@ -35,11 +35,15 @@ def runSbt(
 ): Unit = {
   val command = Seq(
     "sbt",
-    s"++${scalaVersion}!",
-    "clean",
-    s"jmh:run -t 1 ${MODES(mode)} ${tests} -rf json -rff ${outfile}"
+    "-batch",
+    s"++${scalaVersion}!;clean;Jmh/run -t 1 ${MODES(mode)} ${tests} -rf json -rff ${outfile}"
   )
   import sys.process._
+  // The ScalaPB version is fixed when the project definition is loaded. Shut
+  // down any idle sbt server first so it cannot silently reuse a previously
+  // loaded definition (and a stale ScalaPB version).
+  Seq("sbt", "-batch", "shutdown").!
+  ops.write.over(ops.pwd / "scalapb.version", scalapbVersion)
   if (command.! != 0) {
     throw new RuntimeException("SBT exit with non-zero code.")
   }
