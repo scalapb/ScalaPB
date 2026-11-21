@@ -37,3 +37,4 @@ docs/_site
 website/static/api
 
 benchmarks/scalapb.version
+benchmarks/results/

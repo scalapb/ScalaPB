@@ -11,7 +11,7 @@ class ${Message}Test {
     @BenchmarkMode(Array(Mode.AverageTime))
     @OutputTimeUnit(TimeUnit.NANOSECONDS)
     def parseJava: Unit = {
-        Protos.${Message}.parseFrom(${Message}Test.bytes)
+        ${JavaOuter}.${Message}.parseFrom(${Message}Test.bytes)
     }
 
     @Benchmark
@@ -47,7 +47,7 @@ class ${Message}Test {
     @BenchmarkMode(Array(Mode.AverageTime))
     @OutputTimeUnit(TimeUnit.NANOSECONDS)
     def roundTripJava: Unit = {
-        val msg = Protos.${Message}.parseFrom(${Message}Test.bytes)
+        val msg = ${JavaOuter}.${Message}.parseFrom(${Message}Test.bytes)
         msg.toByteArray
     }
 }

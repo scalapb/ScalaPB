@@ -8,7 +8,10 @@ object TestNames {
     "StringMessage",
     "LargeStringMessage",
     "LargeNestedStringMessage",
+    "LargeNestedStringMessageNonAscii",
     "LargeByteMessage",
-    "LazyFieldsStringMessage"
+    "LazyFieldsStringMessage",
+    "LazyFieldsNoValidation",
+    "LazyFieldsNonAscii"
   )
 }
