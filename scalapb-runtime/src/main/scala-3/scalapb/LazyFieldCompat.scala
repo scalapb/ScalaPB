@@ -39,4 +39,6 @@ trait LazyFieldCompat {
   given mapValueToValue[K, V]: Conversion[Map[K, LazyField[V]], Map[K, V]] = _.map {
     case (key, value) => key -> value.value
   }
+
+  given [T]: CanEqual[LazyField[T], LazyField[T]] = CanEqual.derived
 }
