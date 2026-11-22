@@ -20,8 +20,8 @@ class LazyUtf8StringFieldsJavaSpec extends AnyFlatSpec with Matchers {
     val scalaParsed    = LazyMessage.parseFrom(javaParsed.toByteArray())
     val scalaConverted = LazyMessage.fromJavaProto(javaConverted)
 
-    scalaParsed.str shouldBe "hello"
-    scalaConverted.str shouldBe "hello"
+    scalaParsed.str.value shouldBe "hello"
+    scalaConverted.str.value shouldBe "hello"
 
     // Real repeated fields, not just scalar strings, including non-ASCII values
     // that exercise the UTF-8 encode/decode bridge.
@@ -33,7 +33,7 @@ class LazyUtf8StringFieldsJavaSpec extends AnyFlatSpec with Matchers {
     repeatedJava.getItemsList().get(2) shouldBe "日本語"
 
     val repeatedScala = LazyRepeatedStrings.fromJavaProto(repeatedJava)
-    repeatedScala.items shouldBe Seq("a", "héllo", "日本語")
+    repeatedScala.items.map(_.value) shouldBe Seq("a", "héllo", "日本語")
 
     // Empty repeated fields round-trip through addAll/get with no elements.
     LazyRepeatedStrings
@@ -63,8 +63,8 @@ class LazyUtf8StringFieldsJavaSpec extends AnyFlatSpec with Matchers {
     javaConverted.getStrToStrMap().get("日本語") shouldBe "héllo"
 
     val scalaConverted = LazyMapMessage.fromJavaProto(javaConverted)
-    scalaConverted.intToString(2) shouldBe "héllo"
-    scalaConverted.strToStr("日本語") shouldBe "héllo"
+    scalaConverted.intToString(2).value shouldBe "héllo"
+    scalaConverted.strToStr("日本語").value shouldBe "héllo"
 
     // Empty maps round-trip through putAll/get with no elements.
     val empty = LazyMapMessage(intToString = Map.empty, strToStr = Map.empty)

@@ -57,7 +57,8 @@ final class LazyField[T] private (val bytes: ByteString, decoder: LazyDecoder[T]
     // a != b                   <--- true
     // a.hashCode != b.hashCode <--- true
     case that: LazyField[?] => this.value == that.value
-    case _                  => this.value == other
+    // LazyField can be compared with other LazyField only
+    case _ => false
   }
   override def hashCode(): Int = value.hashCode()
 }

@@ -58,10 +58,13 @@ class LazyUtf8StringFieldsSpec extends AnyFlatSpec with Matchers {
     val parsed = LazyRepeated.parseFrom(bytes)
 
     def f(str: Seq[String]): Int = str.length
+    def g(str: Seq[String]): Seq[String] = str
 
     f(parsed.items) shouldBe parsed.items.length
 
-    parsed.items should contain theSameElementsAs originalItems
+    parsed.items.map(_.value) should contain theSameElementsAs originalItems
+    (parsed.items == originalItems) shouldBe false
+    g(parsed.items) should contain theSameElementsAs originalItems
   }
 
   /**
@@ -86,12 +89,15 @@ class LazyUtf8StringFieldsSpec extends AnyFlatSpec with Matchers {
 
     // values parses as LazyField
     parsed.intToString.values.head shouldBe a[LazyField[_]]
-    parsed.intToString should contain theSameElementsAs originalIntToString
+    parsed.intToString.map { case (k, v) => k -> v.value } should contain theSameElementsAs originalIntToString
+
+    def g(dict: Map[Int, String]): Map[Int, String] = dict
+    g(parsed.intToString) should contain theSameElementsAs originalIntToString
   }
 
   "Lazy nested messages" should "work correctly through serialization" in {
-    val nested = LazyWithRecursion(data = LazyField(ByteString.copyFromUtf8("inside")))
-    val original = LazyWithRecursion(data = LazyField(ByteString.copyFromUtf8("outside")), nested = Some(nested))
+    val nested = LazyWithRecursion(data = LazyField.from("inside"))
+    val original = LazyWithRecursion(data = LazyField.from("outside"), nested = Some(nested))
 
     val bytes = original.toByteArray
     val parsed = LazyWithRecursion.parseFrom(bytes)
@@ -107,7 +113,8 @@ class LazyUtf8StringFieldsSpec extends AnyFlatSpec with Matchers {
     val original = LazyWithRecursion(data = "a lazy string")
     original.data shouldBe a [LazyField[_]]
 
-    original.data shouldBe "a lazy string"
+    def compareStrings(a: String, b: String): Boolean = a == b
+    compareStrings(original.data, "a lazy string") shouldBe true
     original.data.toUpperCase shouldBe "A LAZY STRING"
   }
 
@@ -128,14 +135,14 @@ class LazyUtf8StringFieldsSpec extends AnyFlatSpec with Matchers {
 
     val updated = original.update(_.nested.nested.data := "updated string")
 
-    updated.nested.get.nested.get.data shouldBe "updated string"
+    updated.nested.get.nested.get.data.value shouldBe "updated string"
 
   }
 
   "LazyField equality" should "work for LazyField ant case classes" in {
-    val lazy1 = LazyField(ByteString.copyFromUtf8("string"))
-    val lazy2 = LazyField(ByteString.copyFromUtf8("string"))
-    val lazy3 = LazyField(ByteString.copyFromUtf8("another"))
+    val lazy1 = LazyField.from("string")
+    val lazy2 = LazyField.from("string")
+    val lazy3 = LazyField.from("another")
     
     (lazy1 == lazy2) shouldBe true
     (lazy2 == lazy1) shouldBe true
@@ -165,7 +172,7 @@ class LazyUtf8StringFieldsSpec extends AnyFlatSpec with Matchers {
 
   "LazyField in typed collections" should "behave correctly due to explicit conversion" in {
     val s: String = "foobar"
-    val lazyS: LazyField[String] = LazyField(ByteString.copyFromUtf8(s))
+    val lazyS: LazyField[String] = LazyField.from(s)
 
     val scalaSet = Set[String](s, lazyS)
     scalaSet.size shouldBe 1
@@ -178,20 +185,20 @@ class LazyUtf8StringFieldsSpec extends AnyFlatSpec with Matchers {
     scalaMap(s) shouldBe "lazy"
   }
 
-  // This test specifies counterintuitive behavior
+  // This test specifies potentially dangerous behavior
   // Set[Any] or Map[Any, T] is not recommended for usage with LazyField!
-  "LazyField in untyped collections" should "exhibit asymmetric equality behavior" in {
+  "LazyField in untyped collections" should "be different keys with plain strings" in {
     val s: String = "foobar"
-    val lazyS: LazyField[String] = LazyField(ByteString.copyFromUtf8(s))
+    val lazyS: LazyField[String] = LazyField.from(s)
 
-    lazyS.equals(s) shouldBe true // LazyField is compared to a String
+    lazyS.equals(s) shouldBe false // LazyField is compared to a String
     s.equals(lazyS) shouldBe false // String is compared to a LazyField
 
     val anySet1 = Set[Any](lazyS, s)
     anySet1.size shouldBe 2
 
     val anySet2 = Set[Any](s, lazyS)
-    anySet2.size shouldBe 1 // equals is not commutative so, so the order of the arguments is important
+    anySet2.size shouldBe 2
 
     val anyMap1 = Map[Any, String](lazyS -> "lazy", s -> "string")
     anyMap1.size shouldBe 2
@@ -199,8 +206,8 @@ class LazyUtf8StringFieldsSpec extends AnyFlatSpec with Matchers {
     anyMap1(lazyS) shouldBe "lazy"
 
     val anyMap2 = Map[Any, String](s -> "string", lazyS -> "lazy")
-    anyMap2.size shouldBe 1
-    anyMap2(s) shouldBe "lazy"
+    anyMap2.size shouldBe 2
+    anyMap2(s) shouldBe "string"
   }
 
   "getField" should "get raw value" in {
@@ -211,7 +218,7 @@ class LazyUtf8StringFieldsSpec extends AnyFlatSpec with Matchers {
 
   "defaults" should "work in proto2" in {
     val lazyMessageProto2 = LazyMessageProto2.defaultInstance
-    lazyMessageProto2.str shouldBe "default"
+    lazyMessageProto2.str.value shouldBe "default"
   }
 
   "MessageLevelLazyMaps" should "have lazy map string values when laziness is enabled on the message in an eager file" in {
@@ -365,7 +372,7 @@ class LazyUtf8StringFieldsSpec extends AnyFlatSpec with Matchers {
       LazyField[String](ByteString.copyFrom(bytesOf(0xfe))),
       LazyField.from("\uFFFD"),
       LazyField.from("string"),
-      LazyField[String](ByteString.copyFromUtf8("string")),
+      LazyField.from("string"),
       LazyField.from(""),
       LazyField[String](ByteString.EMPTY)
     )
