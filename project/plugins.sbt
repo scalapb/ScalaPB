@@ -22,6 +22,6 @@ addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.12.1")
 
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.9.2")
 
-addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.6.0")
+addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.7.0")
 
 addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.2.0")
