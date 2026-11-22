@@ -115,6 +115,7 @@ class LazyUtf8StringFieldsSpec extends AnyFlatSpec with Matchers {
 
     def compareStrings(a: String, b: String): Boolean = a == b
     compareStrings(original.data, "a lazy string") shouldBe true
+    (original.data == LazyField.from("a lazy string")) shouldBe true
     original.data.toUpperCase shouldBe "A LAZY STRING"
   }
 

@@ -7,29 +7,24 @@ import com.google.protobuf.ByteString
   * Inspired by
   * https://github.com/protocolbuffers/protobuf/blob/main/java/core/src/main/java/com/google/protobuf/LazyField.java
   *
-  * Non-commutative equals
-  *
-  * `equals` between a `LazyField[T]` and a plain value is '''not commutative''':
-  *   - `lazyField.equals(plainValue)` returns `true` when the decoded value equals `plainValue`.
-  *   - `plainValue.equals(lazyField)` returns `false` because the plain type has no knowledge of
-  *     `LazyField`.
+  * Comparing a `LazyField[T]` with a plain value is '''always false''': a `LazyField` is only equal
+  * to another `LazyField` with the same decoded value.
   *
   * Compiler protection:
-  *   - Scala 3 — enable `-language:strictEquality`
-  *   - Scala 2 — there is no full compile-time protection, but `-Xfatal-warnings` would be helpful
-  *     in some cases
+  *   - Scala 3 — enable `-language:strictEquality` (`LazyField[T] == T` does not compile)
+  *   - Scala 2 — no full compile-time protection; `-Xfatal-warnings` promotes the "comparing values
+  *     of types ... using '==' will always yield false" warning to an error
   *
-  * Any-typed collections problem: In typed collections (`Set[String]`, `Map[String, V]`) this
-  * asymmetry is hidden by implicit conversions that resolve `LazyField[T]` to `T` before insertion.
-  * With `Any`-typed collections the conversions are bypassed and insertion order silently changes
-  * the result:
+  * Any-typed collections problem: In typed collections (`Set[String]`, `Map[String, V]`) implicit
+  * conversions resolve `LazyField[T]` to `T` before insertion. With `Any`-typed collections the
+  * conversions are bypassed and a plain value never equals its `LazyField` twin (this case produces
+  * no compiler warning, even with the flags above):
   *
   * {{{
   * val s:  String             = "hello"
   * val ls: LazyField[String]  = LazyField.from("hello")
   *
-  * Set[Any](ls, s).size  // 2 — s.equals(ls) is false, both are kept
-  * Set[Any](s, ls).size  // 1 — ls.equals(s)  is true, ls is deduplicated away
+  * Set[Any](ls, s).size  // 2 — never equal, both are kept
   * }}}
   *
   * @param bytes
@@ -45,7 +40,7 @@ final class LazyField[T] private (val bytes: ByteString, decoder: LazyDecoder[T]
   def toByteString: ByteString = bytes
 
   override def toString: String = value.toString()
-  // Equality for LazyField[T] is not commutative!
+  // LazyField[T] is never equal to a plain value of type T.
   // It is extremely important to use LazyField[T] only with the `-language:strictEquality` enabled for Scala 3 or `-Xfatal-warnings` for Scala 2.
   override def equals(other: Any): Boolean = other match {
     // Perform decoding for the purpose of comparing by value.

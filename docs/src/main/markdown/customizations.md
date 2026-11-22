@@ -635,7 +635,7 @@ message MixedLaziness {
 ```
 
 :::warning Equality
-Equality for `LazyField[T]` is not commutative. To avoid accidentally incorrect comparisons, it is strongly recommended to use `LazyField[T]` only with the `-language:strictEquality` compiler option enabled for Scala 3 or `-Xfatal-warnings` for Scala 2.
+Comparing a `LazyField[T]` with a plain value (for example, a `String`) is always `false` — a `LazyField[T]` is only equal to another `LazyField[T]` with the same decoded value. To avoid accidentally incorrect comparisons, it is strongly recommended to use `LazyField[T]` only with the `-language:strictEquality` compiler option enabled for Scala 3 or `-Xfatal-warnings` for Scala 2. The flags catch direct `LazyField == plainValue` comparisons; but `Any`-typed collections produce no warning.
 :::
 
 Example:
@@ -643,22 +643,21 @@ Example:
 val lf: LazyField[String] = "abc"
 val str: String = "abc"
 
-lf == str // <--- returns true
-str == lf // <--- returns false with compiler warning at Scala 2 or doesn't compile at Scala 3 with strictEquality option
+lf == str // <--- false, with a compiler warning at Scala 2 or a compile error at Scala 3 with strictEquality
+str == lf // <--- false, same protection
 ```
 
-Equality problem is unpleasant for Any-typed collections (`Set` / `Map`). Example:
+Equality is a concern for Any-typed collections (`Set` / `Map`): a plain value never equals its `LazyField` twin there, while typed collections convert and deduplicate. Example:
 
 ```scala
 val s:  String            = "hello"
 val ls: LazyField[String] = LazyField.from("hello")
 
-Set[Any](ls, s).size  // 2 — s.equals(ls) is false, so both elements are kept
-Set[Any](s, ls).size  // 1 — ls.equals(s)  is true,  so ls is deduplicated away
+Set[Any](ls, s).size  // 2 — a plain value never equals its LazyField twin, both are kept
 
 // ---
 
-Set[String](s, ls).size // 1, typed collection works well
+Set[String](s, ls).size // 1, typed collection works well, LazyField would be decoded on collection creation
 ```
 
 Please be careful when using `lazy_utf8_string_fields` with Any-typed collections. Prefer typed collections — `Set[String]` works well.
