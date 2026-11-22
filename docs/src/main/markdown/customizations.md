@@ -563,11 +563,13 @@ package object c {
 
 ## Lazy String Fields
 
-Since ScalaPB 0.11.???, you can designate string fields to be lazily parsed. A lazy field is not parsed from its raw bytes until it is accessed for the first time. This can significantly reduce serialization overhead if a message contains a lot of string fields that are not always needed.
+Since ScalaPB 1.0.0, you can designate string fields to be lazily parsed. A lazy field is not parsed from its raw bytes until it is accessed for the first time. This can significantly reduce serialization overhead if a message contains a lot of string fields that are not always needed.
 
-Lazy string fields shows high perfomance improvement (up to 3x faster round-trip) when the following factors coincide:
-- message consists of a large number of `string` fields;
-- read access (calling a getter method) to only a small number of attributes (parse message → read a few of fields → serialize).
+Lazy string fields can make round-trips significantly faster when the following factors coincide:
+- the message consists of a large number of `string` fields;
+- only a small number of them are read (parse message → access a few fields → serialize).
+
+The effect is largest for non-ASCII strings: a lazy field passes the raw bytes through on serialization, while an eagerly-parsed string is UTF-8-decoded on parse and re-encoded on serialization. In a round-trip benchmark (parse a message holding 100 non-ASCII strings, then serialize it back) we observed up to a 7x speedup in local benchmark runs. Your numbers may differ depending on your data models and usage patterns; we recommend adapting the benchmarks to your case and measuring the effect under conditions close to real ones.
 
 You can toggle lazy string fields parsing on file and message level with `lazy_utf8_string_fields` option:
 
@@ -661,12 +663,12 @@ Set[String](s, ls).size // 1, typed collection works well
 
 Please be careful when using `lazy_utf8_string_fields` with Any-typed collections. Prefer typed collections — `Set[String]` works well.
 
-Java conversions work with lazy string fields: singular fields and repeated elements are read from Java byte-preservingly through the byte-string accessors, and written back through set/add<Name>Bytes, which validate UTF-8 and fail on malformed input — a Java proto cannot hold invalid UTF-8 strings. Map values round-trip through UTF-8 `String` encode/decode, replacing malformed bytes.
+Java conversions work with lazy string fields: singular fields and repeated elements are read from Java byte-preservingly through the byte-string accessors, and written back through `set<Name>Bytes`/`add<Name>Bytes`, which validate UTF-8 and fail on malformed input — a Java proto cannot hold invalid UTF-8 strings. Map values round-trip through UTF-8 `String` encode/decode, replacing malformed bytes.
 
 :::note UTF-8 validation
-UTF-8 validation is the default behavior for proto3. Lazy fields strive to preserve it.
+UTF-8 validation is the default behavior for binary string fields, and lazy fields are no exception: they validate UTF-8 on parse following the same policy as regular string fields, including the `use_schema_utf8_validation` option and the UTF-8 validation settings of the proto schema. By default, malformed UTF-8 fails the parse with `InvalidProtocolBufferException`.
 
-Lazy string fields validate UTF-8 on parse following the same policy as regular string fields, including `use_schema_utf8_validation` option and the UTF-8 validation settings of the proto schema: by default, malformed UTF-8 fails the parse with `InvalidProtocolBufferException`. Fields that skip validation keep the original bytes and replace malformed UTF-8 with U+FFFD when decoded (on access or on serialization). See also [binary string UTF-8 validation](#binary-string-utf-8-validation).
+A lazy field always keeps the original bytes; when validation is skipped, the first access decodes them, replacing malformed UTF-8 with U+FFFD. Binary serialization writes the original bytes unchanged; text-format output decodes and therefore replaces them. See also [binary string UTF-8 validation](#binary-string-utf-8-validation).
 :::
 
 ## Message-level custom type and boxing
