@@ -26,4 +26,4 @@ addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.11.0")
 
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.9.2")
 
-addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.5.0")
+addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.7.0")
