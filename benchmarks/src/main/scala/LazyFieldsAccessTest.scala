@@ -6,17 +6,52 @@ import org.openjdk.jmh.annotations.Mode
 import org.openjdk.jmh.annotations.OutputTimeUnit
 import java.util.concurrent.TimeUnit
 
-/** Round-trip benchmarks that materialize part of the lazy strings between parse and serialize:
-  * fields `s1` and `s2` at each of the 10 nesting levels (20 of the 100 strings in the payload).
-  * Accessing `.value` on a `LazyField` forces the deferred UTF-8 decode; the remaining 80% travel
-  * through as raw bytes. Run for both the ASCII payload (LazyFieldsStringMessage) and the non-ASCII
-  * payload (LazyFieldsNonAscii); the Java variants touch the same fields, which are plain (already
-  * materialized) Strings there.
+/** Round-trip benchmarks that materialize part of the strings between parse and serialize: fields
+  * `s1` and `s2` at each of the 10 nesting levels (20 of the 100 strings in the payload). For lazy
+  * messages, accessing `.value` on a `LazyField` forces the deferred UTF-8 decode; the remaining
+  * 80% travel through as raw bytes. Run for the lazy ASCII / non-ASCII / no-validation payloads and
+  * for the eager (LargeNestedStringMessage) payloads where the strings are already materialized
+  * Strings; the Java variants are eager baselines with no deferred-decode component.
   *
   * Deliberately not a TestNames entry: the shared message.scala.tmpl cannot reference concrete
   * fields, and the payloads of the generated companions are reused as-is.
   */
 class LazyFieldsAccessTest {
+
+  @Benchmark
+  @BenchmarkMode(Array(Mode.AverageTime))
+  @OutputTimeUnit(TimeUnit.NANOSECONDS)
+  def roundTripAccessEagerScala: Int = {
+    val msg   = protos.LargeNestedStringMessage.parseFrom(LargeNestedStringMessageTest.bytes)
+    var total = 0
+    var cur   = msg
+    while (cur.nested.isDefined) {
+      total += cur.s1.length
+      total += cur.s2.length
+      cur = cur.nested.get
+    }
+    total += cur.s1.length
+    total += cur.s2.length
+    total + msg.toByteArray.length
+  }
+
+  @Benchmark
+  @BenchmarkMode(Array(Mode.AverageTime))
+  @OutputTimeUnit(TimeUnit.NANOSECONDS)
+  def roundTripAccessEagerNonAsciiScala: Int = {
+    val msg =
+      protos.LargeNestedStringMessageNonAscii.parseFrom(LargeNestedStringMessageNonAsciiTest.bytes)
+    var total = 0
+    var cur   = msg
+    while (cur.nested.isDefined) {
+      total += cur.s1.length
+      total += cur.s2.length
+      cur = cur.nested.get
+    }
+    total += cur.s1.length
+    total += cur.s2.length
+    total + msg.toByteArray.length
+  }
 
   @Benchmark
   @BenchmarkMode(Array(Mode.AverageTime))
