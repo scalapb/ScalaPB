@@ -6,7 +6,7 @@ def localScalapbVersion(): Option[String] = {
   val candidates = Seq(new File("scalapb.version"), new File("project/scalapb.version"))
   candidates.find(_.isFile).flatMap { f =>
     val v = scala.io.Source.fromFile(f).mkString.trim
-    if (v.nonEmpty) Some(v) else None
+    if v.nonEmpty then Some(v) else None
   }
 }
 
