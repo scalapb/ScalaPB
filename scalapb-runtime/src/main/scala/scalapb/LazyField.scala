@@ -2,37 +2,35 @@ package scalapb
 
 import com.google.protobuf.ByteString
 
-/** A field that is lazily parsed from a ByteString.
+/** A value backed by bytes, with decoding deferred until `value` is first used and then cached.
   *
-  * Inspired by
-  * https://github.com/protocolbuffers/protobuf/blob/main/java/core/src/main/java/com/google/protobuf/LazyField.java
+  * Reading this wrapper or calling `toByteString` does not decode it. String conversions,
+  * `toString`, `hashCode`, and equality between wrappers can trigger decoding. Decoding does not
+  * discard the stored bytes: generated binary serializers continue to write them unchanged. A
+  * decoded field can therefore retain both its bytes and its decoded value.
   *
-  * Comparing a `LazyField[T]` with a plain value is '''always false''': a `LazyField` is only equal
-  * to another `LazyField` with the same decoded value.
-  *
-  * Compiler protection:
-  *   - Scala 3 — enable `-language:strictEquality` (`LazyField[T] == T` does not compile)
-  *   - Scala 2 — no full compile-time protection; `-Xfatal-warnings` promotes the "comparing values
-  *     of types ... using '==' will always yield false" warning to an error
-  *
-  * Any-typed collections problem: In typed collections (`Set[String]`, `Map[String, V]`) implicit
-  * conversions resolve `LazyField[T]` to `T` before insertion. With `Any`-typed collections the
-  * conversions are bypassed and a plain value never equals its `LazyField` twin (this case produces
-  * no compiler warning, even with the flags above):
+  * A `LazyField` is equal only to another `LazyField` with an equal decoded value. Compare
+  * `field.value` with a plain String explicitly. For example:
   *
   * {{{
-  * val s:  String             = "hello"
-  * val ls: LazyField[String]  = LazyField.from("hello")
-  *
-  * Set[Any](ls, s).size  // 2 — never equal, both are kept
+  * val name = LazyField.from("Alice")
+  * name.value == "Alice"           // true
+  * name.equals("Alice")            // false
+  * Set[Any](name, "Alice").size     // 2, regardless of insertion order
+  * Set[String](name, "Alice").size  // 1, after implicit conversion to String
   * }}}
   *
+  * Generated binary parsers apply the configured UTF-8 validation policy before constructing lazy
+  * string fields. `LazyField.apply` itself does not validate its bytes; the default String decoder
+  * replaces malformed UTF-8 with U+FFFD while preserving the stored bytes. `LazyField.from` encodes
+  * its argument immediately and retains the supplied value.
+  *
   * @param bytes
-  *   the raw bytes of the field.
+  *   the stored bytes, used by generated binary serializers.
   * @param decoder
-  *   the decoder to use to parse the bytes.
+  *   the decoder used on first access when no original value was supplied.
   * @tparam T
-  *   the type of the field.
+  *   the decoded value type.
   */
 final class LazyField[T] private (val bytes: ByteString, decoder: LazyDecoder[T], raw: Option[T]) {
   lazy val value: T = raw.getOrElse(decoder.decode(bytes))
@@ -41,7 +39,6 @@ final class LazyField[T] private (val bytes: ByteString, decoder: LazyDecoder[T]
 
   override def toString: String = value.toString()
   // LazyField[T] is never equal to a plain value of type T.
-  // It is extremely important to use LazyField[T] only with the `-language:strictEquality` enabled for Scala 3 or `-Xfatal-warnings` for Scala 2.
   override def equals(other: Any): Boolean = other match {
     // Perform decoding for the purpose of comparing by value.
     // This leads to a loss of laziness in comparisons, but it

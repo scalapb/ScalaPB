@@ -563,112 +563,170 @@ package object c {
 
 ## Lazy String Fields
 
-Since ScalaPB 1.0.0, you can designate string fields to be lazily parsed. A lazy field is not parsed from its raw bytes until it is accessed for the first time. This can significantly reduce serialization overhead if a message contains a lot of string fields that are not always needed.
+Since ScalaPB 1.0.0, you can use `lazy_utf8_string_fields` to decode string fields
+only when they are used. This can be useful when your application forwards messages
+without reading most of their string fields.
 
-Lazy string fields can make round-trips significantly faster when the following factors coincide:
-- the message consists of a large number of `string` fields;
-- only a small number of them are read (parse message → access a few fields → serialize).
-
-The effect is largest for non-ASCII strings: a lazy field passes the raw bytes through on serialization, while an eagerly-parsed string is UTF-8-decoded on parse and re-encoded on serialization. In a round-trip benchmark (parse a message holding 100 non-ASCII strings, then serialize it back) we observed up to a 7x speedup in local benchmark runs. Your numbers may differ depending on your data models and usage patterns; we recommend adapting the benchmarks to your case and measuring the effect under conditions close to real ones.
-
-You can toggle lazy string fields parsing on file and message level with `lazy_utf8_string_fields` option:
+This option is disabled by default. To enable it for a file, add the following option
+to your proto file. You can override it for individual messages:
 
 ```protobuf
+syntax = "proto3";
+
 import "scalapb/scalapb.proto";
 
-option (scalapb.options) = {
-  lazy_utf8_string_fields: true
-};
+option (scalapb.options).lazy_utf8_string_fields = true;
 
 message LazyMessage {
-  string str = 1;
-  int32 int = 2;
+  string name = 1;
+  optional string nickname = 2;
+  repeated string tags = 3;
+  map<string, string> labels = 4;
 }
 
 message NotLazyMessage {
-  option (scalapb.message) = {
-    lazy_utf8_string_fields: false
-  };
-  string not_lazy_string = 1;
+  option (scalapb.message).lazy_utf8_string_fields = false;
+  string name = 1;
 }
 ```
 
-This will generate a case class `LazyMessage` where `str` is of type `scalapb.LazyField[String]`. This class acts as a proxy and will only decode the underlying string on the first access. Thanks to implicit conversions, you can often use the `LazyField` as if it were the underlying type itself.
+The message-level option overrides the file-level option, including for that
+message's map values. String map keys are not lazy.
 
-```scala
-val msg = LazyMessage.parseFrom(bytes)
+Regenerate your Scala sources after changing the option. The protobuf wire format
+stays the same, but the generated Scala API changes. With the default collection and
+presence settings, the fields above have these types:
 
-// No parsing has happened for str yet.
+| Field | Generated Scala type |
+| --- | --- |
+| `name` | `LazyField[String]` |
+| `nickname` | `Option[LazyField[String]]` |
+| `tags` | `Seq[LazyField[String]]` |
+| `labels` | `Map[String, LazyField[String]]` |
 
-val serialized = msg.toByteArray // <--- fast serialization without UTF-8 encoding
+You may need to update code that uses these fields as strings, particularly
+comparisons and collection operations.
 
-val upper = msg.str.toUpperCase  // <--- Parsing happens here, on first access.
-
-println(upper)
-```
-
-Thanks to implicit conversions, you can work in code with lazy string fields in the usual way:
-
-```scala
-val created = LazyMessage(str = "hello!", int = 42) // <--- String to LazyField[String] conversion
-
-def f(input: String): Unit = ???
-
-f(created.str) // <--- LazyField[String] to String conversion
-```
-
-`toString`, `equals`, `hashCode` methods on `LazyField[T]` use a deserialized value.
-
-A custom string type takes priority over laziness: fields annotated with a custom `type` or map `value_type` keep their `TypeMapper`-based API and stay eager, even when `lazy_utf8_string_fields` is enabled:
+If you specify a custom string type with `type` or map `value_type`, that field will
+not be lazy. It continues to use your `TypeMapper`:
 
 ```protobuf
 message MixedLaziness {
-  // Lazy: scalapb.LazyField[String], decoded on first access.
+  // Lazy when the file enables lazy_utf8_string_fields.
   string display_name = 1;
 
-  // Not lazy: the custom type takes priority over laziness.
+  // These fields use the specified custom type and are not lazy.
   string person_id = 2 [(scalapb.field).type = "com.thesamet.pb.PersonId"];
-
-  // Not lazy: map values with a custom type take priority over laziness.
   map<int32, string> person_ids = 3 [(scalapb.field).value_type = "com.thesamet.pb.PersonId"];
 }
 ```
 
-:::warning Equality
-Comparing a `LazyField[T]` with a plain value (for example, a `String`) is always `false` — a `LazyField[T]` is only equal to another `LazyField[T]` with the same decoded value. To avoid accidentally incorrect comparisons, it is strongly recommended to use `LazyField[T]` only with the `-language:strictEquality` compiler option enabled for Scala 3 or `-Xfatal-warnings` for Scala 2. The flags catch direct `LazyField == plainValue` comparisons; but `Any`-typed collections produce no warning.
-:::
+### Using lazy fields
 
-Example:
-```scala
-val lf: LazyField[String] = "abc"
-val str: String = "abc"
-
-lf == str // <--- false, with a compiler warning at Scala 2 or a compile error at Scala 3 with strictEquality
-str == lf // <--- false, same protection
-```
-
-Equality is a concern for Any-typed collections (`Set` / `Map`): a plain value never equals its `LazyField` twin there, while typed collections convert and deduplicate. Example:
+When parsing a message, ScalaPB reads the string bytes and validates them according
+to the configured UTF-8 policy. It converts the bytes to a `String` the first time
+you use the value and caches the result:
 
 ```scala
-val s:  String            = "hello"
-val ls: LazyField[String] = LazyField.from("hello")
+val msg = LazyMessage.parseFrom(bytes)
+// The bytes have been read and validated according to the configured policy.
+// They have not yet been decoded into Strings.
 
-Set[Any](ls, s).size  // 2 — a plain value never equals its LazyField twin, both are kept
-
-// ---
-
-Set[String](s, ls).size // 1, typed collection works well, LazyField would be decoded on collection creation
+val name = msg.name              // Gets the wrapper without decoding.
+val text: String = name.value    // Decodes once and caches the String.
+val upper = name.toUpperCase     // An implicit conversion also accesses .value.
+val serialized = msg.toByteArray // Writes the stored bytes without re-encoding.
 ```
 
-Please be careful when using `lazy_utf8_string_fields` with Any-typed collections. Prefer typed collections — `Set[String]` works well.
+Implicit conversions let you supply strings to generated constructors and pass lazy
+fields to functions expecting strings:
 
-Java conversions work with lazy string fields: singular fields and repeated elements are read from Java byte-preservingly through the byte-string accessors, and written back through `set<Name>Bytes`/`add<Name>Bytes`, which validate UTF-8 and fail on malformed input — a Java proto cannot hold invalid UTF-8 strings. Map values round-trip through UTF-8 `String` encode/decode, replacing malformed bytes.
+```scala
+val created = LazyMessage(name = "Alice", tags = Seq("important"))
 
-:::note UTF-8 validation
-UTF-8 validation is the default behavior for binary string fields, and lazy fields are no exception: they validate UTF-8 on parse following the same policy as regular string fields, including the `use_schema_utf8_validation` option and the UTF-8 validation settings of the proto schema. By default, malformed UTF-8 fails the parse with `InvalidProtocolBufferException`.
+def greet(name: String): String = s"Hello, $name"
+greet(created.name)
+```
 
-A lazy field always keeps the original bytes; when validation is skipped, the first access decodes them, replacing malformed UTF-8 with U+FFFD. Binary serialization writes the original bytes unchanged; text-format output decodes and therefore replaces them. See also [binary string UTF-8 validation](#binary-string-utf-8-validation).
-:::
+When you assign a `String` to a lazy field, it is encoded immediately. If you pass a
+collection of lazy fields to a function expecting strings, the conversion reads every
+value and creates a new collection. You can use `.value` explicitly to control which
+fields are decoded.
+
+The following operations can also decode a field: `.value`, String methods,
+`toString` (including logging and interpolation), equality between wrappers, and
+`hashCode`. Generated message equality and hashing can therefore decode fields too.
+JSON and protobuf text-format output decode the fields they emit; binary
+serialization does not.
+
+### Equality and collections
+
+A `LazyField` is equal only to another `LazyField` with an equal decoded value.
+Comparing it directly with a `String` returns `false` in either direction. Use
+`.value` to compare the strings:
+
+```scala
+msg.name.value == "Alice"
+msg.nickname.map(_.value).contains("Al")
+msg.tags.exists(_.value == "important")
+msg.labels.get("team").map(_.value).contains("backend")
+```
+
+You can enable `-language:strictEquality` in Scala 3 to catch direct comparisons
+between a `LazyField` and a `String`. In Scala 2, `-Xfatal-warnings` turns compiler
+warnings about these comparisons into errors. These flags do not catch comparisons
+through `Any`.
+
+Typed collections can apply implicit conversions when elements are inserted. An
+`Any`-typed collection keeps wrappers and strings as distinct elements:
+
+```scala
+import scalapb.LazyField
+
+val name = LazyField.from("Alice")
+Set[Any](name, "Alice").size    // 2, regardless of insertion order.
+Set[String](name, "Alice").size // 1: name is converted to its String value.
+```
+
+### UTF-8 validation and Java conversions
+
+Lazy fields follow the same binary parsing policy as regular string fields, including
+`use_schema_utf8_validation` and the schema's UTF-8 settings. By default, malformed
+UTF-8 fails the parse with `InvalidProtocolBufferException`. String map keys and
+values always validate during binary parsing.
+
+When validation is disabled for a field, a lazy field preserves the original bytes.
+Accessing its value replaces malformed UTF-8 with U+FFFD in the decoded String but
+leaves the stored bytes unchanged. Subsequent binary serialization still writes those
+original bytes; JSON and text-format output use decoded values. See [binary string
+UTF-8 validation](#binary-string-utf-8-validation).
+
+Validation is performed by generated binary parsers, not by `LazyField.apply`. If you
+construct a wrapper directly from a `ByteString`, it is not validated automatically.
+
+Java conversions use byte-string accessors for singular and repeated string fields.
+When converting to Java, `set<Name>Bytes`/`add<Name>Bytes` follow the target Java
+schema's UTF-8 validation policy and can reject malformed input when validation is
+enabled. Full Java protobuf can preserve malformed bytes when validation is disabled.
+See [UTF-8 validation in
+Java](https://protobuf.dev/reference/java/java-utf8-validation/).
+
+Java map values have String-based accessors, so their conversion requires UTF-8
+decoding/encoding. Converting a manually constructed lazy map value containing
+malformed bytes to Java replaces those bytes with replacement characters.
+
+### When to use lazy strings
+
+Lazy strings are most useful when forwarding or modifying messages while reading only
+a small fraction of their string fields. Avoiding UTF-8 decoding and re-encoding can
+be particularly useful for non-ASCII text.
+
+The benefit depends on how many string fields your application reads. Each lazy field
+adds a wrapper allocation, and after decoding it retains both its bytes and its
+String. Reading most fields, logging whole messages, or using messages as hash keys
+can reduce the benefit and increase memory use. You can use the
+[benchmarks](https://github.com/scalapb/ScalaPB/tree/master/benchmarks) to measure
+the effect on your workload.
 
 ## Message-level custom type and boxing
 
@@ -968,12 +1026,14 @@ Fields generated with [`lazy_utf8_string_fields`](#lazy-string-fields) follow
 the same policy; nonvalidating lazy fields keep the original bytes.
 The policy applies equally to singular, repeated, oneof, and custom-mapped strings.
 
-Nonvalidating fields decode to Scala `String`, replacing malformed UTF-8 with
+Nonvalidating eager fields decode to Scala `String`, replacing malformed UTF-8 with
 replacement characters. **The original malformed bytes are lost** before any
 custom type mapper runs. Reserializing is not a byte-preserving round trip, and
 replacement grouping can differ between JVM, JavaScript, and Native decoders.
-Use a `bytes` field (wire-compatible with `string`) when you need to retain the
-original bytes. Valid Unicode is unaffected by this option.
+Use a `bytes` field (wire-compatible with `string`) when you need to retain arbitrary
+bytes, or enable [lazy string fields](#lazy-string-fields) to preserve the bytes of
+nonvalidating string fields. Accessing a lazy field does not discard its stored bytes.
+Valid Unicode is unaffected by this option.
 
 This option controls generated binary message parsers. It does not change text
 format parsing, JSON support, serialization, or extension accessors (which decode
