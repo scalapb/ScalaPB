@@ -70,4 +70,55 @@ class LazyUtf8StringFieldsJavaSpec extends AnyFlatSpec with Matchers {
     val empty = LazyMapMessage(intToString = Map.empty, strToStr = Map.empty)
     LazyMapMessage.fromJavaProto(LazyMapMessage.toJavaProto(empty)).intToString shouldBe Map.empty
   }
+  "Lazy optional and oneof strings" should "preserve presence through Java conversions" in {
+    val absent     = LazyPresence()
+    val javaAbsent = LazyPresence.toJavaProto(absent)
+    javaAbsent.hasOptionalText shouldBe false
+    javaAbsent.hasText shouldBe false
+    LazyPresence.fromJavaProto(javaAbsent) shouldBe absent
+
+    for (value <- Seq("", "héllo 日本語")) {
+      val original = LazyPresence(optionalText = Some(LazyField.from(value)))
+        .withText(LazyField.from(value))
+      val javaConverted = LazyPresence.toJavaProto(original)
+      javaConverted.hasOptionalText shouldBe true
+      javaConverted.hasText shouldBe true
+      javaConverted.getOptionalText shouldBe value
+      javaConverted.getText shouldBe value
+      LazyPresence.fromJavaProto(javaConverted) shouldBe original
+      LazyPresence.parseFrom(javaConverted.toByteArray) shouldBe original
+
+      val javaParsed = LazyUtf8StringFieldsJava.LazyPresence.parseFrom(original.toByteArray)
+      LazyPresence.fromJavaProto(javaParsed) shouldBe original
+    }
+
+    val numeric     = LazyPresence().withCount(0)
+    val javaNumeric = LazyPresence.toJavaProto(numeric)
+    javaNumeric.hasCount shouldBe true
+    javaNumeric.hasText shouldBe false
+    LazyPresence.fromJavaProto(javaNumeric) shouldBe numeric
+  }
+
+  it should "reject malformed UTF-8 in either presence-bearing field" in {
+    for (tag <- Seq(0x0a, 0x12)) {
+      val bytes = Array(tag.toByte, 1.toByte, 0xff.toByte)
+      intercept[com.google.protobuf.InvalidProtocolBufferException] {
+        LazyPresence.parseFrom(bytes)
+      }
+      intercept[com.google.protobuf.InvalidProtocolBufferException] {
+        LazyUtf8StringFieldsJava.LazyPresence.parseFrom(bytes)
+      }
+    }
+    val invalid = LazyField[String](ByteString.copyFrom(Array(0xff.toByte)))
+    for (
+      message <- Seq(
+        LazyPresence(optionalText = Some(invalid)),
+        LazyPresence().withText(invalid)
+      )
+    ) {
+      intercept[IllegalArgumentException] {
+        LazyPresence.toJavaProto(message)
+      }
+    }
+  }
 }

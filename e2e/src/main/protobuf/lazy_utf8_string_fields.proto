@@ -33,3 +33,11 @@ message LazyWithRecursion {
   string data = 1;
   LazyWithRecursion nested = 2;
 }
+
+message LazyPresence {
+  optional string optional_text = 1;
+  oneof choice {
+    string text = 2;
+    int32 count = 3;
+  }
+}

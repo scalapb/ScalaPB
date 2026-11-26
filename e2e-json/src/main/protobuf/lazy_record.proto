@@ -34,3 +34,11 @@ message LazyRecord {
   map<string, string> labels  = 8;
   map<string, int32>  scores  = 9;
 }
+
+message LazyPresence {
+  optional string optional_text = 1;
+  oneof choice {
+    string text = 2;
+    int32 count = 3;
+  }
+}

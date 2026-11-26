@@ -985,6 +985,7 @@ class ProtobufGenerator(
               s"__fieldsMap.get(scalaDescriptor.findFieldByNumber(${field.getNumber}).get)"
             val typeName =
               if (field.isEnum) "_root_.scalapb.descriptors.EnumValueDescriptor"
+              else if (field.isProtoString && field.shouldBeLazyUtf8String) LazyString
               else field.baseSingleScalaTypeName
             val e = s"$value.flatMap(_.as[_root_.scala.Option[$typeName]])"
             (transform(field) andThen FunctionApplication(field.oneOfTypeName.fullName)).apply(
