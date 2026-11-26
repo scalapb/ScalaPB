@@ -95,72 +95,48 @@ object TestCases {
     )
   }
 
-  def makeLargeNestedStringMessageScala: protos.LargeNestedStringMessage = {
-    def randomString(len: Int): String = Random.alphanumeric.take(len).mkString
+  private def buildAsciiMessage: protos.LargeNestedStringMessage = {
+    val random                         = new Random(0L)
+    def randomString(len: Int): String = random.alphanumeric.take(len).mkString
 
     def makeStrings10(level: Int): protos.LargeNestedStringMessage = {
       val nested = if (level < 10) Some(makeStrings10(level + 1)) else None
       protos.LargeNestedStringMessage(
-        s1 = randomString(10 + Random.nextInt(91)),
-        s2 = randomString(10 + Random.nextInt(91)),
-        s3 = randomString(10 + Random.nextInt(91)),
-        s4 = randomString(10 + Random.nextInt(91)),
-        s5 = randomString(10 + Random.nextInt(91)),
-        s6 = randomString(10 + Random.nextInt(91)),
-        s7 = randomString(10 + Random.nextInt(91)),
-        s8 = randomString(10 + Random.nextInt(91)),
-        s9 = randomString(10 + Random.nextInt(91)),
-        s10 = randomString(10 + Random.nextInt(91)),
+        s1 = randomString(10 + random.nextInt(91)),
+        s2 = randomString(10 + random.nextInt(91)),
+        s3 = randomString(10 + random.nextInt(91)),
+        s4 = randomString(10 + random.nextInt(91)),
+        s5 = randomString(10 + random.nextInt(91)),
+        s6 = randomString(10 + random.nextInt(91)),
+        s7 = randomString(10 + random.nextInt(91)),
+        s8 = randomString(10 + random.nextInt(91)),
+        s9 = randomString(10 + random.nextInt(91)),
+        s10 = randomString(10 + random.nextInt(91)),
         nested = nested
       )
     }
     makeStrings10(1)
   }
 
-  def makeLazyFieldsStringMessageScala: protos.LazyFieldsStringMessage = {
-    def randomString(len: Int): String = Random.alphanumeric.take(len).mkString
+  // All structurally equivalent variants parse exactly the same deterministic wire payload.
+  // These are initialized outside the timed benchmark methods, once per fork.
+  private lazy val asciiPayload    = buildAsciiMessage.toByteArray
+  private lazy val nonAsciiPayload = buildNonAsciiMessage.toByteArray
 
-    def makeStrings10(level: Int): protos.LazyFieldsStringMessage = {
-      val nested = if (level < 10) Some(makeStrings10(level + 1)) else None
-      protos.LazyFieldsStringMessage(
-        s1 = randomString(10 + Random.nextInt(91)),
-        s2 = randomString(10 + Random.nextInt(91)),
-        s3 = randomString(10 + Random.nextInt(91)),
-        s4 = randomString(10 + Random.nextInt(91)),
-        s5 = randomString(10 + Random.nextInt(91)),
-        s6 = randomString(10 + Random.nextInt(91)),
-        s7 = randomString(10 + Random.nextInt(91)),
-        s8 = randomString(10 + Random.nextInt(91)),
-        s9 = randomString(10 + Random.nextInt(91)),
-        s10 = randomString(10 + Random.nextInt(91)),
-        nested = nested
-      )
-    }
-    makeStrings10(1)
-  }
+  def makeLargeNestedStringMessageScala: protos.LargeNestedStringMessage =
+    protos.LargeNestedStringMessage.parseFrom(asciiPayload)
 
-  def makeLazyFieldsNoValidationScala: protos.LazyFieldsNoValidation = {
-    def randomString(len: Int): String = Random.alphanumeric.take(len).mkString
-    def lazyString: LazyField[String]  = LazyField.from(randomString(10 + Random.nextInt(91)))
+  def makeLazyFieldsStringMessageScala: protos.LazyFieldsStringMessage =
+    protos.LazyFieldsStringMessage.parseFrom(asciiPayload)
 
-    def makeStrings10(level: Int): protos.LazyFieldsNoValidation = {
-      val nested = if (level < 10) Some(makeStrings10(level + 1)) else None
-      protos.LazyFieldsNoValidation(
-        s1 = Some(lazyString),
-        s2 = Some(lazyString),
-        s3 = Some(lazyString),
-        s4 = Some(lazyString),
-        s5 = Some(lazyString),
-        s6 = Some(lazyString),
-        s7 = Some(lazyString),
-        s8 = Some(lazyString),
-        s9 = Some(lazyString),
-        s10 = Some(lazyString),
-        nested = nested
-      )
-    }
-    makeStrings10(1)
-  }
+  def makeLazyFieldsNoValidationScala: protos.LazyFieldsNoValidation =
+    protos.LazyFieldsNoValidation.parseFrom(asciiPayload)
+
+  def makeLazyFieldsNonAsciiScala: protos.LazyFieldsNonAscii =
+    protos.LazyFieldsNonAscii.parseFrom(nonAsciiPayload)
+
+  def makeLargeNestedStringMessageNonAsciiScala: protos.LargeNestedStringMessageNonAscii =
+    protos.LargeNestedStringMessageNonAscii.parseFrom(nonAsciiPayload)
 
   // Code points, not chars: astral symbols (emoji) are surrogate pairs in
   // UTF-16, and picking a lone half-surrogate from an Array[Char] would corrupt
@@ -171,50 +147,31 @@ object TestCases {
       "한국어" +
       "🙂🙃😉😊🥳🚀🌟").codePoints.toArray
 
-  private def nonAsciiString(len: Int): String = {
+  private def nonAsciiString(random: Random, len: Int): String = {
     val sb = new java.lang.StringBuilder(len)
     var i  = 0
     while (i < len) {
-      sb.appendCodePoint(nonAsciiCodePoints(Random.nextInt(nonAsciiCodePoints.length)))
+      sb.appendCodePoint(nonAsciiCodePoints(random.nextInt(nonAsciiCodePoints.length)))
       i += 1
     }
     sb.toString
   }
 
-  def makeLazyFieldsNonAsciiScala: protos.LazyFieldsNonAscii = {
-    def makeStrings10(level: Int): protos.LazyFieldsNonAscii = {
-      val nested = if (level < 10) Some(makeStrings10(level + 1)) else None
-      protos.LazyFieldsNonAscii(
-        s1 = nonAsciiString(10 + Random.nextInt(91)),
-        s2 = nonAsciiString(10 + Random.nextInt(91)),
-        s3 = nonAsciiString(10 + Random.nextInt(91)),
-        s4 = nonAsciiString(10 + Random.nextInt(91)),
-        s5 = nonAsciiString(10 + Random.nextInt(91)),
-        s6 = nonAsciiString(10 + Random.nextInt(91)),
-        s7 = nonAsciiString(10 + Random.nextInt(91)),
-        s8 = nonAsciiString(10 + Random.nextInt(91)),
-        s9 = nonAsciiString(10 + Random.nextInt(91)),
-        s10 = nonAsciiString(10 + Random.nextInt(91)),
-        nested = nested
-      )
-    }
-    makeStrings10(1)
-  }
-
-  def makeLargeNestedStringMessageNonAsciiScala: protos.LargeNestedStringMessageNonAscii = {
+  private def buildNonAsciiMessage: protos.LargeNestedStringMessageNonAscii = {
+    val random                                                             = new Random(1L)
     def makeStrings10(level: Int): protos.LargeNestedStringMessageNonAscii = {
       val nested = if (level < 10) Some(makeStrings10(level + 1)) else None
       protos.LargeNestedStringMessageNonAscii(
-        s1 = nonAsciiString(10 + Random.nextInt(91)),
-        s2 = nonAsciiString(10 + Random.nextInt(91)),
-        s3 = nonAsciiString(10 + Random.nextInt(91)),
-        s4 = nonAsciiString(10 + Random.nextInt(91)),
-        s5 = nonAsciiString(10 + Random.nextInt(91)),
-        s6 = nonAsciiString(10 + Random.nextInt(91)),
-        s7 = nonAsciiString(10 + Random.nextInt(91)),
-        s8 = nonAsciiString(10 + Random.nextInt(91)),
-        s9 = nonAsciiString(10 + Random.nextInt(91)),
-        s10 = nonAsciiString(10 + Random.nextInt(91)),
+        s1 = nonAsciiString(random, 10 + random.nextInt(91)),
+        s2 = nonAsciiString(random, 10 + random.nextInt(91)),
+        s3 = nonAsciiString(random, 10 + random.nextInt(91)),
+        s4 = nonAsciiString(random, 10 + random.nextInt(91)),
+        s5 = nonAsciiString(random, 10 + random.nextInt(91)),
+        s6 = nonAsciiString(random, 10 + random.nextInt(91)),
+        s7 = nonAsciiString(random, 10 + random.nextInt(91)),
+        s8 = nonAsciiString(random, 10 + random.nextInt(91)),
+        s9 = nonAsciiString(random, 10 + random.nextInt(91)),
+        s10 = nonAsciiString(random, 10 + random.nextInt(91)),
         nested = nested
       )
     }

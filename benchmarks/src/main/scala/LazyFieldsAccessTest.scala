@@ -5,13 +5,14 @@ import org.openjdk.jmh.annotations.BenchmarkMode
 import org.openjdk.jmh.annotations.Mode
 import org.openjdk.jmh.annotations.OutputTimeUnit
 import java.util.concurrent.TimeUnit
+import org.openjdk.jmh.infra.Blackhole
 
 /** Round-trip benchmarks that materialize part of the strings between parse and serialize: fields
   * `s1` and `s2` at each of the 10 nesting levels (20 of the 100 strings in the payload). For lazy
   * messages, accessing `.value` on a `LazyField` forces the deferred UTF-8 decode; the remaining
   * 80% travel through as raw bytes. Run for the lazy ASCII / non-ASCII / no-validation payloads and
   * for the eager (LargeNestedStringMessage) payloads where the strings are already materialized
-  * Strings; the Java variants are eager baselines with no deferred-decode component.
+  * Strings; the Java variants exercise the same accesses through their generated getters.
   *
   * Deliberately not a TestNames entry: the shared message.scala.tmpl cannot reference concrete
   * fields, and the payloads of the generated companions are reused as-is.
@@ -21,7 +22,7 @@ class LazyFieldsAccessTest {
   @Benchmark
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.NANOSECONDS)
-  def roundTripAccessEagerScala: Int = {
+  def roundTripAccessEagerScala(blackhole: Blackhole): Array[Byte] = {
     val msg   = protos.LargeNestedStringMessage.parseFrom(LargeNestedStringMessageTest.bytes)
     var total = 0
     var cur   = msg
@@ -32,13 +33,14 @@ class LazyFieldsAccessTest {
     }
     total += cur.s1.length
     total += cur.s2.length
-    total + msg.toByteArray.length
+    blackhole.consume(total)
+    msg.toByteArray
   }
 
   @Benchmark
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.NANOSECONDS)
-  def roundTripAccessEagerNonAsciiScala: Int = {
+  def roundTripAccessEagerNonAsciiScala(blackhole: Blackhole): Array[Byte] = {
     val msg =
       protos.LargeNestedStringMessageNonAscii.parseFrom(LargeNestedStringMessageNonAsciiTest.bytes)
     var total = 0
@@ -50,13 +52,14 @@ class LazyFieldsAccessTest {
     }
     total += cur.s1.length
     total += cur.s2.length
-    total + msg.toByteArray.length
+    blackhole.consume(total)
+    msg.toByteArray
   }
 
   @Benchmark
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.NANOSECONDS)
-  def roundTripAccessScala: Int = {
+  def roundTripAccessScala(blackhole: Blackhole): Array[Byte] = {
     val msg   = protos.LazyFieldsStringMessage.parseFrom(LazyFieldsStringMessageTest.bytes)
     var total = 0
     var cur   = msg
@@ -67,13 +70,14 @@ class LazyFieldsAccessTest {
     }
     total += cur.s1.value.length
     total += cur.s2.value.length
-    total + msg.toByteArray.length
+    blackhole.consume(total)
+    msg.toByteArray
   }
 
   @Benchmark
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.NANOSECONDS)
-  def roundTripAccessJava: Int = {
+  def roundTripAccessJava(blackhole: Blackhole): Array[Byte] = {
     val msg   = Protos.LazyFieldsStringMessage.parseFrom(LazyFieldsStringMessageTest.bytes)
     var total = 0
     var cur   = msg
@@ -84,13 +88,14 @@ class LazyFieldsAccessTest {
     }
     total += cur.getS1.length
     total += cur.getS2.length
-    total + msg.toByteArray.length
+    blackhole.consume(total)
+    msg.toByteArray
   }
 
   @Benchmark
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.NANOSECONDS)
-  def roundTripAccessNonAsciiScala: Int = {
+  def roundTripAccessNonAsciiScala(blackhole: Blackhole): Array[Byte] = {
     val msg   = protos.LazyFieldsNonAscii.parseFrom(LazyFieldsNonAsciiTest.bytes)
     var total = 0
     var cur   = msg
@@ -101,13 +106,14 @@ class LazyFieldsAccessTest {
     }
     total += cur.s1.value.length
     total += cur.s2.value.length
-    total + msg.toByteArray.length
+    blackhole.consume(total)
+    msg.toByteArray
   }
 
   @Benchmark
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.NANOSECONDS)
-  def roundTripAccessNoValidationScala: Int = {
+  def roundTripAccessNoValidationScala(blackhole: Blackhole): Array[Byte] = {
     val msg   = protos.LazyFieldsNoValidation.parseFrom(LazyFieldsNoValidationTest.bytes)
     var total = 0
     var cur   = msg
@@ -118,13 +124,14 @@ class LazyFieldsAccessTest {
     }
     total += cur.getS1.value.length
     total += cur.getS2.value.length
-    total + msg.toByteArray.length
+    blackhole.consume(total)
+    msg.toByteArray
   }
 
   @Benchmark
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.NANOSECONDS)
-  def roundTripAccessNoValidationJava: Int = {
+  def roundTripAccessNoValidationJava(blackhole: Blackhole): Array[Byte] = {
     val msg = ProtosNoValidation.LazyFieldsNoValidation.parseFrom(
       LazyFieldsNoValidationTest.bytes
     )
@@ -137,13 +144,14 @@ class LazyFieldsAccessTest {
     }
     total += cur.getS1.length
     total += cur.getS2.length
-    total + msg.toByteArray.length
+    blackhole.consume(total)
+    msg.toByteArray
   }
 
   @Benchmark
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.NANOSECONDS)
-  def roundTripAccessNonAsciiJava: Int = {
+  def roundTripAccessNonAsciiJava(blackhole: Blackhole): Array[Byte] = {
     val msg   = Protos.LazyFieldsNonAscii.parseFrom(LazyFieldsNonAsciiTest.bytes)
     var total = 0
     var cur   = msg
@@ -154,6 +162,7 @@ class LazyFieldsAccessTest {
     }
     total += cur.getS1.length
     total += cur.getS2.length
-    total + msg.toByteArray.length
+    blackhole.consume(total)
+    msg.toByteArray
   }
 }
