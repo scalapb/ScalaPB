@@ -121,4 +121,83 @@ class LazyUtf8StringFieldsJavaSpec extends AnyFlatSpec with Matchers {
       }
     }
   }
+
+  "Lazy custom collections" should "use adapters for binary, reflection, text and Java conversions" in {
+    import com.thesamet.pb.LazyStringCollection
+    import scala.collection.immutable.SortedMap
+    val original = LazyCollections(
+      adapted = LazyStringCollection(Vector(LazyField.from(""), LazyField.from("héllo"))),
+      listed = List(LazyField.from("日本語")),
+      sorted = SortedMap(2 -> LazyField.from("two"), 1 -> LazyField.from(""))
+    )
+    for (message <- Seq(LazyCollections(), original)) {
+      LazyCollections.parseFrom(message.toByteArray) shouldBe message
+      LazyCollections.fromJavaProto(LazyCollections.toJavaProto(message)) shouldBe message
+      LazyCollections.fromAscii(message.toProtoString) shouldBe message
+      LazyCollections.messageReads.read(message.toPMessage) shouldBe message
+    }
+    val nonEmpty = LazyNonEmptyCollections(
+      listed = cats.data.NonEmptyList.one(LazyField.from("héllo")),
+      mapped = cats.data.NonEmptyMap.fromMapUnsafe(SortedMap(1 -> LazyField.from("日本語")))
+    )
+    LazyNonEmptyCollections.parseFrom(nonEmpty.toByteArray) shouldBe nonEmpty
+    LazyNonEmptyCollections.fromJavaProto(
+      LazyNonEmptyCollections.toJavaProto(nonEmpty)
+    ) shouldBe nonEmpty
+    LazyNonEmptyCollections.fromAscii(nonEmpty.toProtoString) shouldBe nonEmpty
+    LazyNonEmptyCollections.messageReads.read(nonEmpty.toPMessage) shouldBe nonEmpty
+    intercept[com.google.protobuf.InvalidProtocolBufferException] {
+      LazyNonEmptyCollections.parseFrom(Array.emptyByteArray)
+    }
+  }
+
+  "Lazy proto2 defaults" should "preserve optional presence through Java conversions" in {
+    import com.thesamet.proto.e2e.lazy_option_combinations.LazyDefaults
+    import com.thesamet.proto.e2e.LazyOptionCombinations
+    val absent     = LazyDefaults.defaultInstance
+    val javaAbsent = LazyDefaults.toJavaProto(absent)
+    javaAbsent.hasRequiredText shouldBe true
+    javaAbsent.hasOptionalText shouldBe false
+    javaAbsent.getOptionalText shouldBe "日本語"
+    LazyDefaults.fromJavaProto(javaAbsent) shouldBe absent
+    for (value <- Seq("", "日本語", "custom")) {
+      val original =
+        absent.copy(optionalText = Some(LazyField.from(value)), unboxedText = LazyField.from(value))
+      val javaMessage = LazyDefaults.toJavaProto(original)
+      javaMessage.hasOptionalText shouldBe true
+      javaMessage.getOptionalText shouldBe value
+      LazyDefaults.fromJavaProto(javaMessage) shouldBe original
+      LazyDefaults.parseFrom(javaMessage.toByteArray) shouldBe original
+      LazyDefaults.fromJavaProto(
+        LazyOptionCombinations.LazyDefaults.parseFrom(original.toByteArray)
+      ) shouldBe original
+    }
+    intercept[com.google.protobuf.InvalidProtocolBufferException] {
+      LazyOptionCombinations.LazyDefaults.parseFrom(Array.emptyByteArray)
+    }
+  }
+
+  "Lazy relaxed UTF-8" should "match Java byte access for repeated and oneof fields" in {
+    import com.thesamet.proto.e2e.lazy_relaxed_utf8.LazyRelaxedUtf8
+    import com.thesamet.proto.e2e.LazyRelaxedUtf8OuterClass
+    val wire       = Array(10, 1, 255, 26, 1, 255).map(_.toByte)
+    val parsed     = LazyRelaxedUtf8.parseFrom(wire)
+    val javaParsed = LazyRelaxedUtf8OuterClass.LazyRelaxedUtf8.parseFrom(wire)
+    LazyRelaxedUtf8.fromJavaProto(javaParsed).toByteArray shouldBe wire
+    LazyRelaxedUtf8.toJavaProto(parsed).toByteArray shouldBe wire
+    // Java map access is String-based, so malformed bytes cannot survive that conversion.
+    val mapWire = Array(18, 5, 8, 1, 18, 1, 255).map(_.toByte)
+    intercept[com.google.protobuf.InvalidProtocolBufferException] {
+      LazyRelaxedUtf8.parseFrom(mapWire)
+    }
+    intercept[com.google.protobuf.InvalidProtocolBufferException] {
+      LazyRelaxedUtf8OuterClass.LazyRelaxedUtf8.parseFrom(mapWire)
+    }
+    val mapped =
+      LazyRelaxedUtf8(mapped = Map(1 -> LazyField[String](ByteString.copyFrom(Array(255.toByte)))))
+    val converted = LazyRelaxedUtf8.fromJavaProto(LazyRelaxedUtf8.toJavaProto(mapped))
+    converted.mapped(1).value shouldBe "\uFFFD"
+    converted.mapped(1).toByteString shouldBe ByteString.copyFromUtf8("\uFFFD")
+    mapped.toByteArray shouldBe mapWire
+  }
 }

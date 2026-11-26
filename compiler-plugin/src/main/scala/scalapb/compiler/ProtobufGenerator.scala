@@ -381,12 +381,11 @@ class ProtobufGenerator(
     if (field.isMapField) assignScalaMapToJava(scalaObject, javaObject, field)
     else if (field.isRepeated && field.isProtoString && field.shouldBeLazyUtf8String) {
       // With lazy_utf8_string_fields, repeated elements are added as raw ByteStrings.
-      // add<Name>Bytes validates UTF-8 and throws on invalid input — consistent with
-      // the singular set<Name>Bytes path: a Java proto cannot be built from invalid
-      // UTF-8 strings.
+      // Like singular set<Name>Bytes, add<Name>Bytes follows the target Java schema's
+      // UTF-8 validation policy and preserves the bytes when validation is disabled.
       val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
       val toBase      = toBaseType(field)("__x")
-      s"${scalaGetter}.iterator.foreach(__x => $javaObject.add${field.upperJavaName}Bytes($toBase))"
+      s"${field.collection.iterator(scalaGetter, EnclosingType.None)}.foreach(__x => $javaObject.add${field.upperJavaName}Bytes($toBase))"
     } else {
       val upperJavaName =
         if (field.isProtoString && field.shouldBeLazyUtf8String)
@@ -718,7 +717,10 @@ class ProtobufGenerator(
     }
 
   private def isNonEmpty(expr: String, field: FieldDescriptor): String = {
-    if (field.getType == Type.BYTES | field.getType == Type.STRING) s"!${expr}.isEmpty"
+    // An empty unboxed value must be written when omission would restore a non-empty default.
+    if ((field.getType == Type.BYTES || field.getType == Type.STRING) && field.hasDefaultValue)
+      s"${expr} != ${defaultValueForGet(field, uncustomized = true)}"
+    else if (field.getType == Type.BYTES || field.getType == Type.STRING) s"!${expr}.isEmpty"
     else if (field.getType == Type.ENUM) s"${expr} != 0"
     else if (field.getType == Type.MESSAGE) s"${expr}.serializedSize != 0"
     else s"${expr} != ${defaultValueForGet(field, uncustomized = true)}"

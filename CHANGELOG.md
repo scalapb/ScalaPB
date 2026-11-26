@@ -1,5 +1,7 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Preserve empty unboxed strings and bytes when a proto2 field declares a non-empty default.
+- Use collection adapters when converting repeated lazy strings to Java protobuf messages.
 - Preserve ProtoJSON extension fields in conformance tests using scalapb-json4s 1.0.0-alpha.3.
 - Reject JSON strings containing unpaired or reversed Unicode surrogates using scalapb-json4s 1.0.0-alpha.3.
 - Reject quoted JSON boolean values in conformance tests using scalapb-json4s 1.0.0-alpha.3.
