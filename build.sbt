@@ -3,7 +3,7 @@ import BuildHelper.*
 import Dependencies.*
 import sbtassembly.AssemblyPlugin.defaultUniversalScript
 
-val protobufCompilerVersion = "4.35.0"
+val protobufCompilerVersion = versions.protobuf
 
 val MimaPreviousVersion = "0.11.0"
 

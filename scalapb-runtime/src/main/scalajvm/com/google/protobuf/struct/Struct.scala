@@ -4,14 +4,19 @@
 package com.google.protobuf.struct
 import _root_.scalapb.internal.compat.JavaConverters._
 
-/** `Struct` represents a structured data value, consisting of fields
-  * which map to dynamically typed values. In some languages, `Struct`
-  * might be supported by a native representation. For example, in
-  * scripting languages like JS a struct is represented as an
-  * object. The details of that representation are described together
-  * with the proto support for the language.
+/** Represents a JSON object.
   *
-  * The JSON representation for `Struct` is JSON object.
+  * An unordered key-value map, intending to perfectly capture the semantics of a
+  * JSON object. This enables parsing any arbitrary JSON payload as a message
+  * field in ProtoJSON format.
+  *
+  * This follows RFC 8259 guidelines for interoperable JSON: notably this type
+  * cannot represent large Int64 values or `NaN`/`Infinity` numbers,
+  * since the JSON format generally does not support those values in its number
+  * type.
+  *
+  * If you do not intend to parse arbitrary JSON into your message, a custom
+  * typed message should be preferred instead of using this type.
   *
   * @param fields
   *   Unordered map of dynamically typed values.
