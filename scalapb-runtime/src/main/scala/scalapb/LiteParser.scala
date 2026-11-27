@@ -118,5 +118,5 @@ object LiteParser {
 
   @inline
   def preferredCodedOutputStreamBufferSize(dataLength: Int) =
-    dataLength min CodedOutputStream.DEFAULT_BUFFER_SIZE
+    (dataLength max 1) min CodedOutputStream.DEFAULT_BUFFER_SIZE
 }
