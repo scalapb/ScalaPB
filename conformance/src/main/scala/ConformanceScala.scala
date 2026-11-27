@@ -78,6 +78,7 @@ object ConformanceScala {
   val textTypeRegistry = textformat.TypeRegistry.empty
     .addMessage(test_messages_proto2.GroupField)
     .addMessage(test_messages_proto2_editions.GroupField)
+    .addMessage(test_messages_edition2023.GroupLikeType)
     .addMessage(test_messages_proto2.TestAllTypesProto2)
     .addMessage(test_messages_proto3.TestAllTypesProto3)
     .addMessage(test_messages_proto2_editions.TestAllTypesProto2)
@@ -89,14 +90,47 @@ object ConformanceScala {
     else JsonParser
   }
 
+  // ScalaPB stores extensions in UnknownFieldSet until interpreted. Register the
+  // fixture declarations explicitly, as the upstream Java testee does, and validate
+  // every occurrence of known string extensions before returning a binary response.
+  private val registeredExtensionFiles = Seq(
+    test_messages_proto2.TestAllTypesProto2.scalaDescriptor.file,
+    test_messages_proto2_editions.TestAllTypesProto2.scalaDescriptor.file,
+    test_messages_edition2023.TestAllTypesEdition2023.scalaDescriptor.file
+  )
+
+  private def validateRegisteredStringExtensions(message: GeneratedMessage): Unit = {
+    message match {
+      case extensible: ExtendableMessage[?] =>
+        registeredExtensionFiles.foreach { file =>
+          file.asProto.extension
+            .filter { field =>
+              field.getExtendee.stripPrefix(".") == message.companion.scalaDescriptor.fullName &&
+              field.getType.isTypeString &&
+              field.getOptions.getFeatures.utf8Validation
+                .getOrElse(file.resolvedFeatures.getUtf8Validation)
+                .isVerify
+            }
+            .foreach { field =>
+              extensible.unknownFields.getField(field.getNumber).foreach { values =>
+                values.lengthDelimited.foreach(GeneratedExtension.readStringRequireUtf8)
+              }
+            }
+        }
+      case _ => ()
+    }
+  }
+
   def readInputMessage[T <: GeneratedMessage](
       request: ConformanceRequest
   )(implicit cmp: GeneratedMessageCompanion[T]): Either[Throwable, T] = {
     request.payload match {
       case ConformanceRequest.Payload.ProtobufPayload(bytes) =>
-        Try(
-          cmp.parseFrom(bytes.toByteArray)
-        ).toEither
+        Try {
+          val message = cmp.parseFrom(bytes.toByteArray)
+          validateRegisteredStringExtensions(message)
+          message
+        }.toEither
       case ConformanceRequest.Payload.JsonPayload(json) =>
         Try(
           jsonParser(request).fromJsonString(json)

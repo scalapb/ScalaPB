@@ -67,6 +67,17 @@ class ConformanceScalaSpec extends FunSuite {
     )
   }
 
+  test("registered Edition 2023 string extensions validate every wire occurrence") {
+    val bytes    = Array(0xaa, 0x08, 0x01, 0x80, 0xaa, 0x08, 0x01, 0x61).map(_.toByte)
+    val response = ConformanceScala.handleTest(
+      request(
+        "protobuf_test_messages.editions.TestAllTypesEdition2023",
+        bytes
+      )
+    )
+    assert(response.result.isParseError, response.toString)
+  }
+
   test("unknown message types report a protocol error without terminating dispatch") {
     assert(
       ConformanceScala
