@@ -79,7 +79,10 @@ abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
   protected[this] final def getObserverAndFuture[T]: (StreamObserver[T], Future[T]) = {
     val promise  = Promise[T]()
     val observer = new StreamObserver[T] {
-      override def onError(t: Throwable): Unit = {}
+      override def onError(t: Throwable): Unit = {
+        promise.tryFailure(t)
+        ()
+      }
 
       override def onCompleted(): Unit = {}
 
@@ -93,7 +96,10 @@ abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
     val promise  = Promise[Vector[T]]()
     val values   = Vector.newBuilder[T]
     val observer = new StreamObserver[T] {
-      override def onError(t: Throwable): Unit = {}
+      override def onError(t: Throwable): Unit = {
+        promise.tryFailure(t)
+        ()
+      }
 
       override def onCompleted(): Unit = promise.success(values.result())
 

@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+import "scalapb/scalapb.proto";
+
+package com.thesamet.proto.e2e;
+
+option (scalapb.options) = {
+  lazy_utf8_string_fields: false
+};
+
+// File-level option is false; the message-level option must win for this message.
+message MessageLevelLazyMaps {
+  option (scalapb.message) = {
+    lazy_utf8_string_fields: true
+  };
+  string scalar = 3;
+  map<string, int32> string_to_int = 1;
+  map<int32, string> int_to_string = 2;
+  map<string, string> str_to_str = 4;
+}
+
+// Control: without the message-level option, map values stay eager like the file.
+message FileEagerDefaultMaps {
+  map<string, int32> string_to_int = 1;
+  map<int32, string> int_to_string = 2;
+}
+
+// With message-level laziness, a custom map value type must still be preserved.
+message MessageLevelLazyCustomMap {
+  option (scalapb.message) = {
+    lazy_utf8_string_fields: true
+  };
+  map<int32, string> person_ids = 1 [(scalapb.field).value_type = "com.thesamet.pb.PersonId"];
+}
