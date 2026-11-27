@@ -1,0 +1,9 @@
+edition = "2026";
+package e2e.json;
+message Json2026 {
+  int32 implicit_value = 1 [features.field_presence = IMPLICIT];
+  int32 explicit_value = 2;
+  enum Kind { KIND_UNSPECIFIED = 0; KIND_ONE = 1; }
+  Kind kind = 3;
+  Json2026 child = 4 [features.message_encoding = DELIMITED];
+}
