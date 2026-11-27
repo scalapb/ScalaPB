@@ -549,14 +549,21 @@ class FileDescriptor private[descriptors] (
 
   def isEdition: Boolean = asProto.getSyntax == "editions"
 
-  /** Only Edition 2023 defaults are supported; future editions must be reviewed explicitly. */
+  /** Core defaults are selected by edition before lexical feature overrides are applied.
+    * Source-retained features reflect defaults when protoc has stripped their overrides.
+    */
   lazy val resolvedFeatures: FeatureSet = {
-    if (isEdition && asProto.getEdition != Edition.EDITION_2023)
-      throw new DescriptorValidationException(this, s"Unsupported edition: ${asProto.getEdition}")
-    DescriptorFeatures.merge(
-      DescriptorFeatures.defaults(isProto3, isEdition),
-      getOptions.getFeatures
-    )
+    val defaults =
+      if (isEdition)
+        DescriptorFeatures.editionDefaults.getOrElse(
+          asProto.getEdition,
+          throw new DescriptorValidationException(
+            this,
+            s"Unsupported edition: ${asProto.getEdition}"
+          )
+        )
+      else DescriptorFeatures.defaults(isProto3, false)
+    DescriptorFeatures.merge(defaults, getOptions.getFeatures)
   }
 
   def isProto3: Boolean = (asProto.getSyntax == "proto3")
@@ -564,7 +571,10 @@ class FileDescriptor private[descriptors] (
 
 object FileDescriptor {
   def buildFrom(proto: FileDescriptorProto, dependencies: Seq[FileDescriptor]): FileDescriptor = {
-    new FileDescriptor(proto, dependencies)
+    val file = new FileDescriptor(proto, dependencies)
+    // Reject unsupported editions even for files containing no message fields.
+    if (file.isEdition) { val _ = file.resolvedFeatures }
+    file
   }
 
   private[scalapb] def join(a: String, b: String) = if (a.isEmpty) b else (a + "." + b)
@@ -628,6 +638,18 @@ private[descriptors] object DescriptorFeatures {
     jsonFormat = Some(
       if (proto3 || edition) JsonFormat.ALLOW
       else JsonFormat.LEGACY_BEST_EFFORT
+    )
+  )
+
+  // Explicit entries prevent future or experimental editions inheriting old defaults silently.
+  val editionDefaults: Map[Edition, FeatureSet] = Map(
+    Edition.EDITION_2023 -> defaults(false, true).copy(
+      enforceNamingStyle = Some(EnforceNamingStyle.STYLE_LEGACY),
+      defaultSymbolVisibility = Some(VisibilityFeature.DefaultSymbolVisibility.EXPORT_ALL)
+    ),
+    Edition.EDITION_2024 -> defaults(false, true).copy(
+      enforceNamingStyle = Some(EnforceNamingStyle.STYLE2024),
+      defaultSymbolVisibility = Some(VisibilityFeature.DefaultSymbolVisibility.EXPORT_TOP_LEVEL)
     )
   )
 

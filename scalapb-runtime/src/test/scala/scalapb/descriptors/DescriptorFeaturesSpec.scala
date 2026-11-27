@@ -208,9 +208,45 @@ class DescriptorFeaturesSpec extends FunSuite {
     assert(enumField.scalaType.asInstanceOf[ScalaType.Enum].descriptor.isClosed)
   }
 
-  test("future editions do not silently use Edition 2023 defaults") {
-    val fd =
-      FileDescriptor.buildFrom(build("editions").asProto.withEdition(Edition.EDITION_2024), Nil)
-    intercept[DescriptorValidationException](fd.resolvedFeatures)
+  test("Edition 2024 selects explicit defaults and preserves lexical overrides") {
+    val proto = build("editions").asProto.withEdition(Edition.EDITION_2024)
+    val fd    = FileDescriptor.buildFrom(proto, Nil)
+    assertEquals(fd.resolvedFeatures.getEnforceNamingStyle, EnforceNamingStyle.STYLE2024)
+    assertEquals(
+      fd.resolvedFeatures.getDefaultSymbolVisibility,
+      VisibilityFeature.DefaultSymbolVisibility.EXPORT_TOP_LEVEL
+    )
+    assert(fd.messages.head.fields.head.hasPresence)
+    val overridden = FileDescriptor.buildFrom(
+      proto.withOptions(
+        FileOptions(features =
+          Some(
+            FeatureSet(
+              fieldPresence = Some(FieldPresence.IMPLICIT),
+              enforceNamingStyle = Some(EnforceNamingStyle.STYLE_LEGACY)
+            )
+          )
+        )
+      ),
+      Nil
+    )
+    assert(!overridden.messages.head.fields.head.hasPresence)
+    assertEquals(overridden.resolvedFeatures.getEnforceNamingStyle, EnforceNamingStyle.STYLE_LEGACY)
+  }
+
+  test("unknown and unstable editions are rejected even for empty files") {
+    Seq(Edition.EDITION_UNKNOWN, Edition.fromValue(9999), Edition.fromValue(1002)).foreach {
+      edition =>
+        intercept[DescriptorValidationException] {
+          FileDescriptor.buildFrom(
+            FileDescriptorProto(
+              name = Some("unsupported.proto"),
+              syntax = Some("editions"),
+              edition = Some(edition)
+            ),
+            Nil
+          )
+        }
+    }
   }
 }
