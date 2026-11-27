@@ -1,5 +1,6 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Cover empty Any JSON and reject invalid Duration/Value JSON serialization in conformance tests.
 - Skip ignored unknown JSON enum collection values in conformance tests using the updated json4s parser.
 - Accept unknown numeric values for schema-open enums in text format while rejecting them for closed enums.
 - Accept comma/semicolon text-format field separators and require commas between list elements.
