@@ -26,15 +26,6 @@ jobs:
         java-version: 17
         distribution: temurin
 
-    - name: Configure Maven Central
-      run: |
-        printf "[repositories]\nlocal\nmaven-central: https://repo.maven.apache.org/maven2\n" > "$RUNNER_TEMP/sbt-repositories"
-        {
-          echo "SBT_OPTS=-Dsbt.repository.config=$RUNNER_TEMP/sbt-repositories"
-          echo "COURSIER_REPOSITORIES=https://repo.maven.apache.org/maven2"
-          echo "SBT_LAUNCH_REPO=https://repo.maven.apache.org/maven2"
-        } >> "$GITHUB_ENV"
-
     - uses: sbt/setup-sbt@v1
 
     - name: Mount caches
@@ -84,15 +75,6 @@ jobs:
       with:
         java-version: 17
         distribution: temurin
-    - name: Configure Maven Central
-      run: |
-        printf "[repositories]\nlocal\nmaven-central: https://repo.maven.apache.org/maven2\n" > "$RUNNER_TEMP/sbt-repositories"
-        {
-          echo "SBT_OPTS=-Dsbt.repository.config=$RUNNER_TEMP/sbt-repositories"
-          echo "COURSIER_REPOSITORIES=https://repo.maven.apache.org/maven2"
-          echo "SBT_LAUNCH_REPO=https://repo.maven.apache.org/maven2"
-        } >> "$GITHUB_ENV"
-
     - uses: sbt/setup-sbt@v1
 
     # Build conformance_test_runner on a cache miss
