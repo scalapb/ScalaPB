@@ -25,7 +25,7 @@ final case class DoubleValue(
       
       {
         val __value = value
-        if (__value != 0.0) {
+        if (_root_.java.lang.Double.doubleToRawLongBits(__value) != 0L) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeDoubleSize(1, __value)
         }
       };
@@ -44,7 +44,7 @@ final case class DoubleValue(
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = value
-        if (__v != 0.0) {
+        if (_root_.java.lang.Double.doubleToRawLongBits(__v) != 0L) {
           _output__.writeDouble(1, __v)
         }
       };

@@ -721,6 +721,9 @@ class ProtobufGenerator(
     if ((field.getType == Type.BYTES || field.getType == Type.STRING) && field.hasDefaultValue)
       s"${expr} != ${defaultValueForGet(field, uncustomized = true)}"
     else if (field.getType == Type.BYTES || field.getType == Type.STRING) s"!${expr}.isEmpty"
+    else if (field.getType == Type.FLOAT) s"_root_.java.lang.Float.floatToRawIntBits($expr) != 0"
+    else if (field.getType == Type.DOUBLE)
+      s"_root_.java.lang.Double.doubleToRawLongBits($expr) != 0L"
     else if (field.getType == Type.ENUM) s"${expr} != 0"
     else if (field.getType == Type.MESSAGE) s"${expr}.serializedSize != 0"
     else s"${expr} != ${defaultValueForGet(field, uncustomized = true)}"

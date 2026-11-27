@@ -32,6 +32,11 @@ private[scalapb] object AstUtils {
       isSigned: Boolean = true,
       isLong: Boolean
   ): Either[AstError, BigInt] = p match {
+    case TLiteral(position, value) =>
+      new Parser("").tryBigInt(value) match {
+        case Some(number) => checkBigInt(TIntLiteral(position, number), isSigned, isLong)
+        case None         => Left(AstError(position, s"Invalid input '$value'"))
+      }
     case TIntLiteral(index, v) =>
       val negative = v.signum == -1
       val maxBits  = if (isLong) {
@@ -98,6 +103,10 @@ private[scalapb] object AstUtils {
     def parseDouble(p: TPrimitive): Either[AstError, PDouble] = p match {
       case TLiteral(_, value) =>
         val low = value.toLowerCase()
+        if (low.matches("[+-]?0[0-9]+") || low.stripPrefix("-").stripPrefix("+").startsWith("0x"))
+          return Left(
+            AstError(p.position, "Hexadecimal and octal floating-point literals are not allowed")
+          )
         low match {
           case "inf" | "infinity"   => Right(PDouble(Double.PositiveInfinity))
           case "-inf" | "-infinity" => Right(PDouble(Double.NegativeInfinity))
@@ -113,6 +122,10 @@ private[scalapb] object AstUtils {
     def parseFloat(p: TPrimitive): Either[AstError, PFloat] = p match {
       case TLiteral(_, value) =>
         val low = value.toLowerCase()
+        if (low.matches("[+-]?0[0-9]+") || low.stripPrefix("-").stripPrefix("+").startsWith("0x"))
+          return Left(
+            AstError(p.position, "Hexadecimal and octal floating-point literals are not allowed")
+          )
         low match {
           case "inf" | "inff" | "infinity" | "infinityf" => Right(PFloat(Float.PositiveInfinity))
           case "-inf" | "-inff" | "-infinity" | "-infinityf" =>
@@ -160,7 +173,15 @@ private[scalapb] object AstUtils {
       case _ => Left(AstError(p.position, "Unexpected input"))
     }
 
-    def parsePrimitive(field: FieldDescriptor, p: TPrimitive): Either[AstError, PValue] =
+    def parsePrimitive(field: FieldDescriptor, input: TPrimitive): Either[AstError, PValue] = {
+      val p = input match {
+        case TLiteral(position, value)
+            if field.protoType != FieldDescriptorProto.Type.TYPE_FLOAT &&
+              field.protoType != FieldDescriptorProto.Type.TYPE_DOUBLE &&
+              (value == "-0" || value.matches("[+-]?0[0-9a-fA-Fx]+")) =>
+          new Parser("").tryBigInt(value).map(TIntLiteral(position, _)).getOrElse(input)
+        case _ => input
+      }
       field.protoType match {
         case FieldDescriptorProto.Type.TYPE_DOUBLE   => parseDouble(p)
         case FieldDescriptorProto.Type.TYPE_FLOAT    => parseFloat(p)
@@ -214,6 +235,8 @@ private[scalapb] object AstUtils {
         }
         case _ => Left(AstError(p.position, "This should not happen."))
       }
+
+    }
 
     def pfieldToValue(fd: FieldDescriptor, pfield: TField): Either[AstError, PValue] =
       pfield.value match {

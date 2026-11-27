@@ -90,10 +90,35 @@ class ParserSpec extends FunSuite with ParserSuite {
     }
   }
 
+  test("floating-point literals preserve signed zero and reject integer radices") {
+    val float = com.google.protobuf.wrappers.FloatValue
+    for (token <- Seq("-0", "-0f", "-0F", "-1e-50")) {
+      val parsed = scalapb.TextFormat.fromAscii(float, s"value: $token").toOption.get
+      assertEquals(java.lang.Float.floatToRawIntBits(parsed.value), Int.MinValue)
+      assertEquals(float.parseFrom(parsed.toByteArray), parsed)
+      assert(parsed.toByteArray.nonEmpty)
+    }
+    for (token <- Seq("0f", "0F", "1e+3", "1E3f")) {
+      assert(scalapb.TextFormat.fromAscii(float, s"value: $token").isRight)
+    }
+    for (token <- Seq("012", "-012", "0x12", "-0x12")) {
+      assert(scalapb.TextFormat.fromAscii(float, s"value: $token").isLeft)
+      assert(
+        scalapb.TextFormat
+          .fromAscii(com.google.protobuf.wrappers.Int32Value, s"value: $token")
+          .isRight
+      )
+    }
+    val double = com.google.protobuf.wrappers.DoubleValue
+    val parsed = scalapb.TextFormat.fromAscii(double, "value: -1e-999").toOption.get
+    assertEquals(java.lang.Double.doubleToRawLongBits(parsed.value), Long.MinValue)
+    assert(parsed.toByteArray.nonEmpty)
+  }
+
   test("KeyValue") {
     check2(keyValue(_), "foo: 17", TField(P(0, 0), "foo", TIntLiteral(P(0, 5), 17)))
 
-    check2(keyValue(_), "foo:    0x13   ", TField(P(0, 0), "foo", TIntLiteral(P(0, 8), 0x13)))
+    check2(keyValue(_), "foo:    0x13   ", TField(P(0, 0), "foo", TLiteral(P(0, 8), "0x13")))
     check2(keyValue(_), "bar: true", TField(P(0, 0), "bar", TLiteral(P(0, 5), "true")))
     check2(keyValue(_), "bar:        true   ", TField(P(0, 0), "bar", TLiteral(P(0, 12), "true")))
     check2(keyValue(_), "bar  :        true   ", TField(P(0, 0), "bar", TLiteral(P(0, 14), "true")))

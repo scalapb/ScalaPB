@@ -33,26 +33,6 @@ Required.Proto3.TextFormatInput.AnyFieldWithValidUrlPercentEscapeInTypeUrlPrefix
 # Enum reflection and unknown enum numbers (enum/text prerequisites)
 Required.Proto2.TextFormatInput.ClosedEnumFieldByNumber.TextFormatOutput # Failed to parse input or produce output.
 
-# Negative floating-point zero is lost in parsing/serialization
-Required.Proto3.TextFormatInput.FloatFieldNegativeZero.ProtobufOutput # Output was not equivalent to reference message: deleted: optional_float: -0
-Required.Proto3.TextFormatInput.FloatFieldNegativeZero.TextFormatOutput # Output was not equivalent to reference message: deleted: optional_float: -0
-Required.Proto3.TextFormatInput.NegDoubleFieldLargeNegativeExponentParsesAsNegZero.ProtobufOutput # Output was not equivalent to reference message: deleted: optional_double: -0
-Required.Proto3.TextFormatInput.NegFloatFieldLargeNegativeExponentParsesAsNegZero.ProtobufOutput # Output was not equivalent to reference message: deleted: optional_float: -0
-
-# Float f/F suffixes are parsed as invalid octal; hex/octal float literals accepted
-Required.Proto3.TextFormatInput.FloatFieldNegativeZero_F.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FloatFieldNegativeZero_F.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FloatFieldNegativeZero_f.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FloatFieldNegativeZero_f.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FloatFieldNoHex # Should have failed to parse, but didn't.
-Required.Proto3.TextFormatInput.FloatFieldNoNegativeHex # Should have failed to parse, but didn't.
-Required.Proto3.TextFormatInput.FloatFieldNoNegativeOctal # Should have failed to parse, but didn't.
-Required.Proto3.TextFormatInput.FloatFieldNoOctal # Should have failed to parse, but didn't.
-Required.Proto3.TextFormatInput.FloatFieldZero_F.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FloatFieldZero_F.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FloatFieldZero_f.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FloatFieldZero_f.TextFormatOutput # Failed to parse input or produce output.
-
 # Reserved field names should be ignored, but AstUtils rejects them as unknown
 Required.Proto3.TextFormatInput.ReservedFieldName.Boolean.ProtobufOutput # Failed to parse input or produce output.
 Required.Proto3.TextFormatInput.ReservedFieldName.Boolean.TextFormatOutput # Failed to parse input or produce output.

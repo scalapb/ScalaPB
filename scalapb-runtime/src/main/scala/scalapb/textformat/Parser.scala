@@ -178,7 +178,13 @@ class Parser(text: String, recursionLimit: Int) {
 
   def tryPrimitiveValue(token: String): Option[TPrimitive] = {
     tryFractional(token)
-      .orElse(tryBigIntLiteral(token))
+      .orElse(tryBigIntLiteral(token).map { literal =>
+        val unsigned = token.stripPrefix("-").stripPrefix("+")
+        // Preserve radix and signed zero until the field's numeric type is known.
+        if (token == "-0" || (unsigned.startsWith("0") && unsigned.length > 1))
+          TLiteral(literal.position, token)
+        else literal
+      })
       .orElse(tryBytesLiteral(token))
       .orElse(tryLiteral(token))
   }
