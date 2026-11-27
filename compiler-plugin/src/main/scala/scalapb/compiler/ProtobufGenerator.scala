@@ -1329,7 +1329,9 @@ class ProtobufGenerator(
         case Type.STRING =>
           (
             "lengthDelimitedLens",
-            MethodApplication("toStringUtf8()"),
+            if (fd.needsUtf8Check())
+              FunctionApplication("_root_.scalapb.GeneratedExtension.readStringRequireUtf8")
+            else MethodApplication("toStringUtf8()"),
             FunctionApplication("_root_.com.google.protobuf.ByteString.copyFromUtf8")
           )
         case Type.GROUP | Type.MESSAGE =>
