@@ -8,6 +8,7 @@ jobs:
     env:
       SCALA_VERSION: ${{matrix.scala}}
     strategy:
+      fail-fast: false
       matrix:
         scala: [2_12, 2_13, 3]
         script: [e2e, test]
@@ -25,6 +26,15 @@ jobs:
         java-version: 17
         distribution: temurin
 
+    - name: Configure Maven Central
+      run: |
+        printf "[repositories]\nlocal\nmaven-central: https://repo.maven.apache.org/maven2\n" > "$RUNNER_TEMP/sbt-repositories"
+        {
+          echo "SBT_OPTS=-Dsbt.repository.config=$RUNNER_TEMP/sbt-repositories"
+          echo "COURSIER_REPOSITORIES=https://repo.maven.apache.org/maven2"
+          echo "SBT_LAUNCH_REPO=https://repo.maven.apache.org/maven2"
+        } >> "$GITHUB_ENV"
+
     - uses: sbt/setup-sbt@v1
 
     - name: Mount caches
@@ -32,9 +42,19 @@ jobs:
       with:
         path: |
           ~/.sbt
+          ~/.cache/sbt
           ~/.ivy2/cache
           ~/.cache/coursier
-        key: ${{ runner.os }}-sbt-${{matrix.scala}}-${{matrix.script}}-${{ hashFiles('**/*.sbt') }}
+        key: ${{ runner.os }}-sbt-${{matrix.scala}}-${{matrix.script}}-${{ hashFiles('**/*.sbt', '**/build.properties', 'project/**/*.scala') }}
+
+    # Bootstrap in the foreground so cold downloads do not hit sbtn's 300s timeout.
+    - name: Bootstrap sbt
+      run: sbt --server --batch reload
+
+    - uses: actions/setup-node@v7
+      if: matrix.script == 'examples_and_formatting'
+      with:
+        node-version: "22"
 
     - name: ${{matrix.script}}
       run: |
@@ -42,6 +62,14 @@ jobs:
       env:
         JAVA_OPTS: -Xmx4G -XX:+UseG1GC
         JVM_OPTS:  -Xmx4G -XX:+UseG1GC
+
+    - name: Build website
+      if: matrix.script == 'examples_and_formatting'
+      working-directory: website
+      run: |
+        corepack enable
+        yarn install --frozen-lockfile
+        yarn build
 
   conformance:
     runs-on: ubuntu-latest
@@ -56,6 +84,15 @@ jobs:
       with:
         java-version: 17
         distribution: temurin
+    - name: Configure Maven Central
+      run: |
+        printf "[repositories]\nlocal\nmaven-central: https://repo.maven.apache.org/maven2\n" > "$RUNNER_TEMP/sbt-repositories"
+        {
+          echo "SBT_OPTS=-Dsbt.repository.config=$RUNNER_TEMP/sbt-repositories"
+          echo "COURSIER_REPOSITORIES=https://repo.maven.apache.org/maven2"
+          echo "SBT_LAUNCH_REPO=https://repo.maven.apache.org/maven2"
+        } >> "$GITHUB_ENV"
+
     - uses: sbt/setup-sbt@v1
 
     # Build conformance_test_runner on a cache miss
@@ -74,11 +111,12 @@ jobs:
       with:
         path: |
           ~/.sbt
+          ~/.cache/sbt
           ~/.ivy2/cache
           ~/.cache/coursier
-        key: ${{ runner.os }}-sbt-${{matrix.scala}}-${{matrix.script}}-${{ hashFiles('**/*.sbt') }}
+        key: ${{ runner.os }}-sbt-conformance-${{ hashFiles('**/*.sbt', '**/build.properties', 'project/**/*.scala') }}
     - run: |
-        sbt conformanceJVM2_13/assembly
+        sbt --server --batch conformanceJVM2_13/assembly
         /tmp/conformance-test-runner/conformance_test_runner --enforce_recommended \
           --failure_list conformance/failure_list_scalapb.txt \
           --text_format_failure_list conformance/text_format_failure_list_scalapb.txt \
@@ -89,5 +127,10 @@ jobs:
   ci-passed:
     runs-on: ubuntu-latest
     needs: [build, conformance]
+    if: always()
     steps:
-    - run: ':'
+    - name: Require all CI jobs to pass
+      env:
+        BUILD_RESULT: ${{ needs.build.result }}
+        CONFORMANCE_RESULT: ${{ needs.conformance.result }}
+      run: test "$BUILD_RESULT" = success && test "$CONFORMANCE_RESULT" = success
