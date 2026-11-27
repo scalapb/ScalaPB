@@ -1,5 +1,9 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Edition 2023: resolve migrated group text names and extension encoding from
+  inherited features, validate UTF-8 when reading string extensions, and execute
+  stable Editions conformance fixtures with explicit outcome reports.
+
 - Support Edition 2026 after aligning protoc, protobuf-java and vendored descriptors
   on v36.2. Validate strict visibility, naming collisions, structure limits,
   removed options and explicit compatibility overrides; reject unknown/unstable editions.

@@ -127,3 +127,42 @@ All 22 conformance unit tests pass, including Java comparisons. The original
 refresh also validated three shared wire regressions on JVM, JavaScript and Native.
 Expected failures are limitations, not passing conformance cases; Editions skips
 are not Editions implementation coverage.
+
+## Editions integration (2023, 2024, 2026)
+
+The integrated v36.2 run now executes the three stable Editions families:
+
+| Suite | Successes | Skips | Expected failures | Unexpected failures |
+| --- | ---: | ---: | ---: | ---: |
+| Binary/JSON | 5629 | 4 unstable | 16 | 0 |
+| Text | 857 | 0 | 52 | 0 |
+
+All 24 conformance unit tests pass. Exact migration failures match the legacy
+oversized-tag, unknown-field-ordering, reserved-name and Any-URL limitations.
+Four additional text failures use scalar extensions, for which the text registry
+has no codec; message-valued extensions are supported, including DELIMITED
+encoding and migrated group names. These four cases pass in upstream Java.
+
+The fixture registry validates every occurrence of known string extensions with
+VERIFY, including an invalid occurrence followed by a valid duplicate. General
+ScalaPB binary parsing retains extensions as unknown fields; generated string
+extension accessors now enforce the schema when interpreting a value. A bare
+parse without interpreting/registering extensions does not validate their values.
+
+The 2024 and 2026 tests compile actual edition schemas and compare Java/Scala
+conversions, defaults and wire representations. Compiler tests cover naming,
+visibility, option imports, structural limits and supported compatibility
+settings. Shared descriptor tests run on JVM, JS and Native; end-to-end fixtures
+run on JVM (Scala 2.12, 2.13 and 3) and JS. JSON tests and MiMa pass on all three
+Scala versions using the combined local json4s branch.
+
+`summary.tsv` groups the measured runner outcomes by family and output format.
+Expected failures represent unresolved behavior, not passing cases. The earlier
+Java-parity table above describes its original proto2/proto3 scope, not an
+unqualified parity claim for these newly enabled Editions cases.
+
+The core MiMa baseline still targets 0.11.0: it reports 178 runtime and 155
+compiler compatibility diagnostics. Comparing with the conformance base's
+compiled classes produces exactly the same diagnostics; this Editions series
+adds none to that baseline. The JSON matrix's own MiMa checks pass.
+Documentation passes mdoc and the production Docusaurus build.
