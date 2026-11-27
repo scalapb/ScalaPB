@@ -9,7 +9,7 @@ class EnumPolicySpec extends AnyFlatSpec with Matchers with ProtocInvocationHelp
       syntax <- Seq("proto2", "proto3", "editions"); option <- Seq(None, Some(false), Some(true))
     ) {
       val declaration =
-        if (syntax == "editions") "edition = \"2023\";" else s"syntax = \"$syntax\";"
+        if (syntax == "editions") "edition = \"2023\";" else s"""syntax = "$syntax";"""
       val setting =
         option.map(v => s"option (scalapb.options).proto2_closed_enums = $v;").getOrElse("")
       val closed = if (syntax == "editions") "option features.enum_type = CLOSED;" else ""
