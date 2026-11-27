@@ -1,5 +1,17 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Honor schema-defined enum openness in Editions binary parsers and Java conversions.
+  Add `proto2_closed_enums` file/package option (default false) to enable the same
+  behavior for proto2 messages while preserving their legacy defaults. Editions
+  honor schema openness even when the option is false. Imported open enums remain open.
+  Unknown closed enum numbers move to unknown fields instead of `Unrecognized`
+  field values; repeated values may reorder on serialization, unknown oneof values
+  leave the existing case unchanged, and maps retain rejected entries in full.
+  Required closed enums reject messages containing only unknown values. Disabling
+  unknown-field preservation discards rejected values and entries. Java conversions
+  for affected messages use binary conversion, with additional serialization cost.
+  Upgrade the runtime and regenerate sources together. Text/JSON parsing and extension
+  accessors are separate paths.
 - Make dependency-update CI more reliable and require a website build before automatically merging Scala Steward and Dependabot updates.
 - Preserve empty unboxed strings and bytes when a proto2 field declares a non-empty default.
 - Use collection adapters when converting repeated lazy strings to Java protobuf messages.

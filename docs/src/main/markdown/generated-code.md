@@ -342,9 +342,8 @@ object Weather extends GeneratedEnumCompanion[Weather] {
     case object PARTLY_CLOUDY extends Weather { ... }
     case object RAIN extends Weather { ... }
 
-    // In ScalaPB >= 0.5.x, this captures unknown value that are received
-    // from the wire format.  Earlier versions throw a MatchError when
-    // this happens.
+    // Unknown numeric values remain in fields for open enums and legacy proto2 parsing;
+    // Editions and opted-in proto2 closed enum parsers retain them in unknown fields.
     case class Unrecognized(value: Int) extends Weather { ... }
 
     // And a list of all possible values:
@@ -373,6 +372,62 @@ f.getWeather match {
 }
 
 ```
+
+Starting with ScalaPB 1.0.0, Editions binary parsers always honor schema-defined
+**closed** and **open** enums according to the
+[protobuf enum specification](https://protobuf.dev/programming-guides/enum/).
+Edition enums use the resolved `features.enum_type` setting (open by default).
+The enum's definition determines its behavior, including imports from other files.
+
+Proto2 messages retain ScalaPB's legacy behavior by default: unknown enum numbers
+remain `Unrecognized` field values, and Java conversions retain their legacy behavior.
+To honor closed enums in proto2, opt in per message file or through package-scoped options:
+
+```protobuf
+import "scalapb/scalapb.proto";
+option (scalapb.options).proto2_closed_enums = true;
+```
+
+This option applies only to proto2 messages. It defaults to false; an explicit false
+overrides an inherited package opt-in. It does not disable schema semantics for
+Editions, even when explicitly false. Proto2 enums are closed, but proto3 enums
+imported into proto2 messages remain open when the option is enabled. The option
+belongs to the message's file, not the imported enum's file. Proto3 messages retain
+normal open-enum behavior.
+`Weather.scalaDescriptor.isClosed` reports the schema's enum type regardless of
+the ScalaPB parsing opt-in.
+
+In Editions and opted-in proto2 messages, an unknown closed enum number goes into the containing message's `unknownFields`.
+It does not set an optional field, replace an earlier recognized value, select or
+clear a oneof, or satisfy a required field. Repeated fields contain only recognized
+values, with unknown numbers serialized separately as unpacked varints. This can
+change their order relative to recognized values. For maps, an unknown final enum
+value moves the complete serialized entry to unknown fields, leaving any previous
+entry with that key unchanged. With `preserve_unknown_fields = false`, rejected
+values and entries are discarded. Custom enum type mappers receive only recognized
+closed values during parsing.
+
+For proto2 messages, enabling the option changes legacy parsing behavior; leaving
+it unset preserves unknown `Unrecognized` field values. Editions always use schema semantics. Upgrade the runtime and regenerate sources together.
+The `Unrecognized` constructor and `fromValue` remain available, including for
+closed enums: in Editions or opted-in proto2 messages, a manually constructed unknown closed value
+is normalized into
+unknown fields when its containing message is serialized and parsed. Open enum
+parsing continues to retain `Unrecognized` values directly in fields. This change
+covers binary message parsing; text-format, JSON, and extension accessors have
+separate parsing paths.
+
+Editions and opted-in proto2 messages with closed enum fields (including map values),
+or enum fields treated as
+closed by Java's legacy API, use a binary round trip for generated Java conversions.
+This preserves unknown values and complete rejected entries, at the cost of
+serialization and parsing. Java treats proto3 enums imported into proto2 messages
+as closed; Scala follows the specification and keeps them open. Conversion to Java
+moves those unknown values to Java's unknown fields, and conversion back recovers
+them in Scala fields. A required enum that Java treats as closed cannot be
+converted to Java when its only value is unknown. Direct enum `toJavaValue`
+conversion still requires a recognized value for closed Java enums; an individual
+Java enum value has no unknown-field storage.
 
 ## ASCII Representation
 

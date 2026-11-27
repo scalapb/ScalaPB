@@ -197,6 +197,14 @@ message ScalaPbOptions {
   // allocations when parsing.
   optional bool lazy_utf8_string_fields = 31;
 
+  // Honor schema enum openness in proto2 binary parsing and Java conversions.
+  // Defaults to false for proto2: unknown enum numbers remain Unrecognized field values.
+  // Editions always honor schema enum openness, regardless of this option.
+  // When enabled, unknown closed values (or entire map entries) go to unknown fields.
+  // Imported open enums remain open. Applies to proto2 messages in this file;
+  // can also be inherited from package options.
+  optional bool proto2_closed_enums = 32 [default=false];
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 999;

@@ -949,6 +949,10 @@ class DescriptorImplicits private[compiler] (
     def scalaOptions: ScalaPbOptions =
       fileOptionsCache(file)
 
+    def respectsEnumOpenness: Boolean =
+      file.toProto.getSyntax == "editions" ||
+        (file.toProto.getSyntax != "proto3" && scalaOptions.getProto2ClosedEnums)
+
     def javaConversions =
       (scalaOptions.getJavaConversions || params.javaConversions) && !scalaOptions.getTestOnlyNoJavaConversions
 
