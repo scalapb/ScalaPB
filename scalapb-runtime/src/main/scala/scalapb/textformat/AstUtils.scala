@@ -183,8 +183,9 @@ private[scalapb] object AstUtils {
           val enumDesc = v.enumCompanionForFieldNumber(field.number).scalaDescriptor
           p match {
             case TIntLiteral(index, num) =>
-              enumDesc.values
-                .find(v => num.isValidInt && v.number == num.toInt)
+              (if (!num.isValidInt) None
+               else if (enumDesc.isClosed) enumDesc.findValueByNumber(num.toInt)
+               else Some(enumDesc.findValueByNumberCreatingIfUnknown(num.toInt)))
                 .map(PEnum(_))
                 .toRight(
                   AstError(

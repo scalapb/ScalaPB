@@ -57,6 +57,23 @@ class ParserSpec extends FunSuite with ParserSuite {
     }
   }
 
+  test("text enum numbers honor schema openness") {
+    val open = com.google.protobuf.struct.Value
+    for (number <- Seq(42, -1, Int.MaxValue, Int.MinValue)) {
+      val parsed = scalapb.TextFormat.fromAscii(open, s"null_value: $number").toOption.get
+      assertEquals(parsed.getNullValue.value, number)
+      assertEquals(scalapb.TextFormat.fromAscii(open, parsed.toProtoString), Right(parsed))
+    }
+    for (number <- Seq("2147483648", "-2147483649")) {
+      assert(scalapb.TextFormat.fromAscii(open, s"null_value: $number").isLeft)
+    }
+    assert(
+      scalapb.TextFormat
+        .fromAscii(com.google.protobuf.descriptor.FieldDescriptorProto, "type: 42")
+        .isLeft
+    )
+  }
+
   test("optional field separators are distinct from required list separators") {
     for (separator <- Seq(",", ";")) {
       val parsed = new Parser(s"a: 1${separator} b { c: 2${separator} }${separator}").parseMessage

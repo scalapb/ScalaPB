@@ -1,5 +1,6 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Accept unknown numeric values for schema-open enums in text format while rejecting them for closed enums.
 - Accept comma/semicolon text-format field separators and require commas between list elements.
 - Enable proto2 closed enums in conformance fixtures and verify fixture configuration
   and protocol dispatch.

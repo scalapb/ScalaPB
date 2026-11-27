@@ -32,8 +32,6 @@ Required.Proto3.TextFormatInput.AnyFieldWithValidUrlPercentEscapeInTypeUrlPrefix
 
 # Enum reflection and unknown enum numbers (enum/text prerequisites)
 Required.Proto2.TextFormatInput.ClosedEnumFieldByNumber.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.ClosedEnumFieldWithUnknownNumber.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.ClosedEnumFieldWithUnknownNumber.TextFormatOutput # Failed to parse input or produce output.
 
 # Negative floating-point zero is lost in parsing/serialization
 Required.Proto3.TextFormatInput.FloatFieldNegativeZero.ProtobufOutput # Output was not equivalent to reference message: deleted: optional_float: -0
