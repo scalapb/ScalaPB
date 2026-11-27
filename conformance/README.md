@@ -38,7 +38,8 @@ the extension payload companion so bracketed extension names can be resolved.
 `upstream/editions/` preserves the unmodified upstream 2023 conformance schema
 and the proto2/proto3 migration fixtures from `editions/golden/`. These are
 outside `PB.protoSources` until the separate Editions generator implementation
-supports their features, including DELIMITED message encoding. Dispatch explicitly
+supports their remaining feature requirements. DELIMITED message encoding is
+already supported by the generator. Dispatch explicitly
 skips all four Editions message types, including upstream's unstable edition.
 The runner explicitly sets `--maximum_edition 2023` (upstream defaults to legacy
 syntax), so the stable Editions cases are executed and their skips stay visible.
@@ -81,38 +82,52 @@ in the groups, enums, UTF-8, JSON/text, and other parser work must remove their
 now-passing entries. Framing and recursion-limit changes belong to their own
 workstreams; this PR does not change their policies.
 
-The binary/JSON refresh exposed failures classified in the list by observed
-behavior, not wildcarded: JSON duplicates/unknown enums, well-known types,
-binary
-oversized tags, MessageSet, and mixed-wire unknown-field ordering. The tag cases
-reach the project's Java `CodedInputStream.readTag`; unknown-field ordering is
-lost when fields of different wire types share a field number. These are
-existing runtime/dependency limitations exposed by the newer runner. The JSON
-dependency is the published `scalapb-json4s` 1.0.0-alpha.3; its depth and uint64-exponent limits fixes are covered by the runner, with
-no expected-failure entries. The separate UTF-8 work updates
-`protobuf-runtime-scala` for JS/Native; the C++ runner here exercises JVM only.
+The remaining binary/JSON limitations are oversized tags (six cases) and
+mixed-wire unknown-field ordering (two cases). The tag cases reach the project's
+Java `CodedInputStream.readTag`; ordering is lost when fields of different wire
+types share a field number. Text format still rejects reserved names (20 cases)
+and certain expanded Any type-URL prefixes (four cases).
 
-The text refresh adds precise expectations: group names/extensions and Any
-syntax; enum reflection and unknown enum numbers; comma/semicolon separators
-between fields; required commas in repeated lists; float suffixes/radices and
-negative zero; and ignoring reserved names. Representative cases were rerun
-with verbose request/response output and checked against `Parser`/`AstUtils`.
-The runner rejects stale expectations, so this baseline must shrink as fixes land.
+## Java parity
 
-Related work: [ScalaPB #2270](https://github.com/scalapb/ScalaPB/pull/2270)
-and [json4s #675](https://github.com/scalapb/scalapb-json4s/pull/675). Those
-resource-limit changes do not imply all the syntax/semantic limitations above
-are fixed.
+The same v36.2 runner was also run against upstream's unmodified
+`//conformance:conformance_java`, built from the verified v36.2 archive, with its
+own upstream failure lists and `--maximum_edition 2023 --enforce_recommended`.
+Comparison is by exact test name and actual runner outcome, not just membership
+in Java's failure list. Of the original 148 ScalaPB failures, Java passed 110.
+All 110 now pass in ScalaPB, together with six cases that also failed in Java:
+
+| Fixed family | Enabled cases | Previously passed by Java |
+| --- | ---: | ---: |
+| Text field/list separators | 56 | 56 |
+| Text open-enum numbers | 2 | 2 |
+| JSON ignored enum collections | 8 | 8 |
+| JSON well-known types | 5 | 5 |
+| JSON duplicate names and aliases | 6 | 4 |
+| Text float syntax and negative zero | 16 | 14 |
+| Groups, extensions and reflection | 19 | 17 |
+| MessageSet | 4 | 4 |
+| **Total** | **116** | **110** |
+
+All 32 remaining expected failures also fail in that official Java implementation.
+This is parity for the executed proto2/proto3 suites; the explicitly skipped
+Editions cases remain outside that claim. ScalaPB already passed 81 cases Java
+failed before these fixes, and continues to pass those cases. The six additional
+shared failures fixed here bring that count to 87.
+
+JSON fixes live in scalapb-json4s; its conformance dependency is selected in
+`project/Dependencies.scala`. The separate UTF-8 work updates
+`protobuf-runtime-scala` for JS/Native; the C++ runner exercises JVM only.
 
 ## Validated baseline
 
-After merging master and upgrading json4s, the full v36.2 run
+After the Java-parity fixes, the full v36.2 run
 (Scala 2.13/JVM) produces:
 
 | Suite | Successes | Editions skips | Expected failures | Unexpected failures |
 | --- | ---: | ---: | ---: | ---: |
-| Binary/JSON | 2786 | 2832 | 31 | 0 |
-| Text | 328 | 464 | 117 | 0 |
+| Binary/JSON | 2809 | 2832 | 8 | 0 |
+| Text | 421 | 464 | 24 | 0 |
 
 All 22 conformance unit tests pass, including Java comparisons. The original
 refresh also validated three shared wire regressions on JVM, JavaScript and Native.

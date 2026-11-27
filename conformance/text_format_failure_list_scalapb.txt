@@ -1,11 +1,5 @@
 # protobuf v36.2 text-format limitations. Exact names; no duplicates or wildcards.
 
-# Unknown-field text printing/drop behavior
-
-# Group text parsing
-
-# Group names and the omitted group extension (groups prerequisite)
-
 # Expanded Any text syntax / type URLs
 Required.Proto3.TextFormatInput.AnyFieldWithSpecialCharactersInTypeUrlPrefix.ProtobufOutput # Failed to parse input or produce output.
 Required.Proto3.TextFormatInput.AnyFieldWithSpecialCharactersInTypeUrlPrefix.TextFormatOutput # Failed to parse input or produce output.
