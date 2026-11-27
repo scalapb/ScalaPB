@@ -25,4 +25,20 @@ class Edition2023Spec extends AnyFlatSpec with Matchers {
     val value = Edition2023Features(requiredValue = 42, expanded = Seq(1, 2))
     Edition2023Features.parseFrom(value.toByteArray) must be(value)
   }
+  "Edition 2023 text enums" should "preserve unknown open values and reject unknown closed values" in {
+    import com.thesamet.proto.e2e.edition2023.Edition2023OpenEnums
+    val parsed = scalapb.TextFormat.fromAscii(Edition2023OpenEnums, "value: 123 values: [0, -7]")
+    parsed must be(
+      Right(
+        Edition2023OpenEnums(
+          value = Some(Edition2023OpenEnums.Open.Unrecognized(123)),
+          values = Seq(Edition2023OpenEnums.Open.ZERO, Edition2023OpenEnums.Open.Unrecognized(-7))
+        )
+      )
+    )
+    scalapb.TextFormat
+      .fromAscii(Edition2023Features, "required_value: 1 closed: 123")
+      .isLeft must be(true)
+    scalapb.TextFormat.fromAscii(Edition2023OpenEnums, "value: 2147483648").isLeft must be(true)
+  }
 }

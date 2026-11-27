@@ -20,3 +20,9 @@ message Edition2023Features {
   Closed closed = 5;
   map<string, Edition2023Message> entries = 6;
 }
+
+message Edition2023OpenEnums {
+  enum Open { ZERO = 0; ONE = 1; }
+  Open value = 1;
+  repeated Open values = 2;
+}
