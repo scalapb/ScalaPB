@@ -1,14 +1,6 @@
 # Verified against protobuf v36.2; see README.md for prerequisites and triage.
 # Exact names only. Inline diagnostics are checked by the upstream runner.
 
-# JSON duplicate field names and aliases
-Recommended.Proto2.JsonInput.FieldNameDuplicate # Should have failed to parse, but didn't.
-Recommended.Proto2.JsonInput.FieldNameDuplicateDifferentCasing1 # Should have failed to parse, but didn't.
-Recommended.Proto2.JsonInput.FieldNameDuplicateDifferentCasing2 # Should have failed to parse, but didn't.
-Recommended.Proto3.JsonInput.FieldNameDuplicate # Should have failed to parse, but didn't.
-Recommended.Proto3.JsonInput.FieldNameDuplicateDifferentCasing1 # Should have failed to parse, but didn't.
-Recommended.Proto3.JsonInput.FieldNameDuplicateDifferentCasing2 # Should have failed to parse, but didn't.
-
 # Binary oversized tags: Java readTag truncates these varints
 Required.Proto2.ProtobufInput.BadTag_FieldNumberSlightlyTooHigh # Should have failed to parse, but didn't.
 Required.Proto2.ProtobufInput.BadTag_FieldNumberTooHigh # Should have failed to parse, but didn't.
