@@ -193,6 +193,10 @@ message ScalaPbOptions {
   // Map strings always validate. Applies to binary message fields, not extensions.
   optional bool use_schema_utf8_validation = 30 [default=false];
 
+  // If true, string fields are generated as LazyField[String] to avoid
+  // allocations when parsing.
+  optional bool lazy_utf8_string_fields = 31;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 999;
@@ -249,6 +253,10 @@ message MessageOptions {
 
   // Additional traits to mixin for the empty case object of sealed oneofs.
   repeated string sealed_oneof_empty_extends = 13;
+
+  // If true, string fields are generated as LazyField[String] to avoid
+  // allocations when parsing. If set, this overrides the file-level setting.
+  optional bool lazy_utf8_string_fields = 14;
 
   extensions 1000 to max;
 }
