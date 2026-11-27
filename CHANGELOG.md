@@ -1,5 +1,6 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Upgrade the build to sbt-protoc 1.1.0-RC3. Its sbt 2 artifact requires sbt 2.1.0+ and Scala 3.9 for build definitions; the build already uses sbt 2.1.1. ScalaPB's library Scala versions are unchanged.
 - Enable proto2 closed enums in conformance fixtures and verify unknown enum field,
   repeated, packed, oneof, and map semantics against Java.
 - Refresh conformance testing to protobuf v36.2, report unsupported Editions explicitly,
