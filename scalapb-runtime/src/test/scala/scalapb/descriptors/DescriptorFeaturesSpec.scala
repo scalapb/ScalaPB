@@ -234,8 +234,27 @@ class DescriptorFeaturesSpec extends FunSuite {
     assertEquals(overridden.resolvedFeatures.getEnforceNamingStyle, EnforceNamingStyle.STYLE_LEGACY)
   }
 
+  test("Edition 2026 defaults are strict and older editions retain legacy structure limits") {
+    val fd =
+      FileDescriptor.buildFrom(build("editions").asProto.withEdition(Edition.EDITION_2026), Nil)
+    assertEquals(fd.resolvedFeatures.getEnforceNamingStyle, EnforceNamingStyle.STYLE2026)
+    assertEquals(
+      fd.resolvedFeatures.getDefaultSymbolVisibility,
+      VisibilityFeature.DefaultSymbolVisibility.STRICT
+    )
+    assertEquals(
+      fd.resolvedFeatures.getEnforceProtoLimits,
+      ProtoLimitsFeature.EnforceProtoLimits.PROTO_LIMITS2026
+    )
+    assertEquals(
+      build("editions").resolvedFeatures.getEnforceProtoLimits,
+      ProtoLimitsFeature.EnforceProtoLimits.LEGACY_NO_EXPLICIT_LIMITS
+    )
+    assert(fd.messages.head.fields.head.hasPresence)
+  }
+
   test("unknown and unstable editions are rejected even for empty files") {
-    Seq(Edition.EDITION_UNKNOWN, Edition.fromValue(9999), Edition.fromValue(1002)).foreach {
+    Seq(Edition.EDITION_UNKNOWN, Edition.EDITION_UNSTABLE, Edition.fromValue(1003)).foreach {
       edition =>
         intercept[DescriptorValidationException] {
           FileDescriptor.buildFrom(

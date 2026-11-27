@@ -638,7 +638,10 @@ private[descriptors] object DescriptorFeatures {
     jsonFormat = Some(
       if (proto3 || edition) JsonFormat.ALLOW
       else JsonFormat.LEGACY_BEST_EFFORT
-    )
+    ),
+    enforceNamingStyle = Some(EnforceNamingStyle.STYLE_LEGACY),
+    defaultSymbolVisibility = Some(VisibilityFeature.DefaultSymbolVisibility.EXPORT_ALL),
+    enforceProtoLimits = Some(ProtoLimitsFeature.EnforceProtoLimits.LEGACY_NO_EXPLICIT_LIMITS)
   )
 
   // Explicit entries prevent future or experimental editions inheriting old defaults silently.
@@ -650,6 +653,11 @@ private[descriptors] object DescriptorFeatures {
     Edition.EDITION_2024 -> defaults(false, true).copy(
       enforceNamingStyle = Some(EnforceNamingStyle.STYLE2024),
       defaultSymbolVisibility = Some(VisibilityFeature.DefaultSymbolVisibility.EXPORT_TOP_LEVEL)
+    ),
+    Edition.EDITION_2026 -> defaults(false, true).copy(
+      enforceNamingStyle = Some(EnforceNamingStyle.STYLE2026),
+      defaultSymbolVisibility = Some(VisibilityFeature.DefaultSymbolVisibility.STRICT),
+      enforceProtoLimits = Some(ProtoLimitsFeature.EnforceProtoLimits.PROTO_LIMITS2026)
     )
   )
 
