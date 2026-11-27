@@ -15,7 +15,7 @@ final case class Version(
     minor: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
     patch: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
     suffix: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Version] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

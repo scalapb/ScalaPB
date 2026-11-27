@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+import "scalapb/scalapb.proto";
+
+package com.thesamet.proto.e2e;
+
+option (scalapb.options) = {
+  lazy_utf8_string_fields: true
+};
+
+// Custom string types must survive enabling lazy_utf8_string_fields.
+message LazyCustomTypes {
+  // Lazy: no custom type on this field.
+  string display_name = 4;
+  string person_id = 1     [(scalapb.field).type = "com.thesamet.pb.PersonId"];
+  map<int32, string> person_ids = 2 [(scalapb.field).value_type = "com.thesamet.pb.PersonId"];
+  repeated string friend_ids = 3    [(scalapb.field).type = "com.thesamet.pb.PersonId"];
+}

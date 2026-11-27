@@ -1,5 +1,26 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Make dependency-update CI more reliable and require a website build before automatically merging Scala Steward and Dependabot updates.
+- Preserve empty unboxed strings and bytes when a proto2 field declares a non-empty default.
+- Use collection adapters when converting repeated lazy strings to Java protobuf messages.
+- Preserve ProtoJSON extension fields in conformance tests using scalapb-json4s 1.0.0-alpha.3.
+- Reject JSON strings containing unpaired or reversed Unicode surrogates using scalapb-json4s 1.0.0-alpha.3.
+- Reject quoted JSON boolean values in conformance tests using scalapb-json4s 1.0.0-alpha.3.
+- Verify JSON null-valued oneof presence with the upgraded conformance JSON parser.
+- Use scalapb-json4s 1.0.0-alpha.2 in conformance tests to accept URL-safe Base64 bytes.
+- Reject protobuf FieldMask paths that cannot round-trip through JSON, including uppercase letters, repeated underscores, and underscores before digits.
+- Reject underscores in JSON FieldMask paths and preserve leading capitals when converting them to protobuf paths.
+- Print unknown length-delimited fields as nested text-format messages when decodable, with a depth limit and escaped-byte fallback.
+- Add opt-in text-format printing of unknown scalar wire fields. Expose unknown fields through `GeneratedMessage.unknownFields`, returning an empty set for messages that do not preserve them. Regenerate sources before recompiling: stored unknown fields now override the concrete accessor.
+- Parse expanded text-format `Any` values with an explicitly supplied `textformat.TypeRegistry`; preserve the configured recursion limit.
+- Accept `\UXXXXXXXX` text-format Unicode escapes, including supplementary characters; reject out-of-range code points.
+- Accept `\uXXXX` Unicode escapes in text-format string and bytes fields; reject surrogate code points and malformed escapes.
+- BREAKING CHANGE: TextFormat printing (including `toProtoString` and generated
+  `toString`) now omits implicit scalar defaults and empty optional `no_box` and
+  sealed-oneof message fields by default, matching Java's field-presence behavior
+  (#2319). Explicitly present defaults, required fields, selected oneof cases,
+  repeated elements, and map entries are preserved. Regenerate sources to fix
+  unboxed-message accessors for custom types whose default instances are invalid.
 - Resolve core Edition 2023 descriptor features with inherited overrides; expose presence, packing, enum openness, UTF-8 policy and message encoding, and recognize `LEGACY_REQUIRED` fields.
 - Use protobuf Java naming helpers for Java conversions and descriptor references,
   including Edition 2024 file/type naming and correct Scala escaping of keyword
@@ -20,6 +41,9 @@
   contextual instances may need `.given` or explicit named imports. Generated
   `messageReads` instances are now initialized lazily and reused in Scala 3 output.
 - Declare the supported Edition 2023 range in code generator responses using protoc-bridge 0.10.0, fixing protoc rejection of the editions feature flag (#1837).
+- Add `lazy_utf8_string_fields` file- and message-level option generating string fields as
+  `scalapb.LazyField[String]`, decoded on first access, including optional and oneof
+  strings with presence preserved through binary, JSON, and Java conversions.
 - Add the file/package option `use_schema_utf8_validation` to opt binary message
   string parsing into the resolved protobuf Java UTF-8 policy. Legacy strict
   parsing remains the default. Nonvalidating fields replace malformed UTF-8 and

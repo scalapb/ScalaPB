@@ -1,0 +1,14 @@
+edition = "2023";
+import "scalapb/scalapb.proto";
+package com.thesamet.proto.e2e;
+option (scalapb.options) = {
+  lazy_utf8_string_fields: true
+  use_schema_utf8_validation: true
+};
+message LazyRelaxedUtf8 {
+  repeated string items = 1 [features.utf8_validation = NONE];
+  map<int32, string> mapped = 2 [features.utf8_validation = NONE];
+  oneof choice {
+    string text = 3 [features.utf8_validation = NONE];
+  }
+}

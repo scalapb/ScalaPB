@@ -21,9 +21,10 @@ private[scalapb] object AstUtils {
 
   def parseMessage[T <: GeneratedMessage](
       v: GeneratedMessageCompanion[T],
-      ast: TMessage
+      ast: TMessage,
+      typeRegistry: TypeRegistry = TypeRegistry.empty
   ): Either[AstError, T] = {
-    parseUnsafe(v, ast).map(v.messageReads.read)
+    parseUnsafe(v, ast, typeRegistry).map(v.messageReads.read)
   }
 
   def checkBigInt(
@@ -66,8 +67,34 @@ private[scalapb] object AstUtils {
 
   private def parseUnsafe(
       v: GeneratedMessageCompanion[?],
-      ast: TMessage
+      ast: TMessage,
+      typeRegistry: TypeRegistry
   ): Either[AstError, PMessage] = {
+    if (
+      v.scalaDescriptor.fullName == "google.protobuf.Any" && ast.fields.exists(
+        _.name.startsWith("[")
+      )
+    ) {
+      return ast.fields match {
+        case Seq(TField(position, name, body: TMessage)) if name.startsWith("[") =>
+          val url = name.substring(1, name.length - 1)
+          typeRegistry.find(url) match {
+            case None            => Left(AstError(position, s"Unknown Any type URL '$url'"))
+            case Some(companion) =>
+              parseUnsafe(companion, body, typeRegistry).map { parsed =>
+                val message = companion.messageReads.read(parsed).asInstanceOf[GeneratedMessage]
+                PMessage(
+                  Map(
+                    v.scalaDescriptor.findFieldByNumber(1).get -> PString(url),
+                    v.scalaDescriptor.findFieldByNumber(2).get -> PByteString(message.toByteString)
+                  )
+                )
+              }
+          }
+        case _ =>
+          Left(AstError(ast.position, "An expanded Any must contain exactly one message value"))
+      }
+    }
     def parseDouble(p: TPrimitive): Either[AstError, PDouble] = p match {
       case TLiteral(_, value) =>
         val low = value.toLowerCase()
@@ -208,7 +235,8 @@ private[scalapb] object AstUtils {
                     .map(t =>
                       parseUnsafe(
                         v.messageCompanionForFieldNumber(fd.number),
-                        t.asInstanceOf[TMessage]
+                        t.asInstanceOf[TMessage],
+                        typeRegistry
                       )
                     )
                     .toVector
@@ -230,7 +258,7 @@ private[scalapb] object AstUtils {
         case p: TMessage =>
           if (!fd.protoType.isTypeMessage) Left(AstError(p.position, "invalid value for message"))
           else {
-            parseUnsafe(v.messageCompanionForFieldNumber(fd.number), p)
+            parseUnsafe(v.messageCompanionForFieldNumber(fd.number), p, typeRegistry)
           }
       }
 

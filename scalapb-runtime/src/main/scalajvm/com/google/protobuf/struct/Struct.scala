@@ -19,7 +19,7 @@ import _root_.scalapb.internal.compat.JavaConverters._
 @SerialVersionUID(0L)
 final case class Struct(
     fields: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, _root_.com.google.protobuf.struct.Value] = _root_.scala.collection.immutable.Map.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Struct] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -136,7 +136,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[_root_.com.google.protob
   final case class FieldsEntry(
       key: _root_.scala.Predef.String = "",
       value: _root_.scala.Option[_root_.com.google.protobuf.struct.Value] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldsEntry] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

@@ -8,7 +8,7 @@ final case class FieldTransformation(
     when: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.None,
     matchType: _root_.scala.Option[_root_.scalapb.options.MatchType] = _root_.scala.None,
     set: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FieldOptions] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldTransformation] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

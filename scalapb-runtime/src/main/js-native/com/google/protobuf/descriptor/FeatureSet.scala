@@ -20,7 +20,7 @@ final case class FeatureSet(
     jsonFormat: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat] = _root_.scala.None,
     enforceNamingStyle: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle] = _root_.scala.None,
     defaultSymbolVisibility: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FeatureSet] with _root_.scalapb.ExtendableMessage[FeatureSet] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -597,7 +597,7 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
   }
   @SerialVersionUID(0L)
   final case class VisibilityFeature(
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[VisibilityFeature] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

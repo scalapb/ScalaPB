@@ -11,7 +11,7 @@ case class ConstructorField(
   def fullString: String =
     Seq(
       s"${if (annotations.isEmpty) "" else annotations.mkString("", " ", " ")}",
-      s"${name}: ${typeName}",
+      s"${if (isUnknownFields) "override val " else ""}${name}: ${typeName}",
       default.fold("")(" = " + _)
     ).mkString
 
