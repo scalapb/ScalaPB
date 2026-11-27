@@ -100,6 +100,98 @@ class ConformanceScalaSpec extends FunSuite {
     )
   }
 
+  private def enumWire(write: com.google.protobuf.CodedOutputStream => Unit): Array[Byte] = {
+    val bytes = new java.io.ByteArrayOutputStream()
+    val out   = com.google.protobuf.CodedOutputStream.newInstance(bytes)
+    write(out)
+    out.flush()
+    bytes.toByteArray
+  }
+
+  test("proto2 unknown closed enums match Java field presence and unknown fields") {
+    import com.google.protobuf_test_messages.proto2.test_messages_proto2.TestAllTypesProto2
+
+    val cases = Seq(
+      "absent singular" -> enumWire(_.writeEnum(21, 123)),
+      "singular"        -> enumWire { out =>
+        out.writeEnum(21, 1)
+        out.writeEnum(21, 123)
+      },
+      "repeated" -> enumWire { out =>
+        Seq(1, 123, 2).foreach(out.writeEnum(51, _))
+      },
+      "packed" -> enumWire { out =>
+        out.writeByteArray(88, Array[Byte](1, 123, 2))
+      },
+      "oneof" -> enumWire { out =>
+        out.writeUInt32(111, 42)
+        out.writeEnum(119, 123)
+      },
+      "map" -> enumWire { out =>
+        out.writeByteArray(
+          73,
+          enumWire { entry =>
+            entry.writeString(1, "unknown")
+            entry.writeEnum(2, 123)
+          }
+        )
+      }
+    )
+    cases.foreach { case (name, bytes) =>
+      val expected = TestMessagesProto2.TestAllTypesProto2.parseFrom(bytes)
+      val actual   = TestAllTypesProto2.parseFrom(bytes)
+      // Inspect ScalaPB's fields directly: a Java parse of the round trip alone
+      // would also accept the legacy Unrecognized field representation.
+      assertEquals(
+        actual.optionalNestedEnum.map(_.value),
+        if (expected.hasOptionalNestedEnum) Some(expected.getOptionalNestedEnum.getNumber)
+        else None,
+        name
+      )
+      assertEquals(
+        actual.repeatedNestedEnum.map(_.value),
+        (0 until expected.getRepeatedNestedEnumCount).map(i =>
+          expected.getRepeatedNestedEnum(i).getNumber
+        ),
+        name
+      )
+      assertEquals(
+        actual.packedNestedEnum.map(_.value),
+        (0 until expected.getPackedNestedEnumCount).map(i =>
+          expected.getPackedNestedEnum(i).getNumber
+        ),
+        name
+      )
+      assertEquals(actual.oneofField.isOneofUint32, expected.hasOneofUint32, name)
+      assertEquals(actual.mapStringNestedEnum.size, expected.getMapStringNestedEnumCount, name)
+      assertEquals(
+        com.google.protobuf.UnknownFieldSet.parseFrom(enumWire(actual.unknownFields.writeTo)),
+        expected.getUnknownFields,
+        name
+      )
+      val response = ConformanceScala.handleTest(
+        request("protobuf_test_messages.proto2.TestAllTypesProto2", bytes)
+      )
+      assertEquals(
+        TestMessagesProto2.TestAllTypesProto2.parseFrom(response.getProtobufPayload),
+        expected,
+        name
+      )
+    }
+  }
+
+  test("proto3 unknown enum numbers remain open") {
+    import com.google.protobuf_test_messages.proto3.test_messages_proto3.TestAllTypesProto3
+    val bytes  = enumWire(_.writeEnum(21, 123))
+    val actual = TestAllTypesProto3.parseFrom(bytes)
+    assertEquals(actual.optionalNestedEnum.value, 123)
+    assert(actual.unknownFields.asMap.isEmpty)
+    assertEquals(
+      TestMessagesProto3.TestAllTypesProto3.parseFrom(actual.toByteArray),
+      TestMessagesProto3.TestAllTypesProto3.parseFrom(bytes)
+    )
+  }
+
   test("truncated scalar payload is rejected by both Java and ScalaPB") {
     val bytes = Array[Byte](8, 0x80.toByte)
     intercept[com.google.protobuf.InvalidProtocolBufferException] {
