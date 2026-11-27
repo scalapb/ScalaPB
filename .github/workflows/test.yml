@@ -37,6 +37,10 @@ jobs:
           ~/.ivy2/cache
           ~/.cache/coursier
         key: ${{ runner.os }}-sbt-${{matrix.scala}}-${{matrix.script}}-${{ hashFiles('**/*.sbt', '**/build.properties', 'project/**/*.scala') }}
+        # Keep existing artifacts when a dependency update changes the exact key.
+        restore-keys: |
+          ${{ runner.os }}-sbt-${{matrix.scala}}-${{matrix.script}}-
+          ${{ runner.os }}-sbt-
 
     # Bootstrap in the foreground so cold downloads do not hit sbtn's 300s timeout.
     - name: Bootstrap sbt
@@ -97,6 +101,10 @@ jobs:
           ~/.ivy2/cache
           ~/.cache/coursier
         key: ${{ runner.os }}-sbt-conformance-${{ hashFiles('**/*.sbt', '**/build.properties', 'project/**/*.scala') }}
+        # Keep existing artifacts when a dependency update changes the exact key.
+        restore-keys: |
+          ${{ runner.os }}-sbt-conformance-
+          ${{ runner.os }}-sbt-
     - run: |
         sbt --server --batch conformanceJVM2_13/assembly
         /tmp/conformance-test-runner/conformance_test_runner --enforce_recommended \
