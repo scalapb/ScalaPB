@@ -300,7 +300,9 @@ private[compiler] class ParseFromGenerator(
                  |      if (_unknownFields__ == null)${message.V.Then} {
                  |        _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
                  |      }
-                 |      val _ = _unknownFields__.parseField(tag, _input__)""".stripMargin
+                 |      ${if (message.getOptions.getMessageSetWireFormat)
+                  s"if (tag == 11)${message.V.Then} _unknownFields__.parseMessageSetItem(_input__) else _unknownFields__.parseField(tag, _input__)"
+                else "val _ = _unknownFields__.parseField(tag, _input__)"}""".stripMargin
             )
           )
           .add("  }")

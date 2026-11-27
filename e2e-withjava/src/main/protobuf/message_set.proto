@@ -1,0 +1,17 @@
+syntax = "proto2";
+package com.thesamet.proto.e2e;
+
+message LegacyMessageSet {
+  option message_set_wire_format = true;
+  extensions 4 to max;
+}
+message MessageSetPayload {
+  oneof choice {
+    int32 first = 1;
+    string second = 2;
+  }
+  optional int32 extra = 3;
+  extend LegacyMessageSet {
+    optional MessageSetPayload payload = 100;
+  }
+}

@@ -25,6 +25,28 @@ final case class UnknownFieldSet(
     }
   }
 
+  /** MessageSet stores message extensions as item groups; other wire types are omitted, as in Java.
+    */
+  def writeAsMessageSetTo(output: CodedOutputStream): Unit = {
+    fields.foreach { case (number, field) =>
+      field.lengthDelimited.foreach { bytes =>
+        output.writeTag(1, WireType.WIRETYPE_START_GROUP)
+        output.writeUInt32(2, number)
+        output.writeBytes(3, bytes)
+        output.writeTag(1, WireType.WIRETYPE_END_GROUP)
+      }
+    }
+  }
+
+  def serializedSizeAsMessageSet: Int =
+    fields.iterator.map { case (number, field) =>
+      field.lengthDelimited.map { bytes =>
+        2 * CodedOutputStream.computeTagSize(1) +
+          CodedOutputStream.computeUInt32Size(2, number) +
+          CodedOutputStream.computeBytesSize(3, bytes)
+      }.sum
+    }.sum
+
   def serializedSize: Int = {
     var size: Int = 0
     fields.foreach { case (fieldNumber, field) =>
@@ -227,6 +249,23 @@ object UnknownFieldSet {
     /** Retains a complete map entry rejected by a closed enum parser. */
     def addLengthDelimited(fieldNumber: Int, value: ByteString): Unit = {
       fieldBuilders.getOrElseUpdate(fieldNumber, new Field.Builder()).addLengthDelimited(value)
+    }
+
+    /** Normalize item groups and ordinary extension fields into the same ordered payload list. */
+    def parseMessageSetItem(input: CodedInputStream): Unit = {
+      var typeId              = 0
+      var payload: ByteString = null
+      var done                = false
+      while (!done) {
+        input.readTag() match {
+          case 16     => typeId = input.readUInt32()
+          case 26     => payload = input.readBytes()
+          case 0 | 12 => done = true
+          case tag    => if (!input.skipField(tag)) done = true
+        }
+      }
+      input.checkLastTagWas(12)
+      if (typeId != 0 && payload != null) addLengthDelimited(typeId, payload)
     }
 
     def parseField(tag: Int, input: CodedInputStream) = {

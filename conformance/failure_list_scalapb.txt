@@ -9,9 +9,6 @@ Required.Proto3.ProtobufInput.BadTag_FieldNumberSlightlyTooHigh # Should have fa
 Required.Proto3.ProtobufInput.BadTag_FieldNumberTooHigh # Should have failed to parse, but didn't.
 Required.Proto3.ProtobufInput.BadTag_OverlongVarint # Should have failed to parse, but didn't.
 
-# Binary MessageSet encoding is unsupported
-Recommended.Proto2.ProtobufInput.ValidMessageSetEncoding.SubmessageEncoding.NotUnknown.ProtobufOutput
-
 # Binary mixed-wire unknown-field ordering is not retained by UnknownFieldSet
 Required.Proto2.ProtobufInput.UnknownOrdering.ProtobufOutput # Unknown field mismatch
 Required.Proto3.ProtobufInput.UnknownOrdering.ProtobufOutput # Unknown field mismatch

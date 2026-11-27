@@ -656,7 +656,13 @@ class ProtobufGenerator(
         .indent
         .add("var __size = 0")
         .print(message.fields)(generateSerializedSizeForField)
-        .when(message.preservesUnknownFields)(_.add("__size += unknownFields.serializedSize"))
+        .when(message.preservesUnknownFields)(
+          _.add(
+            if (message.getOptions.getMessageSetWireFormat)
+              "__size += unknownFields.serializedSizeAsMessageSet"
+            else "__size += unknownFields.serializedSize"
+          )
+        )
         .add("__size")
         .outdent
         .add("}")
@@ -793,7 +799,13 @@ class ProtobufGenerator(
             .add("};")
         }
       }
-      .when(message.preservesUnknownFields)(_.add("unknownFields.writeTo(_output__)"))
+      .when(message.preservesUnknownFields)(
+        _.add(
+          if (message.getOptions.getMessageSetWireFormat)
+            "unknownFields.writeAsMessageSetTo(_output__)"
+          else "unknownFields.writeTo(_output__)"
+        )
+      )
       .outdent
       .add("}")
 
