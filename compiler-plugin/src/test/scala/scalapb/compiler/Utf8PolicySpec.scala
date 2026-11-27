@@ -196,4 +196,43 @@ class Utf8PolicySpec extends AnyFlatSpec with Matchers with ProtocInvocationHelp
     }
   }
 
+  it should "apply the same policy to lazy string fields" in {
+    def parseLine(code: String, field: String): String =
+      code.linesIterator
+        .find(l => l.contains(s"__$field ") && l.contains("_input__"))
+        .getOrElse(fail(s"No parse line for $field"))
+    val validating = "_root_.scalapb.LiteParser.readUtf8Bytes(_input__)"
+    val files      = generateFileSet(
+      Seq(
+        "lazy_default.proto" -> """
+                                  |syntax = "proto3";
+                                  |import "scalapb/scalapb.proto";
+                                  |option (scalapb.options).lazy_utf8_string_fields = true;
+                                  |message DefaultStrings {
+                                  |  string single = 1;
+                                  |  repeated string many = 2;
+                                  |}
+                                  |""".stripMargin,
+        "lazy_schema.proto" -> """
+                                 |edition = "2023";
+                                 |import "scalapb/scalapb.proto";
+                                 |option (scalapb.options) = { use_schema_utf8_validation: true lazy_utf8_string_fields: true };
+                                 |message SchemaStrings {
+                                 |  string checked = 1;
+                                 |  string relaxed = 2 [features.utf8_validation = NONE];
+                                 |  repeated string relaxed_many = 3 [features.utf8_validation = NONE];
+                                 |}
+                                 |""".stripMargin
+      )
+    )
+    val defaults = generated(files, "lazy_default.proto")
+    parseLine(defaults, "single") must include(validating)
+    parseLine(defaults, "many") must include(validating)
+    defaults must not include ("_input__.readBytes()")
+
+    val schema = generated(files, "lazy_schema.proto")
+    parseLine(schema, "checked") must include(validating)
+    parseLine(schema, "relaxed") must include("_input__.readBytes()")
+    parseLine(schema, "relaxedMany") must include("_input__.readBytes()")
+  }
 }

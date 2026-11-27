@@ -35,3 +35,6 @@ docs/_site
 
 # API
 website/static/api
+
+benchmarks/scalapb.version
+benchmarks/results/
