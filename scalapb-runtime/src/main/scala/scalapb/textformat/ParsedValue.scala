@@ -50,7 +50,7 @@ private[textformat] object ParsedValue {
     value match {
       case Repeated(values) => values.foreach(writeField(fd, _, output))
       case message: Message =>
-        if (fd.protoType.isTypeGroup) {
+        if (fd.messageEncoding.isDelimited) {
           output.writeTag(number, scalapb.WireType.WIRETYPE_START_GROUP)
           message.writeTo(output)
           output.writeTag(number, scalapb.WireType.WIRETYPE_END_GROUP)

@@ -47,7 +47,7 @@ object Printer {
     extensions.sortBy(_.field.getNumber).foreach { extension =>
       t.unknownFields.getField(extension.field.getNumber).foreach { field =>
         val payloads =
-          if (extension.field.getType.isTypeGroup) field.group.map(_.toByteString)
+          if (extension.isDelimited) field.group.map(_.toByteString)
           else field.lengthDelimited
         payloads.foreach { payload =>
           out.add("[" + extension.name + "]").addNewLine(" {").indent()
@@ -67,7 +67,7 @@ object Printer {
           unknown.getField(extension.field.getNumber).fold(unknown) { field =>
             unknown.withField(
               extension.field.getNumber,
-              if (extension.field.getType.isTypeGroup) field.copy(group = Vector.empty)
+              if (extension.isDelimited) field.copy(group = Vector.empty)
               else field.copy(lengthDelimited = Vector.empty)
             )
           }
@@ -148,9 +148,7 @@ object Printer {
       printUnknownFields: Boolean,
       typeRegistry: TypeRegistry
   ): Unit = {
-    val name =
-      if (fd.protoType.isTypeGroup) fd.scalaType.asInstanceOf[ScalaType.Message].descriptor.name
-      else fd.name
+    val name = fd.textFormatName
     out.add(name).addNewLine(" {").indent()
     print(message, out, printUnknownFields, typeRegistry)
     out.outdent().addNewLine("}")
@@ -220,9 +218,7 @@ object Printer {
       value: scalapb.descriptors.PValue,
       out: TextGenerator
   ): TextGenerator = {
-    val name =
-      if (fd.protoType.isTypeGroup) fd.scalaType.asInstanceOf[ScalaType.Message].descriptor.name
-      else fd.name
+    val name = fd.textFormatName
     out.add(name)
     value match {
       case scalapb.descriptors.PMessage(_) =>

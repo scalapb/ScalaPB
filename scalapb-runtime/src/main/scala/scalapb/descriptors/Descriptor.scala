@@ -363,6 +363,16 @@ class FieldDescriptor private[descriptors] (
       resolvedFeatures.getMessageEncoding
     else MessageEncoding.LENGTH_PREFIXED
 
+  /** Legacy group names are preserved by structurally equivalent Editions fields. */
+  def textFormatName: String = scalaType match {
+    case ScalaType.Message(message)
+        if messageEncoding == MessageEncoding.DELIMITED &&
+          message.name.map(c => if (c >= 'A' && c <= 'Z') (c + 32).toChar else c) == name &&
+          message.file == file && message.containingMessage.contains(containingMessage) =>
+      message.name
+    case _ => name
+  }
+
   def isRepeated = asProto.getLabel.isLabelRepeated
 
   def isMapField = scalaType match {

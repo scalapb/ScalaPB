@@ -23,11 +23,48 @@ class ConformanceScalaSpec extends FunSuite {
       "protobuf_test_messages.editions.proto3.TestAllTypesProto3",
       "protobuf_test_messages.editions.TestAllTypesEdition2023"
     ).foreach { name =>
-      assert(ConformanceScala.handleTest(request(name, Array.emptyByteArray)).result.isProtobufPayload)
+      assert(
+        ConformanceScala.handleTest(request(name, Array.emptyByteArray)).result.isProtobufPayload
+      )
     }
-    assert(ConformanceScala.handleTest(request(
-      "protobuf_test_messages.edition_unstable.TestAllTypesEditionUnstable", Array.emptyByteArray
-    )).result.isSkipped)
+    assert(
+      ConformanceScala
+        .handleTest(
+          request(
+            "protobuf_test_messages.edition_unstable.TestAllTypesEditionUnstable",
+            Array.emptyByteArray
+          )
+        )
+        .result
+        .isSkipped
+    )
+  }
+
+  test("Edition 2023 migrated group text names and extensions retain their encoding") {
+    val name = "protobuf_test_messages.editions.proto2.TestAllTypesProto2"
+    val text =
+      "Data { group_int32: 7 } [protobuf_test_messages.editions.proto2.groupfield] { group_int32: 8 }"
+    val parsed = ConformanceScala.handleTest(
+      ConformanceRequest(messageType = name, requestedOutputFormat = WireFormat.PROTOBUF)
+        .withTextPayload(text)
+    )
+    assert(parsed.result.isProtobufPayload, parsed.toString)
+    val rendered = ConformanceScala.handleTest(
+      request(name, parsed.getProtobufPayload.toByteArray)
+        .withRequestedOutputFormat(WireFormat.TEXT_FORMAT)
+    )
+    assert(rendered.result.isTextPayload, rendered.toString)
+    assert(rendered.getTextPayload.contains("Data {"))
+    assert(rendered.getTextPayload.contains("[protobuf_test_messages.editions.proto2.groupfield]"))
+    assertEquals(
+      ConformanceScala
+        .handleTest(
+          ConformanceRequest(messageType = name, requestedOutputFormat = WireFormat.PROTOBUF)
+            .withTextPayload(rendered.getTextPayload)
+        )
+        .getProtobufPayload,
+      parsed.getProtobufPayload
+    )
   }
 
   test("unknown message types report a protocol error without terminating dispatch") {

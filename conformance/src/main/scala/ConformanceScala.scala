@@ -77,6 +77,7 @@ object ConformanceScala {
 
   val textTypeRegistry = textformat.TypeRegistry.empty
     .addMessage(test_messages_proto2.GroupField)
+    .addMessage(test_messages_proto2_editions.GroupField)
     .addMessage(test_messages_proto2.TestAllTypesProto2)
     .addMessage(test_messages_proto3.TestAllTypesProto3)
     .addMessage(test_messages_proto2_editions.TestAllTypesProto2)

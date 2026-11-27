@@ -300,9 +300,7 @@ private[scalapb] object AstUtils {
 
     val fieldMap: Map[String, FieldDescriptor] =
       v.scalaDescriptor.fields.flatMap { f =>
-        val name =
-          if (f.protoType.isTypeGroup) f.scalaType.asInstanceOf[ScalaType.Message].descriptor.name
-          else f.name
+        val name = f.textFormatName
         Seq(name -> f, f.name -> f)
       }.toMap
 
@@ -357,7 +355,7 @@ private[scalapb] object AstUtils {
                   parseMessage(extension.companion, body, typeRegistry).map { message =>
                     val bytes  = new java.io.ByteArrayOutputStream()
                     val output = com.google.protobuf.CodedOutputStream.newInstance(bytes)
-                    if (extension.field.getType.isTypeGroup) {
+                    if (extension.isDelimited) {
                       output.writeTag(
                         extension.field.getNumber,
                         scalapb.WireType.WIRETYPE_START_GROUP
