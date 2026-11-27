@@ -1,18 +1,38 @@
 # Change Log
 ## [1.0.0] (Not yet released)
-- Add opt-in `use_schema_enum_semantics` file/package option (default false).
-  Legacy enum parsing and Java conversions remain the default. When enabled,
-  regenerated binary parsers honor closed enums (proto2 and Editions
-  `features.enum_type = CLOSED`). Unknown numbers move to unknown fields
-  instead of `Unrecognized` field values; repeated values may reorder on serialization,
-  unknown oneof values leave the existing case unchanged, and maps retain rejected
-  entries in full. Required closed enums reject messages containing only unknown
-  values. Disabling unknown-field preservation discards these values. Open enums,
-  including proto3 enums imported into proto2 files, continue to retain unknown numbers.
-  Opted-in Java conversions for closed/legacy-closed enum messages use binary conversion
-  to preserve unknown values and map entries, with additional serialization cost.
-  Regenerate sources and upgrade the runtime together; manually constructed
-  `Unrecognized` closed values normalize on binary parsing when opted in.
+- Honor schema-defined enum openness in Editions binary parsers and Java conversions.
+  Add `proto2_closed_enums` file/package option (default false) to enable the same
+  behavior for proto2 messages while preserving their legacy defaults. Editions
+  honor schema openness even when the option is false. Imported open enums remain open.
+  Unknown closed enum numbers move to unknown fields instead of `Unrecognized`
+  field values; repeated values may reorder on serialization, unknown oneof values
+  leave the existing case unchanged, and maps retain rejected entries in full.
+  Required closed enums reject messages containing only unknown values. Disabling
+  unknown-field preservation discards rejected values and entries. Java conversions
+  for affected messages use binary conversion, with additional serialization cost.
+  Upgrade the runtime and regenerate sources together. Text/JSON parsing and extension
+  accessors are separate paths.
+- Make dependency-update CI more reliable and require a website build before automatically merging Scala Steward and Dependabot updates.
+- Preserve empty unboxed strings and bytes when a proto2 field declares a non-empty default.
+- Use collection adapters when converting repeated lazy strings to Java protobuf messages.
+- Preserve ProtoJSON extension fields in conformance tests using scalapb-json4s 1.0.0-alpha.3.
+- Reject JSON strings containing unpaired or reversed Unicode surrogates using scalapb-json4s 1.0.0-alpha.3.
+- Reject quoted JSON boolean values in conformance tests using scalapb-json4s 1.0.0-alpha.3.
+- Verify JSON null-valued oneof presence with the upgraded conformance JSON parser.
+- Use scalapb-json4s 1.0.0-alpha.2 in conformance tests to accept URL-safe Base64 bytes.
+- Reject protobuf FieldMask paths that cannot round-trip through JSON, including uppercase letters, repeated underscores, and underscores before digits.
+- Reject underscores in JSON FieldMask paths and preserve leading capitals when converting them to protobuf paths.
+- Print unknown length-delimited fields as nested text-format messages when decodable, with a depth limit and escaped-byte fallback.
+- Add opt-in text-format printing of unknown scalar wire fields. Expose unknown fields through `GeneratedMessage.unknownFields`, returning an empty set for messages that do not preserve them. Regenerate sources before recompiling: stored unknown fields now override the concrete accessor.
+- Parse expanded text-format `Any` values with an explicitly supplied `textformat.TypeRegistry`; preserve the configured recursion limit.
+- Accept `\UXXXXXXXX` text-format Unicode escapes, including supplementary characters; reject out-of-range code points.
+- Accept `\uXXXX` Unicode escapes in text-format string and bytes fields; reject surrogate code points and malformed escapes.
+- BREAKING CHANGE: TextFormat printing (including `toProtoString` and generated
+  `toString`) now omits implicit scalar defaults and empty optional `no_box` and
+  sealed-oneof message fields by default, matching Java's field-presence behavior
+  (#2319). Explicitly present defaults, required fields, selected oneof cases,
+  repeated elements, and map entries are preserved. Regenerate sources to fix
+  unboxed-message accessors for custom types whose default instances are invalid.
 - Resolve core Edition 2023 descriptor features with inherited overrides; expose presence, packing, enum openness, UTF-8 policy and message encoding, and recognize `LEGACY_REQUIRED` fields.
 - Use protobuf Java naming helpers for Java conversions and descriptor references,
   including Edition 2024 file/type naming and correct Scala escaping of keyword
@@ -33,6 +53,9 @@
   contextual instances may need `.given` or explicit named imports. Generated
   `messageReads` instances are now initialized lazily and reused in Scala 3 output.
 - Declare the supported Edition 2023 range in code generator responses using protoc-bridge 0.10.0, fixing protoc rejection of the editions feature flag (#1837).
+- Add `lazy_utf8_string_fields` file- and message-level option generating string fields as
+  `scalapb.LazyField[String]`, decoded on first access, including optional and oneof
+  strings with presence preserved through binary, JSON, and Java conversions.
 - Add the file/package option `use_schema_utf8_validation` to opt binary message
   string parsing into the resolved protobuf Java UTF-8 policy. Legacy strict
   parsing remains the default. Nonvalidating fields replace malformed UTF-8 and
@@ -42,6 +65,7 @@
   copy; stable-path uses must migrate to a local `val` or `toByteArray()`).
 - Refresh website dependencies to address GitHub security alerts.
 - Update Coursier's transitive dependencies and the documentation/test dependency families to address GitHub security advisories; use the maintained LZ4 artifact for Spark documentation examples.
+- Upgrade the CLI commons-lang3 dependency to 3.21.0.
 - BREAKING CHANGE: Unify generated lens superclasses across Scala 2 and Scala 3 as
   `scalapb.lenses.ObjectLens`, which is now abstract (#1581). Regenerate all ScalaPB
   sources and recompile dependent code when upgrading to 1.0.0. Replace direct

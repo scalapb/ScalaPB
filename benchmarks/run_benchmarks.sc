@@ -1,5 +1,8 @@
 #!/usr/bin/env amm
 
+import $ivy.`com.lihaoyi::ammonite-ops:2.4.0`
+import ammonite.ops._
+
 import $file.project.TestNames, TestNames.TestNames.testNames
 
 val MODES = Map(
@@ -14,13 +17,9 @@ val SCALA_213 = "2.13.1"
 val ALL_SCALA = Seq(SCALA_212, SCALA_213)
 
 val ALL_SCALAPB = Seq(
-  "0.7.4",
-  "0.8.10",
   "0.9.6",
-  "0.10.0-M2",
-  "0.10.0-M3",
   "0.10.0-M4",
-  "0.10.0-SNAPSHOT"
+  "0.11.20"
 )
 
 // Exclude combinations when ScalaPB is not available for Scala 2.13
@@ -36,11 +35,15 @@ def runSbt(
 ): Unit = {
   val command = Seq(
     "sbt",
-    s"++${scalaVersion}!",
-    "clean",
-    s"jmh:run -t 1 ${MODES(mode)} ${tests} -rf json -rff ${outfile}"
+    "-batch",
+    s"++${scalaVersion}!;clean;Jmh/run -t 1 ${MODES(mode)} ${tests} -rf json -rff ${outfile}"
   )
   import sys.process._
+  // The ScalaPB version is fixed when the project definition is loaded. Shut
+  // down any idle sbt server first so it cannot silently reuse a previously
+  // loaded definition (and a stale ScalaPB version).
+  Seq("sbt", "-batch", "shutdown").!
+  ops.write.over(ops.pwd / "scalapb.version", scalapbVersion)
   if (command.! != 0) {
     throw new RuntimeException("SBT exit with non-zero code.")
   }
@@ -55,10 +58,13 @@ def main(
     java: Boolean = true
 ): Unit = {
   ops.mkdir ! ops.pwd / 'results
+  val benchmarks0 = if (benchmarks.nonEmpty) benchmarks else testNames
+  val scalapb0 = if (scalapb.nonEmpty) scalapb else ALL_SCALAPB
+  val scala0 = if (scala.nonEmpty) scala else ALL_SCALA
   for {
-    scalaVersion   <- scala
-    scalapbVersion <- scalapb
-    b              <- benchmarks
+    scalaVersion   <- scala0
+    scalapbVersion <- scalapb0
+    b              <- benchmarks0
   } {
     if (isExcluded(scalaVersion, scalapbVersion)) {
       println(s"Skipping excluded Scala $scalaVersion and ScalaPB $scalapbVersion")

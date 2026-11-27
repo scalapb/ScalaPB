@@ -276,6 +276,31 @@ class DescriptorImplicits private[compiler] (
 
     def isMapField = isMessage && fd.isRepeated && fd.getMessageType.isMapEntry
 
+    def isMapKeyField: Boolean = fd.getContainingType.isMapEntry && fd.getNumber == 1
+
+    def shouldBeLazyUtf8String: Boolean = {
+      // For map entries `getContainingType` is the synthetic map-entry message, so
+      // this does not see the owning message's options.
+      val containing = fd.getContainingType
+      val effective  =
+        if (containing.isMapEntry) containing.getContainingType
+        else containing
+      // Custom string types take priority over lazy_utf8_string_fields: such fields
+      // stay eager custom-typed fields. Map keys are never lazy (!isMapKeyField
+      // below), so key_type is irrelevant here.
+      val hasCustomStringType = fd.isProtoString && (
+        fieldOptions.hasType ||
+          (containing.isMapEntry && fd.getNumber == 2 && {
+            val referencingMap = containing.getContainingType.getFields.asScala
+              .filter(_.isMapField)
+              .find(containing eq _.getMessageType)
+              .get
+            referencingMap.fieldOptions.hasValueType
+          })
+      )
+      effective.lazyUtf8StringFields && !fd.isMapKeyField && !hasCustomStringType
+    }
+
     def mapType: ExtendedMessageDescriptor#MapType = {
       assert(isMapField)
       fd.getMessageType.mapType
@@ -349,6 +374,7 @@ class DescriptorImplicits private[compiler] (
       }
 
       if (isMapField) Some(s"(${mapType.keyType}, ${mapType.valueType})")
+      else if (fd.isProtoString && fd.shouldBeLazyUtf8String) Some(LazyString)
       else if (isSealedOneofType) Some(fd.getMessageType.sealedOneofScalaType)
       else if (fieldOptions.hasType) Some(fieldOptions.getType)
       else if (isMessage && fd.getMessageType.messageOptions.hasType)
@@ -377,9 +403,11 @@ class DescriptorImplicits private[compiler] (
       case FieldDescriptor.JavaType.DOUBLE      => "_root_.scala.Double"
       case FieldDescriptor.JavaType.BOOLEAN     => "_root_.scala.Boolean"
       case FieldDescriptor.JavaType.BYTE_STRING => "_root_.com.google.protobuf.ByteString"
-      case FieldDescriptor.JavaType.STRING      => "_root_.scala.Predef.String"
-      case FieldDescriptor.JavaType.MESSAGE     => fd.getMessageType.scalaType.fullName
-      case FieldDescriptor.JavaType.ENUM        => fd.getEnumType.scalaType.fullName
+      case FieldDescriptor.JavaType.STRING if fd.shouldBeLazyUtf8String =>
+        "_root_.com.google.protobuf.ByteString"
+      case FieldDescriptor.JavaType.STRING  => "_root_.scala.Predef.String"
+      case FieldDescriptor.JavaType.MESSAGE => fd.getMessageType.scalaType.fullName
+      case FieldDescriptor.JavaType.ENUM    => fd.getEnumType.scalaType.fullName
     }
 
     def singleScalaTypeName = customSingleScalaTypeName.getOrElse(baseSingleScalaTypeName)
@@ -402,6 +430,8 @@ class DescriptorImplicits private[compiler] (
     def isEnum = fd.getType == FieldDescriptor.Type.ENUM
 
     def isMessage = fd.getType == FieldDescriptor.Type.MESSAGE
+
+    def isProtoString: Boolean = fd.getType == FieldDescriptor.Type.STRING
 
     def isBytes = fd.getType == FieldDescriptor.Type.BYTES
 
@@ -529,6 +559,10 @@ class DescriptorImplicits private[compiler] (
     def noDefaultValueInConstructor: Boolean = if (messageOptions.hasNoDefaultValuesInConstructor)
       messageOptions.getNoDefaultValuesInConstructor
     else message.getFile.noDefaultValuesInConstructor
+
+    def lazyUtf8StringFields: Boolean =
+      if (messageOptions.hasLazyUtf8StringFields) messageOptions.getLazyUtf8StringFields
+      else message.getFile.scalaOptions.getLazyUtf8StringFields
 
     private[this] def deprecatedAnnotation: Seq[String] = {
       if (message.getOptions.getDeprecated)
@@ -915,6 +949,10 @@ class DescriptorImplicits private[compiler] (
     def scalaOptions: ScalaPbOptions =
       fileOptionsCache(file)
 
+    def respectsEnumOpenness: Boolean =
+      file.toProto.getSyntax == "editions" ||
+        (file.toProto.getSyntax != "proto3" && scalaOptions.getProto2ClosedEnums)
+
     def javaConversions =
       (scalaOptions.getJavaConversions || params.javaConversions) && !scalaOptions.getTestOnlyNoJavaConversions
 
@@ -1088,6 +1126,8 @@ object DescriptorImplicits {
   val ScalaIterable = "_root_.scala.collection.immutable.Iterable"
   val ScalaIterator = "_root_.scala.collection.Iterator"
   val ScalaOption   = "_root_.scala.Option"
+
+  val LazyString = "_root_.scalapb.LazyField[_root_.scala.Predef.String]"
 
   def fromCodeGenRequest(
       params: GeneratorParams,

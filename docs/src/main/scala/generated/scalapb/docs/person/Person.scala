@@ -8,7 +8,7 @@ final case class Person(
     name: _root_.scala.Predef.String = "",
     age: _root_.scala.Int = 0,
     addresses: _root_.scala.Seq[_root_.scalapb.docs.person.Person.Address] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Person] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -203,7 +203,7 @@ object Person extends scalapb.GeneratedMessageCompanion[_root_.scalapb.docs.pers
       addressType: _root_.scalapb.docs.person.Person.AddressType = _root_.scalapb.docs.person.Person.AddressType.HOME,
       street: _root_.scala.Predef.String = "",
       city: _root_.scala.Predef.String = "",
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Address] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

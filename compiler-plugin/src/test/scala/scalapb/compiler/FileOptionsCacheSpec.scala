@@ -32,7 +32,7 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
       imports: Seq[String] = Nil,
       singleFile: Option[Boolean] = None,
       preprocessors: Seq[String] = Nil,
-      useSchemaEnumSemantics: Option[Boolean] = None
+      proto2ClosedEnums: Option[Boolean] = None
   ): FileDescriptor = {
     val optionsBuilder = ScalaPbOptions.newBuilder()
 
@@ -42,7 +42,7 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
 
     scalaPackage.foreach(optionsBuilder.setPackageName)
     singleFile.foreach(optionsBuilder.setSingleFile)
-    useSchemaEnumSemantics.foreach(optionsBuilder.setUseSchemaEnumSemantics)
+    proto2ClosedEnums.foreach(optionsBuilder.setProto2ClosedEnums)
     optionsBuilder.addAllImport(imports.asJava)
     optionsBuilder.addAllPreprocessors(preprocessors.asJava)
 
@@ -58,18 +58,18 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
 
   "enum semantics options" should "default to legacy and support package opt-in and file opt-out" in {
     val parent =
-      file("options.proto", "enums", OptionsScope.PACKAGE, useSchemaEnumSemantics = Some(true))
+      file("options.proto", "enums", OptionsScope.PACKAGE, proto2ClosedEnums = Some(true))
     val inherited = file("inherited.proto", "enums.child", OptionsScope.FILE)
     val disabled  =
-      file("disabled.proto", "enums.child", OptionsScope.FILE, useSchemaEnumSemantics = Some(false))
+      file("disabled.proto", "enums.child", OptionsScope.FILE, proto2ClosedEnums = Some(false))
     val legacy  = file("legacy.proto", "other", OptionsScope.FILE)
     val options = FileOptionsCache.buildCache(
       Seq(parent, inherited, disabled, legacy),
       SecondaryOutputProvider.empty
     )
-    options(inherited).getUseSchemaEnumSemantics mustBe true
-    options(disabled).getUseSchemaEnumSemantics mustBe false
-    options(legacy).getUseSchemaEnumSemantics mustBe false
+    options(inherited).getProto2ClosedEnums mustBe true
+    options(disabled).getProto2ClosedEnums mustBe false
+    options(legacy).getProto2ClosedEnums mustBe false
   }
 
   "buildCache" should "merge options correctly" in {

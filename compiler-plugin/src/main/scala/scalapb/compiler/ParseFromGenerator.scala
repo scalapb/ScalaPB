@@ -111,7 +111,7 @@ private[compiler] class ParseFromGenerator(
   private def usesBaseTypeInBuilder(field: FieldDescriptor) = field.isSingular
 
   private def isClosedEnum(field: FieldDescriptor): Boolean =
-    message.getFile.scalaOptions.getUseSchemaEnumSemantics && field.isEnum && field.getEnumType.isClosed
+    message.getFile.respectsEnumOpenness && field.isEnum && field.getEnumType.isClosed
 
   private def unknownValue(field: FieldDescriptor, method: String, value: String): String =
     if (message.preservesUnknownFields)
@@ -209,13 +209,17 @@ private[compiler] class ParseFromGenerator(
               } else if (field.isEnum)
                 s"${field.getEnumType.scalaType.fullName}.fromValue(_input__.readEnum())"
               else if (field.getType == Type.STRING) {
-                // Use resolved features (including inherited Java overrides and map semantics).
-                // Keep the legacy strict policy unless the schema explicitly opts in.
-                if (
+                val validate =
                   !field.getFile.scalaOptions.getUseSchemaUtf8Validation || field.needsUtf8Check()
-                )
-                  "_input__.readStringRequireUtf8()"
-                else "_input__.readString()"
+                if (field.shouldBeLazyUtf8String) {
+                  // Validation is much cheaper than decoding because it allocates nothing,
+                  // which is why it applies even to lazy strings
+                  if (validate) "_root_.scalapb.LiteParser.readUtf8Bytes(_input__)"
+                  else "_input__.readBytes()"
+                } else {
+                  if (validate) "_input__.readStringRequireUtf8()"
+                  else "_input__.readString()"
+                }
               } else s"_input__.read${Types.capitalizedType(field.getType)}()"
 
               val baseValue = if (isClosedEnum(field)) "_enumValue__" else newValBase

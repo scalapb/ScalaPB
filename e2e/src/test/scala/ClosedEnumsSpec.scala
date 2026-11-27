@@ -37,11 +37,11 @@ class ClosedEnumsSpec extends AnyFlatSpec with Matchers {
     LegacyRequiredEnum.parseFrom(enums(1, 42)).value mustBe unknown
   }
 
-  it should "retain unknown Edition closed enum values without opting in" in {
+  it should "honor imported Edition closed enums without opting in" in {
     import legacy.editions.legacy_edition_enums.LegacyEditionEnums
     val parsed = LegacyEditionEnums.parseFrom(enums(1, 42))
-    parsed.value mustBe Some(EditionEnums.Closed.Unrecognized(42))
-    parsed.unknownFields mustBe scalapb.UnknownFieldSet.empty
+    parsed.value mustBe None
+    parsed.unknownFields.getField(1).get.varint mustBe Seq(42L)
   }
 
   "Closed enums" should "leave unknown singular values unset and retain their signed numbers" in {
@@ -162,7 +162,7 @@ class ClosedEnumsSpec extends AnyFlatSpec with Matchers {
     m.entries must be(Map.empty)
   }
 
-  "Edition enums" should "honor inherited features and explicit overrides" in {
+  "Edition enums" should "honor inherited features and explicit overrides even with proto2_closed_enums false" in {
     val m = EditionEnums.parseFrom(
       enums(1, 42) ++ packed(2, 0, 42, 1) ++ enums(4, 9) ++
         enums(3, 42) ++ wire(_.writeByteArray(5, entry(7, 42))) ++ enums(6, 42)
