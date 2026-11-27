@@ -1,5 +1,7 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Refresh conformance testing to protobuf v36.2, report unsupported Editions explicitly,
+  and add Java differential and portable wire regression tests.
 - Honor schema-defined enum openness in Editions binary parsers and Java conversions.
   Add `proto2_closed_enums` file/package option (default false) to enable the same
   behavior for proto2 messages while preserving their legacy defaults. Editions
