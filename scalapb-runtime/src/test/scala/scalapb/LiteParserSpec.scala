@@ -1,7 +1,7 @@
 package scalapb
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream, InputStream}
-import com.google.protobuf.{CodedInputStream, InvalidProtocolBufferException}
+import com.google.protobuf.{ByteString, CodedInputStream, InvalidProtocolBufferException}
 import com.google.protobuf.wrappers.Int32Value
 import munit.FunSuite
 
@@ -121,6 +121,34 @@ class LiteParserSpec extends FunSuite {
       else LiteParser.readMessage(input)(Int32Value)
     }
     assertEquals(input.getBytesUntilLimit, 20 - input.getTotalBytesRead())
+  }
+
+  // Payloads are wrapped in a length prefix, as readUtf8Bytes reads a length-delimited field.
+  private def utf8Input(payload: Array[Byte]): CodedInputStream =
+    CodedInputStream.newInstance(Array(payload.length.toByte) ++ payload)
+
+  Seq(
+    "empty"      -> bytes(),
+    "ASCII"      -> bytes(0x61, 0x62, 0x63),
+    "multi-byte" -> bytes(0xc3, 0xa9, 0xe4, 0xb8, 0x96),
+    "4-byte"     -> bytes(0xf0, 0x9f, 0x98, 0x80)
+  ).foreach { case (name, payload) =>
+    test(s"readUtf8Bytes returns the original bytes for valid UTF-8: $name") {
+      val input = utf8Input(payload)
+      assertEquals(LiteParser.readUtf8Bytes(input), ByteString.copyFrom(payload))
+      assertEquals(input.getTotalBytesRead(), payload.length + 1)
+    }
+  }
+
+  Seq(
+    "invalid byte"      -> bytes(0xff),
+    "bad continuation"  -> bytes(0xc3, 0x28),
+    "overlong"          -> bytes(0xc0, 0xaf),
+    "encoded surrogate" -> bytes(0xed, 0xa0, 0x80)
+  ).foreach { case (name, payload) =>
+    test(s"readUtf8Bytes rejects malformed UTF-8: $name") {
+      intercept[InvalidProtocolBufferException](LiteParser.readUtf8Bytes(utf8Input(payload)))
+    }
   }
 
   test("readMessage merge succeeds and restores its enclosing limit") {

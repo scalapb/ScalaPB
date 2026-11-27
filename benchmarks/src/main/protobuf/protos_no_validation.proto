@@ -1,0 +1,37 @@
+syntax = "proto2";
+
+import "scalapb/scalapb.proto";
+
+package scalapb.perf;
+
+// Structural copy of LazyFieldsStringMessage from protos.proto, with UTF-8
+// validation disabled through the schema policy: opting into
+// use_schema_utf8_validation makes the resolved schema features decide, and
+// proto2 strings resolve to utf8_validation = NONE (see
+// scalapb.descriptors.Descriptor), so lazy fields parse without verification.
+// Measurement caveat: proto2 fields carry explicit presence, so the case class
+// wraps each string in Option[LazyField[String]] — unlike the unboxed proto3
+// baseline — which adds Some-allocation noise on top of the validation delta.
+option java_package = "scalapb.perf";
+option java_outer_classname = "ProtosNoValidation";
+
+option (scalapb.options) = {
+  use_schema_utf8_validation: true
+  package_name: "scalapb.perf.protos"
+  flat_package: true
+};
+
+message LazyFieldsNoValidation {
+    option (scalapb.message).lazy_utf8_string_fields = true;
+    optional string s1 = 1;
+    optional string s2 = 2;
+    optional string s3 = 3;
+    optional string s4 = 4;
+    optional string s5 = 5;
+    optional string s6 = 6;
+    optional string s7 = 7;
+    optional string s8 = 8;
+    optional string s9 = 9;
+    optional string s10 = 10;
+    optional LazyFieldsNoValidation nested = 11;
+}
