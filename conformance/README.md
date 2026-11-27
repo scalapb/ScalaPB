@@ -60,11 +60,13 @@ feature semantics differ.
 
 `ConformanceScalaSpec` exercises protocol dispatch and compares parsed Java
 messages with ScalaPB round trips (duplicate scalars, unknown fields, mixed
-packed/unpacked fields, malformed input). Closed-enum regressions additionally
-compare ScalaPB field presence, repeated values, oneof selection, map contents,
-and unknown fields directly with Java; a semantic Java round trip alone would
-hide the legacy representation of unknown numbers as enum field values. The Java
-oracle is generated from the same fixtures with the project's pinned protoc/runtime. It compares semantic
+packed/unpacked fields, malformed input). A closed-enum smoke test verifies that
+the proto2 fixtures enable the option and dispatch successfully. Detailed enum
+semantics and Java interoperability are covered by `ClosedEnumsSpec` and
+`ClosedEnumsJavaSpec` in e2e.
+
+The Java oracle is generated from the same fixtures with the project's pinned
+protoc/runtime. It compares semantic
 messages, not serialization order. These tests do not assert that the project's
 Java runtime is v36.2; the independent C++ runner supplies the v36.2 oracle.
 
@@ -118,7 +120,7 @@ After merging master and upgrading json4s, the full v36.2 run
 | Binary/JSON | 2786 | 2832 | 31 | 0 |
 | Text | 328 | 464 | 117 | 0 |
 
-All 23 conformance unit tests pass, including Java comparisons. The original
+All 22 conformance unit tests pass, including Java comparisons. The original
 refresh also validated three shared wire regressions on JVM, JavaScript and Native.
 Expected failures are limitations, not passing conformance cases; Editions skips
 are not Editions implementation coverage.

@@ -1,7 +1,7 @@
 # Change Log
 ## [1.0.0] (Not yet released)
-- Enable proto2 closed enums in conformance fixtures and verify unknown enum field,
-  repeated, packed, oneof, and map semantics against Java.
+- Enable proto2 closed enums in conformance fixtures and verify fixture configuration
+  and protocol dispatch.
 - Refresh conformance testing to protobuf v36.2, report unsupported Editions explicitly,
   and add Java differential and portable wire regression tests.
 - Honor schema-defined enum openness in Editions binary parsers and Java conversions.
