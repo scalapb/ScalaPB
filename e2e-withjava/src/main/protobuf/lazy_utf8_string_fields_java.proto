@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+import "scalapb/scalapb.proto";
+
+package com.thesamet.proto.e2e;
+
+option (scalapb.options) = {
+  lazy_utf8_string_fields: true
+  java_conversions: true
+};
+
+message LazyMessage {
+  string str = 1;
+  int32 int = 3;
+}
+
+message LazyMapMessage {
+  map<int32, string> int_to_string = 1;
+  map<string, string> str_to_str = 2;
+}
+
+message LazyRepeatedStrings {
+  repeated string items = 1;
+}
+
+message LazyPresence {
+  optional string optional_text = 1;
+  oneof choice {
+    string text = 2;
+    int32 count = 3;
+  }
+}
+
+message LazyCollections {
+  repeated string adapted = 1 [(scalapb.field).collection = {
+    type: "com.thesamet.pb.LazyStringCollection"
+    adapter: "com.thesamet.pb.LazyStringCollectionAdapter"
+  }];
+  repeated string listed = 2 [(scalapb.field).collection_type = "List"];
+  map<int32, string> sorted = 3 [(scalapb.field).map_type = "scala.collection.immutable.SortedMap"];
+}
+
+message LazyNonEmptyCollections {
+  repeated string listed = 1 [(scalapb.field).collection = {
+    type: "cats.data.NonEmptyList"
+    adapter: "com.thesamet.pb.NonEmptyListAdapter"
+    non_empty: true
+  }];
+  map<int32, string> mapped = 2 [(scalapb.field).collection = {
+    type: "cats.data.NonEmptyMap"
+    adapter: "com.thesamet.pb.NonEmptyMapAdapter"
+    non_empty: true
+  }];
+}

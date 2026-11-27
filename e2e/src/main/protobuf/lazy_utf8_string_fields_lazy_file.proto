@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+import "scalapb/scalapb.proto";
+
+package com.thesamet.proto.e2e;
+
+option (scalapb.options) = {
+  lazy_utf8_string_fields: true
+};
+
+// File-level option is true; the message-level option must win for this message.
+message MessageLevelEagerMaps {
+  option (scalapb.message) = {
+    lazy_utf8_string_fields: false
+  };
+  string scalar = 3;
+  map<string, int32> string_to_int = 1;
+  map<int32, string> int_to_string = 2;
+  map<string, string> str_to_str = 4;
+}
