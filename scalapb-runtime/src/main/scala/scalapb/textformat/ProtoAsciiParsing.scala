@@ -18,11 +18,25 @@ trait ProtoAsciiParsing {
       d: GeneratedMessageCompanion[T],
       s: String,
       recursionLimit: Int
+  ): Either[TextFormatError, T] = fromAscii(d, s, TypeRegistry.empty, recursionLimit)
+
+  /** Parses expanded Any values using only the explicitly registered message types. */
+  def fromAscii[T <: GeneratedMessage](
+      d: GeneratedMessageCompanion[T],
+      s: String,
+      typeRegistry: TypeRegistry
+  ): Either[TextFormatError, T] = fromAscii(d, s, typeRegistry, 100)
+
+  def fromAscii[T <: GeneratedMessage](
+      d: GeneratedMessageCompanion[T],
+      s: String,
+      typeRegistry: TypeRegistry,
+      recursionLimit: Int
   ): Either[TextFormatError, T] = {
     val p = new Parser(s, recursionLimit)
     try {
       val msg = p.parseMessage
-      AstUtils.parseMessage(d, msg).left.map { a =>
+      AstUtils.parseMessage(d, msg, typeRegistry).left.map { a =>
         TextFormatError(s"${a.error} (line ${a.position.line + 1}, column ${a.position.col + 1})")
       }
     } catch {

@@ -6,7 +6,7 @@ package scalapb.perf.protos
 @SerialVersionUID(0L)
 final case class EnumVector(
     colors: _root_.scala.Seq[_root_.scalapb.perf.protos.Color] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumVector] {
     private[this] def colorsSerializedSize = {
       if (__colorsSerializedSizeField == 0) __colorsSerializedSizeField = {

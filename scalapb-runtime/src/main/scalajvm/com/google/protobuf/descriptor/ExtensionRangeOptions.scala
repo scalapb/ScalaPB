@@ -23,7 +23,7 @@ final case class ExtensionRangeOptions(
     declaration: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = _root_.scala.Vector.empty,
     features: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
     verification: _root_.scala.Option[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ExtensionRangeOptions] with _root_.scalapb.ExtendableMessage[ExtensionRangeOptions] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -278,7 +278,7 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[_root_.co
       `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       reserved: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
       repeated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Declaration] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

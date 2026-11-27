@@ -93,7 +93,7 @@ final case class FieldOptions(
     features: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
     featureSupport: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport] = _root_.scala.None,
     uninterpretedOption: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldOptions] with _root_.scalapb.ExtendableMessage[FieldOptions] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -748,7 +748,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
   final case class EditionDefault(
       edition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None,
       value: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EditionDefault] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -902,7 +902,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
       editionDeprecated: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None,
       deprecationWarning: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       editionRemoved: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FeatureSupport] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

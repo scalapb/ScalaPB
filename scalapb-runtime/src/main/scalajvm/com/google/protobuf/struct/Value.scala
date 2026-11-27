@@ -13,7 +13,7 @@ package com.google.protobuf.struct
 @SerialVersionUID(0L)
 final case class Value(
     kind: _root_.com.google.protobuf.struct.Value.Kind = _root_.com.google.protobuf.struct.Value.Kind.Empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Value] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

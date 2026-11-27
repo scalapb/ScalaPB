@@ -38,13 +38,26 @@ class Parser(text: String, recursionLimit: Int) {
       closer match {
         case Some(cl) if token == cl => acc
         case _                       =>
-          if (!Tokenizer.isIdentifier(token)) throw {
+          val name = if (token == "[") {
+            val url = new StringBuilder
+            while (it.hasNext && it.currentToken != "]") {
+              val part = it.next()
+              if (!Tokenizer.isIdentifier(part) && part != "/")
+                throw parseException("Invalid Any type URL")
+              url.append(part)
+            }
+            if (!it.hasNext) throw parseException("Unclosed Any type URL")
+            it.next()
+            if (!url.contains('/')) throw parseException("Expected identifier, got [")
+            "[" + url.result() + "]"
+          } else token
+          if (token != "[" && !Tokenizer.isIdentifier(token)) throw {
             throw parseException(s"Expected identifier, got $token")
           }
           if (!it.hasNext) throw parseException("Expected value after identifier")
           else {
             val value = parseValue(it.next())
-            parseKeyValueList(closer, acc :+ TField(pos, token, value))
+            parseKeyValueList(closer, acc :+ TField(pos, name, value))
           }
       }
 

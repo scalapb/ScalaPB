@@ -68,6 +68,10 @@ object ConformanceScala {
 
   val JsonPrinter = JsonFormat.printer.withTypeRegistry(typeRegistry)
 
+  val textTypeRegistry = textformat.TypeRegistry.empty
+    .addMessage(test_messages_proto2.TestAllTypesProto2)
+    .addMessage(test_messages_proto3.TestAllTypesProto3)
+
   def jsonParser(request: ConformanceRequest): scalapb.json4s.Parser = {
     if (request.testCategory.isJsonIgnoreUnknownParsingTest) IgnoringJsonParser
     else JsonParser
@@ -86,7 +90,10 @@ object ConformanceScala {
           jsonParser(request).fromJsonString(json)
         ).toEither
       case ConformanceRequest.Payload.TextPayload(text) =>
-        Try(cmp.fromAscii(text)).toEither
+        TextFormat
+          .fromAscii(cmp, text, textTypeRegistry)
+          .left
+          .map(e => new TextFormatException(e.msg))
       case _ => Left(new RuntimeException("Unsupported input format"))
     }
   }
@@ -108,7 +115,9 @@ object ConformanceScala {
                 ConformanceResponse().withSerializeError(err.getMessage)
             }
           case WireFormat.TEXT_FORMAT =>
-            ConformanceResponse().withTextPayload(input.toProtoString)
+            ConformanceResponse().withTextPayload(
+              TextFormat.printToString(input, request.printUnknownFields)
+            )
           case _ => ConformanceResponse()
         }
       case Left(err) =>

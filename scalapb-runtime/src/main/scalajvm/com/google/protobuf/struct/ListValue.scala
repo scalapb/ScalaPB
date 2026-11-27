@@ -14,7 +14,7 @@ import _root_.scalapb.internal.compat.JavaConverters._
 @SerialVersionUID(0L)
 final case class ListValue(
     values: _root_.scala.Seq[_root_.com.google.protobuf.struct.Value] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ListValue] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

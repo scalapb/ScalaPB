@@ -74,6 +74,9 @@ trait GeneratedOneofCompanion
 
 trait GeneratedMessage extends Any with Product with Serializable {
 
+  /** Unknown wire fields stored by this message, or empty when preservation is disabled. */
+  def unknownFields: UnknownFieldSet = UnknownFieldSet.empty
+
   /** Serializes the message into the given coded output stream */
   def writeTo(output: CodedOutputStream): Unit
 

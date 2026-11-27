@@ -13,7 +13,7 @@ package com.google.protobuf.empty
   */
 @SerialVersionUID(0L)
 final case class Empty(
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Empty] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

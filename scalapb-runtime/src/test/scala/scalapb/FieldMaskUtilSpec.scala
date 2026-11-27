@@ -46,4 +46,18 @@ class FieldMaskUtilSpec extends FunSuite {
     val value = FieldMaskUtil.lowerSnakeCaseToCamelCase("__")
     assertEquals(value, "")
   }
+  test("JSON field masks reject underscores and preserve initial capitals as leading underscores") {
+    intercept[IllegalArgumentException](FieldMaskUtil.fromJsonString("foo,bar_bar"))
+    assertEquals(
+      FieldMaskUtil.fromJsonString("Foo,fooBar.baz"),
+      FieldMask(Seq("_foo", "foo_bar.baz"))
+    )
+  }
+  test("JSON field mask serialization rejects paths that cannot round trip") {
+    for (path <- Seq("fooBar", "foo_3_bar", "foo__bar", "foo_", "foo._3")) {
+      intercept[IllegalArgumentException](FieldMaskUtil.toJsonString(FieldMask(Seq(path))))
+    }
+    val mask = FieldMask(Seq("foo_bar", "_foo", "foo._bar", "foo3_bar"))
+    assertEquals(FieldMaskUtil.fromJsonString(FieldMaskUtil.toJsonString(mask)), mask)
+  }
 }

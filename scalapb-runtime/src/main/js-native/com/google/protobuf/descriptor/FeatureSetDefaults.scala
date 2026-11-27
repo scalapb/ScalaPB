@@ -20,7 +20,7 @@ final case class FeatureSetDefaults(
     defaults: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault] = _root_.scala.Vector.empty,
     minimumEdition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None,
     maximumEdition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FeatureSetDefaults] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -180,7 +180,7 @@ object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[_root_.com.g
       edition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None,
       overridableFeatures: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
       fixedFeatures: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FeatureSetEditionDefault] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
