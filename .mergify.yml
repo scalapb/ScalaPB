@@ -2,19 +2,25 @@ queue_rules:
   - name: default
     queue_conditions:
       - check-success=ci-passed
+    merge_conditions:
+      - check-success=ci-passed
 
 pull_request_rules:
-  - name: assign and label scala-steward's PRs
+  - name: assign and label dependency PRs
     conditions:
-      - author=scala-steward
+      - or:
+          - author=scala-steward
+          - author=dependabot[bot]
     actions:
       assign:
         users: [thesamet]
       label:
         add: [dependency-update]
-  - name: merge scala-steward's PRs
+  - name: merge dependency PRs
     conditions:
-      - author=scala-steward
+      - or:
+          - author=scala-steward
+          - author=dependabot[bot]
       - check-success=ci-passed
     actions:
       queue:

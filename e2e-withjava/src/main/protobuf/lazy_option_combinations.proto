@@ -1,0 +1,15 @@
+syntax = "proto2";
+import "scalapb/scalapb.proto";
+package com.thesamet.proto.e2e;
+option (scalapb.options) = { lazy_utf8_string_fields: true };
+message LazyDefaults {
+  required string required_text = 1 [default = "héllo"];
+  optional string optional_text = 2 [default = "日本語"];
+  optional string unboxed_text = 3 [default = "fallback", (scalapb.field).no_box = true];
+}
+
+message EagerDefaults {
+  option (scalapb.message).lazy_utf8_string_fields = false;
+  optional string text = 1 [default = "fallback", (scalapb.field).no_box = true];
+  optional bytes data = 2 [default = "fallback", (scalapb.field).no_box = true];
+}

@@ -2,7 +2,12 @@ package scalapb
 
 import java.io.InputStream
 
-import com.google.protobuf.{CodedOutputStream, CodedInputStream, InvalidProtocolBufferException}
+import com.google.protobuf.{
+  ByteString,
+  CodedOutputStream,
+  CodedInputStream,
+  InvalidProtocolBufferException
+}
 
 object LiteParser {
   def readMessage[A <: GeneratedMessage](input: CodedInputStream, message: A)(implicit
@@ -82,6 +87,16 @@ object LiteParser {
       checkFrameSize(size, maxFrameSize)
       Some(readDelimitedMessage(input, size)(cmp.parseFrom(input)))
     }
+  }
+
+  /** Reads a length-delimited string field as raw bytes, rejecting malformed UTF-8. Used by
+    * generated parsers for lazy string fields.
+    */
+  def readUtf8Bytes(input: CodedInputStream): ByteString = {
+    val bytes = input.readBytes()
+    if (!bytes.isValidUtf8())
+      throw new InvalidProtocolBufferException("Protocol message had invalid UTF-8.")
+    bytes
   }
 
   @inline
