@@ -1,6 +1,9 @@
 # Change Log
 
 ## [Unreleased]
+- Upgrade protoc-gen and protoc-cache-coursier to 0.10.0 together with their Coursier compatibility fixes.
+- Make dependency-update CI more reliable and require a website build before automatically merging Scala Steward and Dependabot updates.
+- Backport Coursier XML compatibility and handle the newer dependency API deprecation in compiler tests.
 - Backport Coursier transitive dependency and documentation/test dependency security updates, including the maintained LZ4 artifact; run documentation checks on JDK 17.
 - Upgrade the CLI commons-lang3 dependency to 3.21.0.
 - Omit unused JavaConverters imports from generated gRPC services (#358).
