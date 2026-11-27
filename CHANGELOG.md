@@ -1,5 +1,12 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Support Edition 2026 after aligning protoc, protobuf-java and vendored descriptors
+  on v36.2. Validate strict visibility, naming collisions, structure limits,
+  removed options and explicit compatibility overrides; reject unknown/unstable editions.
+- Execute stable Editions conformance fixtures and report coverage by family and
+  output format. JSON support currently requires the local Editions-aware json4s
+  build; replace development artifact pins before publishing a release.
+
 - Support Edition 2024 with edition-indexed descriptor defaults, option imports,
   visibility/naming validation through protoc, mixed Java nesting policies and
   Java large-enum interoperability. Protoc 32.0 or newer is required for 2024.

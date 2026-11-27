@@ -1,0 +1,10 @@
+edition = "2026";
+package com.thesamet.proto.e2e;
+option features.enforce_naming_style = STYLE2024;
+option features.default_symbol_visibility = EXPORT_TOP_LEVEL;
+
+message Edition2026Compat {
+  option features.enforce_proto_limits = LEGACY_NO_EXPLICIT_LIMITS;
+  string value = 1;
+  string has_value = 2;
+}

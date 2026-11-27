@@ -21,7 +21,7 @@ class ProtobufGeneratorSpec extends AnyFlatSpec with Matchers with ProtocInvocat
     response.hasMinimumEdition must be(true)
     response.getMinimumEdition must be(Edition.EDITION_2023_VALUE)
     response.hasMaximumEdition must be(true)
-    response.getMaximumEdition must be(Edition.EDITION_2024_VALUE)
+    response.getMaximumEdition must be(Edition.EDITION_2026_VALUE)
   }
 
   "Scala 3 source generation" should "use question-mark wildcards in message and file companions" in {
