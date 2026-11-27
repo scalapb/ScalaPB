@@ -25,7 +25,8 @@ jobs:
 
     - uses: actions/setup-java@v5
       with:
-        java-version: ${{ matrix.script == 'examples_and_formatting' && '17' || '11' }}
+        # Scala 3 test dependencies (scala-xml 2.5) require JDK 17.
+        java-version: ${{ (matrix.scala == '3' || matrix.script == 'examples_and_formatting') && '17' || '11' }}
         distribution: temurin
 
     - uses: sbt/setup-sbt@v1
