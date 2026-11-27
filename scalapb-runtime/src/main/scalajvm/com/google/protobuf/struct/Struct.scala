@@ -93,6 +93,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[_root_.com.google.protob
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __fields += _root_.com.google.protobuf.struct.Struct._typemapper_fields.toCustom(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.struct.Struct.FieldsEntry](_input__))
         case tag =>
@@ -218,6 +219,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[_root_.com.google.protob
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 10 =>
             __key = _input__.readStringRequireUtf8()
           case 18 =>

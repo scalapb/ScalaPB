@@ -305,6 +305,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __extends += _input__.readStringRequireUtf8()
         case 18 =>

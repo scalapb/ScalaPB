@@ -5,10 +5,16 @@ import scalapb.{GeneratedMessage, textformat}
 import scala.annotation.nowarn
 
 object Printer {
-  def print(t: GeneratedMessage, out: TextGenerator): Unit = print(t, out, false)
+  def print(t: GeneratedMessage, out: TextGenerator): Unit =
+    print(t, out, false, TypeRegistry.empty)
 
   @nowarn("cat=deprecation")
-  private def print(t: GeneratedMessage, out: TextGenerator, printUnknownFields: Boolean): Unit = {
+  private def print(
+      t: GeneratedMessage,
+      out: TextGenerator,
+      printUnknownFields: Boolean,
+      typeRegistry: TypeRegistry
+  ): Unit = {
     t.companion.scalaDescriptor.fields.sortBy(_.number).foreach { fd =>
       fd.scalaType match {
         case ScalaType.Message(messageType) =>
@@ -19,7 +25,7 @@ object Printer {
           if (fd.isRepeated)
             value
               .asInstanceOf[Seq[GeneratedMessage]]
-              .foreach(printMessageField(fd, _, out, printUnknownFields))
+              .foreach(printMessageField(fd, _, out, printUnknownFields, typeRegistry))
           else {
             val omitEmpty = omitEmptyMessage(fd, messageType)
             // The legacy accessor returns null for an unboxed default instance, even when
@@ -32,12 +38,42 @@ object Printer {
                   .asInstanceOf[GeneratedMessage]
               else value.asInstanceOf[GeneratedMessage]
             if (message != null && (!omitEmpty || message.serializedSize != 0))
-              printMessageField(fd, message, out, printUnknownFields)
+              printMessageField(fd, message, out, printUnknownFields, typeRegistry)
           }
         case _ => printField(fd, t.getField(fd), out)
       }
     }
-    if (printUnknownFields) printUnknown(t.unknownFields, out)
+    val extensions = typeRegistry.messageExtensions(t.companion.scalaDescriptor)
+    extensions.sortBy(_.field.getNumber).foreach { extension =>
+      t.unknownFields.getField(extension.field.getNumber).foreach { field =>
+        val payloads =
+          if (extension.field.getType.isTypeGroup) field.group.map(_.toByteString)
+          else field.lengthDelimited
+        payloads.foreach { payload =>
+          out.add("[" + extension.name + "]").addNewLine(" {").indent()
+          print(
+            extension.companion.parseFrom(payload.toByteArray),
+            out,
+            printUnknownFields,
+            typeRegistry
+          )
+          out.outdent().addNewLine("}")
+        }
+      }
+    }
+    if (printUnknownFields)
+      printUnknown(
+        extensions.foldLeft(t.unknownFields) { (unknown, extension) =>
+          unknown.getField(extension.field.getNumber).fold(unknown) { field =>
+            unknown.withField(
+              extension.field.getNumber,
+              if (extension.field.getType.isTypeGroup) field.copy(group = Vector.empty)
+              else field.copy(lengthDelimited = Vector.empty)
+            )
+          }
+        },
+        out
+      )
   }
 
   private def printUnknown(
@@ -56,6 +92,11 @@ object Printer {
       field.fixed64.foreach(v =>
         scalar("0x" + ("0000000000000000" + java.lang.Long.toHexString(v)).takeRight(16))
       )
+      field.group.foreach { group =>
+        out.add(number.toString).addNewLine(" {").indent()
+        printUnknown(group, out, depth + 1)
+        out.outdent().addNewLine("}")
+      }
       field.lengthDelimited.foreach { bytes =>
         // Prefer a message representation for complete wire messages, as Java TextFormat does.
         // Bound speculative recursive decoding of unknown data.
@@ -104,10 +145,14 @@ object Printer {
       fd: FieldDescriptor,
       message: GeneratedMessage,
       out: TextGenerator,
-      printUnknownFields: Boolean
+      printUnknownFields: Boolean,
+      typeRegistry: TypeRegistry
   ): Unit = {
-    out.add(fd.name).addNewLine(" {").indent()
-    print(message, out, printUnknownFields)
+    val name =
+      if (fd.protoType.isTypeGroup) fd.scalaType.asInstanceOf[ScalaType.Message].descriptor.name
+      else fd.name
+    out.add(name).addNewLine(" {").indent()
+    print(message, out, printUnknownFields, typeRegistry)
     out.outdent().addNewLine("}")
     ()
   }
@@ -145,8 +190,18 @@ object Printer {
       escapeNonAscii: Boolean,
       printUnknownFields: Boolean
   ): String = {
+    printToString(t, singleLineMode, escapeNonAscii, printUnknownFields, TypeRegistry.empty)
+  }
+
+  def printToString(
+      t: GeneratedMessage,
+      singleLineMode: Boolean,
+      escapeNonAscii: Boolean,
+      printUnknownFields: Boolean,
+      typeRegistry: TypeRegistry
+  ): String = {
     val out = new TextGenerator(singleLine = singleLineMode, escapeNonAscii = escapeNonAscii)
-    print(t, out, printUnknownFields)
+    print(t, out, printUnknownFields, typeRegistry)
     out.result()
   }
 
@@ -165,7 +220,10 @@ object Printer {
       value: scalapb.descriptors.PValue,
       out: TextGenerator
   ): TextGenerator = {
-    out.add(fd.name)
+    val name =
+      if (fd.protoType.isTypeGroup) fd.scalaType.asInstanceOf[ScalaType.Message].descriptor.name
+      else fd.name
+    out.add(name)
     value match {
       case scalapb.descriptors.PMessage(_) =>
         out.addNewLine(" {").indent()

@@ -152,6 +152,7 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[_root_.com.goo
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 8 =>
           __deprecated = _root_.scala.Option(_input__.readBool())
         case 18 =>

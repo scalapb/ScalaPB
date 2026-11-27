@@ -86,6 +86,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __annotation += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation](_input__)
         case tag =>
@@ -288,6 +289,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 8 =>
             __path += _input__.readInt32()
           case 10 => {

@@ -266,9 +266,9 @@ class TextFormatSpec
       "Invalid escape sequence: z (line 1, column 18)"
     )
     "optional_string: \"ueoauaoe\noptional_int32: 123" must failParsingWith(UNCLOSED_STRING)
-    "[nosuchext]: 123" must failParsingWith("Expected identifier, got [")
+    "[nosuchext]: 123" must failParsingWith("Unknown message extension '[nosuchext]'")
     "[protobuf_unittest.optional_int32_extension]: 123" must failParsingWith(
-      "Expected identifier, got ["
+      "Unknown message extension '[protobuf_unittest.optional_int32_extension]'"
     )
     "nosuchfield: 123" must failParsingWith("Unknown field name 'nosuchfield' (line 1, column 1)")
     "optional_nested_enum: NO_SUCH_VALUE" must failParsingWith(

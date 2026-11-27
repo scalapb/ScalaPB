@@ -170,6 +170,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[_root_.com.
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 18 =>
           __name += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart](_input__)
         case 26 =>
@@ -324,6 +325,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[_root_.com.
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 10 =>
             __namePart = _input__.readStringRequireUtf8()
             __requiredFields0 &= 0xfffffffffffffffeL

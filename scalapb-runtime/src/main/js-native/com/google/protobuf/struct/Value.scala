@@ -138,6 +138,7 @@ object Value extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobu
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 8 =>
           __kind = _root_.com.google.protobuf.struct.Value.Kind.NullValue(_root_.com.google.protobuf.struct.NullValue.fromValue(_input__.readEnum()))
         case 17 =>

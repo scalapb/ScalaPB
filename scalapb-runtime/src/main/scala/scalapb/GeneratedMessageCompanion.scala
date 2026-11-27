@@ -83,7 +83,7 @@ trait GeneratedMessage extends Any with Product with Serializable {
   /** Serializes the message into the given output stream */
   final def writeTo(output: OutputStream): Unit = {
     val bufferSize =
-      LiteParser.preferredCodedOutputStreamBufferSize(serializedSize)
+      math.max(1, LiteParser.preferredCodedOutputStreamBufferSize(serializedSize))
     val codedOutput: CodedOutputStream =
       CodedOutputStream.newInstance(output, bufferSize)
     writeTo(codedOutput)
@@ -172,10 +172,18 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] extends Serializable {
   self =>
   type ValueType = A
 
-  /** Parses a message from a CodedInputStream. */
+  /** Parses fields until EOF, the current input limit, or an end-group tag. The caller must
+    * validate the last tag: zero for an ordinary message, or the matching end tag for a group.
+    */
   def parseFrom(input: CodedInputStream): A
 
-  def parseFrom(input: InputStream): A = parseFrom(CodedInputStream.newInstance(input))
+  private def parseCompleteMessage(input: CodedInputStream): A = {
+    val result = parseFrom(input)
+    input.checkLastTagWas(0)
+    result
+  }
+
+  def parseFrom(input: InputStream): A = parseCompleteMessage(CodedInputStream.newInstance(input))
 
   def parseDelimitedFrom(input: CodedInputStream): Option[A] =
     LiteParser.parseDelimitedFrom(input)(this)
@@ -202,7 +210,7 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] extends Serializable {
     Stream.continually(parseDelimitedFrom(codedInputStream)).takeWhile(_.isDefined).map(_.get)
   }
 
-  def parseFrom(s: Array[Byte]): A = parseFrom(CodedInputStream.newInstance(s))
+  def parseFrom(s: Array[Byte]): A = parseCompleteMessage(CodedInputStream.newInstance(s))
 
   /** Merges the given message with the additional fields in the steam. */
   def merge(a: A, input: CodedInputStream): A = {

@@ -68,6 +68,7 @@ object MyContainer extends scalapb.GeneratedMessageCompanion[_root_.com.thesamet
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __myAny = _root_.scala.Option(__myAny.fold(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.any.Any](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case tag =>

@@ -10,6 +10,23 @@ import com.google.protobuf.{
 }
 
 object LiteParser {
+
+  def readGroup[A <: GeneratedMessage](input: CodedInputStream, fieldNumber: Int)(implicit
+      cmp: GeneratedMessageCompanion[A]
+  ): A = {
+    val result = cmp.parseFrom(input)
+    input.checkLastTagWas((fieldNumber << 3) | WireType.WIRETYPE_END_GROUP)
+    result
+  }
+
+  def readGroup[A <: GeneratedMessage](input: CodedInputStream, fieldNumber: Int, message: A)(
+      implicit cmp: GeneratedMessageCompanion[A]
+  ): A = {
+    val result = cmp.merge(message, input)
+    input.checkLastTagWas((fieldNumber << 3) | WireType.WIRETYPE_END_GROUP)
+    result
+  }
+
   def readMessage[A <: GeneratedMessage](input: CodedInputStream, message: A)(implicit
       cmp: GeneratedMessageCompanion[A]
   ): A = {

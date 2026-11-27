@@ -132,6 +132,7 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[_root_.co
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 7994 =>
           __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.UninterpretedOption](_input__)
         case 18 =>
@@ -374,6 +375,7 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[_root_.co
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 8 =>
             __number = _root_.scala.Option(_input__.readInt32())
           case 18 =>

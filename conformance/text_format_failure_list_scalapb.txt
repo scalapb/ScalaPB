@@ -1,37 +1,16 @@
 # protobuf v36.2 text-format limitations. Exact names; no duplicates or wildcards.
 
 # Unknown-field text printing/drop behavior
-Recommended.Proto3.ProtobufInput.GroupUnknownFields_Drop.TextFormatOutput
-Recommended.Proto3.ProtobufInput.GroupUnknownFields_Print.TextFormatOutput
-Recommended.Proto3.ProtobufInput.RepeatedUnknownFields_Drop.TextFormatOutput
-Recommended.Proto3.ProtobufInput.RepeatedUnknownFields_Print.TextFormatOutput
 
 # Group text parsing
-Required.Proto2.TextFormatInput.GroupFieldEmpty.ProtobufOutput
-Required.Proto2.TextFormatInput.GroupFieldEmpty.TextFormatOutput
-Required.Proto2.TextFormatInput.GroupFieldNoColon.ProtobufOutput
-Required.Proto2.TextFormatInput.GroupFieldNoColon.TextFormatOutput
-Required.Proto2.TextFormatInput.GroupFieldWithColon.ProtobufOutput
-Required.Proto2.TextFormatInput.GroupFieldWithColon.TextFormatOutput
 
 # Group names and the omitted group extension (groups prerequisite)
-Required.Proto2.TextFormatInput.GroupFieldExtension.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto2.TextFormatInput.GroupFieldExtension.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto2.TextFormatInput.GroupFieldLowercased.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto2.TextFormatInput.GroupFieldLowercased.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto2.TextFormatInput.GroupFieldLowercasedMultiWord.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto2.TextFormatInput.GroupFieldLowercasedMultiWord.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto2.TextFormatInput.GroupFieldMultiWord.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto2.TextFormatInput.GroupFieldMultiWord.TextFormatOutput # Failed to parse input or produce output.
 
 # Expanded Any text syntax / type URLs
 Required.Proto3.TextFormatInput.AnyFieldWithSpecialCharactersInTypeUrlPrefix.ProtobufOutput # Failed to parse input or produce output.
 Required.Proto3.TextFormatInput.AnyFieldWithSpecialCharactersInTypeUrlPrefix.TextFormatOutput # Failed to parse input or produce output.
 Required.Proto3.TextFormatInput.AnyFieldWithValidUrlPercentEscapeInTypeUrlPrefix.ProtobufOutput # Failed to parse input or produce output.
 Required.Proto3.TextFormatInput.AnyFieldWithValidUrlPercentEscapeInTypeUrlPrefix.TextFormatOutput # Failed to parse input or produce output.
-
-# Enum reflection and unknown enum numbers (enum/text prerequisites)
-Required.Proto2.TextFormatInput.ClosedEnumFieldByNumber.TextFormatOutput # Failed to parse input or produce output.
 
 # Reserved field names should be ignored, but AstUtils rejects them as unknown
 Required.Proto3.TextFormatInput.ReservedFieldName.Boolean.ProtobufOutput # Failed to parse input or produce output.

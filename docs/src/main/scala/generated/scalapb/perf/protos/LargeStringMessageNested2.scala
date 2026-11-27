@@ -187,6 +187,7 @@ object LargeStringMessageNested2 extends scalapb.GeneratedMessageCompanion[_root
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __level31 = _root_.scala.Option(__level31.fold(_root_.scalapb.LiteParser.readMessage[_root_.scalapb.perf.protos.Strings10](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 18 =>

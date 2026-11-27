@@ -7,6 +7,7 @@ import scalapb.descriptors.{FieldDescriptor, PValue}
 import scalapb.{GeneratedMessage, GeneratedMessageCompanion}
 
 import scala.util.Try
+import ParsedValue.{Value => Parsed, Message => ParsedMessage, Repeated => ParsedRepeated, Scalar}
 
 private[scalapb] object AstUtils {
   case class AstError(position: Position, error: String)
@@ -24,7 +25,10 @@ private[scalapb] object AstUtils {
       ast: TMessage,
       typeRegistry: TypeRegistry = TypeRegistry.empty
   ): Either[AstError, T] = {
-    parseUnsafe(v, ast, typeRegistry).map(v.messageReads.read)
+    parseUnsafe(v, ast, typeRegistry).map { parsed =>
+      if (parsed.hasExtensions) v.parseFrom(parsed.toByteArray)
+      else v.messageReads.read(parsed.toPValue)
+    }
   }
 
   def checkBigInt(
@@ -74,7 +78,7 @@ private[scalapb] object AstUtils {
       v: GeneratedMessageCompanion[?],
       ast: TMessage,
       typeRegistry: TypeRegistry
-  ): Either[AstError, PMessage] = {
+  ): Either[AstError, ParsedMessage] = {
     if (
       v.scalaDescriptor.fullName == "google.protobuf.Any" && ast.fields.exists(
         _.name.startsWith("[")
@@ -87,11 +91,15 @@ private[scalapb] object AstUtils {
             case None            => Left(AstError(position, s"Unknown Any type URL '$url'"))
             case Some(companion) =>
               parseUnsafe(companion, body, typeRegistry).map { parsed =>
-                val message = companion.messageReads.read(parsed).asInstanceOf[GeneratedMessage]
-                PMessage(
+                val message =
+                  (if (parsed.hasExtensions) companion.parseFrom(parsed.toByteArray)
+                   else companion.messageReads.read(parsed.toPValue)).asInstanceOf[GeneratedMessage]
+                ParsedMessage(
                   Map(
-                    v.scalaDescriptor.findFieldByNumber(1).get -> PString(url),
-                    v.scalaDescriptor.findFieldByNumber(2).get -> PByteString(message.toByteString)
+                    v.scalaDescriptor.findFieldByNumber(1).get -> Scalar(PString(url)),
+                    v.scalaDescriptor.findFieldByNumber(2).get -> Scalar(
+                      PByteString(message.toByteString)
+                    )
                   )
                 )
               }
@@ -199,7 +207,7 @@ private[scalapb] object AstUtils {
         case FieldDescriptorProto.Type.TYPE_SINT32   => parseInt32(p)
         case FieldDescriptorProto.Type.TYPE_SINT64   => parseInt64(p)
         case FieldDescriptorProto.Type.TYPE_GROUP    =>
-          Left(AstError(p.position, "groups are not supported"))
+          Left(AstError(p.position, "Expected group body"))
         case FieldDescriptorProto.Type.TYPE_ENUM => {
           val enumDesc = v.enumCompanionForFieldNumber(field.number).scalaDescriptor
           p match {
@@ -238,7 +246,7 @@ private[scalapb] object AstUtils {
 
     }
 
-    def pfieldToValue(fd: FieldDescriptor, pfield: TField): Either[AstError, PValue] =
+    def pfieldToValue(fd: FieldDescriptor, pfield: TField): Either[AstError, Parsed] =
       pfield.value match {
         case arr: TArray =>
           if (!fd.isRepeated)
@@ -249,7 +257,7 @@ private[scalapb] object AstUtils {
               )
             )
           else {
-            if (fd.protoType.isTypeMessage) {
+            if ((fd.protoType.isTypeMessage || fd.protoType.isTypeGroup)) {
               val idx = arr.values.indexWhere(!_.isInstanceOf[TMessage])
               if (idx != -1)
                 Left(AstError(arr.position, s"Array contain a non-message value at index ${idx}"))
@@ -264,55 +272,112 @@ private[scalapb] object AstUtils {
                       )
                     )
                     .toVector
-                ).map(PRepeated(_))
+                ).map(ParsedRepeated(_))
             } else {
               val idx = arr.values.indexWhere(!_.isInstanceOf[TPrimitive])
               if (idx != -1) Left(AstError(arr.position, s"Unexpected value at index $idx"))
               else
                 flatten(
-                  arr.values.map(t => parsePrimitive(fd, t.asInstanceOf[TPrimitive])).toVector
-                ).map(PRepeated(_))
+                  arr.values
+                    .map(t => parsePrimitive(fd, t.asInstanceOf[TPrimitive]).map(Scalar(_)))
+                    .toVector
+                ).map(ParsedRepeated(_))
             }
           }
         case p: TPrimitive =>
-          if (fd.protoType.isTypeMessage) Left(AstError(p.position, "invalid value for message"))
+          if ((fd.protoType.isTypeMessage || fd.protoType.isTypeGroup))
+            Left(AstError(p.position, "invalid value for message"))
           else {
-            parsePrimitive(fd, p)
+            parsePrimitive(fd, p).map(Scalar(_))
           }
         case p: TMessage =>
-          if (!fd.protoType.isTypeMessage) Left(AstError(p.position, "invalid value for message"))
+          if (!(fd.protoType.isTypeMessage || fd.protoType.isTypeGroup))
+            Left(AstError(p.position, "invalid value for message"))
           else {
             parseUnsafe(v.messageCompanionForFieldNumber(fd.number), p, typeRegistry)
           }
       }
 
     val fieldMap: Map[String, FieldDescriptor] =
-      v.scalaDescriptor.fields.map(f => (f.name, f)).toMap
+      v.scalaDescriptor.fields.flatMap { f =>
+        val name =
+          if (f.protoType.isTypeGroup) f.scalaType.asInstanceOf[ScalaType.Message].descriptor.name
+          else f.name
+        Seq(name -> f, f.name -> f)
+      }.toMap
 
-    val fields: Map[String, Seq[TField]] = ast.fields.groupBy(_.name)
+    val (extensions, ordinary) = ast.fields.partition(_.name.startsWith("["))
 
     def fieldGroupToValue(
-        name: String,
+        fd: FieldDescriptor,
         group: Seq[TField]
-    ): Either[AstError, (FieldDescriptor, PValue)] = {
-      val fd: FieldDescriptor                      = fieldMap(name)
-      val values: Either[AstError, Vector[PValue]] = flatten(group.map(pfieldToValue(fd, _)))
+    ): Either[AstError, (FieldDescriptor, Parsed)] = {
+      val values: Either[AstError, Vector[Parsed]] = flatten(group.map(pfieldToValue(fd, _)))
 
-      values.map { (t: Seq[PValue]) =>
+      values.map { (t: Seq[Parsed]) =>
         if (!fd.isRepeated) fd -> t.last
         else
-          fd -> PRepeated(t.foldLeft(Vector[PValue]()) {
-            case (xs, PRepeated(ys)) => xs ++ ys
-            case (xs, t: PValue)     => xs :+ t
+          fd -> ParsedRepeated(t.foldLeft(Vector[Parsed]()) {
+            case (xs, ParsedRepeated(ys)) => xs ++ ys
+            case (xs, t: Parsed)          => xs :+ t
           })
       }
     }
 
-    val maybeMap: Either[AstError, Vector[(FieldDescriptor, PValue)]] =
-      ast.fields.find(f => !fieldMap.contains(f.name)) match {
+    val maybeMap: Either[AstError, Vector[(FieldDescriptor, Parsed)]] =
+      ordinary.find(f => !fieldMap.contains(f.name)) match {
         case Some(f) => Left(AstError(f.position, s"Unknown field name '${f.name}'"))
-        case None    => flatten(fields.map((fieldGroupToValue _).tupled).toVector)
+        case None    =>
+          flatten(
+            ordinary.groupBy(f => fieldMap(f.name)).map((fieldGroupToValue _).tupled).toVector
+          )
       }
-    maybeMap.map(t => PMessage(t.toMap))
+    maybeMap.flatMap { t =>
+      val parsed = ParsedMessage(t.toMap)
+      if (extensions.isEmpty) Right(parsed)
+      else {
+        val registered =
+          typeRegistry.messageExtensions(v.scalaDescriptor).map(e => "[" + e.name + "]" -> e).toMap
+        flatten(extensions.map { f =>
+          registered.get(f.name) match {
+            case None =>
+              Left(
+                AstError(
+                  f.position,
+                  s"Unknown message extension '${f.name}'; register its payload companion"
+                )
+              )
+            case Some(extension) =>
+              val values = f.value match {
+                case TArray(_, values) if extension.field.getLabel.isLabelRepeated => values
+                case value                                                         => Seq(value)
+              }
+              flatten(values.map {
+                case body: TMessage =>
+                  parseMessage(extension.companion, body, typeRegistry).map { message =>
+                    val bytes  = new java.io.ByteArrayOutputStream()
+                    val output = com.google.protobuf.CodedOutputStream.newInstance(bytes)
+                    if (extension.field.getType.isTypeGroup) {
+                      output.writeTag(
+                        extension.field.getNumber,
+                        scalapb.WireType.WIRETYPE_START_GROUP
+                      )
+                      message.writeTo(output)
+                      output.writeTag(
+                        extension.field.getNumber,
+                        scalapb.WireType.WIRETYPE_END_GROUP
+                      )
+                    } else output.writeBytes(extension.field.getNumber, message.toByteString)
+                    output.flush()
+                    bytes.toByteArray
+                  }
+                case value => Left(AstError(value.position, "Expected message extension body"))
+              })
+          }
+        }).map { chunks =>
+          parsed.copy(extensions = chunks.flatten)
+        }
+      }
+    }
   }
 }

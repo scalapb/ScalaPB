@@ -111,6 +111,7 @@ object Person extends scalapb.GeneratedMessageCompanion[_root_.scalapb.docs.pers
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __name = _input__.readStringRequireUtf8()
         case 16 =>
@@ -309,6 +310,7 @@ object Person extends scalapb.GeneratedMessageCompanion[_root_.scalapb.docs.pers
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 8 =>
             __addressType = _root_.scalapb.docs.person.Person.AddressType.fromValue(_input__.readEnum())
           case 18 =>

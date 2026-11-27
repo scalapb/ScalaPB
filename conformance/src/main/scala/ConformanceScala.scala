@@ -70,6 +70,7 @@ object ConformanceScala {
   val JsonPrinter = JsonFormat.printer.withTypeRegistry(typeRegistry)
 
   val textTypeRegistry = textformat.TypeRegistry.empty
+    .addMessage(test_messages_proto2.GroupField)
     .addMessage(test_messages_proto2.TestAllTypesProto2)
     .addMessage(test_messages_proto3.TestAllTypesProto3)
 
@@ -116,7 +117,7 @@ object ConformanceScala {
               ConformanceResponse().withJsonPayload(JsonPrinter.print(input))
             case WireFormat.TEXT_FORMAT =>
               ConformanceResponse().withTextPayload(
-                TextFormat.printToString(input, request.printUnknownFields)
+                TextFormat.printToString(input, textTypeRegistry, request.printUnknownFields)
               )
             case _ => ConformanceResponse().withSkipped("Unsupported output format")
           }

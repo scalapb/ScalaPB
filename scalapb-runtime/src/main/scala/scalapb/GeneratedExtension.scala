@@ -16,7 +16,10 @@ object GeneratedExtension {
   def readMessageFromByteString[T <: GeneratedMessage](
       cmp: GeneratedMessageCompanion[T]
   )(bs: ByteString): T = {
-    cmp.parseFrom(bs.newCodedInput())
+    val input  = bs.newCodedInput()
+    val result = cmp.parseFrom(input)
+    input.checkLastTagWas(0)
+    result
   }
 
   def singleUnknownFieldLens[E, T](fromBase: E => T, toBase: T => E, default: T): Lens[Seq[E], T] =

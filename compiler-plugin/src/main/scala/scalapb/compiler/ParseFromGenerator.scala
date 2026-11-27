@@ -178,23 +178,28 @@ private[compiler] class ParseFromGenerator(
               "}"
             )
           }
-          .add(s"""var _done__ = false
-                  |while (!_done__)${message.V.Do} {
-                  |  val _tag__ = _input__.readTag()
-                  |  _tag__ match {
-                  |    case 0 => _done__ = true""".stripMargin)
+          .add(
+            s"""var _done__ = false
+               |while (!_done__)${message.V.Do} {
+               |  val _tag__ = _input__.readTag()
+               |  _tag__ match {
+               |    case 0 => _done__ = true
+               |    case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true""".stripMargin
+          )
           .print(message.fields) { (printer, field) =>
             val p = {
               val newValBase = if (field.isMessage) {
                 // In 0.10.x we can't simply call any of the new methods that relies on Builder,
                 // since the references message may have been generated using an older version of
                 // ScalaPB.
-                val baseName = field.baseSingleScalaTypeName
-                val read     =
+                val baseName   = field.baseSingleScalaTypeName
+                val readMethod = if (field.isGroup) "readGroup" else "readMessage"
+                val inputArgs  = if (field.isGroup) s"_input__, ${field.getNumber}" else "_input__"
+                val read       =
                   if (field.isRepeated)
-                    s"_root_.scalapb.LiteParser.readMessage[$baseName](_input__)"
+                    s"_root_.scalapb.LiteParser.$readMethod[$baseName]($inputArgs)"
                   else if (usesBaseTypeInBuilder(field)) {
-                    s"_root_.scala.Some(__${field.scalaName}.fold(_root_.scalapb.LiteParser.readMessage[$baseName](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))"
+                    s"_root_.scala.Some(__${field.scalaName}.fold(_root_.scalapb.LiteParser.$readMethod[$baseName]($inputArgs))(_root_.scalapb.LiteParser.$readMethod($inputArgs, _)))"
                   } else {
                     val expr =
                       if (field.isInOneof)
@@ -202,8 +207,9 @@ private[compiler] class ParseFromGenerator(
                       else s"__${field.scalaName}"
                     val mappedType = toBaseFieldType(field).apply(expr, field.enclosingType)
                     if (field.isInOneof || field.supportsPresence)
-                      s"$mappedType.fold(_root_.scalapb.LiteParser.readMessage[$baseName](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _))"
-                    else s"_root_.scalapb.LiteParser.readMessage[$baseName](_input__, $mappedType)"
+                      s"$mappedType.fold(_root_.scalapb.LiteParser.$readMethod[$baseName]($inputArgs))(_root_.scalapb.LiteParser.$readMethod($inputArgs, _))"
+                    else
+                      s"_root_.scalapb.LiteParser.$readMethod[$baseName]($inputArgs, $mappedType)"
                   }
                 read
               } else if (field.isEnum)
@@ -243,7 +249,7 @@ private[compiler] class ParseFromGenerator(
                   val entryType   = field.getMessageType.scalaType.fullName
                   val enumType    = field.mapType.valueField.getEnumType.scalaType.fullName
                   val mappedEntry =
-                    toCustomType(field)(s"$entryType.parseFrom(_entryBytes__.newCodedInput())")
+                    toCustomType(field)(s"$entryType.parseFrom(_entryBytes__.toByteArray())")
                   val validateKeyUtf8 = field.mapType.keyField.needsUtf8Check()
                   s"""val _entryBytes__ = _input__.readBytes()
                      |if (_root_.scalapb.ClosedEnumMapEntry.isUnknown(_entryBytes__, $enumType, $validateKeyUtf8))${message.V.Then} {
@@ -283,7 +289,11 @@ private[compiler] class ParseFromGenerator(
                        |    }""".stripMargin)
             } else p
           }
-          .when(!message.preservesUnknownFields)(_.add("    case tag => _input__.skipField(tag)"))
+          .when(!message.preservesUnknownFields)(
+            _.add(
+              "    case tag => _input__.skipField(tag)"
+            )
+          )
           .when(message.preservesUnknownFields)(
             _.add(
               s"""    case tag =>

@@ -22,6 +22,14 @@ object TextFormat extends ProtoAsciiParsing {
       printUnknownFields = printUnknownFields
     )
 
+  /** Prints message-valued extensions whose payload types are explicitly registered. */
+  def printToString(
+      m: GeneratedMessage,
+      typeRegistry: scalapb.textformat.TypeRegistry,
+      printUnknownFields: Boolean
+  ): String =
+    Printer.printToString(m, false, true, printUnknownFields, typeRegistry)
+
   def printToUnicodeString(m: GeneratedMessage) = {
     Printer.printToString(m, singleLineMode = false, escapeNonAscii = false)
   }

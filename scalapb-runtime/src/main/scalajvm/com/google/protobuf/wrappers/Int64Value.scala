@@ -90,6 +90,7 @@ object Int64Value extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 8 =>
           __value = _input__.readInt64()
         case tag =>

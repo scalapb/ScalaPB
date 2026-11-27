@@ -55,6 +55,17 @@
   than 1024 digits before constructing a `BigInt`, and report missing integer
   digits as text-format errors. Reject enum numbers outside the signed 32-bit
   range instead of truncating them to a recognized value.
+- Support proto2 groups and Editions `message_encoding = DELIMITED` in generated
+  binary parsers, writers, sizes, descriptors, and extensions. Unknown groups are
+  preserved recursively and malformed or mismatched end tags are rejected.
+  Regenerate sources for group fields. Generated coded-input parsers stop at end-group
+  tags; callers validate the boundary, matching Java without a new companion overload.
+  Byte-array, stream, delimited-message, Any and extension readers reject stray end tags.
+  `UnknownFieldSet.Field` gains a defaulted `group` member; four-argument
+  constructors, `apply`, and `copy` remain available, but its case-class product
+  and extractor arity changes from four to five (update four-element patterns
+  and recompile dependent code).
+  Text format accepts group names and prints known and unknown groups. Registered message-valued extensions are retained through nested text parsing and printing. Binary recursion accounting remains separate work.
 - BREAKING CHANGE: `scala3Sources = true` (or `scala3_sources`) now emits named
   givens, given-based lens conversions, and modern control-flow syntax for Scala 3
   `-source:future` (#2212). This output no longer supports Scala 2 with `-Xsource:3`;

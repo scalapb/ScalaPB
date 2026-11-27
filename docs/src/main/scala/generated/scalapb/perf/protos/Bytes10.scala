@@ -261,6 +261,7 @@ object Bytes10 extends scalapb.GeneratedMessageCompanion[_root_.scalapb.perf.pro
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __s1 = _input__.readBytes()
         case 18 =>

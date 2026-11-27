@@ -48,7 +48,6 @@ class Parser(text: String, recursionLimit: Int) {
             }
             if (!it.hasNext) throw parseException("Unclosed Any type URL")
             it.next()
-            if (!url.contains('/')) throw parseException("Expected identifier, got [")
             "[" + url.result() + "]"
           } else token
           if (token != "[" && !Tokenizer.isIdentifier(token)) throw {
