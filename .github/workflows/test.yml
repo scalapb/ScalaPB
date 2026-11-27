@@ -8,6 +8,7 @@ jobs:
     env:
       SCALA_VERSION: ${{matrix.scala}}
     strategy:
+      fail-fast: false
       matrix:
         scala: [2_12, 2_13, 3]
         script: [mima, e2e, test]
@@ -24,7 +25,8 @@ jobs:
 
     - uses: actions/setup-java@v5
       with:
-        java-version: ${{ matrix.script == 'examples_and_formatting' && '17' || '11' }}
+        # Scala 3 test dependencies (scala-xml 2.5) require JDK 17.
+        java-version: ${{ (matrix.scala == '3' || matrix.script == 'examples_and_formatting') && '17' || '11' }}
         distribution: temurin
 
     - uses: sbt/setup-sbt@v1
@@ -34,9 +36,15 @@ jobs:
       with:
         path: |
           ~/.sbt
+          ~/.cache/sbt
           ~/.ivy2/cache
           ~/.cache/coursier
-        key: ${{ runner.os }}-sbt-${{matrix.scala}}-${{matrix.script}}-${{ hashFiles('**/*.sbt') }}
+        key: ${{ runner.os }}-sbt-${{matrix.scala}}-${{matrix.script}}-${{ hashFiles('**/*.sbt', '**/build.properties', 'project/**/*.scala') }}
+
+    - uses: actions/setup-node@v7
+      if: matrix.script == 'examples_and_formatting'
+      with:
+        node-version: "22"
 
     - name: ${{matrix.script}}
       run: |
@@ -44,6 +52,14 @@ jobs:
       env:
         JAVA_OPTS: -Xmx4G -XX:+UseG1GC
         JVM_OPTS:  -Xmx4G -XX:+UseG1GC
+
+    - name: Build website
+      if: matrix.script == 'examples_and_formatting'
+      working-directory: website
+      run: |
+        corepack enable
+        yarn install --frozen-lockfile
+        yarn build
 
   conformance:
     runs-on: ubuntu-latest
@@ -72,9 +88,10 @@ jobs:
       with:
         path: |
           ~/.sbt
+          ~/.cache/sbt
           ~/.ivy2/cache
           ~/.cache/coursier
-        key: ${{ runner.os }}-sbt-${{matrix.scala}}-${{matrix.script}}-${{ hashFiles('**/*.sbt') }}
+        key: ${{ runner.os }}-sbt-conformance-${{ hashFiles('**/*.sbt', '**/build.properties', 'project/**/*.scala') }}
     - run: |
         sbt conformanceJVM2_13/assembly
         /tmp/conformance-test-runner/conformance_test_runner --enforce_recommended \
@@ -87,5 +104,10 @@ jobs:
   ci-passed:
     runs-on: ubuntu-latest
     needs: [build, conformance]
+    if: always()
     steps:
-    - run: ':'
+    - name: Require all CI jobs to pass
+      env:
+        BUILD_RESULT: ${{ needs.build.result }}
+        CONFORMANCE_RESULT: ${{ needs.conformance.result }}
+      run: test "$BUILD_RESULT" = success && test "$CONFORMANCE_RESULT" = success
