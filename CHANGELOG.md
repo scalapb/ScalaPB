@@ -1,5 +1,9 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Support Edition 2024 with edition-indexed descriptor defaults, option imports,
+  visibility/naming validation through protoc, mixed Java nesting policies and
+  Java large-enum interoperability. Protoc 32.0 or newer is required for 2024.
+
 - Normalize MessageSet item and ordinary extension encodings in input order, preserving last-oneof-wins semantics; serialize extensions in MessageSet wire format. Regenerate MessageSet sources.
 - Preserve negative floating-point zero through text parsing and generated binary serialization; accept float suffixes and reject hexadecimal/octal float literals. Regenerate sources to retain negative zero on the wire.
 - Cover empty Any JSON and reject invalid Duration/Value JSON serialization in conformance tests.

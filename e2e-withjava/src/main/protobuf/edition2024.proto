@@ -1,0 +1,26 @@
+edition = "2024";
+package com.thesamet.proto.e2e;
+
+import option "google/protobuf/java_features.proto";
+
+export message Edition2024Top {
+  int32 explicit_value = 1;
+  int32 implicit_value = 2 [features.field_presence = IMPLICIT];
+  repeated int32 values = 3;
+  Edition2024Nested nested = 4 [features.message_encoding = DELIMITED];
+  enum Kind {
+    option features.(pb.java).large_enum = true;
+    KIND_UNSPECIFIED = 0;
+    KIND_ONE = 1;
+  }
+  Kind kind = 5;
+}
+
+export message Edition2024Nested {
+  option features.(pb.java).nest_in_file_class = YES;
+  string value = 1;
+}
+
+local message Edition2024Local {
+  string value = 1;
+}
