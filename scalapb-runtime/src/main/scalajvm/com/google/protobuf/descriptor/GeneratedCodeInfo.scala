@@ -15,7 +15,7 @@ import _root_.scalapb.internal.compat.JavaConverters._
 @SerialVersionUID(0L)
 final case class GeneratedCodeInfo(
     annotation: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[GeneratedCodeInfo] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -145,7 +145,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
       begin: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
       end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
       semantic: _root_.scala.Option[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Annotation] {
       private[this] def pathSerializedSize = {
         if (__pathSerializedSizeField == 0) __pathSerializedSizeField = {

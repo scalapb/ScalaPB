@@ -10,36 +10,52 @@ class ${Message}Test {
     @Benchmark
     @BenchmarkMode(Array(Mode.AverageTime))
     @OutputTimeUnit(TimeUnit.NANOSECONDS)
-    def parseJava: Unit = {
-        Protos.${Message}.parseFrom(${Message}Test.bytes)
+    def parseJava: ${JavaOuter}.${Message} = {
+        ${JavaOuter}.${Message}.parseFrom(${Message}Test.bytes)
     }
 
     @Benchmark
     @BenchmarkMode(Array(Mode.AverageTime))
     @OutputTimeUnit(TimeUnit.NANOSECONDS)
-    def parseScala: Unit = {
+    def parseScala: protos.${Message} = {
         protos.${Message}.parseFrom(${Message}Test.bytes)
     }
 
     @Benchmark
     @BenchmarkMode(Array(Mode.AverageTime))
     @OutputTimeUnit(TimeUnit.NANOSECONDS)
-    def serializeJava: Unit = {
+    def serializeJava: Array[Byte] = {
         ${Message}Test.java.toByteArray
     }
 
     @Benchmark
     @BenchmarkMode(Array(Mode.AverageTime))
     @OutputTimeUnit(TimeUnit.NANOSECONDS)
-    def serializeScala: Unit = {
+    def serializeScala: Array[Byte] = {
         ${Message}Test.scala.toByteArray
+    }
+
+    @Benchmark
+    @BenchmarkMode(Array(Mode.AverageTime))
+    @OutputTimeUnit(TimeUnit.NANOSECONDS)
+    def roundTripScala: Array[Byte] = {
+        val msg = protos.${Message}.parseFrom(${Message}Test.bytes)
+        msg.toByteArray
+    }
+
+    @Benchmark
+    @BenchmarkMode(Array(Mode.AverageTime))
+    @OutputTimeUnit(TimeUnit.NANOSECONDS)
+    def roundTripJava: Array[Byte] = {
+        val msg = ${JavaOuter}.${Message}.parseFrom(${Message}Test.bytes)
+        msg.toByteArray
     }
 }
 
 object ${Message}Test {
     val scala = TestCases.make${Message}Scala
 
-    val java = protos.${Message}.toJavaProto(scala)
-
     val bytes = scala.toByteArray
+
+    val java = ${JavaOuter}.${Message}.parseFrom(bytes)
 }

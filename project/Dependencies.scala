@@ -3,13 +3,14 @@ import Keys.*
 
 object Dependencies {
   object versions {
-    val grpc                 = "1.85.1"
+    val grpc                 = "1.86.0"
     val protobuf             = "4.35.0"
     val collectionCompat     = "2.14.0"
     val coursier             = "2.1.24"
     val protocGen            = "0.10.0"
     val protobufRuntimeScala = "0.9.0"
     val commonsCodec         = "1.23.0"
+    val scalapbJson4s        = "1.0.0-alpha.3"
 
     // For testing
     val annotationApi           = "1.3.2"
@@ -27,7 +28,7 @@ object Dependencies {
 
   val Scala213 = "2.13.18"
 
-  val Scala3 = "3.3.8"
+  val Scala3 = "3.3.9"
 
   val protobufJava          = "com.google.protobuf" % "protobuf-java" % versions.protobuf
   val scalaCollectionCompat = Def.setting {
@@ -70,23 +71,23 @@ object Dependencies {
     "netty-resolver",
     "netty-transport",
     "netty-transport-native-unix-common"
-  ).map("io.netty" % _ % "4.2.19.Final")
+  ).map("io.netty" % _ % "4.2.21.Final")
 
   // Keep the CLI POM safe as well as the local build. Coursier 2.1.24 is the
   // supported cross-published version for Scala 2.12 and 2.13.
   val coursierSecurityDependencies = Seq(
     "io.airlift"          % "aircompressor" % "2.0.3",
-    "org.apache.commons"  % "commons-lang3" % "3.21.0",
-    "org.codehaus.plexus" % "plexus-utils"  % "4.1.0",
-    "org.jsoup"           % "jsoup"         % "1.23.2"
+    "org.apache.commons"  % "commons-lang3" % "3.22.0",
+    "org.codehaus.plexus" % "plexus-utils"  % "4.2.0",
+    "org.jsoup"           % "jsoup"         % "1.24.1"
   )
 
   // Build/test tools also bring these libraries transitively. Overrides do not
   // introduce JVM dependencies into the JS or Native projects.
   val buildSecurityOverrides = coursierSecurityDependencies ++ Seq(
-    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.22",
-    "com.fasterxml.jackson.core" % "jackson-core"        % "2.22.4",
-    "com.fasterxml.jackson.core" % "jackson-databind"    % "2.22.4"
+    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.23",
+    "com.fasterxml.jackson.core" % "jackson-core"        % "2.23.0",
+    "com.fasterxml.jackson.core" % "jackson-databind"    % "2.23.0"
   ) ++ Seq(
     "jline-reader",
     "jline-terminal",
@@ -94,7 +95,7 @@ object Dependencies {
     "jline-terminal-jni",
     "jline-native"
   )
-    .map("org.jline" % _ % "4.4.8")
+    .map("org.jline" % _ % "4.7.0")
 
   // Spark is only used to execute documentation examples. Its transitive versions
   // lag the security fixes, so select compatible patched families here.
@@ -106,7 +107,7 @@ object Dependencies {
     "io.airlift"                     % "aircompressor"           % "2.0.3",
     "io.netty"                       % "netty-all"               % "4.1.139.Final",
     "org.apache.commons"             % "commons-compress"        % "1.28.0",
-    "org.apache.commons"             % "commons-lang3"           % "3.21.0",
+    "org.apache.commons"             % "commons-lang3"           % "3.22.0",
     "org.apache.logging.log4j"       % "log4j-1.2-api"           % "2.25.5",
     "org.apache.logging.log4j"       % "log4j-slf4j2-impl"       % "2.25.5",
     "org.apache.zookeeper"           % "zookeeper"               % "3.9.6",

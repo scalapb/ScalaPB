@@ -16,7 +16,7 @@ package com.google.protobuf.wrappers
 @SerialVersionUID(0L)
 final case class BytesValue(
     value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[BytesValue] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

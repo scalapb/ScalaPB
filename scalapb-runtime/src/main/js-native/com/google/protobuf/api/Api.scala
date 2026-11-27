@@ -65,7 +65,7 @@ final case class Api(
     mixins: _root_.scala.Seq[_root_.com.google.protobuf.api.Mixin] = _root_.scala.Vector.empty,
     syntax: _root_.com.google.protobuf.`type`.Syntax = _root_.com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
     edition: _root_.scala.Predef.String = "",
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Api] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

@@ -107,7 +107,7 @@ package com.google.protobuf.timestamp
 final case class Timestamp(
     seconds: _root_.scala.Long = 0L,
     nanos: _root_.scala.Int = 0,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Timestamp] with _root_.scalapb.TimestampMethods {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0

@@ -209,7 +209,7 @@ package com.google.protobuf.field_mask
 @SerialVersionUID(0L)
 final case class FieldMask(
     paths: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldMask] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
