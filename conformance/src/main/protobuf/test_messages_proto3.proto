@@ -1,32 +1,9 @@
 // Protocol Buffers - Google's data interchange format
 // Copyright 2008 Google Inc.  All rights reserved.
-// https://developers.google.com/protocol-buffers/
 //
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are
-// met:
-//
-//     * Redistributions of source code must retain the above copyright
-// notice, this list of conditions and the following disclaimer.
-//     * Redistributions in binary form must reproduce the above
-// copyright notice, this list of conditions and the following disclaimer
-// in the documentation and/or other materials provided with the
-// distribution.
-//     * Neither the name of Google Inc. nor the names of its
-// contributors may be used to endorse or promote products derived from
-// this software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file or at
+// https://developers.google.com/open-source/licenses/bsd
 //
 // Test schema for proto3 messages.  This test schema is used by:
 //
@@ -47,6 +24,7 @@ option optimize_for = SPEED;
 
 import "google/protobuf/any.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
@@ -80,12 +58,13 @@ message TestAllTypesProto3 {
     ALIAS_FOO = 0;
     ALIAS_BAR = 1;
     ALIAS_BAZ = 2;
-    QUX = 2;
-    qux = 2;
+    MOO = 2;
+    moo = 2;
     bAz = 2;
   }
 
   // Singular
+  // test [kotlin] comment
   int32 optional_int32 = 1;
   int64 optional_int64 = 2;
   uint32 optional_uint32 = 3;
@@ -234,6 +213,7 @@ message TestAllTypesProto3 {
   google.protobuf.Any optional_any = 305;
   google.protobuf.Value optional_value = 306;
   google.protobuf.NullValue optional_null_value = 307;
+  google.protobuf.Empty optional_empty = 308;
 
   repeated google.protobuf.Duration repeated_duration = 311;
   repeated google.protobuf.Timestamp repeated_timestamp = 312;
@@ -242,6 +222,7 @@ message TestAllTypesProto3 {
   repeated google.protobuf.Any repeated_any = 315;
   repeated google.protobuf.Value repeated_value = 316;
   repeated google.protobuf.ListValue repeated_list_value = 317;
+  repeated google.protobuf.Empty repeated_empty = 318;
 
   // Test field-name-to-JSON-name convention.
   // (protobuf says names can be any valid C/C++ identifier.)
@@ -266,6 +247,9 @@ message TestAllTypesProto3 {
 
   // Reserved for testing unknown fields
   reserved 501 to 510;
+
+  reserved "reserved_field";
+  reserved 999999;
 }
 
 message ForeignMessage {
@@ -278,8 +262,7 @@ enum ForeignEnum {
   FOREIGN_BAZ = 2;
 }
 
-message NullHypothesisProto3 {
-}
+message NullHypothesisProto3 {}
 
 message EnumOnlyProto3 {
   enum Bool {

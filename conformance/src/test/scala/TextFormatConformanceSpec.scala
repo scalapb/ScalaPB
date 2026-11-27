@@ -58,6 +58,25 @@ class TextFormatConformanceSpec extends FunSuite {
       )
     )
   }
+  test("AnyField with custom, whitespace and commented type URLs") {
+    val expected = TestAllTypesProto3(optionalAny =
+      Some(
+        com.google.protobuf.any.Any(
+          typeUrl = "non.default.domain/protobuf_test_messages.proto3.TestAllTypesProto3",
+          value = TestAllTypesProto3(optionalInt32 = 12345).toByteString
+        )
+      )
+    )
+    for (
+      url <- Seq(
+        "non.default.domain/protobuf_test_messages.proto3.TestAllTypesProto3",
+        "non.default.domain/ proto buf_test_messages.proto3.Test AllTypesProto3",
+        "non.default.domain/protobuf_test_messages.proto3.Test # comment\n AllTypesProto3"
+      )
+    ) {
+      checkText(s"optional_any { [$url] { optional_int32: 12345 } }", expected)
+    }
+  }
   test("ScalarUnknownFields_Print and Drop") {
     val unknown =
       com.google.protobuf_test_messages.proto2.test_messages_proto2.UnknownToTestAllTypes(

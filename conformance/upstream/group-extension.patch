@@ -1,0 +1,17 @@
+--- a/conformance/src/main/protobuf/test_messages_proto2.proto
++++ b/conformance/src/main/protobuf/test_messages_proto2.proto
+@@ -275,8 +275,12 @@
+   optional bytes extension_bytes = 134;
+ }
+ 
+-// ScalaPB adaptation: group extensions require the groups implementation.
+-// Keep the original declaration in upstream/group-extension.patch.
++extend TestAllTypesProto2 {
++  optional group GroupField = 121 {
++    optional int32 group_int32 = 122;
++    optional uint32 group_uint32 = 123;
++  }
++}
+ 
+ message UnknownToTestAllTypes {
+   optional int32 optional_int32 = 1001;

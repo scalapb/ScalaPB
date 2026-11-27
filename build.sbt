@@ -518,18 +518,19 @@ lazy val conformance = (projectMatrix in file("conformance"))
     Seq(Scala213)
   )
   .settings(
-    libraryDependencies += "org.scalameta" %% "munit" % versions.munit % Test,
-    Compile / PB.targets                   := Seq(
-      genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value
+    Compile / PB.targets := Seq(
+      genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value,
+      PB.gens.java(versions.protobuf)            -> (Compile / sourceManaged).value
     ),
     codeGenClasspath := (compilerPluginJVM2_13 / Compile / fullClasspath).value,
     libraryDependencies ++= Seq(
-      ("com.thesamet.scalapb" %% "scalapb-json4s" % versions.scalapbJson4s)
-        .exclude(
-          "com.thesamet.scalapb",
-          "scalapb-runtime_2.13"
-        )
+      munit.value              % Test,
+      ("com.thesamet.scalapb" %% "scalapb-json4s" % versions.scalapbJson4s).exclude(
+        "com.thesamet.scalapb",
+        "scalapb-runtime_2.13"
+      )
     ),
+    testFrameworks += new TestFramework("munit.Framework"),
     maintainer                            := "thesamet@gmail.com",
     Compile / mainClass                   := Some("scalapb.ConformanceScala"),
     assemblyJarName                       := "conformance",
