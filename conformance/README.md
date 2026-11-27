@@ -35,21 +35,15 @@ The proto2 fixture includes the upstream `GroupField` extension. Known and unkno
 groups are supported in binary and text format. The text type registry includes
 the extension payload companion so bracketed extension names can be resolved.
 
-`upstream/editions/` preserves the unmodified upstream 2023 conformance schema
-and the proto2/proto3 migration fixtures from `editions/golden/`. These are
-outside `PB.protoSources` until the separate Editions generator implementation
-supports their remaining feature requirements. DELIMITED message encoding is
-already supported by the generator. Dispatch explicitly
-skips all four Editions message types, including upstream's unstable edition.
-The runner explicitly sets `--maximum_edition 2023` (upstream defaults to legacy
-syntax), so the stable Editions cases are executed and their skips stay visible.
-The JVM is launched with `-Xrs`: upstream times out a test with SIGQUIT, which
-otherwise dumps Java threads and leaves the timed-out process running.
+`upstream/editions/` preserves and compiles the unmodified upstream 2023
+schema and proto2/proto3 migration fixtures. Dispatch and Any registries use
+all three actual generated companions. Only the unstable edition is skipped.
+The runner uses `--maximum_edition 2023`; Editions 2024 and 2026 have separate
+end-to-end fixtures. `summary.tsv` reports outcomes by family and output format.
 
-Move the supported schemas into compilation, register their companions and JSON
-types, and replace the skip assertions when the implementation lands. Do not
-route Editions requests through the legacy proto2/proto3 companions: their
-feature semantics differ.
+The integration uses local `scalapb-json4s:1.0.0-editions-local`, containing
+both the Java-parity fixes and Editions feature handling. Publish the matching
+ScalaPB and json4s artifacts locally before building conformance.
 
 ## Regression tests and triage
 
@@ -119,7 +113,7 @@ JSON fixes live in scalapb-json4s; its conformance dependency is selected in
 `project/Dependencies.scala`. The separate UTF-8 work updates
 `protobuf-runtime-scala` for JS/Native; the C++ runner exercises JVM only.
 
-## Validated baseline
+## Pre-Editions baseline
 
 After the Java-parity fixes, the full v36.2 run
 (Scala 2.13/JVM) produces:

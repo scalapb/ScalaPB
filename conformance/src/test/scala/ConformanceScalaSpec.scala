@@ -17,15 +17,17 @@ class ConformanceScalaSpec extends FunSuite {
     assertEquals(FailureSet.parseFrom(response.getProtobufPayload.toByteArray), FailureSet())
   }
 
-  test("Editions are explicitly skipped until code generation supports their features") {
+  test("stable Edition 2023 fixtures execute while unstable editions remain skipped") {
     Seq(
       "protobuf_test_messages.editions.proto2.TestAllTypesProto2",
       "protobuf_test_messages.editions.proto3.TestAllTypesProto3",
-      "protobuf_test_messages.editions.TestAllTypesEdition2023",
-      "protobuf_test_messages.edition_unstable.TestAllTypesEditionUnstable"
+      "protobuf_test_messages.editions.TestAllTypesEdition2023"
     ).foreach { name =>
-      assert(ConformanceScala.handleTest(request(name, Array.emptyByteArray)).result.isSkipped)
+      assert(ConformanceScala.handleTest(request(name, Array.emptyByteArray)).result.isProtobufPayload)
     }
+    assert(ConformanceScala.handleTest(request(
+      "protobuf_test_messages.edition_unstable.TestAllTypesEditionUnstable", Array.emptyByteArray
+    )).result.isSkipped)
   }
 
   test("unknown message types report a protocol error without terminating dispatch") {

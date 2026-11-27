@@ -66,7 +66,7 @@
   constructors, `apply`, and `copy` remain available, but its case-class product
   and extractor arity changes from four to five (update four-element patterns
   and recompile dependent code).
-  Text format accepts group names and prints known and unknown groups. Registered message-valued extensions are retained through nested text parsing and printing. Binary recursion accounting remains separate work.
+  Text format accepts group names and prints known and unknown groups. Registered message-valued extensions are retained through nested text parsing and printing. Binary recursion accounting remains separate work. Editions honor schema UTF-8 features directly, and stable Edition 2023 conformance fixtures are compiled and dispatched.
 - BREAKING CHANGE: `scala3Sources = true` (or `scala3_sources`) now emits named
   givens, given-based lens conversions, and modern control-flow syntax for Scala 3
   `-source:future` (#2212). This output no longer supports Scala 2 with `-Xsource:3`;

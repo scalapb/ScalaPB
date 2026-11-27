@@ -15,10 +15,16 @@ for report in unmatched expected_failure_messages succeeding_tests exceeded_max_
 done
 # A timed-out JVM receives SIGQUIT; avoid writing a potentially large core dump.
 ulimit -c 0
-# Upstream defaults to legacy syntax; opt in so Editions skips remain visible.
-"$runner_dir/conformance_test_runner" --enforce_recommended --maximum_edition 2023 \
+# Run stable Editions fixtures; unstable requests remain explicitly skipped.
+status=0
+"$runner_dir/conformance_test_runner" --enforce_recommended --maximum_edition 2023 --verbose \
   --failure_list conformance/failure_list_scalapb.txt \
   --text_format_failure_list conformance/text_format_failure_list_scalapb.txt \
   --output_dir "$output_dir" \
   "$@" "$(command -v java)" -Xrs -jar target/out/jvm/scala-*/conformance/conformance \
-  2>&1 | tee "$output_dir/runner.log"
+  2>&1 | tee "$output_dir/runner.log" || status=$?
+python3 conformance/summarize.py "$output_dir/runner.log" \
+  conformance/failure_list_scalapb.txt conformance/text_format_failure_list_scalapb.txt \
+  > "$output_dir/summary.tsv" || status=1
+cat "$output_dir/summary.tsv"
+exit "$status"

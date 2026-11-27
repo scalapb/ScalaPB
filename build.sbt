@@ -518,6 +518,7 @@ lazy val conformance = (projectMatrix in file("conformance"))
     Seq(Scala213)
   )
   .settings(
+    Compile / PB.protoSources += (LocalRootProject / baseDirectory).value / "conformance" / "upstream" / "editions",
     Compile / PB.targets := Seq(
       genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value,
       PB.gens.java(versions.protobuf)            -> (Compile / sourceManaged).value

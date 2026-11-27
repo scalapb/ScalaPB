@@ -5,6 +5,9 @@ import com.google.protobuf.conformance.conformance._
 import scala.annotation.tailrec
 import com.google.protobuf_test_messages.proto2.test_messages_proto2
 import com.google.protobuf_test_messages.proto3.test_messages_proto3
+import com.google.protobuf_test_messages.editions.proto2.test_messages_proto2_editions
+import com.google.protobuf_test_messages.editions.proto3.test_messages_proto3_editions
+import com.google.protobuf_test_messages.edition2023.test_messages_edition2023
 import scala.util.Try
 import scala.util.control.NonFatal
 import scalapb._
@@ -62,6 +65,9 @@ object ConformanceScala {
   val typeRegistry = scalapb.json4s.TypeRegistry.default
     .addMessage[test_messages_proto2.TestAllTypesProto2]
     .addMessage[test_messages_proto3.TestAllTypesProto3]
+    .addMessage[test_messages_proto2_editions.TestAllTypesProto2]
+    .addMessage[test_messages_proto3_editions.TestAllTypesProto3]
+    .addMessage[test_messages_edition2023.TestAllTypesEdition2023]
 
   val JsonParser = JsonFormat.parser.withTypeRegistry(typeRegistry)
 
@@ -73,6 +79,9 @@ object ConformanceScala {
     .addMessage(test_messages_proto2.GroupField)
     .addMessage(test_messages_proto2.TestAllTypesProto2)
     .addMessage(test_messages_proto3.TestAllTypesProto3)
+    .addMessage(test_messages_proto2_editions.TestAllTypesProto2)
+    .addMessage(test_messages_proto3_editions.TestAllTypesProto3)
+    .addMessage(test_messages_edition2023.TestAllTypesEdition2023)
 
   def jsonParser(request: ConformanceRequest): scalapb.json4s.Parser = {
     if (request.testCategory.isJsonIgnoreUnknownParsingTest) IgnoringJsonParser
@@ -138,10 +147,14 @@ object ConformanceScala {
         handleTestTyped[test_messages_proto2.TestAllTypesProto2](request)
       case "conformance.FailureSet" =>
         ConformanceResponse().withProtobufPayload(FailureSet().toByteString)
-      case name
-          if name.startsWith("protobuf_test_messages.editions.") ||
-            name.startsWith("protobuf_test_messages.edition_unstable.") =>
-        ConformanceResponse().withSkipped("Editions code generation is not supported yet")
+      case "protobuf_test_messages.editions.proto2.TestAllTypesProto2" =>
+        handleTestTyped[test_messages_proto2_editions.TestAllTypesProto2](request)
+      case "protobuf_test_messages.editions.proto3.TestAllTypesProto3" =>
+        handleTestTyped[test_messages_proto3_editions.TestAllTypesProto3](request)
+      case "protobuf_test_messages.editions.TestAllTypesEdition2023" =>
+        handleTestTyped[test_messages_edition2023.TestAllTypesEdition2023](request)
+      case "protobuf_test_messages.edition_unstable.TestAllTypesEditionUnstable" =>
+        ConformanceResponse().withSkipped("Unstable editions are not supported")
       case name =>
         ConformanceResponse().withRuntimeError(s"Unknown message type: $name")
     }

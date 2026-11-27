@@ -1,0 +1,10 @@
+syntax = "proto2";
+package protobuf_test_messages;
+import "scalapb/scalapb.proto";
+
+// Apply schema UTF-8 policies to the unmodified upstream fixtures, including
+// the proto2 migration's explicit NONE override.
+option (scalapb.options) = {
+  scope: PACKAGE
+  use_schema_utf8_validation: true
+};
