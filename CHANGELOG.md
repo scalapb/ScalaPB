@@ -1,5 +1,6 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Accept comma/semicolon text-format field separators and require commas between list elements.
 - Enable proto2 closed enums in conformance fixtures and verify fixture configuration
   and protocol dispatch.
 - Refresh conformance testing to protobuf v36.2, report unsupported Editions explicitly,

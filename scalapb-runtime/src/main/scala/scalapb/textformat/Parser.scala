@@ -57,6 +57,7 @@ class Parser(text: String, recursionLimit: Int) {
           if (!it.hasNext) throw parseException("Expected value after identifier")
           else {
             val value = parseValue(it.next())
+            if (it.hasNext && (it.currentToken == "," || it.currentToken == ";")) it.next()
             parseKeyValueList(closer, acc :+ TField(pos, name, value))
           }
       }
@@ -77,7 +78,8 @@ class Parser(text: String, recursionLimit: Int) {
       } else if (token == ",") {
         if (readyForNext) throw parseException("Unexpected comma")
         else rep(acc, true, parse)
-      } else
+      } else if (!readyForNext) throw parseException("Expected comma between list elements")
+      else
         parse(token) match {
           case None      => throw parseException("Expected value")
           case Some(msg) => rep(acc :+ msg, false, parse)

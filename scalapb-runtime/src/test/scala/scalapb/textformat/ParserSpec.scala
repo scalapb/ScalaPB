@@ -57,6 +57,22 @@ class ParserSpec extends FunSuite with ParserSuite {
     }
   }
 
+  test("optional field separators are distinct from required list separators") {
+    for (separator <- Seq(",", ";")) {
+      val parsed = new Parser(s"a: 1${separator} b { c: 2${separator} }${separator}").parseMessage
+      assertEquals(parsed.fields.map(_.name), Seq("a", "b"))
+      for (text <- Seq(s"${separator} a: 1", s"a: 1${separator}${separator} b: 2")) {
+        intercept[scalapb.TextFormatException](new Parser(text).parseMessage)
+      }
+    }
+    for (values <- Seq("1, 2", "true, false", "{}, {}")) {
+      new Parser(s"a: [$values]").parseMessage
+      intercept[scalapb.TextFormatException] {
+        new Parser(s"a: [${values.replace(",", "")}]").parseMessage
+      }
+    }
+  }
+
   test("KeyValue") {
     check2(keyValue(_), "foo: 17", TField(P(0, 0), "foo", TIntLiteral(P(0, 5), 17)))
 

@@ -35,66 +35,6 @@ Required.Proto2.TextFormatInput.ClosedEnumFieldByNumber.TextFormatOutput # Faile
 Required.Proto3.TextFormatInput.ClosedEnumFieldWithUnknownNumber.ProtobufOutput # Failed to parse input or produce output.
 Required.Proto3.TextFormatInput.ClosedEnumFieldWithUnknownNumber.TextFormatOutput # Failed to parse input or produce output.
 
-# Comma/semicolon separators between fields (Parser.parseKeyValueList)
-Required.Proto3.TextFormatInput.FieldSeparatorCommaNested.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaNested.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_bool.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_bool.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_bytes.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_bytes.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_double.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_double.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_fixed32.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_fixed32.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_int32.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_int32.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_string.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelRepeated_string.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_bool.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_bool.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_bytes.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_bytes.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_double.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_double.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_fixed32.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_fixed32.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_int32.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_int32.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_string.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorCommaTopLevelSingle_string.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiNested.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiNested.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_bool.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_bool.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_bytes.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_bytes.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_double.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_double.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_fixed32.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_fixed32.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_int32.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_int32.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_string.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleRepeated_string.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_bool.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_bool.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_bytes.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_bytes.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_double.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_double.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_fixed32.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_fixed32.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_int32.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_int32.TextFormatOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_string.ProtobufOutput # Failed to parse input or produce output.
-Required.Proto3.TextFormatInput.FieldSeparatorSemiTopLevelSingleSingle_string.TextFormatOutput # Failed to parse input or produce output.
-
-# Missing commas in repeated lists accepted (Parser.rep)
-Required.Proto3.TextFormatInput.ListSeparatorMissingFails_bool # Should have failed to parse, but didn't.
-Required.Proto3.TextFormatInput.ListSeparatorMissingFails_double # Should have failed to parse, but didn't.
-Required.Proto3.TextFormatInput.ListSeparatorMissingFails_fixed32 # Should have failed to parse, but didn't.
-Required.Proto3.TextFormatInput.ListSeparatorMissingFails_int32 # Should have failed to parse, but didn't.
-
 # Negative floating-point zero is lost in parsing/serialization
 Required.Proto3.TextFormatInput.FloatFieldNegativeZero.ProtobufOutput # Output was not equivalent to reference message: deleted: optional_float: -0
 Required.Proto3.TextFormatInput.FloatFieldNegativeZero.TextFormatOutput # Output was not equivalent to reference message: deleted: optional_float: -0
