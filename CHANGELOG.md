@@ -1,5 +1,8 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Make dependency-update CI more reliable and require a website build before automatically merging Scala Steward and Dependabot updates.
+- Preserve empty unboxed strings and bytes when a proto2 field declares a non-empty default.
+- Use collection adapters when converting repeated lazy strings to Java protobuf messages.
 - Preserve ProtoJSON extension fields in conformance tests using scalapb-json4s 1.0.0-alpha.3.
 - Reject JSON strings containing unpaired or reversed Unicode surrogates using scalapb-json4s 1.0.0-alpha.3.
 - Reject quoted JSON boolean values in conformance tests using scalapb-json4s 1.0.0-alpha.3.
@@ -38,6 +41,9 @@
   contextual instances may need `.given` or explicit named imports. Generated
   `messageReads` instances are now initialized lazily and reused in Scala 3 output.
 - Declare the supported Edition 2023 range in code generator responses using protoc-bridge 0.10.0, fixing protoc rejection of the editions feature flag (#1837).
+- Add `lazy_utf8_string_fields` file- and message-level option generating string fields as
+  `scalapb.LazyField[String]`, decoded on first access, including optional and oneof
+  strings with presence preserved through binary, JSON, and Java conversions.
 - Add the file/package option `use_schema_utf8_validation` to opt binary message
   string parsing into the resolved protobuf Java UTF-8 policy. Legacy strict
   parsing remains the default. Nonvalidating fields replace malformed UTF-8 and

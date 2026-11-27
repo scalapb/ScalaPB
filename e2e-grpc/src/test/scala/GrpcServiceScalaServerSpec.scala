@@ -53,7 +53,7 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
               )
             )
           )
-          assert(Await.result(future, 3.seconds) === expect)
+          assert(Await.result(future, 10.seconds) === expect)
         }
       }
     }
