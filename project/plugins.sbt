@@ -16,7 +16,7 @@ addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.6.1")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.6.2")
 
-addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.1.0-RC2")
+addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.1.0-RC3")
 
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.12.1")
 

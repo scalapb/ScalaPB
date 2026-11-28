@@ -1,5 +1,6 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Upgrade the build to sbt-protoc 1.1.0-RC3; use sbt 2.1.1 for this repository.
 - Edition 2023: resolve migrated group text names and extension encoding from
   inherited features, validate UTF-8 when reading string extensions, and execute
   stable Editions conformance fixtures with explicit outcome reports.
@@ -23,6 +24,7 @@
 - Accept comma/semicolon text-format field separators and require commas between list elements.
 - Enable proto2 closed enums in conformance fixtures and verify fixture configuration
   and protocol dispatch.
+
 - Refresh conformance testing to protobuf v36.2, report unsupported Editions explicitly,
   and add Java differential and portable wire regression tests.
 - Honor schema-defined enum openness in Editions binary parsers and Java conversions.
