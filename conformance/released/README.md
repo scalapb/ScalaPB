@@ -15,8 +15,10 @@ CONFORMANCE_JAR="$PWD/conformance/released/target/scala-2.13/conformance.jar" \
 
 The runner enables recommended tests and the maximum supported stable edition,
 2026. The pinned v36.2 runner supplies actual 2023 and migration fixtures; higher
-edition switches do not add 2024/2026 fixtures. Those have separate e2e-json and
-Java-interoperability suites. Expected failures and unstable skips remain explicit.
+edition switches do not add 2024/2026 fixtures. This build also compiles and runs
+the actual Edition 2024/2026 e2e-json fixtures against the artifact pair, alongside
+the lazy-string JSON tests. The parent build has additional Java-interoperability
+suites. Expected failures and unstable skips remain explicit.
 
 Before publication, bootstrap the pair by locally publishing ScalaPB lenses and
 runtime for 2.12/2.13/3 and compilerplugin for 2.12, with
