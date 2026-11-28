@@ -52,7 +52,7 @@ object Printer {
         payloads.foreach { payload =>
           out.add("[" + extension.name + "]").addNewLine(" {").indent()
           print(
-            extension.companion.parseFrom(payload.toByteArray),
+            extension.companion.parseFrom(payload.toByteArray()),
             out,
             printUnknownFields,
             typeRegistry
