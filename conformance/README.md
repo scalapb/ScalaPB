@@ -38,12 +38,12 @@ the extension payload companion so bracketed extension names can be resolved.
 `upstream/editions/` preserves and compiles the unmodified upstream 2023
 schema and proto2/proto3 migration fixtures. Dispatch and Any registries use
 all three actual generated companions. Only the unstable edition is skipped.
-The runner uses `--maximum_edition 2023`; Editions 2024 and 2026 have separate
+The runner uses `--maximum_edition 2026`; Editions 2024 and 2026 have separate
 end-to-end fixtures. `summary.tsv` reports outcomes by family and output format.
 
-The integration uses local `scalapb-json4s:1.0.0-editions-local`, containing
-both the Java-parity fixes and Editions feature handling. Publish the matching
-ScalaPB and json4s artifacts locally before building conformance.
+The release pair is ScalaPB `1.0.0-alpha.7` and scalapb-json4s
+`1.0.0-alpha.4`, including both Java-parity fixes and Editions feature handling.
+See `released/README.md` for artifact-only verification and local bootstrapping.
 
 ## Regression tests and triage
 
@@ -154,7 +154,7 @@ conversions, defaults and wire representations. Compiler tests cover naming,
 visibility, option imports, structural limits and supported compatibility
 settings. Shared descriptor tests run on JVM, JS and Native; end-to-end fixtures
 run on JVM (Scala 2.12, 2.13 and 3) and JS. JSON tests and MiMa pass on all three
-Scala versions using the combined local json4s branch.
+Scala versions using the combined json4s implementation.
 
 `summary.tsv` groups the measured runner outcomes by family and output format.
 Expected failures represent unresolved behavior, not passing cases. The earlier

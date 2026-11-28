@@ -1,5 +1,45 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+
+## [1.0.0-alpha.7]
+
+Changes since `1.0.0-alpha.6`. Pair with `scalapb-json4s` `1.0.0-alpha.4`.
+
+- Support stable Editions 2023, 2024 and 2026: resolve inherited features,
+  presence, packing, enum openness, UTF-8 and DELIMITED encoding. Reject unknown
+  and unstable editions. Validate newer naming, visibility and structure rules
+  through protoc, including explicit compatibility overrides.
+- Align protoc, protobuf-java and vendored descriptor schemas on 36.2; improve
+  Java naming/conversions for mixed nesting, large enums and migrated group-like
+  field capitalization.
+- Support known/unknown groups and registered message-valued text extensions;
+  preserve MessageSet extension ordering and encoding. Scalar text extensions
+  remain unsupported. Group recursion accounting remains separate work.
+- Honor closed enums in Editions; add opt-in `proto2_closed_enums` for legacy
+  schemas. Unknown closed values are retained as unknown fields, not enum values.
+- Honor schema UTF-8 features in Editions and string extension accessors; retain
+  the legacy-schema opt-in. Add lazy UTF-8 string fields and Java conversion fixes.
+- Improve text-format presence, separators, enum numbers, floating-point syntax,
+  negative zero, Unicode escapes, expanded Any and unknown-field printing.
+- Harden delimited framing and bound text-parser depth and integer literals.
+- Improve Scala 3-only generation for `-source:future`, unify generated lens bases,
+  narrow enum `values` to recognized values and fix streaming gRPC status mapping.
+- Update gRPC to 1.86.0, protobuf-runtime-scala to 0.9.0, Scala 3 to 3.3.9,
+  Scala.js to 1.23.0 and Scala Native to 0.5.13; refresh dependency security fixes.
+  The repository build uses sbt 2.1.1 and sbt-protoc 1.1.0-RC3.
+- Run all stable fixtures available in the protobuf 36.2 conformance runner,
+  including recommended tests. Report expected failures and unstable skips
+  explicitly; use dedicated actual schemas for Editions 2024/2026.
+
+Migration: upgrade the generator and runtime together and regenerate sources.
+Generated descriptor case classes (including `FeatureSet` and `FeatureSupport`)
+change constructor/extractor shape; new generated code calls new runtime helpers.
+Text output now omits implicit defaults. `UnknownFieldSet.Field` gains group data,
+changing its product/extractor arity. Scala 3-only output requires Scala 3; use
+regular output for Scala 2. This alpha does not promise development-to-development
+binary compatibility. Detailed changes and migration notes follow below.
+
+## 1.0 development change details
 - Upgrade the build to sbt-protoc 1.1.0-RC3; use sbt 2.1.1 for this repository.
 - Edition 2023: resolve migrated group text names and extension encoding from
   inherited features, validate UTF-8 when reading string extensions, and execute
@@ -9,8 +49,7 @@
   on v36.2. Validate strict visibility, naming collisions, structure limits,
   removed options and explicit compatibility overrides; reject unknown/unstable editions.
 - Execute stable Editions conformance fixtures and report coverage by family and
-  output format. JSON support currently requires the local Editions-aware json4s
-  build; replace development artifact pins before publishing a release.
+  output format. JSON support uses scalapb-json4s 1.0.0-alpha.4.
 
 - Support Edition 2024 with edition-indexed descriptor defaults, option imports,
   visibility/naming validation through protoc, mixed Java nesting policies and
