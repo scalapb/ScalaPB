@@ -1426,7 +1426,10 @@ class ProtobufGenerator(
         )
       else Seq.empty
     val companionType     = (message.companionBaseClasses ++ lensCompanion).mkString(" with ")
-    val companionTypeDecl = message.companionBaseClasses.mkString(message.V.WithOperator)
+    val companionTypeDecl =
+      if (message.getFile.emitScala3Sources && message.companionBaseClasses.size > 1)
+        message.companionBaseClasses.mkString("(", message.V.WithOperator, ")")
+      else message.companionBaseClasses.mkString(message.V.WithOperator)
     printer
       .seq(message.companionAnnotationList)
       .add(s"""object $className extends $companionType {

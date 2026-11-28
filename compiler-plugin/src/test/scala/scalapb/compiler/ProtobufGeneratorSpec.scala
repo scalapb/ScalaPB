@@ -110,6 +110,14 @@ class ProtobufGeneratorSpec extends AnyFlatSpec with Matchers with ProtocInvocat
       response must include("scalapb.internal.compat.JavaConverters")
       response must include(".asJava")
       response must include(".asScala")
+      if (scala3Sources) {
+        // Scala 3.3 parses an unparenthesized intersection here as a given template.
+        response must include("given messageCompanion: (scalapb.GeneratedMessageCompanion[")
+        response must include(" & scalapb.JavaProtoSupport[")
+        response.linesIterator.find(_.contains("given messageCompanion:")).get must endWith(
+          ") = this"
+        )
+      }
     }
   }
 }

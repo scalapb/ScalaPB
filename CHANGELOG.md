@@ -24,6 +24,8 @@ Changes since `1.0.0-alpha.6`. Pair with `scalapb-json4s` `1.0.0-alpha.4`.
 - Harden delimited framing and bound text-parser depth and integer literals.
 - Improve Scala 3-only generation for `-source:future`, unify generated lens bases,
   narrow enum `values` to recognized values and fix streaming gRPC status mapping.
+  Parenthesize named-given intersection types so Java conversions also compile
+  with Scala 3-only output on the supported Scala 3 compilers.
 - Update gRPC to 1.86.0, protobuf-runtime-scala to 0.9.0, Scala 3 to 3.3.9,
   Scala.js to 1.23.0 and Scala Native to 0.5.13; refresh dependency security fixes.
   The repository build uses sbt 2.1.1 and sbt-protoc 1.1.0-RC3.
