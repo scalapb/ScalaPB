@@ -103,32 +103,52 @@ readFromFile[Person]("/tmp/person.pb")
 
 ## Editions and resolved descriptor features
 
-The generator advertises Edition 2023 as both its minimum and maximum supported
-edition. Edition 2024 and later are not advertised. This is a generation range,
-not a claim of complete Editions wire conformance: closed-enum parsing,
-`DELIMITED` message parsing and Java naming compatibility require their respective
-implementations and validation. String parsing remains strict by default; the
-schema's UTF-8 setting alone does not change parser behavior.
+When writing generic code, use Scala descriptor accessors to inspect a field's
+effective behavior across proto2, proto3 and supported Editions. For an
+introduction to Editions, supported versions and schema examples, see
+[Protobuf Editions](editions.md).
 
-Scala file, message, enum and field descriptors expose `resolvedFeatures`, which
-combines the core syntax/Edition 2023 defaults with lexical option overrides.
-Fields also account for legacy `required`, `packed`, groups and proto3 optional
-when resolving features. `asProto`, `getOptions` and `protoType` retain the source
-representation. Resolving features for an unsupported edition throws
-`DescriptorValidationException`, rather than guessing its defaults.
+For example, this function finds the fields that distinguish an unset value from
+an explicitly set default value:
 
-Use `FieldDescriptor.hasPresence`, `isRequired`, `isPackable`, `isPacked`,
-`needsUtf8Check` and `messageEncoding`, and `EnumDescriptor.isClosed` to inspect
-schema semantics. `isOptional` is false for Edition 2023 `LEGACY_REQUIRED` fields.
-Repeated fields have no presence; message and oneof fields have presence even
-when the inherited scalar policy is `IMPLICIT`. Map entries and their message
-fields remain length-prefixed under a `DELIMITED` default.
+```scala mdoc
+import scalapb.descriptors.{Descriptor, FieldDescriptor}
 
-`needsUtf8Check` describes the **core schema policy**, not Java-specific feature
-extensions or Java's stricter map-string handling. Feature accessors do not
-change generated parsers. Language-specific feature extensions are preserved in
-`resolvedFeatures` but not interpreted. These APIs describe existing message
-fields; they do not add extension-field reflection support.
+def fieldsWithPresence(descriptor: Descriptor): Seq[FieldDescriptor] =
+  descriptor.fields.filter(_.hasPresence)
+```
 
-See the upstream [feature settings reference](https://protobuf.dev/editions/features/)
-for the meaning and permitted scopes of each feature.
+Pass a generated companion's `scalaDescriptor`, such as
+`fieldsWithPresence(Person.scalaDescriptor)`. Repeated fields have no presence;
+singular message and oneof fields always have presence, even under an inherited
+`IMPLICIT` scalar policy. Use `hasPresence` for this distinction: `isOptional`
+only means the field is neither required nor repeated.
+
+| Accessor | What it tells you |
+| --- | --- |
+| `FieldDescriptor.hasPresence` | Whether a field distinguishes an unset value from its default. |
+| `FieldDescriptor.isRequired` | Whether a field is required, including `LEGACY_REQUIRED` fields. |
+| `FieldDescriptor.isPackable` | Whether a field is repeated and its type permits packed encoding. |
+| `FieldDescriptor.isPacked` | Whether a packable field uses packed encoding. |
+| `FieldDescriptor.needsUtf8Check` | Whether a string field's core schema settings require UTF-8 validation. |
+| `FieldDescriptor.messageEncoding` | The message encoding, accounting for maps and their entries always being length-prefixed. |
+| `EnumDescriptor.isClosed` | Whether an enum is closed. |
+
+Scala file, message, enum and field descriptors also expose `resolvedFeatures`.
+This combines syntax or edition defaults with inherited settings and local
+overrides. For proto2 and proto3, it also accounts for `required`, `packed`,
+groups and proto3 `optional`. The original declarations remain available through
+`asProto`, `getOptions` and `protoType`.
+
+There are a few limits to what Scala descriptors report:
+
+- `needsUtf8Check` describes the core schema policy. It does not include
+  Java-specific overrides or Java's stricter map-string handling. See
+  [Editions UTF-8 validation](editions.md#utf-8-validation) for parser behavior.
+- Language-specific feature extensions are preserved in `resolvedFeatures` but
+  are not interpreted by these Scala descriptor accessors.
+- Source-retained feature overrides stripped by protoc cannot be recovered.
+  See [naming and visibility](editions.md#naming-visibility-and-java-interoperability).
+- These APIs describe existing message fields; they do not add reflection
+  support for extension fields. Unsupported editions cause
+  `DescriptorValidationException`.

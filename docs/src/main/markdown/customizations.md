@@ -1003,8 +1003,8 @@ message Expr {
 
 ## Binary string UTF-8 validation
 
-ScalaPB validates UTF-8 when parsing ordinary binary `string` fields by default,
-including proto2 strings. To opt into the resolved protobuf Java schema policy:
+For proto2 and proto3 schemas, ScalaPB validates UTF-8 when parsing ordinary
+binary `string` fields by default. To opt into the protobuf Java schema policy:
 
 ```protobuf
 import "scalapb/scalapb.proto";
@@ -1012,15 +1012,16 @@ option (scalapb.options).use_schema_utf8_validation = true;
 ```
 
 This option can also be inherited from package-scoped ScalaPB options. Set it to
-`false` in a file to retain strict validation for that file. Regenerate your Scala
+`false` in a proto2 or proto3 file to retain strict validation. Regenerate your Scala
 sources after changing the option; already-generated parsers are unaffected.
 
 With the option enabled, proto2 strings validate when `java_string_check_utf8`
-is true, and proto3 strings validate by default. The generator uses the public
-Java descriptor `needsUtf8Check()` API, which resolves inherited Editions
-`features.utf8_validation` and Java-specific UTF-8 overrides for Edition 2023.
-Edition 2024 feature resolution is tested at the descriptor level but Edition
-2024 input is not yet advertised.
+is true, and proto3 strings validate by default. For
+[Editions schemas](editions.md#utf-8-validation), the generator always follows the
+schema policy, regardless of this option. It uses the Java descriptor
+`needsUtf8Check()` API to resolve inherited `features.utf8_validation` settings
+and Java-specific overrides.
+
 String map keys **and values always validate**, including in nonvalidating files.
 Fields generated with [`lazy_utf8_string_fields`](#lazy-string-fields) follow
 the same policy; nonvalidating lazy fields keep the original bytes.
