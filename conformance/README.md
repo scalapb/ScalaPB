@@ -79,8 +79,8 @@ workstreams; this PR does not change their policies.
 The remaining binary/JSON limitations are oversized tags (six cases) and
 mixed-wire unknown-field ordering (two cases). The tag cases reach the project's
 Java `CodedInputStream.readTag`; ordering is lost when fields of different wire
-types share a field number. Text format still rejects reserved names (20 cases)
-and certain expanded Any type-URL prefixes (four cases).
+types share a field number. Text format ignores reserved names, including nested message and list values.
+Certain expanded Any type-URL prefixes remain unsupported (four legacy cases).
 
 ## Java parity
 
@@ -130,7 +130,8 @@ are not Editions implementation coverage.
 
 ## Editions integration (2023, 2024, 2026)
 
-The integrated v36.2 run now executes the three stable Editions families:
+The original integrated v36.2 baseline executes the three stable Editions families
+(counts below precede subsequent fixes in the checked-in failure lists):
 
 | Suite | Successes | Skips | Expected failures | Unexpected failures |
 | --- | ---: | ---: | ---: | ---: |
@@ -166,3 +167,10 @@ compiler compatibility diagnostics. Comparing with the conformance base's
 compiled classes produces exactly the same diagnostics; this Editions series
 adds none to that baseline. The JSON matrix's own MiMa checks pass.
 Documentation passes mdoc and the production Docusaurus build.
+
+## Reserved text field names
+
+Reserved names are discarded after syntax parsing; unrelated unknown names and
+malformed values remain errors. All 40 reserved-name cases (20 legacy and 20
+Editions) pass. With this fix alone, the text suite reports 897 successes, 12
+expected failures and no unexpected failures.

@@ -304,7 +304,11 @@ private[scalapb] object AstUtils {
         Seq(name -> f, f.name -> f)
       }.toMap
 
-    val (extensions, ordinary) = ast.fields.partition(_.name.startsWith("["))
+    val (extensions, ordinaryFields) = ast.fields.partition(_.name.startsWith("["))
+    // Reserved names are intentionally discarded, but their values still pass through the
+    // syntax parser (including its recursion and numeric-literal limits).
+    val reservedNames = v.scalaDescriptor.asProto.reservedName.toSet
+    val ordinary      = ordinaryFields.filterNot(f => reservedNames.contains(f.name))
 
     def fieldGroupToValue(
         fd: FieldDescriptor,
