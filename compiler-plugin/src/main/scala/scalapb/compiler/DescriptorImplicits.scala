@@ -230,7 +230,11 @@ class DescriptorImplicits private[compiler] (
 
     def upperJavaName: String =
       (if (
-         fd.toProto.getType == com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type.TYPE_GROUP
+         fd.isGroup &&
+         fd.getMessageType.getName.toLowerCase(java.util.Locale.ROOT) == fd.getName &&
+         fd.getMessageType.getFile == fd.getFile &&
+         fd.getMessageType.getContainingType ==
+           (if (fd.isExtension) fd.getExtensionScope else fd.getContainingType)
        )
          fd.getMessageType.getName
        else fd.getName) match {
