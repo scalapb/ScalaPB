@@ -31,6 +31,36 @@ following to your `build.sbt`:
 libraryDependencies += "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
 ```
 
+## Test-only protos
+
+Place protos used only by tests under `src/test/protobuf` and add the following
+to `build.sbt`:
+
+```scala
+Test / PB.targets := Seq(
+  scalapb.gen() -> (Test / sourceManaged).value / "scalapb"
+)
+```
+
+Run `Test / compile` to generate and compile the test sources, or
+`Test / protocGenerate` to generate them without compiling. You do not need to
+configure `Compile / PB.targets` if there are no main protos.
+
+Starting with sbt-protoc 1.1.0, runtime dependencies required by Test targets are
+added automatically in Test scope, without adding them to the Compile classpath.
+Earlier versions infer runtime dependencies only from Compile targets, so a
+Test-only build can generate sources but fail to compile them. See
+[ScalaPB issue #1750](https://github.com/scalapb/ScalaPB/issues/1750).
+
+For earlier sbt-protoc versions, add the runtime explicitly in Test scope:
+
+```scala
+libraryDependencies += "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % Test
+```
+
+If your test protos generate gRPC service stubs, also add `scalapb-runtime-grpc`
+at the same version in Test scope.
+
 ## Defaults
 
 The plugin assumes your `proto` files are under `src/main/protobuf`,
