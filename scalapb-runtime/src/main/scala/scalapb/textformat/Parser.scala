@@ -16,6 +16,20 @@ class Parser(text: String, recursionLimit: Int) {
     finally depth -= 1
   }
 
+  // Whitespace/comments may split bracketed names. Validate the assembled name so a
+  // percent escape must still contain exactly two hex digits, and URL punctuation
+  // is confined to the prefix rather than accepted in an extension/type name.
+  private def validBracketedName(name: String): Boolean = {
+    val slash = name.lastIndexOf('/')
+    if (slash < 0) name.nonEmpty && Tokenizer.isIdentifier(name)
+    else {
+      val prefix   = name.substring(0, slash)
+      val fullName = name.substring(slash + 1)
+      prefix.matches("(?:[a-zA-Z0-9_~!$&()*+,;=./-]|%[0-9a-fA-F]{2})+") &&
+      fullName.matches("[a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*")
+    }
+  }
+
   // Integral tokens can also represent floating-point fields. Keep ample room for
   // those values, but never construct an unbounded BigInt from untrusted input.
   private def boundedInteger(digits: String, radix: Int, sign: Int): BigInt = {
@@ -41,14 +55,14 @@ class Parser(text: String, recursionLimit: Int) {
           val name = if (token == "[") {
             val url = new StringBuilder
             while (it.hasNext && it.currentToken != "]") {
-              val part = it.next()
-              if (!Tokenizer.isIdentifier(part) && part != "/")
-                throw parseException("Invalid Any type URL")
-              url.append(part)
+              url.append(it.next())
             }
             if (!it.hasNext) throw parseException("Unclosed Any type URL")
             it.next()
-            "[" + url.result() + "]"
+            val name = url.result()
+            if (!validBracketedName(name))
+              throw parseException("Invalid Any type URL or extension name")
+            "[" + name + "]"
           } else token
           if (token != "[" && !Tokenizer.isIdentifier(token)) throw {
             throw parseException(s"Expected identifier, got $token")
