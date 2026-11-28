@@ -91,6 +91,53 @@ class UnknownFieldOrderingSpec extends FunSuite {
     assertEquals(parsed.toByteString, mixed)
   }
 
+  test("repeated copy and lens appends never traverse field sequences") {
+    var traversals = 0
+    class ObservedSeq[A](values: Vector[A]) extends scala.collection.immutable.Seq[A] {
+      override def length: Int           = { traversals += 1; values.length }
+      override def apply(index: Int): A  = { traversals += 1; values(index) }
+      override def iterator: Iterator[A] = {
+        traversals += 1
+        values.iterator
+      }
+    }
+    var field  = parse(mixed).getField(100).get
+    var values = Vector(1L, 5L)
+    for (i <- 0 until 20000) {
+      values = values :+ i.toLong
+      field = UnknownFieldSet.Field.varintLens.set(new ObservedSeq(values))(field)
+      field = field.copy()
+    }
+    // Counts operations rather than elapsed time: any copy-time scan (even length) fails.
+    assertEquals(traversals, 0)
+    val expected = mixed.concat(bytes { out =>
+      (0 until 20000).foreach(i => out.writeUInt64(100, i.toLong))
+    })
+    assertEquals(UnknownFieldSet().withField(100, field).toByteString, expected)
+    assertEquals(
+      new UnknownFieldSet.Builder(UnknownFieldSet().withField(100, field))
+        .result()
+        .toByteString,
+      expected
+    )
+  }
+
+  test("successive edits use original slots; serialization and builder copies agree") {
+    val field = parse(mixed)
+      .getField(100)
+      .get
+      .copy(varint = Vector.empty)
+      .copy(varint = Vector(10L, 20L, 30L))
+    val expected = bytes { out =>
+      occurrences(0)(out); out.writeUInt64(100, 10)
+      occurrences(2)(out); occurrences(3)(out); occurrences(4)(out)
+      occurrences(5)(out); out.writeUInt64(100, 20); out.writeUInt64(100, 30)
+    }
+    val message = UnknownFieldSet().withField(100, field)
+    assertEquals(message.toByteString, expected)
+    assertEquals(new UnknownFieldSet.Builder(message).result().toByteString, expected)
+  }
+
   test("constructors, extractor, equality and hash codes retain the public value contract") {
     val field     = parse(mixed).getField(100).get
     val canonical = UnknownFieldSet.Field(

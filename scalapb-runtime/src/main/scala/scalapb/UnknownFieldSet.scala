@@ -107,34 +107,25 @@ object UnknownFieldSet {
     private def counts: Array[Int] =
       Array(varint.size, fixed64.size, lengthDelimited.size, group.size, 0, fixed32.size)
 
-    private def foreachWireType(f: Int => Unit): Unit =
-      if (wireOrder.nonEmpty) wireOrder.foreach(f)
-      else {
-        varint.foreach(_ => f(WireType.WIRETYPE_VARINT))
-        fixed32.foreach(_ => f(WireType.WIRETYPE_FIXED32))
-        fixed64.foreach(_ => f(WireType.WIRETYPE_FIXED64))
-        lengthDelimited.foreach(_ => f(WireType.WIRETYPE_LENGTH_DELIMITED))
-        group.foreach(_ => f(WireType.WIRETYPE_START_GROUP))
+    // Interpret the original occurrence slots against the current sequences only when
+    // traversing a field. Copies share the immutable metadata without scanning values.
+    // Missing slots are skipped; values beyond the original slots follow in canonical order.
+    private def foreachWireType(f: Int => Unit): Unit = {
+      val remaining = counts
+      wireOrder.foreach { wireType =>
+        if (remaining(wireType) > 0) {
+          f(wireType)
+          remaining(wireType) -= 1
+        }
       }
+      Seq(0, 5, 1, 2, 3).foreach { wireType =>
+        var count = remaining(wireType)
+        while (count > 0) { f(wireType); count -= 1 }
+      }
+    }
 
-    // A replacement occupies the same per-type occurrence slots. Shortening a sequence
-    // removes its trailing slots; new occurrences append in the legacy canonical type order.
     private def preserveOrder(next: Field): Field = {
-      if (wireOrder.nonEmpty) {
-        val remaining = next.counts
-        val order     = Vector.newBuilder[Int]
-        wireOrder.foreach { wireType =>
-          if (remaining(wireType) > 0) {
-            order += wireType
-            remaining(wireType) -= 1
-          }
-        }
-        Seq(0, 5, 1, 2, 3).foreach { wireType =>
-          var count = remaining(wireType)
-          while (count > 0) { order += wireType; count -= 1 }
-        }
-        next.wireOrder = order.result()
-      }
+      next.wireOrder = wireOrder
       next
     }
 
@@ -181,7 +172,7 @@ object UnknownFieldSet {
         val fixed64s = fixed64.iterator
         val bytes    = lengthDelimited.iterator
         val groups   = group.iterator
-        wireOrder.foreach {
+        foreachWireType {
           case WireType.WIRETYPE_VARINT  => output.writeUInt64(fieldNumber, varints.next())
           case WireType.WIRETYPE_FIXED32 => output.writeFixed32(fieldNumber, fixed32s.next())
           case WireType.WIRETYPE_FIXED64 => output.writeFixed64(fieldNumber, fixed64s.next())

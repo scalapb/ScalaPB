@@ -181,9 +181,12 @@ existing serialization path without a per-occurrence order vector. The metadata
 is initialized on a new value before it leaves a builder or copy operation and
 never changed afterward. Existing generated code benefits without regeneration.
 
-A copy preserves the per-type occurrence slots. Replacing values fills the same
-slots, shortening a sequence removes its trailing slots, and extra values append
-in the legacy canonical type order. Builder merges append in encounter order;
+Copies share the original ordering metadata in constant time without inspecting
+or scanning the sequences. On serialization, current values fill the original
+per-type slots, missing slots are skipped, and extra values follow in canonical
+type order. Successive edits continue to use those original slots. Serialization
+is linear in the retained original slots plus current values, and builder
+insertion is amortized constant time per occurrence. Builder merges append in encounter order;
 builder snapshots remain independent. Values constructed directly from separate
 sequences retain canonical ordering because their original interleaving is unknown.
 Equality intentionally continues to compare the public sequences, not serialization
