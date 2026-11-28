@@ -1,0 +1,7 @@
+edition = "2023";
+package scalapb.textformat.fixtures;
+import "textformat/scalar_base.proto";
+import "scalapb/scalapb.proto";
+option (scalapb.options) = { flat_package: true };
+enum OpenScalarEnum { OPEN_ZERO = 0; OPEN_ONE = 1; }
+extend ScalarBase { OpenScalarEnum open = 121; }

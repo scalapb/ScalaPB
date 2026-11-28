@@ -22,7 +22,9 @@ object TextFormat extends ProtoAsciiParsing {
       printUnknownFields = printUnknownFields
     )
 
-  /** Prints message-valued extensions whose payload types are explicitly registered. */
+  /** Prints scalar extensions from known declaration files and message-valued extensions whose
+    * payload types are explicitly registered.
+    */
   def printToString(
       m: GeneratedMessage,
       typeRegistry: scalapb.textformat.TypeRegistry,

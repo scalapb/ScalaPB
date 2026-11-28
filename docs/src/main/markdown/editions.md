@@ -131,8 +131,10 @@ actual Edition 2024 and 2026 schemas in end-to-end tests. Descriptor semantics
 are shared across JVM, Scala.js and Scala Native. Some upstream conformance cases
 remain unsupported:
 
-- Message-valued text extensions require explicit registration of their payload
-  companions. Scalar text extensions are not currently supported.
+- Text extensions declared outside the message's file require registration of
+  their declaration file (or a message companion from that file). Message-valued
+  extensions also require their payload companions. See
+  [extensions in text format](generated-code.md#extensions-in-text-format).
 - Binary extensions remain in unknown fields until interpreted. String extension
   accessors enforce the schema's UTF-8 policy when reading a value; parsing a
   message alone does not validate every extension occurrence.

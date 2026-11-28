@@ -1,6 +1,10 @@
 # Change Log
 ## [1.0.0] (Not yet released)
 
+- Support scalar extensions in text parsing and printing, including packed values
+  and enum openness. Register external declarations with `textformat.TypeRegistry.addFile`;
+  existing generated extension accessors are unchanged.
+
 ## [1.0.0-alpha.8]
 
 Changes since `1.0.0-alpha.6`. Pair with `scalapb-json4s` `1.0.0-alpha.4`.

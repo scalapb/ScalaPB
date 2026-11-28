@@ -51,9 +51,3 @@ Required.Proto3.TextFormatInput.ReservedFieldName.String.ProtobufOutput # Failed
 Required.Editions_Proto3.TextFormatInput.ReservedFieldName.String.ProtobufOutput # Failed to parse input or produce output.
 Required.Proto3.TextFormatInput.ReservedFieldName.String.TextFormatOutput # Failed to parse input or produce output.
 Required.Editions_Proto3.TextFormatInput.ReservedFieldName.String.TextFormatOutput # Failed to parse input or produce output.
-
-# Scalar text extensions have no registered codec (message extensions are supported).
-Required.Editions.TextFormatInput.ExtensionNameWithWhitespace.ProtobufOutput # Failed to parse input or produce output.
-Required.Editions.TextFormatInput.ExtensionNameWithWhitespace.TextFormatOutput # Failed to parse input or produce output.
-Required.Editions.TextFormatInput.ExtensionNameWithComment.ProtobufOutput # Failed to parse input or produce output.
-Required.Editions.TextFormatInput.ExtensionNameWithComment.TextFormatOutput # Failed to parse input or produce output.

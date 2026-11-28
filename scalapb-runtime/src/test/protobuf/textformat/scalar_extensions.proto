@@ -1,0 +1,31 @@
+syntax = "proto2";
+package scalapb.textformat.fixtures;
+import "textformat/scalar_base.proto";
+import "scalapb/scalapb.proto";
+option (scalapb.options) = { flat_package: true };
+enum ClosedScalarEnum { ZERO = 0; ONE = 1; }
+extend ScalarBase {
+  optional int32 i32 = 100;
+  optional uint32 u32 = 101;
+  optional sint32 s32 = 102;
+  optional fixed32 f32 = 103;
+  optional sfixed32 sf32 = 104;
+  optional int64 i64 = 105;
+  optional uint64 u64 = 106;
+  optional sint64 s64 = 107;
+  optional fixed64 f64 = 108;
+  optional sfixed64 sf64 = 109;
+  optional bool flag = 110;
+  optional string str = 111;
+  optional bytes blob = 112;
+  optional float flt = 113;
+  optional double dbl = 114;
+  optional ClosedScalarEnum closed = 115;
+  repeated int32 ints = 116 [packed = true];
+  repeated ClosedScalarEnum enums = 117 [packed = true];
+  repeated bool flags = 118;
+  repeated string strings = 119;
+}
+message ScalarScope {
+  extend ScalarBase { optional int32 nested = 120; }
+}
