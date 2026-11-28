@@ -56,25 +56,34 @@ private[textformat] object ParsedValue {
           output.writeTag(number, scalapb.WireType.WIRETYPE_END_GROUP)
         } else output.writeBytes(number, ByteString.copyFrom(message.toByteArray))
       case Scalar(primitive) =>
-        (fd.protoType, primitive) match {
-          case (Type.TYPE_DOUBLE, PDouble(v))    => output.writeDouble(number, v)
-          case (Type.TYPE_FLOAT, PFloat(v))      => output.writeFloat(number, v)
-          case (Type.TYPE_INT64, PLong(v))       => output.writeInt64(number, v)
-          case (Type.TYPE_UINT64, PLong(v))      => output.writeUInt64(number, v)
-          case (Type.TYPE_INT32, PInt(v))        => output.writeInt32(number, v)
-          case (Type.TYPE_FIXED64, PLong(v))     => output.writeFixed64(number, v)
-          case (Type.TYPE_FIXED32, PInt(v))      => output.writeFixed32(number, v)
-          case (Type.TYPE_BOOL, PBoolean(v))     => output.writeBool(number, v)
-          case (Type.TYPE_STRING, PString(v))    => output.writeString(number, v)
-          case (Type.TYPE_BYTES, PByteString(v)) => output.writeBytes(number, v)
-          case (Type.TYPE_UINT32, PInt(v))       => output.writeUInt32(number, v)
-          case (Type.TYPE_SFIXED32, PInt(v))     => output.writeSFixed32(number, v)
-          case (Type.TYPE_SFIXED64, PLong(v))    => output.writeSFixed64(number, v)
-          case (Type.TYPE_SINT32, PInt(v))       => output.writeSInt32(number, v)
-          case (Type.TYPE_SINT64, PLong(v))      => output.writeSInt64(number, v)
-          case (Type.TYPE_ENUM, PEnum(v))        => output.writeEnum(number, v.number)
-          case _ => throw new IllegalArgumentException(s"Invalid parsed value for ${fd.fullName}")
-        }
+        writePrimitive(number, fd.protoType, primitive, output)
+    }
+  }
+
+  private[textformat] def writePrimitive(
+      number: Int,
+      protoType: Type,
+      primitive: PValue,
+      output: CodedOutputStream
+  ): Unit = {
+    (protoType, primitive) match {
+      case (Type.TYPE_DOUBLE, PDouble(v))    => output.writeDouble(number, v)
+      case (Type.TYPE_FLOAT, PFloat(v))      => output.writeFloat(number, v)
+      case (Type.TYPE_INT64, PLong(v))       => output.writeInt64(number, v)
+      case (Type.TYPE_UINT64, PLong(v))      => output.writeUInt64(number, v)
+      case (Type.TYPE_INT32, PInt(v))        => output.writeInt32(number, v)
+      case (Type.TYPE_FIXED64, PLong(v))     => output.writeFixed64(number, v)
+      case (Type.TYPE_FIXED32, PInt(v))      => output.writeFixed32(number, v)
+      case (Type.TYPE_BOOL, PBoolean(v))     => output.writeBool(number, v)
+      case (Type.TYPE_STRING, PString(v))    => output.writeString(number, v)
+      case (Type.TYPE_BYTES, PByteString(v)) => output.writeBytes(number, v)
+      case (Type.TYPE_UINT32, PInt(v))       => output.writeUInt32(number, v)
+      case (Type.TYPE_SFIXED32, PInt(v))     => output.writeSFixed32(number, v)
+      case (Type.TYPE_SFIXED64, PLong(v))    => output.writeSFixed64(number, v)
+      case (Type.TYPE_SINT32, PInt(v))       => output.writeSInt32(number, v)
+      case (Type.TYPE_SINT64, PLong(v))      => output.writeSInt64(number, v)
+      case (Type.TYPE_ENUM, PEnum(v))        => output.writeEnum(number, v.number)
+      case _ => throw new IllegalArgumentException(s"Invalid parsed value for ${number}")
     }
   }
 }

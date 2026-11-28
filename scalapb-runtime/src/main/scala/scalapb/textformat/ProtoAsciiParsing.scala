@@ -20,7 +20,9 @@ trait ProtoAsciiParsing {
       recursionLimit: Int
   ): Either[TextFormatError, T] = fromAscii(d, s, TypeRegistry.empty, recursionLimit)
 
-  /** Parses expanded Any values using only the explicitly registered message types. */
+  /** Parses expanded Any values and extensions using registered message types and declaration
+    * files.
+    */
   def fromAscii[T <: GeneratedMessage](
       d: GeneratedMessageCompanion[T],
       s: String,

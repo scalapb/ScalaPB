@@ -458,6 +458,39 @@ beware of persisting these ASCII representations: unknown fields throw an
 exception, and unlike the binary format, the ASCII format is senstitive to
 renames.
 
+### Extensions in text format
+
+Scalar extensions use their fully qualified names in brackets:
+
+```protobuf
+[example.priority]: 3
+[example.tags]: ["first", "second"]
+```
+
+Declarations in the message's own `.proto` file are available automatically. For
+extensions declared in another file, register that file's Scala descriptor:
+
+```scala
+val registry = scalapb.textformat.TypeRegistry.empty
+  .addFile(MyExtensionsProto.scalaDescriptor)
+
+val parsed = scalapb.TextFormat.fromAscii(MyMessage, text, registry)
+val rendered = scalapb.TextFormat.printToString(message, registry, false)
+```
+
+Message-valued extensions also require their payload companion through
+`registry.addMessage(Payload)`. Registering a companion includes declarations
+from its file. Registration is immutable: use the returned registry for parsing
+and printing.
+
+Scalar extension values follow the same numeric ranges, string escaping and enum
+openness as ordinary text fields. Repeated fields accept lists or multiple
+occurrences; printing interprets both packed and unpacked binary values. Unknown
+closed-enum numbers and unrelated wire types remain unknown fields and are
+included numerically when `printUnknownFields` is enabled. Mixed packed/unpacked
+occurrence order is subject to the existing unknown-field ordering limitation.
+Generated extension accessors and binary APIs are unchanged.
+
 ## Java Conversions
 
 If you are dealing with legacy Java protocol buffer code, while still wanting

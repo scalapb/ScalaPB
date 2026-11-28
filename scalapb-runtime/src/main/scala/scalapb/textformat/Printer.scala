@@ -61,9 +61,22 @@ object Printer {
         }
       }
     }
+    val scalarExtensions = typeRegistry.scalarExtensions(t.companion.scalaDescriptor)
+    val afterScalars     =
+      scalarExtensions.sortBy(_.field.getNumber).foldLeft(t.unknownFields) { (unknown, extension) =>
+        unknown.getField(extension.field.getNumber).fold(unknown) { field =>
+          val (values, remaining) = extension.read(field)
+          values.foreach { value =>
+            out.add("[" + extension.name + "]: ")
+            printPrimitive(extension.field.getType, value, out)
+            out.addNewLine("")
+          }
+          unknown.withField(extension.field.getNumber, remaining)
+        }
+      }
     if (printUnknownFields)
       printUnknown(
-        extensions.foldLeft(t.unknownFields) { (unknown, extension) =>
+        extensions.foldLeft(afterScalars) { (unknown, extension) =>
           unknown.getField(extension.field.getNumber).fold(unknown) { field =>
             unknown.withField(
               extension.field.getNumber,
@@ -236,15 +249,21 @@ object Printer {
       fd: FieldDescriptor,
       value: scalapb.descriptors.PValue,
       out: TextGenerator
+  ): Unit = printPrimitive(fd.protoType, value, out)
+
+  private[textformat] def printPrimitive(
+      protoType: com.google.protobuf.descriptor.FieldDescriptorProto.Type,
+      value: scalapb.descriptors.PValue,
+      out: TextGenerator
   ): Unit = {
     value match {
       case scalapb.descriptors.PInt(v) =>
-        if (fd.protoType.isTypeUint32 || fd.protoType.isTypeFixed32)
+        if (protoType.isTypeUint32 || protoType.isTypeFixed32)
           out.add(TextFormatUtils.unsignedToString(v))
         else
           out.add(v.toString)
       case scalapb.descriptors.PLong(v) =>
-        if (fd.protoType.isTypeUint64 || fd.protoType.isTypeFixed64)
+        if (protoType.isTypeUint64 || protoType.isTypeFixed64)
           out.add(TextFormatUtils.unsignedToString(v))
         else
           out.add(v.toString)

@@ -1,0 +1,9 @@
+syntax = "proto2";
+package scalapb.textformat.fixtures;
+import "scalapb/scalapb.proto";
+option (scalapb.options) = { flat_package: true };
+message ScalarBase {
+  extensions 100 to 199;
+  optional ScalarBase child = 1;
+}
+message ScalarOther { extensions 100 to 199; }

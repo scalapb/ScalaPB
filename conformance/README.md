@@ -130,7 +130,8 @@ are not Editions implementation coverage.
 
 ## Editions integration (2023, 2024, 2026)
 
-The integrated v36.2 run now executes the three stable Editions families:
+The original integrated v36.2 baseline executes the three stable Editions families
+(counts below precede subsequent fixes in the checked-in failure lists):
 
 | Suite | Successes | Skips | Expected failures | Unexpected failures |
 | --- | ---: | ---: | ---: | ---: |
@@ -139,8 +140,8 @@ The integrated v36.2 run now executes the three stable Editions families:
 
 All 24 conformance unit tests pass. Exact migration failures match the legacy
 oversized-tag, unknown-field-ordering, reserved-name and Any-URL limitations.
-Four additional text failures use scalar extensions, for which the text registry
-has no codec; message-valued extensions are supported, including DELIMITED
+The original four additional text failures used scalar extensions, which the text
+registry did not yet support; message-valued extensions are supported, including DELIMITED
 encoding and migrated group names. These four cases pass in upstream Java.
 
 The fixture registry validates every occurrence of known string extensions with
@@ -166,3 +167,22 @@ compiler compatibility diagnostics. Comparing with the conformance base's
 compiled classes produces exactly the same diagnostics; this Editions series
 adds none to that baseline. The JSON matrix's own MiMa checks pass.
 Documentation passes mdoc and the production Docusaurus build.
+
+## Scalar text extensions
+
+The four extension-name whitespace/comment cases now pass through the general
+scalar extension codecs. With this fix alone, the text suite reports 861 successes,
+48 expected failures and no unexpected failures.
+
+The implementation keeps generated extension lenses and public field descriptors
+unchanged. Private declaration metadata resolves names, scalar types and enum
+openness from descriptors. Parsing and printing reuse ordinary-field scalar
+conversion routines; wire values continue to live in `UnknownFieldSet`. Both
+packed and unpacked repeated values are interpreted, and unrelated wire types
+and unknown closed-enum values remain available as unknown fields.
+
+`TypeRegistry.addFile` is an additive API for extension declarations in external
+files, including files without any messages. The containing message's file and
+files of registered payload companions are included automatically. Message
+extensions still require their payload companion. No generator changes or
+regeneration are needed for existing generated messages.
