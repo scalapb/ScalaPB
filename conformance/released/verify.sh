@@ -4,7 +4,7 @@ repo_root=$(cd "$(dirname "$0")/../.." && pwd)
 report_dir=${CONFORMANCE_OUTPUT_DIR:-"$repo_root/target/released-conformance"}
 mkdir -p "$report_dir"
 report_dir=$(cd "$report_dir" && pwd)
-scalapb_version=${SCALAPB_RELEASE_VERSION:-1.0.0-alpha.7}
+scalapb_version=${SCALAPB_RELEASE_VERSION:-1.0.0-alpha.8}
 json_version=${JSON4S_RELEASE_VERSION:-1.0.0-alpha.4}
 
 # Never satisfy a release check from locally published candidate artifacts.

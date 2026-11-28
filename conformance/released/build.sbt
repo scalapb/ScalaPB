@@ -2,7 +2,7 @@
 scalaVersion := "2.13.18"
 name := "scalapb-released-conformance"
 publish / skip := true
-val scalapbVersion = sys.props.getOrElse("scalapb.version", "1.0.0-alpha.7")
+val scalapbVersion = sys.props.getOrElse("scalapb.version", "1.0.0-alpha.8")
 val jsonVersion = sys.props.getOrElse("scalapb.json4s.version", "1.0.0-alpha.4")
 libraryDependencies ++= Seq(
   "com.thesamet.scalapb" %% "scalapb-runtime" % scalapbVersion,

@@ -2,7 +2,7 @@
 
 This standalone build generates and compiles the conformance testee using artifact
 coordinates only. It does not depend on the parent ScalaPB runtime/compiler projects.
-Defaults are ScalaPB 1.0.0-alpha.7 and scalapb-json4s 1.0.0-alpha.4.
+Defaults are ScalaPB 1.0.0-alpha.8 and scalapb-json4s 1.0.0-alpha.4.
 
 From this directory:
 
@@ -22,7 +22,7 @@ suites. Expected failures and unstable skips remain explicit.
 
 Before publication, bootstrap the pair by locally publishing ScalaPB lenses and
 runtime for 2.12/2.13/3 and compilerplugin for 2.12, with
-`set every version := "1.0.0-alpha.7"`. Then run json4s's `+test`,
+`set every version := "1.0.0-alpha.8"`. Then run json4s's `+test`,
 `+mimaReportBinaryIssues` and `+publishLocal` with version `1.0.0-alpha.4`.
 Neither operation publishes remotely. Version overrides are `-Dscalapb.version`
 and `-Dscalapb.json4s.version`; the latter also controls the parent integration build.

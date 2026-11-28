@@ -1,9 +1,11 @@
 # Change Log
 ## [1.0.0] (Not yet released)
 
-## [1.0.0-alpha.7]
+## [1.0.0-alpha.8]
 
 Changes since `1.0.0-alpha.6`. Pair with `scalapb-json4s` `1.0.0-alpha.4`.
+The alpha.7 publication attempt was withdrawn after a Scala 3 JS compile failure;
+alpha.8 fixes the shared JS/Native call syntax. The alpha.7 Git tag is retained.
 
 - Support stable Editions 2023, 2024 and 2026: resolve inherited features,
   presence, packing, enum openness, UTF-8 and DELIMITED encoding. Reject unknown

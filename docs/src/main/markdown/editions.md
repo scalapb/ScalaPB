@@ -20,7 +20,7 @@ protobuf-java runtime. JVM, Scala.js and Scala Native share descriptor semantics
 Scala 2.12, 2.13 and 3 are covered by the corresponding build matrices.
 
 JSON support requires the matching Editions-aware scalapb-json4s implementation.
-Use ScalaPB `1.0.0-alpha.7` together with scalapb-json4s `1.0.0-alpha.4`.
+Use ScalaPB `1.0.0-alpha.8` together with scalapb-json4s `1.0.0-alpha.4`.
 Upgrade the generator and runtime together and regenerate sources.
 
 ## Feature semantics

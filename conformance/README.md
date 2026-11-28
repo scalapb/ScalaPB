@@ -41,7 +41,7 @@ all three actual generated companions. Only the unstable edition is skipped.
 The runner uses `--maximum_edition 2026`; Editions 2024 and 2026 have separate
 end-to-end fixtures. `summary.tsv` reports outcomes by family and output format.
 
-The release pair is ScalaPB `1.0.0-alpha.7` and scalapb-json4s
+The release pair is ScalaPB `1.0.0-alpha.8` and scalapb-json4s
 `1.0.0-alpha.4`, including both Java-parity fixes and Editions feature handling.
 See `released/README.md` for artifact-only verification and local bootstrapping.
 
