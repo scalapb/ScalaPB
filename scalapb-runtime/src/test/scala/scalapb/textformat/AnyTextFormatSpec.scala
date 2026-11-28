@@ -24,6 +24,48 @@ class AnyTextFormatSpec extends FunSuite {
     )
   }
 
+  test("expanded Any accepts URL prefix punctuation and preserves percent escapes") {
+    for (prefix <- Seq("non.default.domain/sub-path_0/~!$&()*+,;=", "example.com/%2F/%aB")) {
+      val url    = prefix + "/google.protobuf.Int32Value"
+      val parsed = TextFormat.fromAscii(Any, s"[$url] { value: 42 }", registry)
+      assertEquals(parsed, Right(Any(url, Int32Value(42).toByteString)))
+      val text = TextFormat.printToString(parsed.toOption.get)
+      assertEquals(TextFormat.fromAscii(Any, text, registry), parsed)
+    }
+    val split = "[example.com/%2 F/ google.proto # comment\n buf.Int32Value] { value: 42 }"
+    assertEquals(
+      TextFormat.fromAscii(Any, split, registry),
+      Right(Any("example.com/%2F/google.protobuf.Int32Value", Int32Value(42).toByteString))
+    )
+  }
+
+  test("URL punctuation does not relax percent escapes or extension and type names") {
+    for (
+      prefix <- Seq(
+        "example.com/%",
+        "example.com/%2",
+        "example.com/%ZZ",
+        "example.com/%2G",
+        "example.com/:",
+        "example.com/?",
+        "example.com/@"
+      )
+    ) {
+      assert(TextFormat.fromAscii(Any, s"[$prefix/google.protobuf.Int32Value] {}", registry).isLeft)
+    }
+    for (
+      name <- Seq(
+        "example.com/",
+        "/google.protobuf.Int32Value",
+        "example.com/google.protobuf.Int32Value%20",
+        "extension-name",
+        "extension%20name"
+      )
+    ) {
+      intercept[scalapb.TextFormatException](new Parser(s"[$name] {}").parseMessage)
+    }
+  }
+
   test("expanded Any rejects mixed, duplicate, missing, and malformed values") {
     for (
       input <- Seq(
