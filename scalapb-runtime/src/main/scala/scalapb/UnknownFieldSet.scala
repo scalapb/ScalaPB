@@ -99,6 +99,45 @@ object UnknownFieldSet {
       lengthDelimited: Seq[ByteString] = Vector.empty,
       group: Seq[UnknownFieldSet] = Vector.empty
   ) {
+    // Serialization metadata, deliberately outside the case-class parameters: constructors,
+    // extractors, Product and equality retain their existing contracts. Assigned only to a
+    // newly constructed Field, before it escapes the builder/copy operation; never mutated later.
+    @volatile private var wireOrder: Vector[Int] = Vector.empty
+
+    private def counts: Array[Int] =
+      Array(varint.size, fixed64.size, lengthDelimited.size, group.size, 0, fixed32.size)
+
+    private def foreachWireType(f: Int => Unit): Unit =
+      if (wireOrder.nonEmpty) wireOrder.foreach(f)
+      else {
+        varint.foreach(_ => f(WireType.WIRETYPE_VARINT))
+        fixed32.foreach(_ => f(WireType.WIRETYPE_FIXED32))
+        fixed64.foreach(_ => f(WireType.WIRETYPE_FIXED64))
+        lengthDelimited.foreach(_ => f(WireType.WIRETYPE_LENGTH_DELIMITED))
+        group.foreach(_ => f(WireType.WIRETYPE_START_GROUP))
+      }
+
+    // A replacement occupies the same per-type occurrence slots. Shortening a sequence
+    // removes its trailing slots; new occurrences append in the legacy canonical type order.
+    private def preserveOrder(next: Field): Field = {
+      if (wireOrder.nonEmpty) {
+        val remaining = next.counts
+        val order     = Vector.newBuilder[Int]
+        wireOrder.foreach { wireType =>
+          if (remaining(wireType) > 0) {
+            order += wireType
+            remaining(wireType) -= 1
+          }
+        }
+        Seq(0, 5, 1, 2, 3).foreach { wireType =>
+          var count = remaining(wireType)
+          while (count > 0) { order += wireType; count -= 1 }
+        }
+        next.wireOrder = order.result()
+      }
+      next
+    }
+
     // Retain the four-argument constructor for existing binaries.
     def this(
         varint: Seq[Long],
@@ -114,7 +153,7 @@ object UnknownFieldSet {
         fixed32: Seq[Int] = this.fixed32,
         lengthDelimited: Seq[ByteString] = this.lengthDelimited,
         group: Seq[UnknownFieldSet] = this.group
-    ): Field = new Field(varint, fixed64, fixed32, lengthDelimited, group)
+    ): Field = preserveOrder(new Field(varint, fixed64, fixed32, lengthDelimited, group))
 
     def copy(
         varint: Seq[Long],
@@ -122,17 +161,34 @@ object UnknownFieldSet {
         fixed32: Seq[Int],
         lengthDelimited: Seq[ByteString]
     ): Field =
-      new Field(varint, fixed64, fixed32, lengthDelimited, group)
+      preserveOrder(new Field(varint, fixed64, fixed32, lengthDelimited, group))
 
     def writeTo(fieldNumber: Int, output: CodedOutputStream): Unit = {
-      varint.foreach(output.writeUInt64(fieldNumber, _))
-      fixed32.foreach(output.writeFixed32(fieldNumber, _))
-      fixed64.foreach(output.writeFixed64(fieldNumber, _))
-      lengthDelimited.foreach(output.writeBytes(fieldNumber, _))
-      group.foreach { value =>
+      def writeGroup(value: UnknownFieldSet): Unit = {
         output.writeTag(fieldNumber, WireType.WIRETYPE_START_GROUP)
         value.writeTo(output)
         output.writeTag(fieldNumber, WireType.WIRETYPE_END_GROUP)
+      }
+      if (wireOrder.isEmpty) {
+        varint.foreach(output.writeUInt64(fieldNumber, _))
+        fixed32.foreach(output.writeFixed32(fieldNumber, _))
+        fixed64.foreach(output.writeFixed64(fieldNumber, _))
+        lengthDelimited.foreach(output.writeBytes(fieldNumber, _))
+        group.foreach(writeGroup)
+      } else {
+        val varints  = varint.iterator
+        val fixed32s = fixed32.iterator
+        val fixed64s = fixed64.iterator
+        val bytes    = lengthDelimited.iterator
+        val groups   = group.iterator
+        wireOrder.foreach {
+          case WireType.WIRETYPE_VARINT  => output.writeUInt64(fieldNumber, varints.next())
+          case WireType.WIRETYPE_FIXED32 => output.writeFixed32(fieldNumber, fixed32s.next())
+          case WireType.WIRETYPE_FIXED64 => output.writeFixed64(fieldNumber, fixed64s.next())
+          case WireType.WIRETYPE_LENGTH_DELIMITED => output.writeBytes(fieldNumber, bytes.next())
+          case WireType.WIRETYPE_START_GROUP      => writeGroup(groups.next())
+          case wireType => throw new IllegalStateException(s"Invalid stored wire type: $wireType")
+        }
       }
     }
     def serializedSize(fieldNumber: Int): Int = {
@@ -173,26 +229,51 @@ object UnknownFieldSet {
       private val lengthDelimited = Vector.newBuilder[ByteString]
       private val group           = Vector.newBuilder[UnknownFieldSet]
 
-      private[UnknownFieldSet] def addVarint(value: Long): Unit = { varint += value; () }
+      // Homogeneous fields need no per-occurrence ordering allocation.
+      private var firstWireType                                                 = -1
+      private var firstRunLength                                                = 0
+      private var wireOrder: scala.collection.mutable.Builder[Int, Vector[Int]] = null
 
-      private[UnknownFieldSet] def addLengthDelimited(value: ByteString): Unit = {
-        lengthDelimited += value
+      private def record(wireType: Int): Unit = {
+        if (wireOrder != null) wireOrder += wireType
+        else if (firstWireType == -1 || firstWireType == wireType) {
+          firstWireType = wireType
+          firstRunLength += 1
+        } else {
+          wireOrder = Vector.newBuilder[Int]
+          var count = firstRunLength
+          while (count > 0) { wireOrder += firstWireType; count -= 1 }
+          wireOrder += wireType
+        }
         ()
       }
 
-      def result() =
-        Field(
+      private[UnknownFieldSet] def addVarint(value: Long): Unit = {
+        varint += value
+        record(WireType.WIRETYPE_VARINT)
+      }
+
+      private[UnknownFieldSet] def addLengthDelimited(value: ByteString): Unit = {
+        lengthDelimited += value
+        record(WireType.WIRETYPE_LENGTH_DELIMITED)
+      }
+
+      def result() = {
+        val field = Field(
           varint = varint.result(),
           fixed64 = fixed64.result(),
           fixed32 = fixed32.result(),
           lengthDelimited = lengthDelimited.result(),
           group = group.result()
         )
+        if (wireOrder != null) field.wireOrder = wireOrder.result()
+        field
+      }
 
       def parseField(tag: Int, input: CodedInputStream) = {
         val wireType = WireType.getTagWireType(tag)
 
-        wireType match {
+        val result = wireType match {
           case WireType.WIRETYPE_VARINT =>
             varint += input.readInt64()
           case WireType.WIRETYPE_FIXED64 =>
@@ -211,6 +292,8 @@ object UnknownFieldSet {
               s"Protocol message tag had invalid wire type: ${wireType}"
             )
         }
+        record(wireType)
+        result
       }
     }
 
@@ -222,6 +305,7 @@ object UnknownFieldSet {
         b.fixed64 ++= f.fixed64
         b.lengthDelimited ++= f.lengthDelimited
         b.group ++= f.group
+        f.foreachWireType(b.record)
         b
       }
     }

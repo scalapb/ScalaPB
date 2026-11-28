@@ -1,6 +1,10 @@
 # Change Log
 ## [1.0.0] (Not yet released)
 
+- Preserve occurrence order across wire types for unknown values sharing a field
+  number, including through builder merges and copies, without changing the public
+  `UnknownFieldSet.Field` case-class shape or equality contract.
+
 ## [1.0.0-alpha.8]
 
 Changes since `1.0.0-alpha.6`. Pair with `scalapb-json4s` `1.0.0-alpha.4`.
