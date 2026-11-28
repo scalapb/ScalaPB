@@ -15,7 +15,7 @@ object Dependencies {
     // For testing
     val annotationApi           = "1.3.2"
     val cats                    = "2.6.1"
-    val mockito                 = "5.24.0"
+    val mockito                 = "5.25.0"
     val munit                   = "1.3.6"
     val munitScalaCheck         = "1.3.1"
     val scalaTest               = "3.2.20"
