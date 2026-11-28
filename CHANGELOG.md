@@ -1,6 +1,8 @@
 # Change Log
 ## [1.0.0] (Not yet released)
 
+- Ignore explicitly reserved field names when parsing protobuf text format.
+
 ## [1.0.0-alpha.8]
 
 Changes since `1.0.0-alpha.6`. Pair with `scalapb-json4s` `1.0.0-alpha.4`.
