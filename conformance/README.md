@@ -76,10 +76,10 @@ in the groups, enums, UTF-8, JSON/text, and other parser work must remove their
 now-passing entries. Framing and recursion-limit changes belong to their own
 workstreams; this PR does not change their policies.
 
-The remaining binary/JSON limitations are oversized tags (six cases) and
-mixed-wire unknown-field ordering (two cases). The tag cases reach the project's
-Java `CodedInputStream.readTag`; ordering is lost when fields of different wire
-types share a field number. Text format still rejects reserved names (20 cases)
+The remaining binary/JSON limitation is oversized tags (six legacy cases plus
+six Editions cases), which reach the project's Java `CodedInputStream.readTag`.
+Unknown values sharing a field number retain their occurrence order across wire
+types, including mixed packed/unpacked values. Text format still rejects reserved names (20 cases)
 and certain expanded Any type-URL prefixes (four cases).
 
 ## Java parity
@@ -130,7 +130,8 @@ are not Editions implementation coverage.
 
 ## Editions integration (2023, 2024, 2026)
 
-The integrated v36.2 run now executes the three stable Editions families:
+The original integrated v36.2 baseline executes the three stable Editions families
+(counts below precede subsequent fixes in the checked-in failure lists):
 
 | Suite | Successes | Skips | Expected failures | Unexpected failures |
 | --- | ---: | ---: | ---: | ---: |
@@ -166,3 +167,28 @@ compiler compatibility diagnostics. Comparing with the conformance base's
 compiled classes produces exactly the same diagnostics; this Editions series
 adds none to that baseline. The JSON matrix's own MiMa checks pass.
 Documentation passes mdoc and the production Docusaurus build.
+
+## Unknown-field occurrence order
+
+All four mixed-wire ordering cases (two legacy and two Editions) pass. With this
+fix alone, binary/JSON reports 5633 successes, 12 expected failures, four unstable
+skips and no unexpected failures; text results are unchanged.
+
+`UnknownFieldSet.Field` retains its constructors, extractors, Product arity,
+separate per-wire-type sequences, equality and hash code. Private metadata records
+serialization order only for mixed-wire fields; homogeneous fields retain the
+existing serialization path without a per-occurrence order vector. The metadata
+is initialized on a new value before it leaves a builder or copy operation and
+never changed afterward. Existing generated code benefits without regeneration.
+
+Copies share the original ordering metadata in constant time without inspecting
+or scanning the sequences. On serialization, current values fill the original
+per-type slots, missing slots are skipped, and extra values follow in canonical
+type order. Successive edits continue to use those original slots. Serialization
+is linear in the retained original slots plus current values, and builder
+insertion is amortized constant time per occurrence. Builder merges append in encounter order;
+builder snapshots remain independent. Values constructed directly from separate
+sequences retain canonical ordering because their original interleaving is unknown.
+Equality intentionally continues to compare the public sequences, not serialization
+order; reconstructing a Field through its extractor also has only those sequences.
+Ordering across different field numbers is not promised.
