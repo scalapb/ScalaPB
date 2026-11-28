@@ -11,7 +11,7 @@ final case class ServiceDescriptorProto(
     name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     method: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.MethodDescriptorProto] = _root_.scala.Vector.empty,
     options: _root_.scala.Option[_root_.com.google.protobuf.descriptor.ServiceOptions] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ServiceDescriptorProto] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -116,6 +116,7 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.c
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __name = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>

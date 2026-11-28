@@ -1,0 +1,17 @@
+edition = "2023";
+package com.thesamet.proto.e2e;
+option features.message_encoding = DELIMITED;
+
+message EditionGroups {
+  message Payload {
+    int32 value = 1;
+  }
+  Payload single = 1;
+  repeated Payload repeated = 2;
+  oneof choice {
+    Payload selected = 3;
+    int32 number = 4;
+  }
+  Payload length_prefixed = 5 [features.message_encoding = LENGTH_PREFIXED];
+  map<string, Payload> entries = 6;
+}

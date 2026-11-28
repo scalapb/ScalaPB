@@ -1,0 +1,8 @@
+edition = "2024";
+package com.thesamet.proto.e2e;
+import "edition2024.proto";
+
+message Edition2024Import {
+  Edition2024Top top = 1;
+  Edition2024Nested nested = 2;
+}

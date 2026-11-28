@@ -1,0 +1,5 @@
+syntax = "proto3";
+package scalapb.utf8;
+import "scalapb/scalapb.proto";
+option (scalapb.options) = { flat_package: true use_schema_utf8_validation: true };
+message Proto3Strings { string value = 1; }

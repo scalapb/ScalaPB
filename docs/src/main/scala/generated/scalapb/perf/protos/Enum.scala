@@ -6,7 +6,7 @@ package scalapb.perf.protos
 @SerialVersionUID(0L)
 final case class Enum(
     color: _root_.scalapb.perf.protos.Color = _root_.scalapb.perf.protos.Color.UNKNOWN,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Enum] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -72,6 +72,7 @@ object Enum extends scalapb.GeneratedMessageCompanion[_root_.scalapb.perf.protos
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 8 =>
           __color = _root_.scalapb.perf.protos.Color.fromValue(_input__.readEnum())
         case tag =>

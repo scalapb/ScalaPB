@@ -75,8 +75,8 @@ package com.google.protobuf.timestamp
   * {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional
   * seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),
   * are optional. The "Z" suffix indicates the timezone ("UTC"); the timezone
-  * is required. A proto3 JSON serializer should always use UTC (as indicated by
-  * "Z") when printing the Timestamp type and a proto3 JSON parser should be
+  * is required. A ProtoJSON serializer should always use UTC (as indicated by
+  * "Z") when printing the Timestamp type and a ProtoJSON parser should be
   * able to accept both UTC and other timezones (as indicated by an offset).
   *
   * For example, "2017-01-15T01:30:15.01Z" encodes 15.01 seconds past
@@ -94,20 +94,21 @@ package com.google.protobuf.timestamp
   * ) to obtain a formatter capable of generating timestamps in this format.
   *
   * @param seconds
-  *   Represents seconds of UTC time since Unix epoch
-  *   1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
-  *   9999-12-31T23:59:59Z inclusive.
+  *   Represents seconds of UTC time since Unix epoch 1970-01-01T00:00:00Z. Must
+  *   be between -62135596800 and 253402300799 inclusive (which corresponds to
+  *   0001-01-01T00:00:00Z to 9999-12-31T23:59:59Z).
   * @param nanos
-  *   Non-negative fractions of a second at nanosecond resolution. Negative
-  *   second values with fractions must still have non-negative nanos values
-  *   that count forward in time. Must be from 0 to 999,999,999
+  *   Non-negative fractions of a second at nanosecond resolution. This field is
+  *   the nanosecond portion of the duration, not an alternative to seconds.
+  *   Negative second values with fractions must still have non-negative nanos
+  *   values that count forward in time. Must be between 0 and 999,999,999
   *   inclusive.
   */
 @SerialVersionUID(0L)
 final case class Timestamp(
     seconds: _root_.scala.Long = 0L,
     nanos: _root_.scala.Int = 0,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Timestamp] with _root_.scalapb.TimestampMethods {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -203,6 +204,7 @@ object Timestamp extends scalapb.GeneratedMessageCompanion[_root_.com.google.pro
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 8 =>
           __seconds = _input__.readInt64()
         case 16 =>

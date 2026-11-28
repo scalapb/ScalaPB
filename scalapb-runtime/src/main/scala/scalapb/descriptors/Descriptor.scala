@@ -1,6 +1,7 @@
 package scalapb.descriptors
 
 import com.google.protobuf.descriptor._
+import com.google.protobuf.descriptor.FeatureSet._
 
 import annotation.tailrec
 
@@ -85,6 +86,13 @@ class Descriptor private[descriptors] (
     }
     new OneofDescriptor(FileDescriptor.join(fullName, oneof.getName), this, oneofFields, oneof)
   }
+
+  /** Core protobuf features after applying lexical overrides. */
+  lazy val resolvedFeatures: FeatureSet =
+    DescriptorFeatures.merge(
+      containingMessage.fold(file.resolvedFeatures)(_.resolvedFeatures),
+      getOptions.getFeatures
+    )
 
   def name: String = asProto.getName
 
@@ -208,6 +216,15 @@ class EnumDescriptor private[descriptors] (
       new EnumValueDescriptor(FileDescriptor.join(fullName, v.getName), this, v, index)
     }.toVector
 
+  /** Core protobuf features after applying lexical overrides. */
+  lazy val resolvedFeatures: FeatureSet =
+    DescriptorFeatures.merge(
+      containingMessage.fold(file.resolvedFeatures)(_.resolvedFeatures),
+      getOptions.getFeatures
+    )
+
+  def isClosed: Boolean = resolvedFeatures.getEnumType == EnumType.CLOSED
+
   def name = asProto.getName
 
   def findValueByNumber(number: Int): Option[EnumValueDescriptor] = values.find(_.number == number)
@@ -283,9 +300,78 @@ class FieldDescriptor private[descriptors] (
 
   def containingOneof: Option[OneofDescriptor] = asProto.oneofIndex.map(containingMessage.oneofs)
 
-  def isOptional = asProto.getLabel.isLabelOptional
+  /** Resolved core features; language-specific feature extensions are not interpreted. */
+  lazy val resolvedFeatures: FeatureSet = {
+    val parent = asProto.oneofIndex.fold(containingMessage.resolvedFeatures) { index =>
+      DescriptorFeatures.merge(
+        containingMessage.resolvedFeatures,
+        containingMessage.asProto.oneofDecl(index).getOptions.getFeatures
+      )
+    }
+    val inherited = DescriptorFeatures.merge(parent, getOptions.getFeatures)
+    // Normalize legacy options once so the semantic accessors are syntax-independent.
+    if (file.isEdition) inherited
+    else
+      inherited.copy(
+        fieldPresence = Some(
+          if (asProto.getLabel.isLabelRequired) FieldPresence.LEGACY_REQUIRED
+          else if (asProto.getProto3Optional) FieldPresence.EXPLICIT
+          else inherited.getFieldPresence
+        ),
+        repeatedFieldEncoding = getOptions.packed
+          .map { packed =>
+            if (packed) RepeatedFieldEncoding.PACKED
+            else RepeatedFieldEncoding.EXPANDED
+          }
+          .orElse(inherited.repeatedFieldEncoding),
+        messageEncoding = Some(
+          if (asProto.getType.isTypeGroup) MessageEncoding.DELIMITED
+          else MessageEncoding.LENGTH_PREFIXED
+        )
+      )
+  }
 
-  def isRequired = asProto.getLabel.isLabelRequired
+  def isOptional = !isRequired && !isRepeated
+
+  def isRequired =
+    !isRepeated && resolvedFeatures.getFieldPresence == FieldPresence.LEGACY_REQUIRED
+
+  /** Whether a singular field distinguishes an unset value from its default. */
+  def hasPresence: Boolean = !isRepeated && (
+    asProto.oneofIndex.isDefined || scalaType.isInstanceOf[ScalaType.Message] ||
+      resolvedFeatures.getFieldPresence != FieldPresence.IMPLICIT
+  )
+
+  def isPackable: Boolean = isRepeated && (scalaType match {
+    case ScalaType.String | ScalaType.ByteString | ScalaType.Message(_) => false
+    case _                                                              => true
+  })
+
+  def isPacked: Boolean = isPackable &&
+    resolvedFeatures.getRepeatedFieldEncoding == RepeatedFieldEncoding.PACKED
+
+  /** The schema's UTF-8 policy, independent of language-specific parser behavior. */
+  def needsUtf8Check: Boolean = scalaType == ScalaType.String &&
+    resolvedFeatures.getUtf8Validation == Utf8Validation.VERIFY
+
+  /** Maps always use length-prefixed encoding, including their synthetic entry fields. */
+  def messageEncoding: MessageEncoding =
+    if (
+      scalaType.isInstanceOf[ScalaType.Message] && !isMapField &&
+      !containingMessage.getOptions.getMapEntry
+    )
+      resolvedFeatures.getMessageEncoding
+    else MessageEncoding.LENGTH_PREFIXED
+
+  /** Legacy group names are preserved by structurally equivalent Editions fields. */
+  def textFormatName: String = scalaType match {
+    case ScalaType.Message(message)
+        if messageEncoding == MessageEncoding.DELIMITED &&
+          message.name.map(c => if (c >= 'A' && c <= 'Z') (c + 32).toChar else c) == name &&
+          message.file == file && message.containingMessage.contains(containingMessage) =>
+      message.name
+    case _ => name
+  }
 
   def isRepeated = asProto.getLabel.isLabelRepeated
 
@@ -333,14 +419,12 @@ object FieldDescriptor {
       }
     } else
       field.getType match {
-        case FieldDescriptorProto.Type.TYPE_BOOL    => ScalaType.Boolean
-        case FieldDescriptorProto.Type.TYPE_BYTES   => ScalaType.ByteString
-        case FieldDescriptorProto.Type.TYPE_DOUBLE  => ScalaType.Double
-        case FieldDescriptorProto.Type.TYPE_FIXED32 => ScalaType.Int
-        case FieldDescriptorProto.Type.TYPE_FIXED64 => ScalaType.Long
-        case FieldDescriptorProto.Type.TYPE_FLOAT   => ScalaType.Float
-        case FieldDescriptorProto.Type.TYPE_GROUP   =>
-          throw new DescriptorValidationException(m, s"Groups are not supported.")
+        case FieldDescriptorProto.Type.TYPE_BOOL     => ScalaType.Boolean
+        case FieldDescriptorProto.Type.TYPE_BYTES    => ScalaType.ByteString
+        case FieldDescriptorProto.Type.TYPE_DOUBLE   => ScalaType.Double
+        case FieldDescriptorProto.Type.TYPE_FIXED32  => ScalaType.Int
+        case FieldDescriptorProto.Type.TYPE_FIXED64  => ScalaType.Long
+        case FieldDescriptorProto.Type.TYPE_FLOAT    => ScalaType.Float
         case FieldDescriptorProto.Type.TYPE_INT32    => ScalaType.Int
         case FieldDescriptorProto.Type.TYPE_INT64    => ScalaType.Long
         case FieldDescriptorProto.Type.TYPE_SFIXED32 => ScalaType.Int
@@ -350,7 +434,8 @@ object FieldDescriptor {
         case FieldDescriptorProto.Type.TYPE_STRING   => ScalaType.String
         case FieldDescriptorProto.Type.TYPE_UINT32   => ScalaType.Int
         case FieldDescriptorProto.Type.TYPE_UINT64   => ScalaType.Long
-        case FieldDescriptorProto.Type.TYPE_ENUM | FieldDescriptorProto.Type.TYPE_MESSAGE =>
+        case FieldDescriptorProto.Type.TYPE_ENUM | FieldDescriptorProto.Type.TYPE_MESSAGE |
+            FieldDescriptorProto.Type.TYPE_GROUP =>
           throw new DescriptorValidationException(
             m,
             s"Missing type_name for field ${field.getName}"
@@ -462,12 +547,34 @@ class FileDescriptor private[descriptors] (
     asProto.getSourceCodeInfo.location.find(_.path == path)
   }
 
+  def isEdition: Boolean = asProto.getSyntax == "editions"
+
+  /** Core defaults are selected by edition before lexical feature overrides are applied.
+    * Source-retained features reflect defaults when protoc has stripped their overrides.
+    */
+  lazy val resolvedFeatures: FeatureSet = {
+    val defaults =
+      if (isEdition)
+        DescriptorFeatures.editionDefaults.getOrElse(
+          asProto.getEdition,
+          throw new DescriptorValidationException(
+            this,
+            s"Unsupported edition: ${asProto.getEdition}"
+          )
+        )
+      else DescriptorFeatures.defaults(isProto3, false)
+    DescriptorFeatures.merge(defaults, getOptions.getFeatures)
+  }
+
   def isProto3: Boolean = (asProto.getSyntax == "proto3")
 }
 
 object FileDescriptor {
   def buildFrom(proto: FileDescriptorProto, dependencies: Seq[FileDescriptor]): FileDescriptor = {
-    new FileDescriptor(proto, dependencies)
+    val file = new FileDescriptor(proto, dependencies)
+    // Reject unsupported editions even for files containing no message fields.
+    if (file.isEdition) { val _ = file.resolvedFeatures }
+    file
   }
 
   private[scalapb] def join(a: String, b: String) = if (a.isEmpty) b else (a + "." + b)
@@ -513,4 +620,48 @@ object FileDescriptor {
       }
     }
   }
+}
+
+/** Defaults for the core features interpreted by Scala descriptors. */
+private[descriptors] object DescriptorFeatures {
+  def defaults(proto3: Boolean, edition: Boolean): FeatureSet = FeatureSet(
+    fieldPresence = Some(if (proto3) FieldPresence.IMPLICIT else FieldPresence.EXPLICIT),
+    enumType = Some(if (proto3 || edition) EnumType.OPEN else EnumType.CLOSED),
+    repeatedFieldEncoding = Some(
+      if (proto3 || edition) RepeatedFieldEncoding.PACKED
+      else RepeatedFieldEncoding.EXPANDED
+    ),
+    utf8Validation = Some(
+      if (proto3 || edition) Utf8Validation.VERIFY else Utf8Validation.NONE
+    ),
+    messageEncoding = Some(MessageEncoding.LENGTH_PREFIXED),
+    jsonFormat = Some(
+      if (proto3 || edition) JsonFormat.ALLOW
+      else JsonFormat.LEGACY_BEST_EFFORT
+    ),
+    enforceNamingStyle = Some(EnforceNamingStyle.STYLE_LEGACY),
+    defaultSymbolVisibility = Some(VisibilityFeature.DefaultSymbolVisibility.EXPORT_ALL),
+    enforceProtoLimits = Some(ProtoLimitsFeature.EnforceProtoLimits.LEGACY_NO_EXPLICIT_LIMITS)
+  )
+
+  // Explicit entries prevent future or experimental editions inheriting old defaults silently.
+  val editionDefaults: Map[Edition, FeatureSet] = Map(
+    Edition.EDITION_2023 -> defaults(false, true).copy(
+      enforceNamingStyle = Some(EnforceNamingStyle.STYLE_LEGACY),
+      defaultSymbolVisibility = Some(VisibilityFeature.DefaultSymbolVisibility.EXPORT_ALL)
+    ),
+    Edition.EDITION_2024 -> defaults(false, true).copy(
+      enforceNamingStyle = Some(EnforceNamingStyle.STYLE2024),
+      defaultSymbolVisibility = Some(VisibilityFeature.DefaultSymbolVisibility.EXPORT_TOP_LEVEL)
+    ),
+    Edition.EDITION_2026 -> defaults(false, true).copy(
+      enforceNamingStyle = Some(EnforceNamingStyle.STYLE2026),
+      defaultSymbolVisibility = Some(VisibilityFeature.DefaultSymbolVisibility.STRICT),
+      enforceProtoLimits = Some(ProtoLimitsFeature.EnforceProtoLimits.PROTO_LIMITS2026)
+    )
+  )
+
+  // Protobuf merging preserves inherited fields, explicit overrides and unknown extensions.
+  def merge(parent: FeatureSet, local: FeatureSet): FeatureSet =
+    FeatureSet.parseFrom(parent.toByteArray ++ local.toByteArray)
 }

@@ -5,7 +5,7 @@
 with pkgs;
 
 let
-  sbt = pkgs.sbt.override { jre = openjdk11; };
+  sbt = pkgs.sbt.override { jre = openjdk17; };
 in
 mkShell {
   buildInputs = [

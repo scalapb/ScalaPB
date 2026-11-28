@@ -12,11 +12,22 @@ case class GeneratedExtension[C <: ExtendableMessage[C], T](lens: Lens[C, T]) ex
 }
 
 object GeneratedExtension {
+
+  /** Decodes an extension value whose resolved schema requires valid UTF-8. */
+  def readStringRequireUtf8(bytes: ByteString): String = {
+    if (!bytes.isValidUtf8())
+      throw new InvalidProtocolBufferException("Protocol message had invalid UTF-8.")
+    bytes.toStringUtf8()
+  }
+
   /* To be used only be generated code */
   def readMessageFromByteString[T <: GeneratedMessage](
       cmp: GeneratedMessageCompanion[T]
   )(bs: ByteString): T = {
-    cmp.parseFrom(bs.newCodedInput())
+    val input  = bs.newCodedInput()
+    val result = cmp.parseFrom(input)
+    input.checkLastTagWas(0)
+    result
   }
 
   def singleUnknownFieldLens[E, T](fromBase: E => T, toBase: T => E, default: T): Lens[Seq[E], T] =

@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+package protobuf_test_messages.proto2;
+
+import "scalapb/scalapb.proto";
+
+// Keep the upstream fixtures unchanged while testing proto2 enum semantics.
+option (scalapb.options) = {
+  scope: PACKAGE
+  proto2_closed_enums: true
+};

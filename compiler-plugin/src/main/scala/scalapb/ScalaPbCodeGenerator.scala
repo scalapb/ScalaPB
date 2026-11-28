@@ -9,8 +9,10 @@ import protocgen.CodeGenRequest
 import protocgen.CodeGenResponse
 
 object ScalaPbCodeGenerator extends CodeGenApp {
-  override def registerExtensions(registry: ExtensionRegistry): Unit =
+  override def registerExtensions(registry: ExtensionRegistry): Unit = {
     Scalapb.registerAllExtensions(registry)
+    com.google.protobuf.JavaFeaturesProto.registerAllExtensions(registry)
+  }
 
   def process(request: CodeGenRequest): CodeGenResponse =
     ProtobufGenerator.handleCodeGeneratorRequest(request)

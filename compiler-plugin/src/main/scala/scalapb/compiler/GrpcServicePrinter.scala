@@ -55,7 +55,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       s"object ${service.name} extends _root_.scalapb.grpc.ServiceCompanion[${service.name}] {"
     ).indent
       .add(
-        s"implicit def serviceCompanion: _root_.scalapb.grpc.ServiceCompanion[${service.name}] = this"
+        s"${service.getFile.V.GivenDef} serviceCompanion: _root_.scalapb.grpc.ServiceCompanion[${service.name}] = this"
       )
       .add(
         s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.javaDescriptorSource}"
@@ -142,7 +142,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       s"override def newStub(channel: $channel, options: $callOptions): $className = new $className(channel, options)"
 
     val implicitStub =
-      s"implicit val stubFactory: $stubFactory[$className] = this"
+      s"${service.getFile.V.GivenVal} stubFactory: $stubFactory[$className] = this"
 
     p.add(
       s"object $className extends $stubFactory[$className] {"
@@ -253,13 +253,13 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
           case StreamType.ServerStreaming =>
             p.add(
               s"""$call((request: ${method.inputType.scalaType}, observer: $streamObserver[${method.outputType.scalaType}]) => {
-                 |  $serviceImpl.${method.name}(request, observer)
+                 |  $serviceImpl.${method.name}(request, scalapb.grpc.Grpc.serverResponseObserver(observer))
                  |}))""".stripMargin
             )
           case _ =>
             p.add(
               s"""$call((observer: $streamObserver[${method.outputType.scalaType}]) => {
-                 |  $serviceImpl.${method.name}(observer)
+                 |  $serviceImpl.${method.name}(scalapb.grpc.Grpc.serverResponseObserver(observer))
                  |}))""".stripMargin
             )
         }

@@ -24,7 +24,7 @@ final case class DescriptorProto(
     reservedRange: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.DescriptorProto.ReservedRange] = _root_.scala.Vector.empty,
     reservedName: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     visibility: _root_.scala.Option[_root_.com.google.protobuf.descriptor.SymbolVisibility] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[DescriptorProto] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -248,6 +248,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __name = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>
@@ -359,7 +360,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
       start: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
       end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
       options: _root_.scala.Option[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ExtensionRange] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -449,6 +450,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 8 =>
             __start = _root_.scala.Option(_input__.readInt32())
           case 16 =>
@@ -531,7 +533,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
   final case class ReservedRange(
       start: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
       end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ReservedRange] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -605,6 +607,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.goog
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 8 =>
             __start = _root_.scala.Option(_input__.readInt32())
           case 16 =>

@@ -10,7 +10,7 @@ import _root_.scalapb.internal.compat.JavaConverters._
 @SerialVersionUID(0L)
 final case class FileDescriptorSet(
     file: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FileDescriptorSet] with _root_.scalapb.ExtendableMessage[FileDescriptorSet] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -81,6 +81,7 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[_root_.com.go
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __file += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FileDescriptorProto](_input__)
         case tag =>

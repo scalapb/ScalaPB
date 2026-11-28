@@ -52,7 +52,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           s"final def isEmpty = this.isInstanceOf[${sealedOneofType}.Empty.type]",
           s"final def isDefined = !isEmpty",
           s"final def asMessage: $baseType = ${message.sealedOneofTypeMapper.fullName}.toBase(this)",
-          s"final def asNonEmpty: Option[$sealedOneofNonEmptyType] = if (isEmpty) None else Some(this.asInstanceOf[$sealedOneofNonEmptyType])"
+          s"final def asNonEmpty: Option[$sealedOneofNonEmptyType] = if (isEmpty)${message.V.Then} None else Some(this.asInstanceOf[$sealedOneofNonEmptyType])"
         ).add("}")
           .add("")
           .add(s"object $sealedOneofName $companionBases{")
@@ -64,7 +64,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
               .add(
                 s"def defaultInstance: ${sealedOneofType} = Empty",
                 "",
-                s"implicit val $typeMapperName: $typeMapper = new $typeMapper {"
+                s"${message.V.GivenVal} $typeMapperName: $typeMapper = new $typeMapper {"
               )
               .indented(
                 _.add(
@@ -100,7 +100,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           .add(s"object $sealedOneofName $companionBases {")
           .indented(
             _.add(
-              s"implicit val $typeMapperName: $typeMapper = new $typeMapper {"
+              s"${message.V.GivenVal} $typeMapperName: $typeMapper = new $typeMapper {"
             ).indented(
               _.add(
                 s"override def toCustom(__base: $baseType): $sealedOneofType = __base.${oneof.scalaName.nameSymbol} match {"

@@ -1,0 +1,63 @@
+name: Dependency Graph
+
+on:
+  push:
+    branches: [master]
+  schedule:
+    - cron: '31 8 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependency-graph
+  cancel-in-progress: false
+
+jobs:
+  submit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: write # Required by GitHub's dependency submission API.
+    steps:
+    - uses: actions/checkout@v7
+    - uses: actions/setup-java@v6
+      with:
+        java-version: 17
+        distribution: temurin
+    - uses: sbt/setup-sbt@v1
+    - name: Keep matrix projects distinct in the snapshot
+      # The submission plugin names manifests by Maven coordinates without the
+      # platform axis. Preserve each project instead of overwriting JVM/JS/Native
+      # variants (and alternate generated-source variants) with the same name.
+      run: |
+        cat > project/DependencySnapshotNames.scala <<'EOF'
+        import sbt.*
+        import sbt.Keys.*
+        import ch.epfl.scala.GithubDependencyGraphPlugin
+        import ch.epfl.scala.GithubDependencyGraphPlugin.autoImport.*
+
+        object DependencySnapshotNames extends AutoPlugin {
+          override def requires = GithubDependencyGraphPlugin
+          override def trigger = allRequirements
+          override def projectSettings = Seq(
+            githubDependencyManifest := {
+              val manifest = githubDependencyManifest.value
+              val projectId = thisProject.value.id
+              manifest.map(m => m.withName(s"${m.name} [$projectId]"))
+            }
+          )
+        }
+        EOF
+    # Includes every Scala/platform matrix project and its transitive dependencies.
+    - uses: scalacenter/sbt-dependency-submission@v3.2.3
+      id: dependencies
+      with:
+        on-resolve-failure: error
+    - name: Save submitted dependency snapshot
+      uses: actions/upload-artifact@v7
+      with:
+        name: dependency-snapshot
+        path: ${{ steps.dependencies.outputs.snapshot-json-path }}
+        if-no-files-found: error

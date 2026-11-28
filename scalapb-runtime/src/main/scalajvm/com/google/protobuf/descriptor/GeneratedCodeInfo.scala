@@ -15,7 +15,7 @@ import _root_.scalapb.internal.compat.JavaConverters._
 @SerialVersionUID(0L)
 final case class GeneratedCodeInfo(
     annotation: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[GeneratedCodeInfo] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -86,6 +86,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __annotation += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation](_input__)
         case tag =>
@@ -145,7 +146,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
       begin: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
       end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
       semantic: _root_.scala.Option[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Annotation] {
       private[this] def pathSerializedSize = {
         if (__pathSerializedSizeField == 0) __pathSerializedSizeField = {
@@ -288,6 +289,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 8 =>
             __path += _input__.readInt32()
           case 10 => {
@@ -396,7 +398,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
       
       @SerialVersionUID(0L)
       final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Semantic(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-      lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(NONE, SET, ALIAS)
+      lazy val values: _root_.scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic.Recognized] = _root_.scala.collection.immutable.Seq(NONE, SET, ALIAS)
       def fromValue(__value: _root_.scala.Int): Semantic = __value match {
         case 0 => NONE
         case 1 => SET

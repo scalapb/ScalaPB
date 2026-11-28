@@ -5,7 +5,11 @@ import com.google.protobuf.conformance.conformance._
 import scala.annotation.tailrec
 import com.google.protobuf_test_messages.proto2.test_messages_proto2
 import com.google.protobuf_test_messages.proto3.test_messages_proto3
+import com.google.protobuf_test_messages.editions.proto2.test_messages_proto2_editions
+import com.google.protobuf_test_messages.editions.proto3.test_messages_proto3_editions
+import com.google.protobuf_test_messages.edition2023.test_messages_edition2023
 import scala.util.Try
+import scala.util.control.NonFatal
 import scalapb._
 import scalapb.json4s.JsonFormat
 
@@ -61,6 +65,9 @@ object ConformanceScala {
   val typeRegistry = scalapb.json4s.TypeRegistry.default
     .addMessage[test_messages_proto2.TestAllTypesProto2]
     .addMessage[test_messages_proto3.TestAllTypesProto3]
+    .addMessage[test_messages_proto2_editions.TestAllTypesProto2]
+    .addMessage[test_messages_proto3_editions.TestAllTypesProto3]
+    .addMessage[test_messages_edition2023.TestAllTypesEdition2023]
 
   val JsonParser = JsonFormat.parser.withTypeRegistry(typeRegistry)
 
@@ -68,9 +75,50 @@ object ConformanceScala {
 
   val JsonPrinter = JsonFormat.printer.withTypeRegistry(typeRegistry)
 
+  val textTypeRegistry = textformat.TypeRegistry.empty
+    .addMessage(test_messages_proto2.GroupField)
+    .addMessage(test_messages_proto2_editions.GroupField)
+    .addMessage(test_messages_edition2023.GroupLikeType)
+    .addMessage(test_messages_proto2.TestAllTypesProto2)
+    .addMessage(test_messages_proto3.TestAllTypesProto3)
+    .addMessage(test_messages_proto2_editions.TestAllTypesProto2)
+    .addMessage(test_messages_proto3_editions.TestAllTypesProto3)
+    .addMessage(test_messages_edition2023.TestAllTypesEdition2023)
+
   def jsonParser(request: ConformanceRequest): scalapb.json4s.Parser = {
     if (request.testCategory.isJsonIgnoreUnknownParsingTest) IgnoringJsonParser
     else JsonParser
+  }
+
+  // ScalaPB stores extensions in UnknownFieldSet until interpreted. Register the
+  // fixture declarations explicitly, as the upstream Java testee does, and validate
+  // every occurrence of known string extensions before returning a binary response.
+  private val registeredExtensionFiles = Seq(
+    test_messages_proto2.TestAllTypesProto2.scalaDescriptor.file,
+    test_messages_proto2_editions.TestAllTypesProto2.scalaDescriptor.file,
+    test_messages_edition2023.TestAllTypesEdition2023.scalaDescriptor.file
+  )
+
+  private def validateRegisteredStringExtensions(message: GeneratedMessage): Unit = {
+    message match {
+      case extensible: ExtendableMessage[?] =>
+        registeredExtensionFiles.foreach { file =>
+          file.asProto.extension
+            .filter { field =>
+              field.getExtendee.stripPrefix(".") == message.companion.scalaDescriptor.fullName &&
+              field.getType.isTypeString &&
+              field.getOptions.getFeatures.utf8Validation
+                .getOrElse(file.resolvedFeatures.getUtf8Validation)
+                .isVerify
+            }
+            .foreach { field =>
+              extensible.unknownFields.getField(field.getNumber).foreach { values =>
+                values.lengthDelimited.foreach(GeneratedExtension.readStringRequireUtf8)
+              }
+            }
+        }
+      case _ => ()
+    }
   }
 
   def readInputMessage[T <: GeneratedMessage](
@@ -78,15 +126,20 @@ object ConformanceScala {
   )(implicit cmp: GeneratedMessageCompanion[T]): Either[Throwable, T] = {
     request.payload match {
       case ConformanceRequest.Payload.ProtobufPayload(bytes) =>
-        Try(
-          cmp.parseFrom(bytes.toByteArray)
-        ).toEither
+        Try {
+          val message = cmp.parseFrom(bytes.toByteArray)
+          validateRegisteredStringExtensions(message)
+          message
+        }.toEither
       case ConformanceRequest.Payload.JsonPayload(json) =>
         Try(
           jsonParser(request).fromJsonString(json)
         ).toEither
       case ConformanceRequest.Payload.TextPayload(text) =>
-        Try(cmp.fromAscii(text)).toEither
+        TextFormat
+          .fromAscii(cmp, text, textTypeRegistry)
+          .left
+          .map(e => new TextFormatException(e.msg))
       case _ => Left(new RuntimeException("Unsupported input format"))
     }
   }
@@ -94,22 +147,27 @@ object ConformanceScala {
   def handleTestTyped[T <: GeneratedMessage: GeneratedMessageCompanion](
       request: ConformanceRequest
   ): ConformanceResponse = {
+    if (request.payload.isJspbPayload || request.requestedOutputFormat.isJspb)
+      return ConformanceResponse().withSkipped("JSPB is not supported")
+    if (request.requestedOutputFormat.isUnspecified || request.payload.isEmpty)
+      return ConformanceResponse().withRuntimeError("Missing payload or output format")
     readInputMessage(request) match {
       case Right(input) =>
-        request.requestedOutputFormat match {
-          case WireFormat.PROTOBUF =>
-            ConformanceResponse().withProtobufPayload(input.toByteString)
-          case WireFormat.JSON =>
-            try {
-              val res = ConformanceResponse().withJsonPayload(JsonPrinter.print(input))
-              res
-            } catch {
-              case err: Throwable =>
-                ConformanceResponse().withSerializeError(err.getMessage)
-            }
-          case WireFormat.TEXT_FORMAT =>
-            ConformanceResponse().withTextPayload(input.toProtoString)
-          case _ => ConformanceResponse()
+        try {
+          request.requestedOutputFormat match {
+            case WireFormat.PROTOBUF =>
+              ConformanceResponse().withProtobufPayload(input.toByteString)
+            case WireFormat.JSON =>
+              ConformanceResponse().withJsonPayload(JsonPrinter.print(input))
+            case WireFormat.TEXT_FORMAT =>
+              ConformanceResponse().withTextPayload(
+                TextFormat.printToString(input, textTypeRegistry, request.printUnknownFields)
+              )
+            case _ => ConformanceResponse().withSkipped("Unsupported output format")
+          }
+        } catch {
+          case NonFatal(err) =>
+            ConformanceResponse().withSerializeError(Option(err.getMessage).getOrElse(err.toString))
         }
       case Left(err) =>
         ConformanceResponse().withParseError(err.getMessage)
@@ -124,6 +182,16 @@ object ConformanceScala {
         handleTestTyped[test_messages_proto2.TestAllTypesProto2](request)
       case "conformance.FailureSet" =>
         ConformanceResponse().withProtobufPayload(FailureSet().toByteString)
+      case "protobuf_test_messages.editions.proto2.TestAllTypesProto2" =>
+        handleTestTyped[test_messages_proto2_editions.TestAllTypesProto2](request)
+      case "protobuf_test_messages.editions.proto3.TestAllTypesProto3" =>
+        handleTestTyped[test_messages_proto3_editions.TestAllTypesProto3](request)
+      case "protobuf_test_messages.editions.TestAllTypesEdition2023" =>
+        handleTestTyped[test_messages_edition2023.TestAllTypesEdition2023](request)
+      case "protobuf_test_messages.edition_unstable.TestAllTypesEditionUnstable" =>
+        ConformanceResponse().withSkipped("Unstable editions are not supported")
+      case name =>
+        ConformanceResponse().withRuntimeError(s"Unknown message type: $name")
     }
   }
 

@@ -94,7 +94,7 @@ final case class FieldOptions(
     features: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
     featureSupport: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport] = _root_.scala.None,
     uninterpretedOption: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldOptions] with _root_.scalapb.ExtendableMessage[FieldOptions] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -381,6 +381,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 8 =>
           __ctype = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FieldOptions.CType.fromValue(_input__.readEnum()))
         case 16 =>
@@ -550,7 +551,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends CType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(STRING, CORD, STRING_PIECE)
+    lazy val values: _root_.scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FieldOptions.CType.Recognized] = _root_.scala.collection.immutable.Seq(STRING, CORD, STRING_PIECE)
     def fromValue(__value: _root_.scala.Int): CType = __value match {
       case 0 => STRING
       case 1 => CORD
@@ -608,7 +609,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends JSType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(JS_NORMAL, JS_STRING, JS_NUMBER)
+    lazy val values: _root_.scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FieldOptions.JSType.Recognized] = _root_.scala.collection.immutable.Seq(JS_NORMAL, JS_STRING, JS_NUMBER)
     def fromValue(__value: _root_.scala.Int): JSType = __value match {
       case 0 => JS_NORMAL
       case 1 => JS_STRING
@@ -662,7 +663,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptionRetention(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(RETENTION_UNKNOWN, RETENTION_RUNTIME, RETENTION_SOURCE)
+    lazy val values: _root_.scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FieldOptions.OptionRetention.Recognized] = _root_.scala.collection.immutable.Seq(RETENTION_UNKNOWN, RETENTION_RUNTIME, RETENTION_SOURCE)
     def fromValue(__value: _root_.scala.Int): OptionRetention = __value match {
       case 0 => RETENTION_UNKNOWN
       case 1 => RETENTION_RUNTIME
@@ -774,7 +775,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptionTargetType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(TARGET_TYPE_UNKNOWN, TARGET_TYPE_FILE, TARGET_TYPE_EXTENSION_RANGE, TARGET_TYPE_MESSAGE, TARGET_TYPE_FIELD, TARGET_TYPE_ONEOF, TARGET_TYPE_ENUM, TARGET_TYPE_ENUM_ENTRY, TARGET_TYPE_SERVICE, TARGET_TYPE_METHOD)
+    lazy val values: _root_.scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.Recognized] = _root_.scala.collection.immutable.Seq(TARGET_TYPE_UNKNOWN, TARGET_TYPE_FILE, TARGET_TYPE_EXTENSION_RANGE, TARGET_TYPE_MESSAGE, TARGET_TYPE_FIELD, TARGET_TYPE_ONEOF, TARGET_TYPE_ENUM, TARGET_TYPE_ENUM_ENTRY, TARGET_TYPE_SERVICE, TARGET_TYPE_METHOD)
     def fromValue(__value: _root_.scala.Int): OptionTargetType = __value match {
       case 0 => TARGET_TYPE_UNKNOWN
       case 1 => TARGET_TYPE_FILE
@@ -803,7 +804,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
   final case class EditionDefault(
       edition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None,
       value: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EditionDefault] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -887,6 +888,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 24 =>
             __edition = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
           case 18 =>
@@ -960,6 +962,9 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
     *   The edition this feature is no longer available in.  In editions after
     *   this one, the last default assigned will be used, and proto files will
     *   not be able to override it.
+    * @param removalError
+    *   The removal error text if this feature is used after the edition it was
+    *   removed in.
     */
   @SerialVersionUID(0L)
   final case class FeatureSupport(
@@ -967,7 +972,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
       editionDeprecated: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None,
       deprecationWarning: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       editionRemoved: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      removalError: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FeatureSupport] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -988,6 +994,10 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
         if (editionRemoved.isDefined) {
           val __value = editionRemoved.get.value
           __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(4, __value)
+        };
+        if (removalError.isDefined) {
+          val __value = removalError.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(5, __value)
         };
         __size += unknownFields.serializedSize
         __size
@@ -1018,6 +1028,10 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
           val __m = __v.value
           _output__.writeEnum(4, __m)
         };
+        removalError.foreach { __v =>
+          val __m = __v
+          _output__.writeString(5, __m)
+        };
         unknownFields.writeTo(_output__)
       }
       def getEditionIntroduced: _root_.com.google.protobuf.descriptor.Edition = editionIntroduced.getOrElse(_root_.com.google.protobuf.descriptor.Edition.EDITION_UNKNOWN)
@@ -1032,6 +1046,9 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
       def getEditionRemoved: _root_.com.google.protobuf.descriptor.Edition = editionRemoved.getOrElse(_root_.com.google.protobuf.descriptor.Edition.EDITION_UNKNOWN)
       def clearEditionRemoved: FeatureSupport = copy(editionRemoved = _root_.scala.None)
       def withEditionRemoved(__v: _root_.com.google.protobuf.descriptor.Edition): FeatureSupport = copy(editionRemoved = _root_.scala.Option(__v))
+      def getRemovalError: _root_.scala.Predef.String = removalError.getOrElse("")
+      def clearRemovalError: FeatureSupport = copy(removalError = _root_.scala.None)
+      def withRemovalError(__v: _root_.scala.Predef.String): FeatureSupport = copy(removalError = _root_.scala.Option(__v))
       def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
       def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
       def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
@@ -1040,6 +1057,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
           case 2 => editionDeprecated.map(_.javaValueDescriptor).orNull
           case 3 => deprecationWarning.orNull
           case 4 => editionRemoved.map(_.javaValueDescriptor).orNull
+          case 5 => removalError.orNull
         }
       }
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
@@ -1049,6 +1067,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
           case 2 => editionDeprecated.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
           case 3 => deprecationWarning.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
           case 4 => editionRemoved.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 5 => removalError.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -1064,25 +1083,29 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
       scalaPbSource.editionDeprecated.map(_root_.com.google.protobuf.descriptor.Edition.toJavaValue(_)).foreach(javaPbOut.setEditionDeprecated)
       scalaPbSource.deprecationWarning.foreach(javaPbOut.setDeprecationWarning)
       scalaPbSource.editionRemoved.map(_root_.com.google.protobuf.descriptor.Edition.toJavaValue(_)).foreach(javaPbOut.setEditionRemoved)
+      scalaPbSource.removalError.foreach(javaPbOut.setRemovalError)
       javaPbOut.build
     }
     def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldOptions.FeatureSupport): _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport = _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport(
       editionIntroduced = if (javaPbSource.hasEditionIntroduced) Some(_root_.com.google.protobuf.descriptor.Edition.fromJavaValue(javaPbSource.getEditionIntroduced)) else _root_.scala.None,
       editionDeprecated = if (javaPbSource.hasEditionDeprecated) Some(_root_.com.google.protobuf.descriptor.Edition.fromJavaValue(javaPbSource.getEditionDeprecated)) else _root_.scala.None,
       deprecationWarning = if (javaPbSource.hasDeprecationWarning) Some(javaPbSource.getDeprecationWarning) else _root_.scala.None,
-      editionRemoved = if (javaPbSource.hasEditionRemoved) Some(_root_.com.google.protobuf.descriptor.Edition.fromJavaValue(javaPbSource.getEditionRemoved)) else _root_.scala.None
+      editionRemoved = if (javaPbSource.hasEditionRemoved) Some(_root_.com.google.protobuf.descriptor.Edition.fromJavaValue(javaPbSource.getEditionRemoved)) else _root_.scala.None,
+      removalError = if (javaPbSource.hasRemovalError) Some(javaPbSource.getRemovalError) else _root_.scala.None
     )
     def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport = {
       var __editionIntroduced: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
       var __editionDeprecated: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
       var __deprecationWarning: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
       var __editionRemoved: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
+      var __removalError: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 8 =>
             __editionIntroduced = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
           case 16 =>
@@ -1091,6 +1114,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
             __deprecationWarning = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 32 =>
             __editionRemoved = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
+          case 42 =>
+            __removalError = _root_.scala.Option(_input__.readStringRequireUtf8())
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -1103,6 +1128,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
           editionDeprecated = __editionDeprecated,
           deprecationWarning = __deprecationWarning,
           editionRemoved = __editionRemoved,
+          removalError = __removalError,
           unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
@@ -1113,7 +1139,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
           editionIntroduced = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => _root_.com.google.protobuf.descriptor.Edition.fromValue(__e.number)),
           editionDeprecated = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => _root_.com.google.protobuf.descriptor.Edition.fromValue(__e.number)),
           deprecationWarning = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
-          editionRemoved = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => _root_.com.google.protobuf.descriptor.Edition.fromValue(__e.number))
+          editionRemoved = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => _root_.com.google.protobuf.descriptor.Edition.fromValue(__e.number)),
+          removalError = __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]])
         )
       case _ => throw new RuntimeException("Expected PMessage")
     }
@@ -1132,7 +1159,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
       editionIntroduced = _root_.scala.None,
       editionDeprecated = _root_.scala.None,
       deprecationWarning = _root_.scala.None,
-      editionRemoved = _root_.scala.None
+      editionRemoved = _root_.scala.None,
+      removalError = _root_.scala.None
     )
     implicit class FeatureSupportLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport](_l) {
       def editionIntroduced: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.Edition] = field(_.getEditionIntroduced)((c_, f_) => c_.copy(editionIntroduced = _root_.scala.Option(f_)))
@@ -1143,21 +1171,26 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
       def optionalDeprecationWarning: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.deprecationWarning)((c_, f_) => c_.copy(deprecationWarning = f_))
       def editionRemoved: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.Edition] = field(_.getEditionRemoved)((c_, f_) => c_.copy(editionRemoved = _root_.scala.Option(f_)))
       def optionalEditionRemoved: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition]] = field(_.editionRemoved)((c_, f_) => c_.copy(editionRemoved = f_))
+      def removalError: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getRemovalError)((c_, f_) => c_.copy(removalError = _root_.scala.Option(f_)))
+      def optionalRemovalError: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.removalError)((c_, f_) => c_.copy(removalError = f_))
     }
     final val EDITION_INTRODUCED_FIELD_NUMBER = 1
     final val EDITION_DEPRECATED_FIELD_NUMBER = 2
     final val DEPRECATION_WARNING_FIELD_NUMBER = 3
     final val EDITION_REMOVED_FIELD_NUMBER = 4
+    final val REMOVAL_ERROR_FIELD_NUMBER = 5
     def of(
       editionIntroduced: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition],
       editionDeprecated: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition],
       deprecationWarning: _root_.scala.Option[_root_.scala.Predef.String],
-      editionRemoved: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition]
+      editionRemoved: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition],
+      removalError: _root_.scala.Option[_root_.scala.Predef.String]
     ): _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport = _root_.com.google.protobuf.descriptor.FieldOptions.FeatureSupport(
       editionIntroduced,
       editionDeprecated,
       deprecationWarning,
-      editionRemoved
+      editionRemoved,
+      removalError
     )
     // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.FieldOptions.FeatureSupport])
   }

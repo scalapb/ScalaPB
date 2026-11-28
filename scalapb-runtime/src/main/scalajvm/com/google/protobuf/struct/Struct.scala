@@ -4,14 +4,19 @@
 package com.google.protobuf.struct
 import _root_.scalapb.internal.compat.JavaConverters._
 
-/** `Struct` represents a structured data value, consisting of fields
-  * which map to dynamically typed values. In some languages, `Struct`
-  * might be supported by a native representation. For example, in
-  * scripting languages like JS a struct is represented as an
-  * object. The details of that representation are described together
-  * with the proto support for the language.
+/** Represents a JSON object.
   *
-  * The JSON representation for `Struct` is JSON object.
+  * An unordered key-value map, intending to perfectly capture the semantics of a
+  * JSON object. This enables parsing any arbitrary JSON payload as a message
+  * field in ProtoJSON format.
+  *
+  * This follows RFC 8259 guidelines for interoperable JSON: notably this type
+  * cannot represent large Int64 values or `NaN`/`Infinity` numbers,
+  * since the JSON format generally does not support those values in its number
+  * type.
+  *
+  * If you do not intend to parse arbitrary JSON into your message, a custom
+  * typed message should be preferred instead of using this type.
   *
   * @param fields
   *   Unordered map of dynamically typed values.
@@ -19,7 +24,7 @@ import _root_.scalapb.internal.compat.JavaConverters._
 @SerialVersionUID(0L)
 final case class Struct(
     fields: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, _root_.com.google.protobuf.struct.Value] = _root_.scala.collection.immutable.Map.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Struct] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -93,6 +98,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[_root_.com.google.protob
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __fields += _root_.com.google.protobuf.struct.Struct._typemapper_fields.toCustom(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.struct.Struct.FieldsEntry](_input__))
         case tag =>
@@ -136,7 +142,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[_root_.com.google.protob
   final case class FieldsEntry(
       key: _root_.scala.Predef.String = "",
       value: _root_.scala.Option[_root_.com.google.protobuf.struct.Value] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldsEntry] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -218,6 +224,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[_root_.com.google.protob
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 10 =>
             __key = _input__.readStringRequireUtf8()
           case 18 =>

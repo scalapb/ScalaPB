@@ -116,6 +116,24 @@ class EnumSpec extends AnyFlatSpec with Matchers with OptionValues {
     implicitly[GeneratedEnumCompanion[Color]] must be(Color)
   }
 
+  "values" should "contain recognized values with their precise type" in {
+    val colors: scala.collection.immutable.Seq[Color.Recognized] = Color.values
+    colors must be(Seq(Color.RED, Color.GREEN, Color.BLUE))
+
+    val proto3Colors: scala.collection.immutable.Seq[Color3.Recognized] = Color3.values
+    proto3Colors must be(Seq(Color3.C3_UNKNOWN, Color3.C3_RED, Color3.C3_GREEN, Color3.C3_BLUE))
+
+    val nested: scala.collection.immutable.Seq[EnumTest.InnerEnum.Recognized] =
+      EnumTest.InnerEnum.values
+    nested must be(
+      Seq(
+        EnumTest.InnerEnum.INNER_SUCCESS,
+        EnumTest.InnerEnum.INNER_FAIL,
+        EnumTest.InnerEnum.OtherCase
+      )
+    )
+  }
+
   "fromName" should "resolve values" in {
     Color.fromName("RED").value must be(Color.RED)
     Color.fromName("GREEN").value must be(Color.GREEN)

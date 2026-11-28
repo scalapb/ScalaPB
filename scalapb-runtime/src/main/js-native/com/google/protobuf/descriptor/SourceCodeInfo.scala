@@ -54,7 +54,7 @@ package com.google.protobuf.descriptor
 @SerialVersionUID(0L)
 final case class SourceCodeInfo(
     location: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.SourceCodeInfo.Location] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[SourceCodeInfo] with _root_.scalapb.ExtendableMessage[SourceCodeInfo] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -117,6 +117,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.googl
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __location += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.SourceCodeInfo.Location](_input__)
         case tag =>
@@ -180,6 +181,23 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.googl
     *     [ 4, 3, 2, 7 ]
     *   this path refers to the whole field declaration (from the beginning
     *   of the label to the terminating semicolon).
+    *  
+    *   For options, the path refers to the interpreted option in the descriptor.
+    *   E.g., for a custom option `(my_opt) = "foo"` on a message using extension
+    *   number 10101, the path is:
+    *     [ 4, 3, 7, 10101 ]
+    *   refers to:
+    *     file.message_type(3)     // 4, 3
+    *         .options()           // 7
+    *         .my_opt()            // 10101
+    *  
+    *   Sub-locations corresponding to the interpreted option's corresponding
+    *   `UninterpretedOption` are also appended to the interpreted option, which
+    *   deviates from the actual FileDescriptorProto path. E.g.:
+    *     [ 4, 3, 7, 10101, 2 ]
+    *   refers to the option name `(my_opt)`, and:
+    *     [ 4, 3, 7, 10101, 7 ]
+    *   refers to the "foo" string value of the option.
     * @param span
     *   Always has exactly three or four elements: start line, start column,
     *   end line (optional, otherwise assumed same as start line), end column.
@@ -242,7 +260,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.googl
       leadingComments: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       trailingComments: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       leadingDetachedComments: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Location] {
       private[this] def pathSerializedSize = {
         if (__pathSerializedSizeField == 0) __pathSerializedSizeField = {
@@ -381,6 +399,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.googl
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 8 =>
             __path += _input__.readInt32()
           case 10 => {

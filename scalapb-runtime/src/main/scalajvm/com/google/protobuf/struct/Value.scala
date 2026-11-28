@@ -3,17 +3,17 @@
 
 package com.google.protobuf.struct
 
-/** `Value` represents a dynamically typed value which can be either
+/** Represents a JSON value.
+  *
+  * `Value` represents a dynamically typed value which can be either
   * null, a number, a string, a boolean, a recursive struct value, or a
   * list of values. A producer of value is expected to set one of these
-  * variants. Absence of any variant indicates an error.
-  *
-  * The JSON representation for `Value` is JSON value.
+  * variants. Absence of any variant is an invalid state.
   */
 @SerialVersionUID(0L)
 final case class Value(
     kind: _root_.com.google.protobuf.struct.Value.Kind = _root_.com.google.protobuf.struct.Value.Kind.Empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Value] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -159,6 +159,7 @@ object Value extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobu
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 8 =>
           __kind = _root_.com.google.protobuf.struct.Value.Kind.NullValue(_root_.com.google.protobuf.struct.NullValue.fromValue(_input__.readEnum()))
         case 17 =>

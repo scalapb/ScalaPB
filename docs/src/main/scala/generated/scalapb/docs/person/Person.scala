@@ -8,7 +8,7 @@ final case class Person(
     name: _root_.scala.Predef.String = "",
     age: _root_.scala.Int = 0,
     addresses: _root_.scala.Seq[_root_.scalapb.docs.person.Person.Address] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Person] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -111,6 +111,7 @@ object Person extends scalapb.GeneratedMessageCompanion[_root_.scalapb.docs.pers
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __name = _input__.readStringRequireUtf8()
         case 16 =>
@@ -189,7 +190,7 @@ object Person extends scalapb.GeneratedMessageCompanion[_root_.scalapb.docs.pers
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends AddressType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(HOME, WORK)
+    lazy val values: _root_.scala.collection.immutable.Seq[_root_.scalapb.docs.person.Person.AddressType.Recognized] = _root_.scala.collection.immutable.Seq(HOME, WORK)
     def fromValue(__value: _root_.scala.Int): AddressType = __value match {
       case 0 => HOME
       case 1 => WORK
@@ -203,7 +204,7 @@ object Person extends scalapb.GeneratedMessageCompanion[_root_.scalapb.docs.pers
       addressType: _root_.scalapb.docs.person.Person.AddressType = _root_.scalapb.docs.person.Person.AddressType.HOME,
       street: _root_.scala.Predef.String = "",
       city: _root_.scala.Predef.String = "",
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Address] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -309,6 +310,7 @@ object Person extends scalapb.GeneratedMessageCompanion[_root_.scalapb.docs.pers
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 8 =>
             __addressType = _root_.scalapb.docs.person.Person.AddressType.fromValue(_input__.readEnum())
           case 18 =>

@@ -24,6 +24,8 @@ Uses sbt-projectmatrix for cross-builds across Scala 2.12, 2.13, 3 and JVM/JS/Na
 
 ## Git
 - **Never push without explicit instruction.** Commit locally and wait to be asked.
+- Every commit that fixes a GitHub issue must include `Fixed #xyz` in its commit
+  message, replacing `xyz` with the issue number, so GitHub closes the issue.
 
 ## sbt
 
@@ -68,4 +70,18 @@ Docs live in `docs/` (mdoc sources), built to `docs/target/mdoc/`, served by Doc
 from `website/`. To test website changes:
 ```bash
 cd website && yarn build
+```
+
+## Benchmarks
+
+To run the benchmarks, navigate to the `benchmarks` directory and run the following command:
+
+```bash
+amm run_benchmarks.sc --scalapb <scalapb_version> --scala <scala_version> --java <true|false> --mode <fast|full> --benchmarks <benchmark_name>
+```
+
+For example:
+
+```bash
+amm run_benchmarks.sc --scalapb 0.11.21 --scala 2.13.18 --java true --mode fast --benchmarks LargeStringMessage
 ```

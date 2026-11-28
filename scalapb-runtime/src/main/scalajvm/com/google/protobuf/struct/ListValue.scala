@@ -4,9 +4,7 @@
 package com.google.protobuf.struct
 import _root_.scalapb.internal.compat.JavaConverters._
 
-/** `ListValue` is a wrapper around a repeated field of values.
-  *
-  * The JSON representation for `ListValue` is JSON array.
+/** Represents a JSON array.
   *
   * @param values
   *   Repeated field of dynamically typed values.
@@ -14,7 +12,7 @@ import _root_.scalapb.internal.compat.JavaConverters._
 @SerialVersionUID(0L)
 final case class ListValue(
     values: _root_.scala.Seq[_root_.com.google.protobuf.struct.Value] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ListValue] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -85,6 +83,7 @@ object ListValue extends scalapb.GeneratedMessageCompanion[_root_.com.google.pro
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __values += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.struct.Value](_input__)
         case tag =>

@@ -13,7 +13,7 @@ package com.google.protobuf.empty
   */
 @SerialVersionUID(0L)
 final case class Empty(
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Empty] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -52,6 +52,7 @@ object Empty extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobu
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

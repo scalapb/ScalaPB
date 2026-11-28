@@ -1,7 +1,168 @@
 # Change Log
 ## [1.0.0] (Not yet released)
-- Bump protobuf and protoc to 4.28.2. Currently files must specify proto2 and
-  proto3 syntax. Editions are not supported yet.
+
+## [1.0.0-alpha.8]
+
+Changes since `1.0.0-alpha.6`. Pair with `scalapb-json4s` `1.0.0-alpha.4`.
+The alpha.7 publication attempt was withdrawn after a Scala 3 JS compile failure;
+alpha.8 fixes the shared JS/Native call syntax. The alpha.7 Git tag is retained.
+
+- Support stable Editions 2023, 2024 and 2026: resolve inherited features,
+  presence, packing, enum openness, UTF-8 and DELIMITED encoding. Reject unknown
+  and unstable editions. Validate newer naming, visibility and structure rules
+  through protoc, including explicit compatibility overrides.
+- Align protoc, protobuf-java and vendored descriptor schemas on 36.2; improve
+  Java naming/conversions for mixed nesting, large enums and migrated group-like
+  field capitalization.
+- Support known/unknown groups and registered message-valued text extensions;
+  preserve MessageSet extension ordering and encoding. Scalar text extensions
+  remain unsupported. Group recursion accounting remains separate work.
+- Honor closed enums in Editions; add opt-in `proto2_closed_enums` for legacy
+  schemas. Unknown closed values are retained as unknown fields, not enum values.
+- Honor schema UTF-8 features in Editions and string extension accessors; retain
+  the legacy-schema opt-in. Add lazy UTF-8 string fields and Java conversion fixes.
+- Improve text-format presence, separators, enum numbers, floating-point syntax,
+  negative zero, Unicode escapes, expanded Any and unknown-field printing.
+- Harden delimited framing and bound text-parser depth and integer literals.
+- Improve Scala 3-only generation for `-source:future`, unify generated lens bases,
+  narrow enum `values` to recognized values and fix streaming gRPC status mapping.
+  Parenthesize named-given intersection types so Java conversions also compile
+  with Scala 3-only output on the supported Scala 3 compilers.
+- Update gRPC to 1.86.0, protobuf-runtime-scala to 0.9.0, Scala 3 to 3.3.9,
+  Scala.js to 1.23.0 and Scala Native to 0.5.13; refresh dependency security fixes.
+  The repository build uses sbt 2.1.1 and sbt-protoc 1.1.0-RC3.
+- Run all stable fixtures available in the protobuf 36.2 conformance runner,
+  including recommended tests. Report expected failures and unstable skips
+  explicitly; use dedicated actual schemas for Editions 2024/2026.
+
+Migration: upgrade the generator and runtime together and regenerate sources.
+Generated descriptor case classes (including `FeatureSet` and `FeatureSupport`)
+change constructor/extractor shape; new generated code calls new runtime helpers.
+Text output now omits implicit defaults. `UnknownFieldSet.Field` gains group data,
+changing its product/extractor arity. Scala 3-only output requires Scala 3; use
+regular output for Scala 2. This alpha does not promise development-to-development
+binary compatibility. Detailed changes and migration notes follow below.
+
+## 1.0 development change details
+- Upgrade the build to sbt-protoc 1.1.0-RC3; use sbt 2.1.1 for this repository.
+- Edition 2023: resolve migrated group text names and extension encoding from
+  inherited features, validate UTF-8 when reading string extensions, and execute
+  stable Editions conformance fixtures with explicit outcome reports.
+
+- Support Edition 2026 after aligning protoc, protobuf-java and vendored descriptors
+  on v36.2. Validate strict visibility, naming collisions, structure limits,
+  removed options and explicit compatibility overrides; reject unknown/unstable editions.
+- Execute stable Editions conformance fixtures and report coverage by family and
+  output format. JSON support uses scalapb-json4s 1.0.0-alpha.4.
+
+- Support Edition 2024 with edition-indexed descriptor defaults, option imports,
+  visibility/naming validation through protoc, mixed Java nesting policies and
+  Java large-enum interoperability. Protoc 32.0 or newer is required for 2024.
+
+- Normalize MessageSet item and ordinary extension encodings in input order, preserving last-oneof-wins semantics; serialize extensions in MessageSet wire format. Regenerate MessageSet sources.
+- Preserve negative floating-point zero through text parsing and generated binary serialization; accept float suffixes and reject hexadecimal/octal float literals. Regenerate sources to retain negative zero on the wire.
+- Cover empty Any JSON and reject invalid Duration/Value JSON serialization in conformance tests.
+- Skip ignored unknown JSON enum collection values in conformance tests using the updated json4s parser.
+- Accept unknown numeric values for schema-open enums in text format while rejecting them for closed enums.
+- Accept comma/semicolon text-format field separators and require commas between list elements.
+- Enable proto2 closed enums in conformance fixtures and verify fixture configuration
+  and protocol dispatch.
+
+- Refresh conformance testing to protobuf v36.2, report unsupported Editions explicitly,
+  and add Java differential and portable wire regression tests.
+- Honor schema-defined enum openness in Editions binary parsers and Java conversions.
+  Add `proto2_closed_enums` file/package option (default false) to enable the same
+  behavior for proto2 messages while preserving their legacy defaults. Editions
+  honor schema openness even when the option is false. Imported open enums remain open.
+  Unknown closed enum numbers move to unknown fields instead of `Unrecognized`
+  field values; repeated values may reorder on serialization, unknown oneof values
+  leave the existing case unchanged, and maps retain rejected entries in full.
+  Required closed enums reject messages containing only unknown values. Disabling
+  unknown-field preservation discards rejected values and entries. Java conversions
+  for affected messages use binary conversion, with additional serialization cost.
+  Upgrade the runtime and regenerate sources together. Text/JSON parsing and extension
+  accessors are separate paths.
+- Make dependency-update CI more reliable and require a website build before automatically merging Scala Steward and Dependabot updates.
+- Preserve empty unboxed strings and bytes when a proto2 field declares a non-empty default.
+- Use collection adapters when converting repeated lazy strings to Java protobuf messages.
+- Preserve ProtoJSON extension fields in conformance tests using scalapb-json4s 1.0.0-alpha.3.
+- Reject JSON strings containing unpaired or reversed Unicode surrogates using scalapb-json4s 1.0.0-alpha.3.
+- Reject quoted JSON boolean values in conformance tests using scalapb-json4s 1.0.0-alpha.3.
+- Verify JSON null-valued oneof presence with the upgraded conformance JSON parser.
+- Use scalapb-json4s 1.0.0-alpha.2 in conformance tests to accept URL-safe Base64 bytes.
+- Reject protobuf FieldMask paths that cannot round-trip through JSON, including uppercase letters, repeated underscores, and underscores before digits.
+- Reject underscores in JSON FieldMask paths and preserve leading capitals when converting them to protobuf paths.
+- Print unknown length-delimited fields as nested text-format messages when decodable, with a depth limit and escaped-byte fallback.
+- Add opt-in text-format printing of unknown scalar wire fields. Expose unknown fields through `GeneratedMessage.unknownFields`, returning an empty set for messages that do not preserve them. Regenerate sources before recompiling: stored unknown fields now override the concrete accessor.
+- Parse expanded text-format `Any` values with an explicitly supplied `textformat.TypeRegistry`; preserve the configured recursion limit.
+- Accept `\UXXXXXXXX` text-format Unicode escapes, including supplementary characters; reject out-of-range code points.
+- Accept `\uXXXX` Unicode escapes in text-format string and bytes fields; reject surrogate code points and malformed escapes.
+- BREAKING CHANGE: TextFormat printing (including `toProtoString` and generated
+  `toString`) now omits implicit scalar defaults and empty optional `no_box` and
+  sealed-oneof message fields by default, matching Java's field-presence behavior
+  (#2319). Explicitly present defaults, required fields, selected oneof cases,
+  repeated elements, and map entries are preserved. Regenerate sources to fix
+  unboxed-message accessors for custom types whose default instances are invalid.
+- Resolve core Edition 2023 descriptor features with inherited overrides; expose presence, packing, enum openness, UTF-8 policy and message encoding, and recognize `LEGACY_REQUIRED` fields.
+- Use protobuf Java naming helpers for Java conversions and descriptor references,
+  including Edition 2024 file/type naming and correct Scala escaping of keyword
+  outer class names and empty package names. Edition input support remains a
+  separate prerequisite.
+- Reject negative, truncated and incompletely consumed length-delimited message frames, restore
+  coded input limits on parse failures, and add optional `maxFrameSize` parsing overloads.
+  Existing overloads retain their maximum frame size of `Int.MaxValue`.
+- Limit text parsing to 100 nested messages by default, with an explicit
+  `TextFormat.fromAscii` recursion-limit overload. Reject integer literals longer
+  than 1024 digits before constructing a `BigInt`, and report missing integer
+  digits as text-format errors. Reject enum numbers outside the signed 32-bit
+  range instead of truncating them to a recognized value.
+- Support proto2 groups and Editions `message_encoding = DELIMITED` in generated
+  binary parsers, writers, sizes, descriptors, and extensions. Unknown groups are
+  preserved recursively and malformed or mismatched end tags are rejected.
+  Regenerate sources for group fields. Generated coded-input parsers stop at end-group
+  tags; callers validate the boundary, matching Java without a new companion overload.
+  Byte-array, stream, delimited-message, Any and extension readers reject stray end tags.
+  `UnknownFieldSet.Field` gains a defaulted `group` member; four-argument
+  constructors, `apply`, and `copy` remain available, but its case-class product
+  and extractor arity changes from four to five (update four-element patterns
+  and recompile dependent code).
+  Text format accepts group names and prints known and unknown groups. Registered message-valued extensions are retained through nested text parsing and printing. Binary recursion accounting remains separate work. Editions honor schema UTF-8 features directly, and stable Edition 2023 conformance fixtures are compiled and dispatched.
+- BREAKING CHANGE: `scala3Sources = true` (or `scala3_sources`) now emits named
+  givens, given-based lens conversions, and modern control-flow syntax for Scala 3
+  `-source:future` (#2212). This output no longer supports Scala 2 with `-Xsource:3`;
+  when cross-building, enable the option only when `scalaBinaryVersion.value == "3"`. Wildcard imports of generated
+  contextual instances may need `.given` or explicit named imports. Generated
+  `messageReads` instances are now initialized lazily and reused in Scala 3 output.
+- Declare the supported Edition 2023 range in code generator responses using protoc-bridge 0.10.0, fixing protoc rejection of the editions feature flag (#1837).
+- Add `lazy_utf8_string_fields` file- and message-level option generating string fields as
+  `scalapb.LazyField[String]`, decoded on first access, including optional and oneof
+  strings with presence preserved through binary, JSON, and Java conversions.
+- Add the file/package option `use_schema_utf8_validation` to opt binary message
+  string parsing into the resolved protobuf Java UTF-8 policy. Legacy strict
+  parsing remains the default. Nonvalidating fields replace malformed UTF-8 and
+  lose the original bytes; map strings remain strict. Includes Edition 2023
+  parser coverage and a protobuf-runtime-scala 0.9.0 upgrade for correct strict
+  UTF-8 validation on JS/Native (its deprecated `ByteString.bytes` now returns a
+  copy; stable-path uses must migrate to a local `val` or `toByteArray()`).
+- Refresh website dependencies to address GitHub security alerts.
+- Update Coursier's transitive dependencies and the documentation/test dependency families to address GitHub security advisories; use the maintained LZ4 artifact for Spark documentation examples.
+- Upgrade the CLI commons-lang3 dependency to 3.21.0.
+- BREAKING CHANGE: Unify generated lens superclasses across Scala 2 and Scala 3 as
+  `scalapb.lenses.ObjectLens`, which is now abstract (#1581). Regenerate all ScalaPB
+  sources and recompile dependent code when upgrading to 1.0.0. Replace direct
+  `new ObjectLens(lens)` instantiation with `new ObjectLens(lens) {}` or a named
+  subclass. `MessageLens` remains as a deprecated compatibility class for older
+  generated code, but newly generated lenses no longer extend it; migrate explicit
+  `MessageLens` type references and handwritten subclasses to `ObjectLens`.
+- Refresh common-protos dependency examples, add Dataproc, and document the supported ScalaPB lines.
+- Select Scala 3 generation syntax in the installation instructions and document underscore kind-projector errors and stale generated sources in the FAQ (#1919).
+- Map non-status streaming gRPC response failures to `INTERNAL`, consistently with unary calls, while preserving explicit statuses and trailers (#1943).
+- Migrate example and benchmark builds to sbt 2.0.10 and check their formatting in CI.
+- Narrow generated enum companions' `values` type to `Seq[Recognized]` (#2179).
+- Omit unused JavaConverters imports from generated gRPC services (#358).
+- Update Scala.js to 1.22.0 and pin MUnit 1.3.6 and munit-scalacheck 1.3.1 independently.
+- Correct Maven setup documentation to match the protoc-jar-maven-plugin example (#892).
+- Bump protobuf and protoc to 4.28.2. Support proto2, proto3, and Edition 2023 files.
 - References to descriptors are fully qualified (#1724)
 - Oneofs are now generated as sealed abstract class instead of sealed traits (#1694)
 - BREAKING CHANGE: As a result of protobuf 4.x change, extensions in proto3 now have presence, 

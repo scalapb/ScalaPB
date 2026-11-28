@@ -9,7 +9,7 @@ final case class SimpleMessage(
     j: _root_.scala.Int = 0,
     k: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY,
     color: _root_.scalapb.perf.protos.Color = _root_.scalapb.perf.protos.Color.UNKNOWN,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[SimpleMessage] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -135,6 +135,7 @@ object SimpleMessage extends scalapb.GeneratedMessageCompanion[_root_.scalapb.pe
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 8 =>
           __i = _input__.readInt32()
         case 16 =>

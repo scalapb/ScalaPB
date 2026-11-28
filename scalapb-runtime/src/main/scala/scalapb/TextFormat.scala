@@ -8,9 +8,27 @@ case class TextFormatError(msg: String)
 class TextFormatException(msg: String) extends RuntimeException(msg)
 
 object TextFormat extends ProtoAsciiParsing {
-  def printToString(m: GeneratedMessage) = {
+  def printToString(m: GeneratedMessage): String = {
     Printer.printToString(m, singleLineMode = false, escapeNonAscii = true)
   }
+
+  /** Optionally includes preserved unknown wire fields using their numeric tags.
+    */
+  def printToString(m: GeneratedMessage, printUnknownFields: Boolean): String =
+    Printer.printToString(
+      m,
+      singleLineMode = false,
+      escapeNonAscii = true,
+      printUnknownFields = printUnknownFields
+    )
+
+  /** Prints message-valued extensions whose payload types are explicitly registered. */
+  def printToString(
+      m: GeneratedMessage,
+      typeRegistry: scalapb.textformat.TypeRegistry,
+      printUnknownFields: Boolean
+  ): String =
+    Printer.printToString(m, false, true, printUnknownFields, typeRegistry)
 
   def printToUnicodeString(m: GeneratedMessage) = {
     Printer.printToString(m, singleLineMode = false, escapeNonAscii = false)

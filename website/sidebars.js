@@ -27,6 +27,7 @@ module.exports = {
       collapsed: false,
       items: [
         'generated-code',
+        'editions',
         'sealed-oneofs',
         'user_defined_options',
         'grpc',

@@ -117,7 +117,7 @@ final case class FileOptions(
     rubyPackage: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     features: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
     uninterpretedOption: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FileOptions] with _root_.scalapb.ExtendableMessage[FileOptions] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -510,6 +510,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.p
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __javaPackage = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 66 =>
@@ -697,7 +698,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.p
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptimizeMode(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(SPEED, CODE_SIZE, LITE_RUNTIME)
+    lazy val values: _root_.scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FileOptions.OptimizeMode.Recognized] = _root_.scala.collection.immutable.Seq(SPEED, CODE_SIZE, LITE_RUNTIME)
     def fromValue(__value: _root_.scala.Int): OptimizeMode = __value match {
       case 1 => SPEED
       case 2 => CODE_SIZE

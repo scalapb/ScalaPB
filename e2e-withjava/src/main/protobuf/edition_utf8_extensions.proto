@@ -1,0 +1,8 @@
+edition = "2023";
+package com.thesamet.proto.e2e;
+message EditionUtf8Extensions { extensions 100 to 199; }
+extend EditionUtf8Extensions {
+  string verified = 100;
+  repeated string repeated_verified = 101;
+  string relaxed = 102 [features.utf8_validation = NONE];
+}

@@ -1,0 +1,18 @@
+syntax = "proto2";
+package legacy.enums;
+import "closed_enums.proto";
+
+// No opt-in: even an enum defined in an opted-in file keeps legacy parsing here.
+message LegacyEnums {
+  optional closed.enums.ClosedEnums.Value singular = 1;
+  repeated closed.enums.ClosedEnums.Value unpacked = 2 [packed = false];
+  repeated closed.enums.ClosedEnums.Value packed = 3 [packed = true];
+  oneof choice {
+    closed.enums.ClosedEnums.Value selected = 4;
+    int32 other = 5;
+  }
+  map<int32, closed.enums.ClosedEnums.Value> entries = 6;
+}
+message LegacyRequiredEnum {
+  required closed.enums.ClosedEnums.Value value = 1;
+}

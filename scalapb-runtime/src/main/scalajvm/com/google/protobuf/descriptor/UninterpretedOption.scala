@@ -24,7 +24,7 @@ final case class UninterpretedOption(
     doubleValue: _root_.scala.Option[_root_.scala.Double] = _root_.scala.None,
     stringValue: _root_.scala.Option[_root_.com.google.protobuf.ByteString] = _root_.scala.None,
     aggregateValue: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[UninterpretedOption] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -191,6 +191,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[_root_.com.
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 18 =>
           __name += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart](_input__)
         case 26 =>
@@ -270,7 +271,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[_root_.com.
   final case class NamePart(
       namePart: _root_.scala.Predef.String,
       isExtension: _root_.scala.Boolean,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[NamePart] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -355,6 +356,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[_root_.com.
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 10 =>
             __namePart = _input__.readStringRequireUtf8()
             __requiredFields0 &= 0xfffffffffffffffeL

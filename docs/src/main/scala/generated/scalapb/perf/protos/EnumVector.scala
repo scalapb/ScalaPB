@@ -6,7 +6,7 @@ package scalapb.perf.protos
 @SerialVersionUID(0L)
 final case class EnumVector(
     colors: _root_.scala.Seq[_root_.scalapb.perf.protos.Color] = _root_.scala.Vector.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumVector] {
     private[this] def colorsSerializedSize = {
       if (__colorsSerializedSizeField == 0) __colorsSerializedSizeField = {
@@ -77,6 +77,7 @@ object EnumVector extends scalapb.GeneratedMessageCompanion[_root_.scalapb.perf.
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 8 =>
           __colors += _root_.scalapb.perf.protos.Color.fromValue(_input__.readEnum())
         case 10 => {

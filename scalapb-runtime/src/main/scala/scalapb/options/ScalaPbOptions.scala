@@ -81,6 +81,21 @@ package scalapb.options
   *   Generate sources that are compatible with Scala 3
   * @param publicConstructorParameters
   *   Makes constructor parameters public, including defaults and TypeMappers.
+  * @param useSchemaUtf8Validation
+  *   Use the resolved protobuf Java UTF-8 validation policy when parsing strings.
+  *   Defaults to false to preserve ScalaPB's legacy always-validating behavior.
+  *   Nonvalidating strings replace malformed UTF-8 and cannot preserve its bytes.
+  *   Map strings always validate. Applies to binary message fields, not extensions.
+  * @param lazyUtf8StringFields
+  *   If true, string fields are generated as LazyField[String] to avoid
+  *   allocations when parsing.
+  * @param proto2ClosedEnums
+  *   Honor schema enum openness in proto2 binary parsing and Java conversions.
+  *   Defaults to false for proto2: unknown enum numbers remain Unrecognized field values.
+  *   Editions always honor schema enum openness, regardless of this option.
+  *   When enabled, unknown closed values (or entire map entries) go to unknown fields.
+  *   Imported open enums remain open. Applies to proto2 messages in this file;
+  *   can also be inherited from package options.
   * @param testOnlyNoJavaConversions
   *   For use in tests only. Inhibit Java conversions even when when generator parameters
   *   request for it.
@@ -116,8 +131,11 @@ final case class ScalaPbOptions(
     getters: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     scala3Sources: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     publicConstructorParameters: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    useSchemaUtf8Validation: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    lazyUtf8StringFields: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    proto2ClosedEnums: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ScalaPbOptions] with _root_.scalapb.ExtendableMessage[ScalaPbOptions] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -238,6 +256,18 @@ final case class ScalaPbOptions(
       if (publicConstructorParameters.isDefined) {
         val __value = publicConstructorParameters.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(29, __value)
+      };
+      if (useSchemaUtf8Validation.isDefined) {
+        val __value = useSchemaUtf8Validation.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(30, __value)
+      };
+      if (lazyUtf8StringFields.isDefined) {
+        val __value = lazyUtf8StringFields.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(31, __value)
+      };
+      if (proto2ClosedEnums.isDefined) {
+        val __value = proto2ClosedEnums.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(32, __value)
       };
       if (testOnlyNoJavaConversions.isDefined) {
         val __value = testOnlyNoJavaConversions.get
@@ -382,6 +412,18 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeBool(29, __m)
       };
+      useSchemaUtf8Validation.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(30, __m)
+      };
+      lazyUtf8StringFields.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(31, __m)
+      };
+      proto2ClosedEnums.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(32, __m)
+      };
       testOnlyNoJavaConversions.foreach { __v =>
         val __m = __v
         _output__.writeBool(999, __m)
@@ -483,6 +525,15 @@ final case class ScalaPbOptions(
     def getPublicConstructorParameters: _root_.scala.Boolean = publicConstructorParameters.getOrElse(false)
     def clearPublicConstructorParameters: ScalaPbOptions = copy(publicConstructorParameters = _root_.scala.None)
     def withPublicConstructorParameters(__v: _root_.scala.Boolean): ScalaPbOptions = copy(publicConstructorParameters = _root_.scala.Option(__v))
+    def getUseSchemaUtf8Validation: _root_.scala.Boolean = useSchemaUtf8Validation.getOrElse(false)
+    def clearUseSchemaUtf8Validation: ScalaPbOptions = copy(useSchemaUtf8Validation = _root_.scala.None)
+    def withUseSchemaUtf8Validation(__v: _root_.scala.Boolean): ScalaPbOptions = copy(useSchemaUtf8Validation = _root_.scala.Option(__v))
+    def getLazyUtf8StringFields: _root_.scala.Boolean = lazyUtf8StringFields.getOrElse(false)
+    def clearLazyUtf8StringFields: ScalaPbOptions = copy(lazyUtf8StringFields = _root_.scala.None)
+    def withLazyUtf8StringFields(__v: _root_.scala.Boolean): ScalaPbOptions = copy(lazyUtf8StringFields = _root_.scala.Option(__v))
+    def getProto2ClosedEnums: _root_.scala.Boolean = proto2ClosedEnums.getOrElse(false)
+    def clearProto2ClosedEnums: ScalaPbOptions = copy(proto2ClosedEnums = _root_.scala.None)
+    def withProto2ClosedEnums(__v: _root_.scala.Boolean): ScalaPbOptions = copy(proto2ClosedEnums = _root_.scala.Option(__v))
     def getTestOnlyNoJavaConversions: _root_.scala.Boolean = testOnlyNoJavaConversions.getOrElse(false)
     def clearTestOnlyNoJavaConversions: ScalaPbOptions = copy(testOnlyNoJavaConversions = _root_.scala.None)
     def withTestOnlyNoJavaConversions(__v: _root_.scala.Boolean): ScalaPbOptions = copy(testOnlyNoJavaConversions = _root_.scala.Option(__v))
@@ -519,6 +570,9 @@ final case class ScalaPbOptions(
         case 27 => getters.orNull
         case 28 => scala3Sources.orNull
         case 29 => publicConstructorParameters.orNull
+        case 30 => useSchemaUtf8Validation.orNull
+        case 31 => lazyUtf8StringFields.orNull
+        case 32 => proto2ClosedEnums.orNull
         case 999 => testOnlyNoJavaConversions.orNull
       }
     }
@@ -554,6 +608,9 @@ final case class ScalaPbOptions(
         case 27 => getters.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 28 => scala3Sources.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 29 => publicConstructorParameters.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 30 => useSchemaUtf8Validation.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 31 => lazyUtf8StringFields.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 32 => proto2ClosedEnums.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 999 => testOnlyNoJavaConversions.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
@@ -594,6 +651,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     var __getters: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __scala3Sources: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __publicConstructorParameters: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __useSchemaUtf8Validation: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __lazyUtf8StringFields: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __proto2ClosedEnums: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -601,6 +661,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __packageName = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 16 =>
@@ -659,6 +720,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
           __scala3Sources = _root_.scala.Option(_input__.readBool())
         case 232 =>
           __publicConstructorParameters = _root_.scala.Option(_input__.readBool())
+        case 240 =>
+          __useSchemaUtf8Validation = _root_.scala.Option(_input__.readBool())
+        case 248 =>
+          __lazyUtf8StringFields = _root_.scala.Option(_input__.readBool())
+        case 256 =>
+          __proto2ClosedEnums = _root_.scala.Option(_input__.readBool())
         case 7992 =>
           __testOnlyNoJavaConversions = _root_.scala.Option(_input__.readBool())
         case tag =>
@@ -698,6 +765,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         getters = __getters,
         scala3Sources = __scala3Sources,
         publicConstructorParameters = __publicConstructorParameters,
+        useSchemaUtf8Validation = __useSchemaUtf8Validation,
+        lazyUtf8StringFields = __lazyUtf8StringFields,
+        proto2ClosedEnums = __proto2ClosedEnums,
         testOnlyNoJavaConversions = __testOnlyNoJavaConversions,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
@@ -735,6 +805,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         getters = __fieldsMap.get(scalaDescriptor.findFieldByNumber(27).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         scala3Sources = __fieldsMap.get(scalaDescriptor.findFieldByNumber(28).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         publicConstructorParameters = __fieldsMap.get(scalaDescriptor.findFieldByNumber(29).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        useSchemaUtf8Validation = __fieldsMap.get(scalaDescriptor.findFieldByNumber(30).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        lazyUtf8StringFields = __fieldsMap.get(scalaDescriptor.findFieldByNumber(31).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        proto2ClosedEnums = __fieldsMap.get(scalaDescriptor.findFieldByNumber(32).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         testOnlyNoJavaConversions = __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -795,6 +868,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     getters = _root_.scala.None,
     scala3Sources = _root_.scala.None,
     publicConstructorParameters = _root_.scala.None,
+    useSchemaUtf8Validation = _root_.scala.None,
+    lazyUtf8StringFields = _root_.scala.None,
+    proto2ClosedEnums = _root_.scala.None,
     testOnlyNoJavaConversions = _root_.scala.None
   )
   /** Whether to apply the options only to this file, or for the entire package (and its subpackages)
@@ -832,7 +908,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptionsScope(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(FILE, PACKAGE)
+    lazy val values: _root_.scala.collection.immutable.Seq[_root_.scalapb.options.ScalaPbOptions.OptionsScope.Recognized] = _root_.scala.collection.immutable.Seq(FILE, PACKAGE)
     def fromValue(__value: _root_.scala.Int): OptionsScope = __value match {
       case 0 => FILE
       case 1 => PACKAGE
@@ -876,7 +952,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends EnumValueNaming(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(AS_IN_PROTO, CAMEL_CASE)
+    lazy val values: _root_.scala.collection.immutable.Seq[_root_.scalapb.options.ScalaPbOptions.EnumValueNaming.Recognized] = _root_.scala.collection.immutable.Seq(AS_IN_PROTO, CAMEL_CASE)
     def fromValue(__value: _root_.scala.Int): EnumValueNaming = __value match {
       case 0 => AS_IN_PROTO
       case 1 => CAMEL_CASE
@@ -900,7 +976,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
   final case class AuxMessageOptions(
       target: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       options: _root_.scala.Option[_root_.scalapb.options.MessageOptions] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[AuxMessageOptions] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -976,6 +1052,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 10 =>
             __target = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>
@@ -1050,7 +1127,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
   final case class AuxFieldOptions(
       target: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       options: _root_.scala.Option[_root_.scalapb.options.FieldOptions] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[AuxFieldOptions] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -1126,6 +1203,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 10 =>
             __target = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>
@@ -1200,7 +1278,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
   final case class AuxEnumOptions(
       target: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       options: _root_.scala.Option[_root_.scalapb.options.EnumOptions] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[AuxEnumOptions] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -1276,6 +1354,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 10 =>
             __target = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>
@@ -1350,7 +1429,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
   final case class AuxEnumValueOptions(
       target: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       options: _root_.scala.Option[_root_.scalapb.options.EnumValueOptions] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[AuxEnumValueOptions] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -1426,6 +1505,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 10 =>
             __target = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>
@@ -1536,6 +1616,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     def optionalScala3Sources: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.scala3Sources)((c_, f_) => c_.copy(scala3Sources = f_))
     def publicConstructorParameters: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPublicConstructorParameters)((c_, f_) => c_.copy(publicConstructorParameters = _root_.scala.Option(f_)))
     def optionalPublicConstructorParameters: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.publicConstructorParameters)((c_, f_) => c_.copy(publicConstructorParameters = f_))
+    def useSchemaUtf8Validation: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getUseSchemaUtf8Validation)((c_, f_) => c_.copy(useSchemaUtf8Validation = _root_.scala.Option(f_)))
+    def optionalUseSchemaUtf8Validation: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.useSchemaUtf8Validation)((c_, f_) => c_.copy(useSchemaUtf8Validation = f_))
+    def lazyUtf8StringFields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getLazyUtf8StringFields)((c_, f_) => c_.copy(lazyUtf8StringFields = _root_.scala.Option(f_)))
+    def optionalLazyUtf8StringFields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.lazyUtf8StringFields)((c_, f_) => c_.copy(lazyUtf8StringFields = f_))
+    def proto2ClosedEnums: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getProto2ClosedEnums)((c_, f_) => c_.copy(proto2ClosedEnums = _root_.scala.Option(f_)))
+    def optionalProto2ClosedEnums: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.proto2ClosedEnums)((c_, f_) => c_.copy(proto2ClosedEnums = f_))
     def testOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getTestOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = _root_.scala.Option(f_)))
     def optionalTestOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.testOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = f_))
   }
@@ -1568,6 +1654,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
   final val GETTERS_FIELD_NUMBER = 27
   final val SCALA3_SOURCES_FIELD_NUMBER = 28
   final val PUBLIC_CONSTRUCTOR_PARAMETERS_FIELD_NUMBER = 29
+  final val USE_SCHEMA_UTF8_VALIDATION_FIELD_NUMBER = 30
+  final val LAZY_UTF8_STRING_FIELDS_FIELD_NUMBER = 31
+  final val PROTO2_CLOSED_ENUMS_FIELD_NUMBER = 32
   final val TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 999
   def of(
     packageName: _root_.scala.Option[_root_.scala.Predef.String],
@@ -1599,6 +1688,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     getters: _root_.scala.Option[_root_.scala.Boolean],
     scala3Sources: _root_.scala.Option[_root_.scala.Boolean],
     publicConstructorParameters: _root_.scala.Option[_root_.scala.Boolean],
+    useSchemaUtf8Validation: _root_.scala.Option[_root_.scala.Boolean],
+    lazyUtf8StringFields: _root_.scala.Option[_root_.scala.Boolean],
+    proto2ClosedEnums: _root_.scala.Option[_root_.scala.Boolean],
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean]
   ): _root_.scalapb.options.ScalaPbOptions = _root_.scalapb.options.ScalaPbOptions(
     packageName,
@@ -1630,6 +1722,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     getters,
     scala3Sources,
     publicConstructorParameters,
+    useSchemaUtf8Validation,
+    lazyUtf8StringFields,
+    proto2ClosedEnums,
     testOnlyNoJavaConversions
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.ScalaPbOptions])

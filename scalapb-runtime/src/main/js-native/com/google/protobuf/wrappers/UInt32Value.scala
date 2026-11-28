@@ -16,7 +16,7 @@ package com.google.protobuf.wrappers
 @SerialVersionUID(0L)
 final case class UInt32Value(
     value: _root_.scala.Int = 0,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[UInt32Value] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -82,6 +82,7 @@ object UInt32Value extends scalapb.GeneratedMessageCompanion[_root_.com.google.p
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 8 =>
           __value = _input__.readUInt32()
         case tag =>

@@ -16,7 +16,7 @@ package com.google.protobuf.wrappers
 @SerialVersionUID(0L)
 final case class FloatValue(
     value: _root_.scala.Float = 0.0f,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FloatValue] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -25,7 +25,7 @@ final case class FloatValue(
       
       {
         val __value = value
-        if (__value != 0.0f) {
+        if (_root_.java.lang.Float.floatToRawIntBits(__value) != 0) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeFloatSize(1, __value)
         }
       };
@@ -44,7 +44,7 @@ final case class FloatValue(
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = value
-        if (__v != 0.0f) {
+        if (_root_.java.lang.Float.floatToRawIntBits(__v) != 0) {
           _output__.writeFloat(1, __v)
         }
       };
@@ -90,6 +90,7 @@ object FloatValue extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 13 =>
           __value = _input__.readFloat()
         case tag =>

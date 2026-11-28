@@ -45,7 +45,7 @@ final case class Field(
     options: _root_.scala.Seq[_root_.com.google.protobuf.`type`.OptionProto] = _root_.scala.Vector.empty,
     jsonName: _root_.scala.Predef.String = "",
     defaultValue: _root_.scala.Predef.String = "",
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Field] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -288,6 +288,7 @@ object Field extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobu
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 8 =>
           __kind = _root_.com.google.protobuf.`type`.Field.Kind.fromValue(_input__.readEnum())
         case 16 =>
@@ -579,7 +580,7 @@ object Field extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobu
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Kind(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(TYPE_UNKNOWN, TYPE_DOUBLE, TYPE_FLOAT, TYPE_INT64, TYPE_UINT64, TYPE_INT32, TYPE_FIXED64, TYPE_FIXED32, TYPE_BOOL, TYPE_STRING, TYPE_GROUP, TYPE_MESSAGE, TYPE_BYTES, TYPE_UINT32, TYPE_ENUM, TYPE_SFIXED32, TYPE_SFIXED64, TYPE_SINT32, TYPE_SINT64)
+    lazy val values: _root_.scala.collection.immutable.Seq[_root_.com.google.protobuf.`type`.Field.Kind.Recognized] = _root_.scala.collection.immutable.Seq(TYPE_UNKNOWN, TYPE_DOUBLE, TYPE_FLOAT, TYPE_INT64, TYPE_UINT64, TYPE_INT32, TYPE_FIXED64, TYPE_FIXED32, TYPE_BOOL, TYPE_STRING, TYPE_GROUP, TYPE_MESSAGE, TYPE_BYTES, TYPE_UINT32, TYPE_ENUM, TYPE_SFIXED32, TYPE_SFIXED64, TYPE_SINT32, TYPE_SINT64)
     def fromValue(__value: _root_.scala.Int): Kind = __value match {
       case 0 => TYPE_UNKNOWN
       case 1 => TYPE_DOUBLE
@@ -660,7 +661,7 @@ object Field extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobu
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Cardinality(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(CARDINALITY_UNKNOWN, CARDINALITY_OPTIONAL, CARDINALITY_REQUIRED, CARDINALITY_REPEATED)
+    lazy val values: _root_.scala.collection.immutable.Seq[_root_.com.google.protobuf.`type`.Field.Cardinality.Recognized] = _root_.scala.collection.immutable.Seq(CARDINALITY_UNKNOWN, CARDINALITY_OPTIONAL, CARDINALITY_REQUIRED, CARDINALITY_REPEATED)
     def fromValue(__value: _root_.scala.Int): Cardinality = __value match {
       case 0 => CARDINALITY_UNKNOWN
       case 1 => CARDINALITY_OPTIONAL

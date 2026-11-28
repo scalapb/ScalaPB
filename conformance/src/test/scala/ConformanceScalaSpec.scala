@@ -1,0 +1,187 @@
+package scalapb
+
+import com.google.protobuf.ByteString
+import com.google.protobuf.conformance.conformance._
+import com.google.protobuf_test_messages.proto2.TestMessagesProto2
+import com.google.protobuf_test_messages.proto3.TestMessagesProto3
+import munit.FunSuite
+
+class ConformanceScalaSpec extends FunSuite {
+  private def request(name: String, bytes: Array[Byte]) =
+    ConformanceRequest(messageType = name, requestedOutputFormat = WireFormat.PROTOBUF)
+      .withProtobufPayload(ByteString.copyFrom(bytes))
+
+  test("failure-set handshake uses the current protocol") {
+    val response =
+      ConformanceScala.handleTest(ConformanceRequest(messageType = "conformance.FailureSet"))
+    assertEquals(FailureSet.parseFrom(response.getProtobufPayload.toByteArray), FailureSet())
+  }
+
+  test("stable Edition 2023 fixtures execute while unstable editions remain skipped") {
+    Seq(
+      "protobuf_test_messages.editions.proto2.TestAllTypesProto2",
+      "protobuf_test_messages.editions.proto3.TestAllTypesProto3",
+      "protobuf_test_messages.editions.TestAllTypesEdition2023"
+    ).foreach { name =>
+      assert(
+        ConformanceScala.handleTest(request(name, Array.emptyByteArray)).result.isProtobufPayload
+      )
+    }
+    assert(
+      ConformanceScala
+        .handleTest(
+          request(
+            "protobuf_test_messages.edition_unstable.TestAllTypesEditionUnstable",
+            Array.emptyByteArray
+          )
+        )
+        .result
+        .isSkipped
+    )
+  }
+
+  test("Edition 2023 migrated group text names and extensions retain their encoding") {
+    val name = "protobuf_test_messages.editions.proto2.TestAllTypesProto2"
+    val text =
+      "Data { group_int32: 7 } [protobuf_test_messages.editions.proto2.groupfield] { group_int32: 8 }"
+    val parsed = ConformanceScala.handleTest(
+      ConformanceRequest(messageType = name, requestedOutputFormat = WireFormat.PROTOBUF)
+        .withTextPayload(text)
+    )
+    assert(parsed.result.isProtobufPayload, parsed.toString)
+    val rendered = ConformanceScala.handleTest(
+      request(name, parsed.getProtobufPayload.toByteArray)
+        .withRequestedOutputFormat(WireFormat.TEXT_FORMAT)
+    )
+    assert(rendered.result.isTextPayload, rendered.toString)
+    assert(rendered.getTextPayload.contains("Data {"))
+    assert(rendered.getTextPayload.contains("[protobuf_test_messages.editions.proto2.groupfield]"))
+    assertEquals(
+      ConformanceScala
+        .handleTest(
+          ConformanceRequest(messageType = name, requestedOutputFormat = WireFormat.PROTOBUF)
+            .withTextPayload(rendered.getTextPayload)
+        )
+        .getProtobufPayload,
+      parsed.getProtobufPayload
+    )
+  }
+
+  test("registered Edition 2023 string extensions validate every wire occurrence") {
+    val bytes    = Array(0xaa, 0x08, 0x01, 0x80, 0xaa, 0x08, 0x01, 0x61).map(_.toByte)
+    val response = ConformanceScala.handleTest(
+      request(
+        "protobuf_test_messages.editions.TestAllTypesEdition2023",
+        bytes
+      )
+    )
+    assert(response.result.isParseError, response.toString)
+  }
+
+  test("unknown message types report a protocol error without terminating dispatch") {
+    assert(
+      ConformanceScala
+        .handleTest(request("unknown.Type", Array.emptyByteArray))
+        .result
+        .isRuntimeError
+    )
+    assert(
+      ConformanceScala
+        .handleTest(
+          request(
+            "protobuf_test_messages.proto3.TestAllTypesProto3",
+            Array.emptyByteArray
+          )
+        )
+        .result
+        .isProtobufPayload
+    )
+  }
+
+  test("unsupported JSPB is skipped and missing payload is a runtime error") {
+    val base = request("protobuf_test_messages.proto3.TestAllTypesProto3", Array.emptyByteArray)
+    assert(ConformanceScala.handleTest(base.withJspbPayload("[]")).result.isSkipped)
+    assert(
+      ConformanceScala.handleTest(base.withRequestedOutputFormat(WireFormat.JSPB)).result.isSkipped
+    )
+    assert(ConformanceScala.handleTest(base.clearPayload).result.isRuntimeError)
+  }
+
+  test("text serialization failures are protocol responses, not process failures") {
+    val response = ConformanceScala.handleTest(
+      ConformanceRequest(
+        messageType = "protobuf_test_messages.proto2.TestAllTypesProto2",
+        requestedOutputFormat = WireFormat.TEXT_FORMAT
+      ).withTextPayload("optional_nested_enum: 1")
+    )
+    // Current enum reflection throws; accept successful serialization once it is fixed.
+    assert(response.result.isSerializeError || response.result.isTextPayload)
+  }
+
+  // Compare semantic messages: protobuf does not require byte-identical serialization.
+  test("proto2 duplicate scalars and unknown fields round trip like Java") {
+    val bytes    = Array[Byte](8, 1, 8, 2, 0xf8.toByte, 0x07, 3)
+    val expected = TestMessagesProto2.TestAllTypesProto2.parseFrom(bytes)
+    val response = ConformanceScala.handleTest(
+      request(
+        "protobuf_test_messages.proto2.TestAllTypesProto2",
+        bytes
+      )
+    )
+    assertEquals(
+      TestMessagesProto2.TestAllTypesProto2.parseFrom(response.getProtobufPayload),
+      expected
+    )
+  }
+
+  test("proto3 mixed packed and unpacked repeated values round trip like Java") {
+    // repeated_int32 = 31: unpacked 1, packed [2, 3], unpacked 4.
+    val bytes    = Array[Byte](0xf8.toByte, 1, 1, 0xfa.toByte, 1, 2, 2, 3, 0xf8.toByte, 1, 4)
+    val expected = TestMessagesProto3.TestAllTypesProto3.parseFrom(bytes)
+    val response = ConformanceScala.handleTest(
+      request(
+        "protobuf_test_messages.proto3.TestAllTypesProto3",
+        bytes
+      )
+    )
+    assertEquals(
+      TestMessagesProto3.TestAllTypesProto3.parseFrom(response.getProtobufPayload),
+      expected
+    )
+  }
+
+  test("proto2 conformance fixture enables closed enums and dispatches successfully") {
+    import com.google.protobuf_test_messages.proto2.test_messages_proto2.TestAllTypesProto2
+
+    // optional_nested_enum (field 21) with an unknown value.
+    val bytes  = Array[Byte](0xa8.toByte, 1, 123)
+    val parsed = TestAllTypesProto2.parseFrom(bytes)
+    // A binary round trip alone would also pass with legacy Unrecognized values.
+    assertEquals(parsed.optionalNestedEnum, None)
+    assertEquals(parsed.unknownFields.getField(21).get.varint, Seq(123L))
+
+    val response = ConformanceScala.handleTest(
+      request("protobuf_test_messages.proto2.TestAllTypesProto2", bytes)
+    )
+    assert(response.result.isProtobufPayload)
+    assertEquals(response.getProtobufPayload, ByteString.copyFrom(bytes))
+  }
+
+  test("truncated scalar payload is rejected by both Java and ScalaPB") {
+    val bytes = Array[Byte](8, 0x80.toByte)
+    intercept[com.google.protobuf.InvalidProtocolBufferException] {
+      TestMessagesProto3.TestAllTypesProto3.parseFrom(bytes)
+    }
+    assert(
+      ConformanceScala
+        .handleTest(
+          request(
+            "protobuf_test_messages.proto3.TestAllTypesProto3",
+            bytes
+          )
+        )
+        .result
+        .isParseError
+    )
+  }
+}

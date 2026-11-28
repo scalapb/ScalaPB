@@ -12,7 +12,10 @@ trait AnyMethods {
 
   def unpack[A <: GeneratedMessage](implicit cmp: GeneratedMessageCompanion[A]) = {
     require(is[A], s"Type of the Any message does not match the given class.")
-    cmp.parseFrom(value.newCodedInput())
+    val input  = value.newCodedInput()
+    val result = cmp.parseFrom(input)
+    input.checkLastTagWas(0)
+    result
   }
 }
 

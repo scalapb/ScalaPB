@@ -1,45 +1,33 @@
 package scalapb.docs
 
 object CommonProtos {
-  def row(libName: String, version: String): String = {
-    s"""### $libName
-       |ScalaPB 0.11.x:
+  def dependencies(libName: String, version: String, line: String, label: String): String = {
+    s"""$label:
        |```scala
        |libraryDependencies ++= Seq(
-       |  "com.thesamet.scalapb.common-protos" %% "${libName}-scalapb_0.11" % "${version}" % "protobuf",
-       |  "com.thesamet.scalapb.common-protos" %% "${libName}-scalapb_0.11" % "${version}"
-       |)
-       |```
-       |ScalaPB 0.10.x:
-       |```scala
-       |libraryDependencies ++= Seq(
-       |  "com.thesamet.scalapb.common-protos" %% "${libName}-scalapb_0.10" % "${version}" % "protobuf",
-       |  "com.thesamet.scalapb.common-protos" %% "${libName}-scalapb_0.10" % "${version}"
-       |)
-       |```
-       |ScalaPB 0.9.x:
-       |```scala
-       |libraryDependencies ++= Seq(
-       |  "com.thesamet.scalapb.common-protos" %% "${libName}-scalapb_0.9" % "${version}" % "protobuf",
-       |  "com.thesamet.scalapb.common-protos" %% "${libName}-scalapb_0.9" % "${version}"
+       |  "com.thesamet.scalapb.common-protos" %% "${libName}-scalapb_$line" % "$version" % "protobuf",
+       |  "com.thesamet.scalapb.common-protos" %% "${libName}-scalapb_$line" % "$version"
        |)
        |```
        |""".stripMargin
   }
 
-  def header: String = ""
-  def footer: String = ""
+  def row(libName: String, version: String): String = {
+    s"### $libName\n" +
+      dependencies(libName, version, "0.11", "ScalaPB 0.11.x") +
+      dependencies(libName, version, "1.0", "ScalaPB 1.0 prereleases (experimental)")
+  }
 
   def table: String = {
     Seq(
-      ("proto-google-common-protos", "2.9.6-0"),
-      ("proto-google-cloud-pubsub-v1", "1.102.20-0"),
-      ("pgv-proto", "0.6.13-0")
-    ).map((row _).tupled).mkString(header, "", "footer")
+      ("proto-google-common-protos", "2.78.0-0"),
+      ("proto-google-cloud-pubsub-v1", "1.157.0-0"),
+      ("proto-google-cloud-dataproc-v1", "4.96.0-0"),
+      ("pgv-proto", "1.3.3-0")
+    ).map((row _).tupled).mkString("\n")
   }
 
   def printTable(): Unit = {
     println(table)
   }
-
 }

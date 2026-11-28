@@ -1,0 +1,15 @@
+edition = "2023";
+package com.thesamet.proto.e2e;
+option features.message_encoding = DELIMITED;
+
+message EditionGroupNames {
+  message GroupLikeType { int32 value = 1; }
+  message LengthPrefixed { int32 value = 1; }
+  message RepeatedGroup { int32 value = 1; }
+  message ChoiceGroup { int32 value = 1; }
+  GroupLikeType groupliketype = 1;
+  LengthPrefixed lengthprefixed = 2 [features.message_encoding = LENGTH_PREFIXED];
+  repeated RepeatedGroup repeatedgroup = 3;
+  oneof choice { ChoiceGroup choicegroup = 4; }
+  GroupLikeType ordinary_name = 5;
+}

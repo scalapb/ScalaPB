@@ -21,7 +21,7 @@ final case class MethodDescriptorProto(
     options: _root_.scala.Option[_root_.com.google.protobuf.descriptor.MethodOptions] = _root_.scala.None,
     clientStreaming: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     serverStreaming: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[MethodDescriptorProto] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -153,6 +153,7 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.co
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __name = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>

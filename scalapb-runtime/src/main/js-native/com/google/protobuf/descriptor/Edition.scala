@@ -14,6 +14,8 @@ sealed abstract class Edition(val value: _root_.scala.Int) extends _root_.scalap
   def isEditionProto3: _root_.scala.Boolean = false
   def isEdition2023: _root_.scala.Boolean = false
   def isEdition2024: _root_.scala.Boolean = false
+  def isEdition2026: _root_.scala.Boolean = false
+  def isEditionUnstable: _root_.scala.Boolean = false
   def isEdition1TestOnly: _root_.scala.Boolean = false
   def isEdition2TestOnly: _root_.scala.Boolean = false
   def isEdition99997TestOnly: _root_.scala.Boolean = false
@@ -84,40 +86,56 @@ object Edition extends _root_.scalapb.GeneratedEnumCompanion[Edition] {
     override def isEdition2024: _root_.scala.Boolean = true
   }
   
+  @SerialVersionUID(0L)
+  case object EDITION_2026 extends Edition(1002) with Edition.Recognized {
+    val index = 6
+    val name = "EDITION_2026"
+    override def isEdition2026: _root_.scala.Boolean = true
+  }
+  
+  /** A placeholder edition for developing and testing unscheduled features.
+    */
+  @SerialVersionUID(0L)
+  case object EDITION_UNSTABLE extends Edition(9999) with Edition.Recognized {
+    val index = 7
+    val name = "EDITION_UNSTABLE"
+    override def isEditionUnstable: _root_.scala.Boolean = true
+  }
+  
   /** Placeholder editions for testing feature resolution.  These should not be
     * used or relied on outside of tests.
     */
   @SerialVersionUID(0L)
   case object EDITION_1_TEST_ONLY extends Edition(1) with Edition.Recognized {
-    val index = 6
+    val index = 8
     val name = "EDITION_1_TEST_ONLY"
     override def isEdition1TestOnly: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
   case object EDITION_2_TEST_ONLY extends Edition(2) with Edition.Recognized {
-    val index = 7
+    val index = 9
     val name = "EDITION_2_TEST_ONLY"
     override def isEdition2TestOnly: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
   case object EDITION_99997_TEST_ONLY extends Edition(99997) with Edition.Recognized {
-    val index = 8
+    val index = 10
     val name = "EDITION_99997_TEST_ONLY"
     override def isEdition99997TestOnly: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
   case object EDITION_99998_TEST_ONLY extends Edition(99998) with Edition.Recognized {
-    val index = 9
+    val index = 11
     val name = "EDITION_99998_TEST_ONLY"
     override def isEdition99998TestOnly: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
   case object EDITION_99999_TEST_ONLY extends Edition(99999) with Edition.Recognized {
-    val index = 10
+    val index = 12
     val name = "EDITION_99999_TEST_ONLY"
     override def isEdition99999TestOnly: _root_.scala.Boolean = true
   }
@@ -128,14 +146,14 @@ object Edition extends _root_.scalapb.GeneratedEnumCompanion[Edition] {
     */
   @SerialVersionUID(0L)
   case object EDITION_MAX extends Edition(2147483647) with Edition.Recognized {
-    val index = 11
+    val index = 13
     val name = "EDITION_MAX"
     override def isEditionMax: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
   final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Edition(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-  lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(EDITION_UNKNOWN, EDITION_LEGACY, EDITION_PROTO2, EDITION_PROTO3, EDITION_2023, EDITION_2024, EDITION_1_TEST_ONLY, EDITION_2_TEST_ONLY, EDITION_99997_TEST_ONLY, EDITION_99998_TEST_ONLY, EDITION_99999_TEST_ONLY, EDITION_MAX)
+  lazy val values: _root_.scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.Edition.Recognized] = _root_.scala.collection.immutable.Seq(EDITION_UNKNOWN, EDITION_LEGACY, EDITION_PROTO2, EDITION_PROTO3, EDITION_2023, EDITION_2024, EDITION_2026, EDITION_UNSTABLE, EDITION_1_TEST_ONLY, EDITION_2_TEST_ONLY, EDITION_99997_TEST_ONLY, EDITION_99998_TEST_ONLY, EDITION_99999_TEST_ONLY, EDITION_MAX)
   def fromValue(__value: _root_.scala.Int): Edition = __value match {
     case 0 => EDITION_UNKNOWN
     case 1 => EDITION_1_TEST_ONLY
@@ -145,6 +163,8 @@ object Edition extends _root_.scalapb.GeneratedEnumCompanion[Edition] {
     case 999 => EDITION_PROTO3
     case 1000 => EDITION_2023
     case 1001 => EDITION_2024
+    case 1002 => EDITION_2026
+    case 9999 => EDITION_UNSTABLE
     case 99997 => EDITION_99997_TEST_ONLY
     case 99998 => EDITION_99998_TEST_ONLY
     case 99999 => EDITION_99999_TEST_ONLY

@@ -10,10 +10,115 @@ class ParserSpec extends FunSuite with ParserSuite {
 
   def P(x: Int, y: Int) = Position(x, y)
 
+  test("message nesting is bounded for every message syntax") {
+    for (
+      (open, close) <- Seq(("foo {", "}"), ("foo: <", ">"), ("foo [{", "}]"), ("foo: [{", "}]"))
+    ) {
+      new Parser(open * 100 + close * 100).parseMessage
+      val error = intercept[scalapb.TextFormatException] {
+        new Parser(open * 101 + close * 101).parseMessage
+      }
+      assert(error.getMessage.contains("Message nesting limit exceeded"))
+      assert(error.getMessage.contains("line 1, column"))
+      new Parser(open * 3 + close * 3, 3).parseMessage
+      intercept[scalapb.TextFormatException] {
+        new Parser(open * 4 + close * 4, 3).parseMessage
+      }
+    }
+    val companion = com.google.protobuf.descriptor.DescriptorProto
+    assert(scalapb.TextFormat.fromAscii(companion, "nested_type {" * 100 + "}" * 100).isRight)
+    assert(scalapb.TextFormat.fromAscii(companion, "nested_type {" * 101 + "}" * 101).isLeft)
+    new Parser("foo {} " * 200, 1).parseMessage
+    new Parser("foo: 1", 0).parseMessage
+    intercept[IllegalArgumentException](new Parser("", -1))
+  }
+
+  test("integer construction is bounded and malformed integers are parse errors") {
+    for (prefix <- Seq("", "-", "+", "0x", "-0x", "0")) {
+      val digits = if (prefix.endsWith("0")) "1" * 1023 else "1" * 1024
+      new Parser("foo: " + prefix + digits).parseMessage
+      intercept[scalapb.TextFormatException] {
+        new Parser("foo: " + prefix + digits + "1").parseMessage
+      }
+    }
+    for (token <- Seq("+", "-", "0x", "-0x")) {
+      intercept[scalapb.TextFormatException](new Parser("foo: " + token).parseMessage)
+    }
+    val result = scalapb.TextFormat.fromAscii(com.google.protobuf.struct.Struct, "fields {" * 101)
+    assert(result.left.toOption.get.msg.contains("Message nesting limit exceeded"))
+    assert(scalapb.TextFormat.fromAscii(com.google.protobuf.struct.Struct, "", 0).isRight)
+  }
+
+  test("enum numbers are checked before narrowing to Int") {
+    val companion = com.google.protobuf.descriptor.FieldDescriptorProto
+    assert(scalapb.TextFormat.fromAscii(companion, "type: 1").isRight)
+    for (number <- Seq("4294967297", "-4294967295", "2147483648")) {
+      assert(scalapb.TextFormat.fromAscii(companion, "type: " + number).isLeft)
+    }
+  }
+
+  test("text enum numbers honor schema openness") {
+    val open = com.google.protobuf.struct.Value
+    for (number <- Seq(42, -1, Int.MaxValue, Int.MinValue)) {
+      val parsed = scalapb.TextFormat.fromAscii(open, s"null_value: $number").toOption.get
+      assertEquals(parsed.getNullValue.value, number)
+      assertEquals(scalapb.TextFormat.fromAscii(open, parsed.toProtoString), Right(parsed))
+    }
+    for (number <- Seq("2147483648", "-2147483649")) {
+      assert(scalapb.TextFormat.fromAscii(open, s"null_value: $number").isLeft)
+    }
+    assert(
+      scalapb.TextFormat
+        .fromAscii(com.google.protobuf.descriptor.FieldDescriptorProto, "type: 42")
+        .isLeft
+    )
+  }
+
+  test("optional field separators are distinct from required list separators") {
+    for (separator <- Seq(",", ";")) {
+      val parsed = new Parser(s"a: 1${separator} b { c: 2${separator} }${separator}").parseMessage
+      assertEquals(parsed.fields.map(_.name), Seq("a", "b"))
+      for (text <- Seq(s"${separator} a: 1", s"a: 1${separator}${separator} b: 2")) {
+        intercept[scalapb.TextFormatException](new Parser(text).parseMessage)
+      }
+    }
+    for (values <- Seq("1, 2", "true, false", "{}, {}")) {
+      new Parser(s"a: [$values]").parseMessage
+      intercept[scalapb.TextFormatException] {
+        new Parser(s"a: [${values.replace(",", "")}]").parseMessage
+      }
+    }
+  }
+
+  test("floating-point literals preserve signed zero and reject integer radices") {
+    val float = com.google.protobuf.wrappers.FloatValue
+    for (token <- Seq("-0", "-0f", "-0F", "-1e-50")) {
+      val parsed = scalapb.TextFormat.fromAscii(float, s"value: $token").toOption.get
+      assertEquals(java.lang.Float.floatToRawIntBits(parsed.value), Int.MinValue)
+      assertEquals(float.parseFrom(parsed.toByteArray), parsed)
+      assert(parsed.toByteArray.nonEmpty)
+    }
+    for (token <- Seq("0f", "0F", "1e+3", "1E3f")) {
+      assert(scalapb.TextFormat.fromAscii(float, s"value: $token").isRight)
+    }
+    for (token <- Seq("012", "-012", "0x12", "-0x12")) {
+      assert(scalapb.TextFormat.fromAscii(float, s"value: $token").isLeft)
+      assert(
+        scalapb.TextFormat
+          .fromAscii(com.google.protobuf.wrappers.Int32Value, s"value: $token")
+          .isRight
+      )
+    }
+    val double = com.google.protobuf.wrappers.DoubleValue
+    val parsed = scalapb.TextFormat.fromAscii(double, "value: -1e-999").toOption.get
+    assertEquals(java.lang.Double.doubleToRawLongBits(parsed.value), Long.MinValue)
+    assert(parsed.toByteArray.nonEmpty)
+  }
+
   test("KeyValue") {
     check2(keyValue(_), "foo: 17", TField(P(0, 0), "foo", TIntLiteral(P(0, 5), 17)))
 
-    check2(keyValue(_), "foo:    0x13   ", TField(P(0, 0), "foo", TIntLiteral(P(0, 8), 0x13)))
+    check2(keyValue(_), "foo:    0x13   ", TField(P(0, 0), "foo", TLiteral(P(0, 8), "0x13")))
     check2(keyValue(_), "bar: true", TField(P(0, 0), "bar", TLiteral(P(0, 5), "true")))
     check2(keyValue(_), "bar:        true   ", TField(P(0, 0), "bar", TLiteral(P(0, 12), "true")))
     check2(keyValue(_), "bar  :        true   ", TField(P(0, 0), "bar", TLiteral(P(0, 14), "true")))

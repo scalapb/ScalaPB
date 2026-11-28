@@ -1,19 +1,23 @@
-# This is the list of conformance tests that are known to fail for ScalaPB
-# implementation right now.  These should be fixed.
-#
-# By listing them here we can keep tabs on which ones are failing and be sure
-# that we don't introduce regressions in other tests.
+# Verified against protobuf v36.2; see README.md for prerequisites and triage.
+# Exact names only. Inline diagnostics are checked by the upstream runner.
 
-Recommended.FieldMaskNumbersDontRoundTrip.JsonOutput
-Recommended.FieldMaskPathsDontRoundTrip.JsonOutput
-Recommended.FieldMaskTooManyUnderscore.JsonOutput
-Recommended.Proto2.JsonInput.FieldNameExtension.Validator
-Recommended.Proto3.JsonInput.BoolFieldDoubleQuotedFalse
-Recommended.Proto3.JsonInput.BoolFieldDoubleQuotedTrue
-Recommended.Proto3.JsonInput.BytesFieldBase64Url.JsonOutput
-Recommended.Proto3.JsonInput.BytesFieldBase64Url.ProtobufOutput
-Recommended.Proto3.JsonInput.FieldMaskInvalidCharacter
-Recommended.Proto3.JsonInput.NullValueInOtherOneofNewFormat.Validator
-Recommended.Proto3.JsonInput.StringFieldSurrogateInWrongOrder
-Recommended.Proto3.JsonInput.StringFieldUnpairedHighSurrogate
-Recommended.Proto3.JsonInput.StringFieldUnpairedLowSurrogate
+# Binary oversized tags: Java readTag truncates these varints
+Required.Proto2.ProtobufInput.BadTag_FieldNumberSlightlyTooHigh # Should have failed to parse, but didn't.
+Required.Editions_Proto2.ProtobufInput.BadTag_FieldNumberSlightlyTooHigh # Should have failed to parse, but didn't.
+Required.Proto2.ProtobufInput.BadTag_FieldNumberTooHigh # Should have failed to parse, but didn't.
+Required.Editions_Proto2.ProtobufInput.BadTag_FieldNumberTooHigh # Should have failed to parse, but didn't.
+Required.Proto2.ProtobufInput.BadTag_OverlongVarint # Should have failed to parse, but didn't.
+Required.Editions_Proto2.ProtobufInput.BadTag_OverlongVarint # Should have failed to parse, but didn't.
+Required.Proto3.ProtobufInput.BadTag_FieldNumberSlightlyTooHigh # Should have failed to parse, but didn't.
+Required.Editions_Proto3.ProtobufInput.BadTag_FieldNumberSlightlyTooHigh # Should have failed to parse, but didn't.
+Required.Proto3.ProtobufInput.BadTag_FieldNumberTooHigh # Should have failed to parse, but didn't.
+Required.Editions_Proto3.ProtobufInput.BadTag_FieldNumberTooHigh # Should have failed to parse, but didn't.
+Required.Proto3.ProtobufInput.BadTag_OverlongVarint # Should have failed to parse, but didn't.
+Required.Editions_Proto3.ProtobufInput.BadTag_OverlongVarint # Should have failed to parse, but didn't.
+
+# Binary mixed-wire unknown-field ordering is not retained by UnknownFieldSet
+Required.Proto2.ProtobufInput.UnknownOrdering.ProtobufOutput # Unknown field mismatch
+Required.Editions_Proto2.ProtobufInput.UnknownOrdering.ProtobufOutput # Unknown field mismatch
+Required.Proto3.ProtobufInput.UnknownOrdering.ProtobufOutput # Unknown field mismatch
+Required.Editions_Proto3.ProtobufInput.UnknownOrdering.ProtobufOutput # Unknown field mismatch
+

@@ -97,7 +97,9 @@ object Tokenizer {
   val TEXT       = Pattern.compile("[.a-zA-Z0-9_+-]+")
 
   val FRACTIONAL: Pattern =
-    Pattern.compile("[+-]?([0-9]+[.][0-9]*|[.][0-9]+)([eE][+-]?[0-9]+)?[fF]?")
+    Pattern.compile(
+      "[+-]?(([0-9]+[.][0-9]*|[.][0-9]+)([eE][+-]?[0-9]+)?[fF]?|[0-9]+([eE][+-]?[0-9]+[fF]?|[fF]))"
+    )
 
   def isIdentifier(token: String): Boolean = {
     token.forall(c =>

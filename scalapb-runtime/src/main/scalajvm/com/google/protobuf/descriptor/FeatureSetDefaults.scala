@@ -21,7 +21,7 @@ final case class FeatureSetDefaults(
     defaults: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault] = _root_.scala.Vector.empty,
     minimumEdition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None,
     maximumEdition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FeatureSetDefaults] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -124,6 +124,7 @@ object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[_root_.com.g
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __defaults += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault](_input__)
         case 32 =>
@@ -193,7 +194,7 @@ object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[_root_.com.g
       edition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None,
       overridableFeatures: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
       fixedFeatures: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FeatureSetEditionDefault] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -297,6 +298,7 @@ object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[_root_.com.g
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 24 =>
             __edition = _root_.scala.Option(_root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
           case 34 =>

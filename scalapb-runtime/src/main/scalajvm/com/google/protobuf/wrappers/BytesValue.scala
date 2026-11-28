@@ -16,7 +16,7 @@ package com.google.protobuf.wrappers
 @SerialVersionUID(0L)
 final case class BytesValue(
     value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[BytesValue] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -90,6 +90,7 @@ object BytesValue extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __value = _input__.readBytes()
         case tag =>

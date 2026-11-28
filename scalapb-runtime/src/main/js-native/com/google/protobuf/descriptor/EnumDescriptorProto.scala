@@ -23,7 +23,7 @@ final case class EnumDescriptorProto(
     reservedRange: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] = _root_.scala.Vector.empty,
     reservedName: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     visibility: _root_.scala.Option[_root_.com.google.protobuf.descriptor.SymbolVisibility] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumDescriptorProto] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -162,6 +162,7 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __name = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>
@@ -248,7 +249,7 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
   final case class EnumReservedRange(
       start: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
       end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumReservedRange] {
       @transient
       private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -322,6 +323,7 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
+          case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
           case 8 =>
             __start = _root_.scala.Option(_input__.readInt32())
           case 16 =>

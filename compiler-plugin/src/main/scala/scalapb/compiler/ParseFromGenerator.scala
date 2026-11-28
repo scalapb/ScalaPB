@@ -102,13 +102,32 @@ private[compiler] class ParseFromGenerator(
               "_root_.scalapb.UnknownFieldSet.Builder",
               "null",
               "new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)",
-              "if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()",
+              s"if (_unknownFields__ == null)${message.V.Then} _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()",
               false
             )
           )
         else Seq.empty)
 
   private def usesBaseTypeInBuilder(field: FieldDescriptor) = field.isSingular
+
+  private def isClosedEnum(field: FieldDescriptor): Boolean =
+    message.getFile.respectsEnumOpenness && field.isEnum && field.getEnumType.isClosed
+
+  private def unknownValue(field: FieldDescriptor, method: String, value: String): String =
+    if (message.preservesUnknownFields)
+      s"""if (_unknownFields__ == null)${message.V.Then} {
+         |  _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+         |}
+         |_unknownFields__.$method(${field.getNumber}, $value)""".stripMargin
+    else "()"
+
+  private def readClosedEnum(field: FieldDescriptor, update: String): String = {
+    val fieldNumber = if (message.preservesUnknownFields) s", ${field.getNumber}" else ""
+    s"""val _enumValue__ = _readEnum__(${field.getEnumType.scalaType.fullName}$fieldNumber)
+       |if (_enumValue__ != null)${message.V.Then} {
+       |  ${update.replace("\n", "\n  ")}
+       |}""".stripMargin
+  }
 
   val requiredFieldMap: Map[FieldDescriptor, Int] =
     message.fields.filter(fd => fd.isRequired || fd.noBoxRequired).zipWithIndex.toMap
@@ -138,23 +157,49 @@ private[compiler] class ParseFromGenerator(
               s"${if (f.isRepeated) "val" else "var"} ${f.name}: ${f.typeName} = ${f.default}"
             )
           )
-          .add(s"""var _done__ = false
-                  |while (!_done__) {
-                  |  val _tag__ = _input__.readTag()
-                  |  _tag__ match {
-                  |    case 0 => _done__ = true""".stripMargin)
+          .when(message.fields.exists(isClosedEnum)) { fp =>
+            val fieldNumber =
+              if (message.preservesUnknownFields) ", fieldNumber: _root_.scala.Int" else ""
+            fp.add(
+              s"def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A]$fieldNumber): A = {",
+              "  val value = companion.fromValue(_input__.readEnum())",
+              s"  if (value.isUnrecognized)${message.V.Then} {"
+            ).when(message.preservesUnknownFields)(
+              _.add(
+                s"    if (_unknownFields__ == null)${message.V.Then} {",
+                "      _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()",
+                "    }",
+                "    _unknownFields__.addVarint(fieldNumber, value.value.toLong)"
+              )
+            ).add(
+              // Null is internal to this helper: callers only update fields for recognized values.
+              "    null.asInstanceOf[A]",
+              "  } else value",
+              "}"
+            )
+          }
+          .add(
+            s"""var _done__ = false
+               |while (!_done__)${message.V.Do} {
+               |  val _tag__ = _input__.readTag()
+               |  _tag__ match {
+               |    case 0 => _done__ = true
+               |    case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true""".stripMargin
+          )
           .print(message.fields) { (printer, field) =>
             val p = {
               val newValBase = if (field.isMessage) {
                 // In 0.10.x we can't simply call any of the new methods that relies on Builder,
                 // since the references message may have been generated using an older version of
                 // ScalaPB.
-                val baseName = field.baseSingleScalaTypeName
-                val read     =
+                val baseName   = field.baseSingleScalaTypeName
+                val readMethod = if (field.isGroup) "readGroup" else "readMessage"
+                val inputArgs  = if (field.isGroup) s"_input__, ${field.getNumber}" else "_input__"
+                val read       =
                   if (field.isRepeated)
-                    s"_root_.scalapb.LiteParser.readMessage[$baseName](_input__)"
+                    s"_root_.scalapb.LiteParser.$readMethod[$baseName]($inputArgs)"
                   else if (usesBaseTypeInBuilder(field)) {
-                    s"_root_.scala.Some(__${field.scalaName}.fold(_root_.scalapb.LiteParser.readMessage[$baseName](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))"
+                    s"_root_.scala.Some(__${field.scalaName}.fold(_root_.scalapb.LiteParser.$readMethod[$baseName]($inputArgs))(_root_.scalapb.LiteParser.$readMethod($inputArgs, _)))"
                   } else {
                     val expr =
                       if (field.isInOneof)
@@ -162,17 +207,32 @@ private[compiler] class ParseFromGenerator(
                       else s"__${field.scalaName}"
                     val mappedType = toBaseFieldType(field).apply(expr, field.enclosingType)
                     if (field.isInOneof || field.supportsPresence)
-                      s"$mappedType.fold(_root_.scalapb.LiteParser.readMessage[$baseName](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _))"
-                    else s"_root_.scalapb.LiteParser.readMessage[$baseName](_input__, $mappedType)"
+                      s"$mappedType.fold(_root_.scalapb.LiteParser.$readMethod[$baseName]($inputArgs))(_root_.scalapb.LiteParser.$readMethod($inputArgs, _))"
+                    else
+                      s"_root_.scalapb.LiteParser.$readMethod[$baseName]($inputArgs, $mappedType)"
                   }
                 read
               } else if (field.isEnum)
                 s"${field.getEnumType.scalaType.fullName}.fromValue(_input__.readEnum())"
-              else if (field.getType == Type.STRING) s"_input__.readStringRequireUtf8()"
-              else s"_input__.read${Types.capitalizedType(field.getType)}()"
+              else if (field.getType == Type.STRING) {
+                val validate =
+                  (field.getFile.toProto.getSyntax != "editions" &&
+                    !field.getFile.scalaOptions.getUseSchemaUtf8Validation) || field
+                    .needsUtf8Check()
+                if (field.shouldBeLazyUtf8String) {
+                  // Validation is much cheaper than decoding because it allocates nothing,
+                  // which is why it applies even to lazy strings
+                  if (validate) "_root_.scalapb.LiteParser.readUtf8Bytes(_input__)"
+                  else "_input__.readBytes()"
+                } else {
+                  if (validate) "_input__.readStringRequireUtf8()"
+                  else "_input__.readString()"
+                }
+              } else s"_input__.read${Types.capitalizedType(field.getType)}()"
 
-              val newVal =
-                if (!usesBaseTypeInBuilder(field)) toCustomType(field)(newValBase) else newValBase
+              val baseValue = if (isClosedEnum(field)) "_enumValue__" else newValBase
+              val newVal    =
+                if (!usesBaseTypeInBuilder(field)) toCustomType(field)(baseValue) else baseValue
 
               val updateOp =
                 if (field.supportsPresence) s"__${field.scalaName} = _root_.scala.Option($newVal)"
@@ -181,17 +241,29 @@ private[compiler] class ParseFromGenerator(
                 } else if (field.isRepeated) s"__${field.scalaName} += $newVal"
                 else s"__${field.scalaName} = $newVal"
 
+              val update = if (field.isRequired || field.noBoxRequired) {
+                val fieldNumber = requiredFieldMap(field)
+                s"$updateOp\n__requiredFields${fieldNumber / 64} &= 0x${"%x".format(~(1L << fieldNumber))}L"
+              } else updateOp
+              val body =
+                if (isClosedEnum(field)) readClosedEnum(field, update)
+                else if (field.isMapField && isClosedEnum(field.mapType.valueField)) {
+                  val entryType   = field.getMessageType.scalaType.fullName
+                  val enumType    = field.mapType.valueField.getEnumType.scalaType.fullName
+                  val mappedEntry =
+                    toCustomType(field)(s"$entryType.parseFrom(_entryBytes__.toByteArray())")
+                  val validateKeyUtf8 = field.mapType.keyField.needsUtf8Check()
+                  s"""val _entryBytes__ = _input__.readBytes()
+                     |if (_root_.scalapb.ClosedEnumMapEntry.isUnknown(_entryBytes__, $enumType, $validateKeyUtf8))${message.V.Then} {
+                     |  ${unknownValue(field, "addLengthDelimited", "_entryBytes__")
+                      .replace("\n", "\n  ")}
+                     |} else {
+                     |  __${field.scalaName} += $mappedEntry
+                     |}""".stripMargin
+                } else update
               printer
-                .add(
-                  s"""    case ${(field.getNumber << 3) + Types.wireType(field.getType)} =>
-                     |      $updateOp""".stripMargin
-                )
-                .when(field.isRequired || field.noBoxRequired) { p =>
-                  val fieldNumber = requiredFieldMap(field)
-                  p.add(
-                    s"      __requiredFields${fieldNumber / 64} &= 0x${"%x".format(~(1L << fieldNumber))}L"
-                  )
-                }
+                .add(s"    case ${(field.getNumber << 3) + Types.wireType(field.getType)} =>")
+                .add(body.split("\n").iterator.map("      " + _).toSeq: _*)
             }
 
             if (field.isPackable) {
@@ -202,24 +274,37 @@ private[compiler] class ParseFromGenerator(
                 else tmp
               }
               val readExpr = toCustomType(field)(read)
+              val update   =
+                if (isClosedEnum(field))
+                  readClosedEnum(
+                    field,
+                    s"__${field.scalaName} += ${toCustomType(field)("_enumValue__")}"
+                  )
+                else s"__${field.scalaName} += $readExpr"
               p.add(s"""    case ${(field.getNumber << 3) + Types.WIRETYPE_LENGTH_DELIMITED} => {
                        |      val length = _input__.readRawVarint32()
                        |      val oldLimit = _input__.pushLimit(length)
-                       |      while (_input__.getBytesUntilLimit > 0) {
-                       |        __${field.scalaName} += $readExpr
+                       |      while (_input__.getBytesUntilLimit > 0)${message.V.Do} {
+                       |        ${update.replace("\n", "\n        ")}
                        |      }
                        |      _input__.popLimit(oldLimit)
                        |    }""".stripMargin)
             } else p
           }
-          .when(!message.preservesUnknownFields)(_.add("    case tag => _input__.skipField(tag)"))
+          .when(!message.preservesUnknownFields)(
+            _.add(
+              "    case tag => _input__.skipField(tag)"
+            )
+          )
           .when(message.preservesUnknownFields)(
             _.add(
-              """    case tag =>
-                |      if (_unknownFields__ == null) {
-                |        _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-                |      }
-                |      val _ = _unknownFields__.parseField(tag, _input__)""".stripMargin
+              s"""    case tag =>
+                 |      if (_unknownFields__ == null)${message.V.Then} {
+                 |        _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+                 |      }
+                 |      ${if (message.getOptions.getMessageSetWireFormat)
+                  s"if (tag == 11)${message.V.Then} _unknownFields__.parseMessageSetItem(_input__) else _unknownFields__.parseField(tag, _input__)"
+                else "val _ = _unknownFields__.parseField(tag, _input__)"}""".stripMargin
             )
           )
           .add("  }")
@@ -229,7 +314,7 @@ private[compiler] class ParseFromGenerator(
               .map(i => s"__requiredFields$i != 0L")
               .mkString(" || ")
             p.add(
-              s"""if (${r}) { throw new _root_.com.google.protobuf.InvalidProtocolBufferException("Message missing required fields.") } """
+              s"""if (${r})${message.V.Then} { throw new _root_.com.google.protobuf.InvalidProtocolBufferException("Message missing required fields.") } """
             )
           }
           .add(s"$myFullScalaName(")

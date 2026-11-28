@@ -57,7 +57,7 @@ final case class FileDescriptorProto(
     sourceCodeInfo: _root_.scala.Option[_root_.com.google.protobuf.descriptor.SourceCodeInfo] = _root_.scala.None,
     syntax: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     edition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FileDescriptorProto] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -353,6 +353,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __name = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>

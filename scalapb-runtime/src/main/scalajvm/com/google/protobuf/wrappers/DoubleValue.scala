@@ -16,7 +16,7 @@ package com.google.protobuf.wrappers
 @SerialVersionUID(0L)
 final case class DoubleValue(
     value: _root_.scala.Double = 0.0,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[DoubleValue] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -25,7 +25,7 @@ final case class DoubleValue(
       
       {
         val __value = value
-        if (__value != 0.0) {
+        if (_root_.java.lang.Double.doubleToRawLongBits(__value) != 0L) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeDoubleSize(1, __value)
         }
       };
@@ -44,7 +44,7 @@ final case class DoubleValue(
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = value
-        if (__v != 0.0) {
+        if (_root_.java.lang.Double.doubleToRawLongBits(__v) != 0L) {
           _output__.writeDouble(1, __v)
         }
       };
@@ -90,6 +90,7 @@ object DoubleValue extends scalapb.GeneratedMessageCompanion[_root_.com.google.p
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 9 =>
           __value = _input__.readDouble()
         case tag =>

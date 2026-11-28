@@ -21,7 +21,7 @@ final case class Collection(
     `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     nonEmpty: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     adapter: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    override val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Collection] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
@@ -109,6 +109,7 @@ object Collection extends scalapb.GeneratedMessageCompanion[_root_.scalapb.optio
       val _tag__ = _input__.readTag()
       _tag__ match {
         case 0 => _done__ = true
+        case tag if _root_.scalapb.WireType.isEndGroup(tag) => _done__ = true
         case 10 =>
           __type = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 16 =>
